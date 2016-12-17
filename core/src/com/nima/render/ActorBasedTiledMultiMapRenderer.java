@@ -82,13 +82,15 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
               frameMap = cachedTiledMap.getMap();
               MapLayer l = frameMap.getLayers().get(layerName);
 
-              //simple tile map rendering
-              if(l instanceof TiledMapTileLayer) {
-                renderTileLayer((TiledMapTileLayer) l);
-              }
-              else {
-                //check frame for collisions
-                checkCollisions(l);
+              if(l != null) {
+                //simple tile map rendering
+                if(l instanceof TiledMapTileLayer) {
+                  renderTileLayer((TiledMapTileLayer) l);
+                }
+                else {
+                  //check frame for collisions
+                  checkCollisions(l);
+                }
               }
             }
           }

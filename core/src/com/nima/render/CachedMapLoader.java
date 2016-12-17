@@ -67,7 +67,7 @@ public class CachedMapLoader extends Thread {
   }
 
   private void doCache(TmxCacheMapLoader loader) {
-    CachedTiledMap cachedMap = new CachedTiledMap( loader.getMap(), loader.getFrameX(), loader.getFrameY());
+    CachedTiledMap cachedMap = new CachedTiledMap(loader);
     mapCache.cacheMap.put(loader.getFilename(), cachedMap);
   }
 

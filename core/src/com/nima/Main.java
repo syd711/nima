@@ -8,6 +8,7 @@ import com.nima.model.Game;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
 import com.nima.model.SpineMainActor;
 import com.nima.util.Resources;
+import com.nima.util.Settings;
 
 public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
@@ -23,7 +24,7 @@ public class Main extends ApplicationAdapter {
     camera.setToOrtho(false, w, h);
     camera.update();
 
-    tiledMapRenderer = new Game(camera, "ground", Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
+    tiledMapRenderer = new Game(camera, Settings.GROUND_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
     tiledMapRenderer.setMainActor(new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f, 400, 400));
     Gdx.input.setInputProcessor(inputProcessor);
   }

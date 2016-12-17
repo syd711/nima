@@ -24,10 +24,13 @@ public class CachedTiledMap {
   private int frameNumberX;
   private int frameNumberY;
 
-  protected CachedTiledMap(TiledMap map, int frameNumberX, int frameNumberY) {
-    this.map = map;
-    this.frameNumberX = frameNumberX;
-    this.frameNumberY = frameNumberY;
+  private String filename;
+
+  protected CachedTiledMap(TmxCacheMapLoader loader) {
+    this.map = loader.getMap();
+    this.filename = loader.getFilename();
+    this.frameNumberX = loader.getFrameX();
+    this.frameNumberY = loader.getFrameY();
   }
 
   protected void renderObjects(float framePixelsX, float framePixelsY, float unitScale) {
@@ -69,5 +72,9 @@ public class CachedTiledMap {
 
   public TiledMap getMap() {
     return map;
+  }
+
+  public String getFilename() {
+    return filename;
   }
 }

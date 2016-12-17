@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
+import com.nima.util.Settings;
 
 /**
  * Our main character!
@@ -30,7 +31,9 @@ public class SpineMainActor extends SpineActor {
   public void render() {
     super.render();
     intersectingObject = null;
-    font.draw(renderer.getBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), getX()-30, getY());
+    if(Settings.DEBUG) {
+      font.draw(renderer.getBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), getX()-30, getY());
+    }
   }
 
   public boolean moveBy(int x, int y) {
