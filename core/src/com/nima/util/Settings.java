@@ -19,4 +19,7 @@ public class Settings {
   public static final int WORLD_WIDTH = 1;
   public static final int WORLD_HEIGHT = 1;
 
+  public static final int START_FRAME_X = 0;
+  public static final int START_FRAME_Y = 0;
+
 }

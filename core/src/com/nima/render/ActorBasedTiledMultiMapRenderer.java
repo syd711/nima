@@ -1,5 +1,6 @@
 package com.nima.render;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -52,6 +53,9 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     boolean keepX = false;
     boolean keepY = false;
 
+    float width = Gdx.graphics.getWidth();
+    float height = Gdx.graphics.getHeight();
+
     if(actorFrameX == 0 && mainActor.getX()<(framePixelsX/2)) {
       keepX = true;
     }
@@ -75,6 +79,8 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
   public void setMainActor(Actor mainActor) {
     this.mainActor = mainActor;
+    this.mainActor.setPosition(Settings.START_FRAME_X*framePixelsX+(framePixelsX/2),
+        Settings.START_FRAME_Y*framePixelsY+(framePixelsY/2));
   }
 
   public void addActorRenderer(Actor renderer) {

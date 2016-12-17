@@ -9,8 +9,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.fullscreen = false;
 		config.title = "Nima 0.1";
-		config.width = 1920;
-		config.height = 1080;
+		config.width = 1024;
+		config.height = 768;
+		config.resizable = false;
+//		config.fullscreen = true;
 		new LwjglApplication(new Main(), config);
 	}
 }

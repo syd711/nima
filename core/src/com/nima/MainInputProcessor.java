@@ -16,9 +16,8 @@ public class MainInputProcessor implements InputProcessor {
   @Override
   public boolean keyUp(int keycode) {
 
-    if(keycode == Input.Keys.SPACE) {
-//      MapLayer mapLayer = tiledMap.getLayers().get(0);
-//      tiledMap.getLayers().remove(mapLayer);
+    if(keycode == Input.Keys.ESCAPE) {
+      System.exit(0);
     }
     return true;
   }

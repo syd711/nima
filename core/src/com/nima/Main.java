@@ -6,8 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.nima.model.Game;
-import com.nima.render.ActorBasedTiledMultiMapRenderer;
 import com.nima.model.SpineMainActor;
+import com.nima.render.ActorBasedTiledMultiMapRenderer;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
 
@@ -27,7 +27,7 @@ public class Main extends ApplicationAdapter {
     camera.update();
 
     tiledMapRenderer = new Game(Settings.ACTOR_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    mainActor = new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f, w / 2+5, h / 2+5);
+    mainActor = new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f);
     tiledMapRenderer.setMainActor(mainActor);
     Gdx.input.setInputProcessor(inputProcessor);
     tiledMapRenderer.updateCamera(camera);
