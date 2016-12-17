@@ -1,16 +1,16 @@
 package com.nima.render;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.nima.model.Actor;
+import com.nima.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,32 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
     cachedTiledMap.renderObjects(framePixelsX, framePixelsY, unitScale);
     this.actorLayerName = actorLayerName;
+  }
+
+
+  public void updateCamera(OrthographicCamera camera) {
+    boolean keepX = false;
+    boolean keepY = false;
+
+    if(actorFrameX == 0 && mainActor.getX()<(framePixelsX/2)) {
+      keepX = true;
+    }
+
+    if(actorFrameX == Settings.WORLD_WIDTH
+        && (mainActor.getX()%framePixelsX) > framePixelsX/2) {
+      keepX = true;
+    }
+
+    if(actorFrameY == 0 &&  mainActor.getY()<(framePixelsY/2)) {
+      keepY = true;
+    }
+
+    if(!keepX) {
+      camera.position.x = mainActor.getX();
+    }
+    if(!keepY) {
+      camera.position.y = mainActor.getY();
+    }
   }
 
   public void setMainActor(Actor mainActor) {
@@ -117,17 +143,17 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
    * Called one after the actor frame was rendered
    */
   private void checkCollisions(MapLayer layer) {
-    MapObjects objects = layer.getObjects();
-    for(MapObject object : objects) {
-      for(Actor actorRenderer : actorRenderers) {
-        if(actorRenderer.intersects(object)) {
-          System.out.println("intersected " + object);
-        }
-      }
-      if(mainActor.intersects(object)) {
-        System.out.println("intersected " + object);
-      }
-    }
+//    MapObjects objects = layer.getObjects();
+//    for(MapObject object : objects) {
+//      for(Actor actorRenderer : actorRenderers) {
+//        if(actorRenderer.intersects(object)) {
+//          System.out.println("intersected " + object);
+//        }
+//      }
+//      if(mainActor.intersects(object)) {
+//        System.out.println("intersected " + object);
+//      }
+//    }
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.nima;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.nima.model.Game;
@@ -14,6 +15,7 @@ public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
   private ActorBasedTiledMultiMapRenderer tiledMapRenderer;
   private MainInputProcessor inputProcessor = new MainInputProcessor();
+  private SpineMainActor mainActor;
 
   @Override
   public void create() {
@@ -24,9 +26,11 @@ public class Main extends ApplicationAdapter {
     camera.setToOrtho(false, w, h);
     camera.update();
 
-    tiledMapRenderer = new Game(camera, Settings.GROUND_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    tiledMapRenderer.setMainActor(new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f, 400, 400));
+    tiledMapRenderer = new Game(Settings.ACTOR_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
+    mainActor = new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f, w / 2+5, h / 2+5);
+    tiledMapRenderer.setMainActor(mainActor);
     Gdx.input.setInputProcessor(inputProcessor);
+    tiledMapRenderer.updateCamera(camera);
   }
 
   @Override
@@ -38,6 +42,31 @@ public class Main extends ApplicationAdapter {
     camera.update();
     tiledMapRenderer.setView(camera);
     tiledMapRenderer.render();
+
+    handleKeyInput();
   }
 
+  /**
+   * Listening for key events for moving the character, etc.
+   * Do not mix this with an InputProcessor which handles
+   * single key events, e.g. open the map overview.
+   */
+  private void handleKeyInput() {
+    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+      mainActor.moveBy(-Settings.ACTOR_VELOCITY, 0);
+      tiledMapRenderer.updateCamera(camera);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+      mainActor.moveBy(Settings.ACTOR_VELOCITY, 0);
+      tiledMapRenderer.updateCamera(camera);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+      mainActor.moveBy(0, Settings.ACTOR_VELOCITY);
+      tiledMapRenderer.updateCamera(camera);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+      mainActor.moveBy(0, -Settings.ACTOR_VELOCITY);
+      tiledMapRenderer.updateCamera(camera);
+    }
+  }
 }

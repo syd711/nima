@@ -5,13 +5,18 @@ package com.nima.util;
  */
 public class Settings {
 
-  public static boolean DEBUG = true;
-  public static int ACTOR_VELOCITY = 5;
+  public static final boolean DEBUG = true;
+  public static final int ACTOR_VELOCITY = 5;
 
   /**
    * Map Settings
    */
-  public static String FALLBACK_MAP = "maps/main/default.tmx";
-  public static String GROUND_LAYER = "ground";
+  public static final String FALLBACK_MAP = "maps/main/default.tmx";
+  public static final String GROUND_LAYER = "ground";
+  public static final String ACTOR_LAYER = "layer_1";
+
+  //starting from 0!
+  public static final int WORLD_WIDTH = 1;
+  public static final int WORLD_HEIGHT = 1;
 
 }

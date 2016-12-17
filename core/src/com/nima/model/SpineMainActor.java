@@ -23,7 +23,7 @@ public class SpineMainActor extends SpineActor {
   private float lastX;
   private float lastY;
 
-  public SpineMainActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale, int x, int y) {
+  public SpineMainActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale, float x, float y) {
     super(renderer, spineName,  defaultAnimation, scale, x, y);
   }
 

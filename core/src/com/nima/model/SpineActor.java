@@ -19,7 +19,7 @@ public class SpineActor extends Actor {
   protected float height;
   protected float width;
 
-  public SpineActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale, int x, int y) {
+  public SpineActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale, float x, float y) {
     super(renderer);
     skeletonRenderer = new SkeletonRenderer();
 
@@ -68,6 +68,7 @@ public class SpineActor extends Actor {
   @Override
   public void setPosition(float x, float y) {
     skeleton.setPosition(x, y);
+    System.out.println("A: " + x + "/" + y);
   }
 
   @Override
