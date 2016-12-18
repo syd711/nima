@@ -1,4 +1,4 @@
-package com.nima.entities;
+package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 

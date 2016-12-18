@@ -1,7 +1,5 @@
 package com.nima.render;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.nima.entities.Actor;
+import com.nima.components.DimensionComponent;
+import com.nima.components.PositionComponent;
+import com.nima.actors.Actor;
 import com.nima.util.Settings;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
@@ -36,9 +36,6 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
   private TiledMap frameMap;
 
   private TiledMultiMapOrthographicCamera camera;
-
-  //Ashley
-  private Engine engine = new Engine();
 
   public ActorBasedTiledMultiMapRenderer(OrthographicCamera camera, String actorLayerName, String mapFolder, String mapPrefix) {
     super(null);
@@ -66,7 +63,8 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
   }
 
   public void addEntity(Actor entity) {
-//    entity.add(new Dimon)
+    entity.add(new DimensionComponent());
+    entity.add(new PositionComponent());
   }
 
   @Override
@@ -124,8 +122,6 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     } //end layer rendering
 
     renderGameWorld();
-
-    engine.update(Gdx.graphics.getDeltaTime());
 
     endRender();
 

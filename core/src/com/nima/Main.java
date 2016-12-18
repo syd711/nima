@@ -1,12 +1,15 @@
 package com.nima;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.nima.entities.Game;
-import com.nima.entities.SpineMainActor;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nima.actors.Game;
+import com.nima.actors.SpineMainActor;
+import com.nima.managers.EntityManager;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
@@ -17,8 +20,18 @@ public class Main extends ApplicationAdapter {
   private MainInputProcessor inputProcessor = new MainInputProcessor();
   private SpineMainActor mainActor;
 
+  private SpriteBatch batch;
+
+  //Ashley
+  private Engine engine = new Engine();
+  private EntityManager entityManager = new EntityManager(engine);
+
   @Override
   public void create() {
+//    Gdx.input.setCursorCatched(true); //hide mouse cursor
+
+    batch = new SpriteBatch();
+
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
@@ -42,6 +55,11 @@ public class Main extends ApplicationAdapter {
     camera.update();
     tiledMapRenderer.setView(camera);
     tiledMapRenderer.render();
+
+
+    batch.begin();
+    entityManager.update();
+    batch.end();
 
     handleKeyInput();
   }

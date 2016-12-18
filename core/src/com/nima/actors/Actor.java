@@ -1,4 +1,4 @@
-package com.nima.entities;
+package com.nima.actors;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
