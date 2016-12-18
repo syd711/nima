@@ -170,7 +170,7 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
     //start rendering rows from top to bottom
     for(int row = layerHeight; row >= 0; row--) {
-      float x = 0;
+      float x = frameNumberX * framePixelsX;
       for(int col = 0; col < layerWidth; col++) {
         final TiledMapTileLayer.Cell cell = layer.getCell(col, row);
         if(cell == null) {
@@ -194,8 +194,8 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
       TextureRegion region = tile.getTextureRegion();
 
-      float x1 = x + ((tile.getOffsetX() + frameNumberX * framePixelsX) * unitScale);
-      float y1 = y + ((tile.getOffsetY() + frameNumberY * framePixelsY) * unitScale);
+      float x1 = x + tile.getOffsetX() * unitScale;
+      float y1 = y + tile.getOffsetY() * unitScale; //no need to add more since y is always the upper pixel value for the frame
       float x2 = x1 + region.getRegionWidth() * unitScale;
       float y2 = y1 + region.getRegionHeight() * unitScale;
 

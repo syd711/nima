@@ -68,5 +68,8 @@ public class Main extends ApplicationAdapter {
       mainActor.moveBy(0, -Settings.ACTOR_VELOCITY);
 //      tiledMapRenderer.updateCamera(camera);
     }
+    if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
+      camera.zoom = 0.5f;
+    }
   }
 }
