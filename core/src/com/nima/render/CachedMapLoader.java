@@ -1,6 +1,7 @@
 package com.nima.render;
 
 import com.badlogic.gdx.Gdx;
+import com.nima.util.Settings;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -79,9 +80,9 @@ public class CachedMapLoader extends Thread {
     int startY = frameY - 2;
 
     for(int x = startX; x < (startX + 5); x++) {
-      if(x >= 0) {
+      if(x >= 0 && x < Settings.WORLD_WIDTH) {
         for(int y = startY; y < (startY + 5); y++) {
-          if(y >= 0) {
+          if(y >= 0 && y < Settings.WORLD_HEIGHT) {
             String filename = MapCache.getInstance().keyFor(x, y);
             if(!mapCache.cacheMap.containsKey(filename)) {
               TmxCacheMapLoader loader = new TmxCacheMapLoader(filename, x, y);

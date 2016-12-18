@@ -1,4 +1,4 @@
-package com.nima.model;
+package com.nima.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

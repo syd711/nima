@@ -1,6 +1,6 @@
 package com.nima.render;
 
-import com.nima.model.GameEntity;
+import com.nima.entities.GameEntity;
 
 /**
  * Interface to be implemented by entities that want

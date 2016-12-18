@@ -1,4 +1,4 @@
-package com.nima.model;
+package com.nima.entities;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
@@ -11,7 +11,7 @@ import java.util.List;
  * Abstract super class used for classes that render on the layer that is responsible rendering
  * actors moving over this layer.
  */
-abstract public class Actor implements GameEntity {
+abstract public class Actor extends GameEntity {
 
   public ActorBasedTiledMultiMapRenderer renderer;
 

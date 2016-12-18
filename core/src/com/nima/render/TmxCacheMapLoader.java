@@ -1,6 +1,5 @@
 package com.nima.render;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.ImageResolver;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.nima.util.Settings;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -40,12 +38,7 @@ public class TmxCacheMapLoader extends TmxMapLoader {
     this.frameX = frameX;
     this.frameY = frameY;
 
-    FileHandle mapFile = Gdx.files.internal(filename);
-    if(!mapFile.file().exists()) {
-      filename = Settings.FALLBACK_MAP;
-    }
     super.load(filename);
-
 
     Array<FileHandle> textureFiles = this.textureFiles;
     for(FileHandle textureFile : textureFiles) {

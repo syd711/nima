@@ -11,7 +11,6 @@ public class Settings {
   /**
    * Map Settings
    */
-  public static final String FALLBACK_MAP = "maps/main/default.tmx";
   public static final String GROUND_LAYER = "ground";
   public static final String ACTOR_LAYER = "layer_1";
 

@@ -1,5 +1,7 @@
 package com.nima.render;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,17 +11,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.nima.model.Actor;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.nima.entities.Actor;
+import com.nima.util.Settings;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   //additional rendering
   private String actorLayerName;
-  private List<Actor> actorRenderers = new ArrayList<>();
   protected Actor mainActor;
 
   protected int actorFrameX = 0;
@@ -38,6 +37,9 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
   private TiledMultiMapOrthographicCamera camera;
 
+  //Ashley
+  private Engine engine = new Engine();
+
   public ActorBasedTiledMultiMapRenderer(OrthographicCamera camera, String actorLayerName, String mapFolder, String mapPrefix) {
     super(null);
     CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
@@ -54,23 +56,28 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     this.camera = new TiledMultiMapOrthographicCamera(this, camera);
   }
 
-  public void setMainActor(Actor mainActor) {
+  /**
+   * Sets the main actor for the map.
+   */
+  public void setMainEntity(Actor mainActor) {
     this.mainActor = mainActor;
     initMainActor();
     camera.updateCamera();
   }
 
-  public void addActorRenderer(Actor renderer) {
-    actorRenderers.add(renderer);
+  public void addEntity(Actor entity) {
+//    entity.add(new Dimon)
   }
 
   @Override
   public void render() {
     camera.updateCamera();
     updateActorFrames();
+
     MapCache.getInstance().updateCache(actorFrameX, actorFrameY);
 
     beginRender();
+
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
 
@@ -80,9 +87,9 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
       //render layer by layer for all frames
       for(int x = startX; x < startX + 3; x++) {
-        if(x >= 0) {
+        if(x >= 0 && x < Settings.WORLD_WIDTH) {
           for(int y = startY; y < startY + 3; y++) {
-            if(y >= 0) {
+            if(y >= 0 && y < Settings.WORLD_HEIGHT) {
               frameNumberX = x;
               frameNumberY = y;
               //get the map for the current frame
@@ -109,14 +116,16 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
       //additional layer checks
       if(layerName.equals(actorLayerName)) {
-        for(Actor actorRenderer : actorRenderers) {
-          actorRenderer.doRender();
-        }
+//        for(Actor actorRenderer : actorRenderers) {
+//          actorRenderer.doRender();
+//        }
         mainActor.doRender();
       }
     } //end layer rendering
 
     renderGameWorld();
+
+    engine.update(Gdx.graphics.getDeltaTime());
 
     endRender();
 
@@ -186,6 +195,9 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     }
   }
 
+  /**
+   * Rendering of a single tile cell
+   */
   private void renderTile(float color, float y, float[] vertices, float x, TiledMapTileLayer.Cell cell, TiledMapTile tile) {
     if(tile != null) {
       final boolean flipX = cell.getFlipHorizontally();
@@ -295,6 +307,10 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     }
   }
 
+  /**
+   * Calculates in which frame the actor
+   * is currently moving.
+   */
   private void updateActorFrames() {
     float x = mainActor.getX();
     actorFrameX = (int) (x / framePixelsX);

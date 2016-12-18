@@ -1,4 +1,4 @@
-package com.nima.model;
+package com.nima.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,13 +17,18 @@ public class Game extends ActorBasedTiledMultiMapRenderer {
     super(camera, actorLayerName, mapFolder, mapPrefix);
   }
 
+  /**
+   * The camera will be automatically centered on the actor
+   * once it has been added.
+   */
   @Override
   protected void initMainActor() {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
-    float x= Settings.START_FRAME_X*framePixelsX+(w/2);
-    float y = Settings.START_FRAME_Y*framePixelsY+(h/2);
+    float x = Settings.START_FRAME_X * framePixelsX + (w / 2);
+    float y = Settings.START_FRAME_Y * framePixelsY + (h / 2);
+
     this.mainActor.setPosition(x, y);
   }
 
