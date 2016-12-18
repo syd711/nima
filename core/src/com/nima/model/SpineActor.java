@@ -66,7 +66,7 @@ public class SpineActor extends Actor {
   @Override
   public void setPosition(float x, float y) {
     skeleton.setPosition(x, y);
-    System.out.println("A: " + x + "/" + y);
+//    System.out.println("A: " + x + "/" + y);
   }
 
   @Override

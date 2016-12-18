@@ -26,12 +26,11 @@ public class Main extends ApplicationAdapter {
     camera.setToOrtho(false, w, h);
     camera.update();
 
-    tiledMapRenderer = new Game(Settings.ACTOR_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
+    tiledMapRenderer = new Game(camera, Settings.ACTOR_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
     mainActor = new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f);
 
     tiledMapRenderer.setMainActor(mainActor);
     Gdx.input.setInputProcessor(inputProcessor);
-    tiledMapRenderer.updateCamera(camera);
   }
 
   @Override
@@ -55,19 +54,19 @@ public class Main extends ApplicationAdapter {
   private void handleKeyInput() {
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
       mainActor.moveBy(-Settings.ACTOR_VELOCITY, 0);
-      tiledMapRenderer.updateCamera(camera);
+//      tiledMapRenderer.updateCamera(camera);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
       mainActor.moveBy(Settings.ACTOR_VELOCITY, 0);
-      tiledMapRenderer.updateCamera(camera);
+//      tiledMapRenderer.updateCamera(camera);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
       mainActor.moveBy(0, Settings.ACTOR_VELOCITY);
-      tiledMapRenderer.updateCamera(camera);
+//      tiledMapRenderer.updateCamera(camera);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
       mainActor.moveBy(0, -Settings.ACTOR_VELOCITY);
-      tiledMapRenderer.updateCamera(camera);
+//      tiledMapRenderer.updateCamera(camera);
     }
   }
 }

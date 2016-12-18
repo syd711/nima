@@ -15,10 +15,11 @@ public class Settings {
   public static final String GROUND_LAYER = "ground";
   public static final String ACTOR_LAYER = "layer_1";
 
-  //starting from 0!
-  public static final int WORLD_WIDTH = 1;
-  public static final int WORLD_HEIGHT = 1;
+  //starting from 1
+  public static final int WORLD_WIDTH = 2;
+  public static final int WORLD_HEIGHT = 2;
 
+  //starting from 0
   public static final int START_FRAME_X = 0;
   public static final int START_FRAME_Y = 0;
 

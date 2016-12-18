@@ -1,6 +1,7 @@
 package com.nima.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.nima.render.ActorBasedTiledMultiMapRenderer;
 import com.nima.util.Settings;
 
@@ -12,8 +13,8 @@ import com.nima.util.Settings;
  */
 public class Game extends ActorBasedTiledMultiMapRenderer {
 
-  public Game(String actorLayerName, String mapFolder, String mapPrefix) {
-    super(actorLayerName, mapFolder, mapPrefix);
+  public Game(OrthographicCamera camera, String actorLayerName, String mapFolder, String mapPrefix) {
+    super(camera, actorLayerName, mapFolder, mapPrefix);
   }
 
   @Override
@@ -23,7 +24,7 @@ public class Game extends ActorBasedTiledMultiMapRenderer {
 
     float x= Settings.START_FRAME_X*framePixelsX+(w/2);
     float y = Settings.START_FRAME_Y*framePixelsY+(h/2);
-    this.mainActor.setPosition(x, 0);
+    this.mainActor.setPosition(x, y);
   }
 
   @Override

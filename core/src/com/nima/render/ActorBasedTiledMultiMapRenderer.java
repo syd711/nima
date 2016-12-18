@@ -22,62 +22,42 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
   private List<Actor> actorRenderers = new ArrayList<>();
   protected Actor mainActor;
 
-  private int actorFrameX = 0;
-  private int actorFrameY = 0;
+  protected int actorFrameX = 0;
+  protected int actorFrameY = 0;
 
   protected float framePixelsX;
   protected float framePixelsY;
+
+  private int frameTilesX = 0;
+  private int frameTilesY = 0;
 
   //variables updated for each render frame/region
   private int frameNumberX;
   private int frameNumberY;
   private TiledMap frameMap;
 
-  public ActorBasedTiledMultiMapRenderer(String actorLayerName, String mapFolder, String mapPrefix) {
+  private TiledMultiMapOrthographicCamera camera;
+
+  public ActorBasedTiledMultiMapRenderer(OrthographicCamera camera, String actorLayerName, String mapFolder, String mapPrefix) {
     super(null);
     CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(cachedTiledMap.getMap());
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
+    this.frameTilesX = groundLayer.getWidth();
+    this.frameTilesY = groundLayer.getHeight();
     this.framePixelsX = groundLayer.getWidth() * groundLayer.getTileWidth() * unitScale;
     this.framePixelsY = groundLayer.getHeight() * groundLayer.getTileHeight() * unitScale;
 
     cachedTiledMap.renderObjects(framePixelsX, framePixelsY, unitScale);
     this.actorLayerName = actorLayerName;
-  }
-
-
-  public void updateCamera(OrthographicCamera camera) {
-    boolean keepX = false;
-    boolean keepY = false;
-
-//    float width = Gdx.graphics.getWidth();
-//    float height = Gdx.graphics.getHeight();
-//
-//    if(actorFrameX == 0 && mainActor.getX()<(framePixelsX/2)) {
-//      keepX = true;
-//    }
-//
-//    if(actorFrameX == Settings.WORLD_WIDTH
-//        && (mainActor.getX()%framePixelsX) > framePixelsX/2) {
-//      keepX = true;
-//    }
-//
-//    if(actorFrameY == 0 &&  mainActor.getY()<(framePixelsY/2)) {
-//      keepY = true;
-//    }
-
-    if(!keepX) {
-      camera.position.x = mainActor.getX();
-    }
-    if(!keepY) {
-      camera.position.y = mainActor.getY();
-    }
+    this.camera = new TiledMultiMapOrthographicCamera(this, camera);
   }
 
   public void setMainActor(Actor mainActor) {
     this.mainActor = mainActor;
     initMainActor();
+    camera.updateCamera();
   }
 
   public void addActorRenderer(Actor renderer) {
@@ -86,6 +66,7 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
 
   @Override
   public void render() {
+    camera.updateCamera();
     updateActorFrames();
     MapCache.getInstance().updateCache(actorFrameX, actorFrameY);
 
@@ -135,7 +116,6 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
       }
     } //end layer rendering
 
-//    System.exit(0);
     renderGameWorld();
 
     endRender();
@@ -185,9 +165,7 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     final float layerTileWidth = layer.getTileWidth() * unitScale;
     final float layerTileHeight = layer.getTileHeight() * unitScale;
 
-    final int rowEnd = Math.min(layerHeight, (int) ((viewBounds.y + viewBounds.height + layerTileHeight) / layerTileHeight));
-
-    float y = rowEnd * layerTileHeight;
+    float y = frameTilesY * layerTileHeight + frameNumberY*framePixelsY;
     final float[] vertices = this.vertices;
 
     //start rendering rows from top to bottom
