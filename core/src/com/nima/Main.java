@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
 
     tiledMapRenderer = new Game(Settings.ACTOR_LAYER, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
     mainActor = new SpineMainActor(tiledMapRenderer, Resources.ACTOR_SPINE, "walk", 0.3f);
+
     tiledMapRenderer.setMainActor(mainActor);
     Gdx.input.setInputProcessor(inputProcessor);
     tiledMapRenderer.updateCamera(camera);
