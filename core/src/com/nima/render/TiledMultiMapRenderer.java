@@ -1,7 +1,8 @@
 package com.nima.render;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -9,23 +10,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.nima.components.DimensionComponent;
-import com.nima.components.PositionComponent;
-import com.nima.actors.Actor;
 import com.nima.util.Settings;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
-abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
-  //additional rendering
-  private String actorLayerName;
-  protected Actor mainActor;
+public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
+  private BitmapFont font = new BitmapFont();
 
   protected int actorFrameX = 0;
   protected int actorFrameY = 0;
-
-  protected float framePixelsX;
-  protected float framePixelsY;
 
   private int frameTilesX = 0;
   private int frameTilesY = 0;
@@ -35,9 +28,7 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
   private int frameNumberY;
   private TiledMap frameMap;
 
-  private TiledMultiMapOrthographicCamera camera;
-
-  public ActorBasedTiledMultiMapRenderer(OrthographicCamera camera, String actorLayerName, String mapFolder, String mapPrefix) {
+  public TiledMultiMapRenderer(String mapFolder, String mapPrefix) {
     super(null);
     CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(cachedTiledMap.getMap());
@@ -45,36 +36,24 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
     this.frameTilesY = groundLayer.getHeight();
-    this.framePixelsX = groundLayer.getWidth() * groundLayer.getTileWidth() * unitScale;
-    this.framePixelsY = groundLayer.getHeight() * groundLayer.getTileHeight() * unitScale;
 
-    cachedTiledMap.renderObjects(framePixelsX, framePixelsY, unitScale);
-    this.actorLayerName = actorLayerName;
-    this.camera = new TiledMultiMapOrthographicCamera(this, camera);
+    cachedTiledMap.renderObjects();
   }
 
-  /**
-   * Sets the main actor for the map.
-   */
-  public void setMainEntity(Actor mainActor) {
-    this.mainActor = mainActor;
-    initMainActor();
-    camera.updateCamera();
-  }
-
-  public void addEntity(Actor entity) {
-    entity.add(new DimensionComponent());
-    entity.add(new PositionComponent());
+  public void setActorFrame(int x, int y) {
+    this.actorFrameX = x;
+    this.actorFrameY = y;
   }
 
   @Override
   public void render() {
-    camera.updateCamera();
-    updateActorFrames();
-
     MapCache.getInstance().updateCache(actorFrameX, actorFrameY);
 
     beginRender();
+
+    if(Settings.DEBUG) {
+      font.draw(getBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), 50, 50);
+    }
 
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
@@ -92,7 +71,7 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
               frameNumberY = y;
               //get the map for the current frame
               CachedTiledMap cachedTiledMap = MapCache.getInstance().get(x, y);
-              cachedTiledMap.renderObjects(framePixelsX, framePixelsY, unitScale);
+              cachedTiledMap.renderObjects();
 
               frameMap = cachedTiledMap.getMap();
               MapLayer l = frameMap.getLayers().get(layerName);
@@ -102,59 +81,14 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
                 if(l instanceof TiledMapTileLayer) {
                   renderTileLayer((TiledMapTileLayer) l);
                 }
-                else {
-                  //check frame for collisions
-                  checkCollisions(l);
-                }
               }
             }
           }
         }
       }
-
-      //additional layer checks
-      if(layerName.equals(actorLayerName)) {
-//        for(Actor actorRenderer : actorRenderers) {
-//          actorRenderer.doRender();
-//        }
-        mainActor.doRender();
-      }
     } //end layer rendering
 
-    renderGameWorld();
-
     endRender();
-
-    updateGameWorld();
-  }
-
-  protected abstract void initMainActor();
-
-  /**
-   * Game specific rendering
-   */
-  protected abstract void renderGameWorld();
-
-  /**
-   * Post rendering, processing of game logic, ai, etc.
-   */
-  protected abstract void updateGameWorld();
-
-  /**
-   * Called one after the actor frame was rendered
-   */
-  private void checkCollisions(MapLayer layer) {
-//    MapObjects objects = layer.getObjects();
-//    for(MapObject object : objects) {
-//      for(Actor actorRenderer : actorRenderers) {
-//        if(actorRenderer.intersects(object)) {
-//          System.out.println("intersected " + object);
-//        }
-//      }
-//      if(mainActor.intersects(object)) {
-//        System.out.println("intersected " + object);
-//      }
-//    }
   }
 
   @Override
@@ -170,12 +104,12 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
     final float layerTileWidth = layer.getTileWidth() * unitScale;
     final float layerTileHeight = layer.getTileHeight() * unitScale;
 
-    float y = frameTilesY * layerTileHeight + frameNumberY*framePixelsY;
+    float y = frameTilesY * layerTileHeight + frameNumberY*Settings.FRAME_PIXELS_Y;
     final float[] vertices = this.vertices;
 
     //start rendering rows from top to bottom
     for(int row = layerHeight; row >= 0; row--) {
-      float x = frameNumberX * framePixelsX;
+      float x = frameNumberX * Settings.FRAME_PIXELS_X;
       for(int col = 0; col < layerWidth; col++) {
         final TiledMapTileLayer.Cell cell = layer.getCell(col, row);
         if(cell == null) {
@@ -301,17 +235,5 @@ abstract public class ActorBasedTiledMultiMapRenderer extends OrthogonalTiledMap
       }
       batch.draw(region.getTexture(), vertices, 0, NUM_VERTICES);
     }
-  }
-
-  /**
-   * Calculates in which frame the actor
-   * is currently moving.
-   */
-  private void updateActorFrames() {
-    float x = mainActor.getX();
-    actorFrameX = (int) (x / framePixelsX);
-
-    float y = mainActor.getY();
-    actorFrameY = (int) (y / framePixelsY);
   }
 }

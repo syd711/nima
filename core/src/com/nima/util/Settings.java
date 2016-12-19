@@ -11,8 +11,9 @@ public class Settings {
   /**
    * Map Settings
    */
-  public static final String GROUND_LAYER = "ground";
-  public static final String ACTOR_LAYER = "layer_1";
+  public static final String OBJECT_LAYER = "collisions";
+  public static final int FRAME_PIXELS_X = 1920;
+  public static final int FRAME_PIXELS_Y = 1280;
 
   //starting from 1
   public static final int WORLD_WIDTH = 2;

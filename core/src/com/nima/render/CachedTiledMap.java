@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.nima.util.Settings;
 
 import java.util.logging.Logger;
 
@@ -33,12 +34,12 @@ public class CachedTiledMap {
     this.frameNumberY = loader.getFrameY();
   }
 
-  protected void renderObjects(float framePixelsX, float framePixelsY, float unitScale) {
+  protected void renderObjects() {
     if(!rendered) {
       rendered = true;
 
-      float xOffset = frameNumberX * framePixelsX * unitScale;
-      float yOffset = frameNumberY * framePixelsY * unitScale;
+      float xOffset = frameNumberX * Settings.FRAME_PIXELS_X;
+      float yOffset = frameNumberY * Settings.FRAME_PIXELS_Y;
 
       for(MapLayer mapLayer : map.getLayers()) {
         MapObjects objects = mapLayer.getObjects();

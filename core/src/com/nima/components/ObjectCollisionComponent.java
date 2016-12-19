@@ -1,62 +1,26 @@
-package com.nima.actors;
+package com.nima.components;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.nima.render.ActorBasedTiledMultiMapRenderer;
-import com.nima.util.Settings;
 
 /**
- * Our main character!
+ * Created by Matthias on 18.12.2016.
  */
-public class SpineMainActor extends SpineActor {
-  private BitmapFont font = new BitmapFont();
+public class ObjectCollisionComponent implements Component {
 
-  private MapObject intersectingObject;
-
-  private float lastX;
-  private float lastY;
-
-  public SpineMainActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale) {
-    super(renderer, spineName,  defaultAnimation, scale);
-  }
-
-  @Override
-  public void render() {
-    super.render();
-    intersectingObject = null;
-    if(Settings.DEBUG) {
-      font.draw(renderer.getBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), getX()-30, getY());
-    }
-  }
-
-  public boolean moveBy(int x, int y) {
-    if(intersectingObject == null) {
-      lastX = getX();
-      lastY = getY();
-      return super.translate(x, y);
-    }
-
-    setPosition(lastX, lastY);
-    return false;
-  }
-
-  @Override
   public boolean intersects(MapObject object) {
     if (object instanceof RectangleMapObject) {
       Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
 
-      Rectangle spineRectangle = new Rectangle(getX()-width/2, getY(), width, height);
-      if (Intersector.overlaps(rectangle, spineRectangle)) {
-        intersectingObject = object;
-        return true;
-      }
+//      Rectangle spineRectangle = new Rectangle(getX()-width/2, getY(), width, height);
+//      if (Intersector.overlaps(rectangle, spineRectangle)) {
+//        return true;
+//      }
     }
     else if (object instanceof PolygonMapObject) {
     }
@@ -87,6 +51,4 @@ public class SpineMainActor extends SpineActor {
 //    }
     return false;
   }
-
-
 }

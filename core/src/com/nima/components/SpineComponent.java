@@ -1,26 +1,22 @@
-package com.nima.actors;
+package com.nima.components;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.esotericsoftware.spine.*;
-import com.nima.render.ActorBasedTiledMultiMapRenderer;
 
 /**
- * Default renderer for spine animations
+ * Component implementation for Spines.
  */
-public class SpineActor extends Actor {
+public class SpineComponent implements Component {
   protected final TextureAtlas atlas;
   protected final Skeleton skeleton;
   protected final AnimationState state;
 
   protected SkeletonRenderer skeletonRenderer;
 
-  protected float height;
-  protected float width;
-
-  public SpineActor(ActorBasedTiledMultiMapRenderer renderer, String spineName, String defaultAnimation, float scale) {
-    super(renderer);
+  public SpineComponent(String spineName, String defaultAnimation, float scale) {
     skeletonRenderer = new SkeletonRenderer();
 
     atlas = new TextureAtlas(Gdx.files.internal(spineName+ ".atlas"));
@@ -33,50 +29,18 @@ public class SpineActor extends Actor {
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
     state.setAnimation(0, defaultAnimation, true);
-
-    height = skeleton.getData().getHeight() * scale;
-    width =  skeleton.getData().getWidth() * scale;
   }
 
-  @Override
-  public boolean moveBy(int x, int y) {
-    return false;
+  public void setPosition(float x, float y) {
+    skeleton.setPosition(x, y);
   }
 
-  @Override
-  public void render() {
+  public void render(BatchTiledMapRenderer renderer) {
     state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
 
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform(); // Uses the bones' local SRT to compute their world SRT.
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
-  }
-
-  @Override
-  public float getX() {
-    return skeleton.getX();
-  }
-
-  @Override
-  public float getY() {
-    return skeleton.getY();
-  }
-
-  @Override
-  public void setPosition(float x, float y) {
-    skeleton.setPosition(x, y);
-//    System.out.println("A: " + x + "/" + y);
-  }
-
-  @Override
-  public boolean translate(int x, int y) {
-    setPosition(getX()+x, getY()+y);
-    return true;
-  }
-
-  @Override
-  public boolean intersects(MapObject mapObject) {
-    return false;
   }
 }
