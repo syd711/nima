@@ -76,12 +76,14 @@ public class CachedMapLoader extends Thread {
    * Checks which frames to load for the given frameX and frameY.
    */
   private void updateQueue() {
-    int startX = frameX - 2;
-    int startY = frameY - 2;
+    int startX = frameX - 1;
+    int startY = frameY - 1;
 
-    for(int x = startX; x < (startX + 5); x++) {
+    int CACHE_SIZE = 3;
+
+    for(int x = startX; x < (startX + CACHE_SIZE); x++) {
       if(x >= 0 && x < Settings.WORLD_WIDTH) {
-        for(int y = startY; y < (startY + 5); y++) {
+        for(int y = startY; y < (startY + CACHE_SIZE); y++) {
           if(y >= 0 && y < Settings.WORLD_HEIGHT) {
             String filename = MapCache.getInstance().keyFor(x, y);
             if(!mapCache.cacheMap.containsKey(filename)) {

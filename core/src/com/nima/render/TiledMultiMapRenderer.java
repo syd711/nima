@@ -2,23 +2,25 @@ package com.nima.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.nima.util.Settings;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
-  private BitmapFont font = new BitmapFont();
-
-  protected int actorFrameX = 0;
-  protected int actorFrameY = 0;
+  public int actorFrameX = 0;
+  public int actorFrameY = 0;
 
   private int frameTilesX = 0;
   private int frameTilesY = 0;
@@ -27,6 +29,8 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private int frameNumberX;
   private int frameNumberY;
   private TiledMap frameMap;
+
+  private List<MapObject> mapObjects = new ArrayList();
 
   public TiledMultiMapRenderer(String mapFolder, String mapPrefix) {
     super(null);
@@ -52,11 +56,14 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     beginRender();
 
     if(Settings.DEBUG) {
-      font.draw(getBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), 50, 50);
+      Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
+
+    //TODO optimize collecting
+    mapObjects.clear();
 
     MapLayers layers = getMap().getLayers();
     for(MapLayer layer : layers) {
@@ -81,6 +88,12 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
                 if(l instanceof TiledMapTileLayer) {
                   renderTileLayer((TiledMapTileLayer) l);
                 }
+                else {
+                  Iterator<MapObject> iterator = l.getObjects().iterator();
+                  while(iterator.hasNext()) {
+                    mapObjects.add(iterator.next());
+                  }
+                }
               }
             }
           }
@@ -91,10 +104,15 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     endRender();
   }
 
+  public List<MapObject> getMapObjects() {
+    return mapObjects;
+  }
+
   @Override
   public void renderTileLayer(TiledMapTileLayer l) {
     TiledMapTileLayer layer = (TiledMapTileLayer) frameMap.getLayers().get(l.getName());
 
+    //TODO only render tiles inside the view
     final Color batchColor = batch.getColor();
     final float color = Color.toFloatBits(batchColor.r, batchColor.g, batchColor.b, batchColor.a * layer.getOpacity());
 

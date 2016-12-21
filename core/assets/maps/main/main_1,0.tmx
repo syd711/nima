@@ -91,7 +91,5 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="collision">
-  <object id="1" x="610" y="127" width="194" height="229"/>
- </objectgroup>
+ <objectgroup name="collision"/>
 </map>

@@ -1,10 +1,8 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.nima.components.PositionComponent;
-import com.nima.managers.EntityManager;
 import com.nima.util.Settings;
 
 public class Camera implements Updateable {
@@ -14,11 +12,9 @@ public class Camera implements Updateable {
   private float worldWidth;
   private float worldHeight;
 
-  public Camera(OrthographicCamera camera) {
+  public Camera(OrthographicCamera camera, PositionComponent positionComponent) {
     this.camera = camera;
-
-    ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
-    this.positionComponent = positionMap.get(EntityManager.getPlayer());
+    this.positionComponent = positionComponent;
 
     this.worldWidth = Settings.WORLD_WIDTH * Settings.FRAME_PIXELS_X;
     this.worldHeight = Settings.WORLD_HEIGHT * Settings.FRAME_PIXELS_Y;

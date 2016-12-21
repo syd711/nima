@@ -13,10 +13,12 @@ public class SpineComponent implements Component {
   protected final TextureAtlas atlas;
   protected final Skeleton skeleton;
   protected final AnimationState state;
+  private float scaling = 0;
 
   protected SkeletonRenderer skeletonRenderer;
 
   public SpineComponent(String spineName, String defaultAnimation, float scale) {
+    this.scaling = scale;
     skeletonRenderer = new SkeletonRenderer();
 
     atlas = new TextureAtlas(Gdx.files.internal(spineName+ ".atlas"));
@@ -42,5 +44,13 @@ public class SpineComponent implements Component {
     skeleton.updateWorldTransform(); // Uses the bones' local SRT to compute their world SRT.
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
+  }
+
+  public float getRotation() {
+    return 0;
+  }
+
+  public float getScaling() {
+    return scaling;
   }
 }

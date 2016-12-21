@@ -9,15 +9,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.nima.components.PositionComponent;
 import com.nima.managers.EntityManager;
+import com.nima.render.DebugRenderer;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
-  private TiledMultiMapRenderer tiledMapRenderer;
+  public TiledMultiMapRenderer tiledMapRenderer;
   private MainInputProcessor inputProcessor = new MainInputProcessor();
   private PositionComponent playerPosition;
+
+  public static DebugRenderer DEBUG_RENDERER;
 
   //Ashley
   private PooledEngine engine = new PooledEngine();
@@ -25,8 +28,6 @@ public class Main extends ApplicationAdapter {
 
   @Override
   public void create() {
-//    Gdx.input.setCursorCatched(true); //hide mouse cursor
-
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
@@ -35,7 +36,8 @@ public class Main extends ApplicationAdapter {
     camera.update();
 
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    entityManager = new EntityManager(engine, tiledMapRenderer, camera);
+    DEBUG_RENDERER = new DebugRenderer(tiledMapRenderer, camera);
+    entityManager = EntityManager.create(engine, tiledMapRenderer, camera);
 
     Gdx.input.setInputProcessor(inputProcessor);
 
@@ -55,15 +57,15 @@ public class Main extends ApplicationAdapter {
 
     tiledMapRenderer.getBatch().begin();
     entityManager.update();
+//    DEBUG_RENDERER.render();
     tiledMapRenderer.getBatch().end();
 
     handleKeyInput();
+
     float x = playerPosition.x;
     int actorFrameX = (int) (x / Settings.FRAME_PIXELS_X);
-
     float y = playerPosition.y;
     int actorFrameY = (int) (y / Settings.FRAME_PIXELS_Y);
-
     tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
   }
 

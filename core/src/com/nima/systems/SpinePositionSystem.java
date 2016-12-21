@@ -8,14 +8,14 @@ import com.nima.components.PositionComponent;
 import com.nima.components.SpineComponent;
 import com.nima.render.TiledMultiMapRenderer;
 
-public class PositionSystem extends IteratingSystem {
+public class SpinePositionSystem extends IteratingSystem {
   private ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
   private ComponentMapper<SpineComponent> spineMap = ComponentMapper.getFor(SpineComponent.class);
 
   private TiledMultiMapRenderer renderer;
 
-  public PositionSystem(TiledMultiMapRenderer renderer) {
-    super(Family.all(PositionComponent.class).get());
+  public SpinePositionSystem(TiledMultiMapRenderer renderer) {
+    super(Family.all(SpineComponent.class).get());
     this.renderer = renderer;
   }
 
@@ -26,9 +26,5 @@ public class PositionSystem extends IteratingSystem {
     if(spineComponent != null) {
       spineComponent.setPosition(positionComponent.x, positionComponent.y);
     }
-
-//    if(positionComponent instanceof PlayerPositionComponent) {
-
-//    }
   }
 }
