@@ -79,12 +79,12 @@ public class CollisionComponent implements Component {
   /**
    * Checks the collision of an entity with the owner
    * of the Dimension Component.
-   * We know that his method is alway called from a spine or sprite, so
+   * We know that his method is always called from a spine or sprite, so
    * the source is always a polygon!
    */
   public boolean collidesWith(Entity entity, CollisionComponent collisionComponent) {
     if(collisionComponent.polygon != null) {
-      return Intersector.intersectPolygons(polygon, collisionComponent.polygon, new Polygon());
+      return Intersector.overlapConvexPolygons(polygon, collisionComponent.polygon);
     }
     else if(collisionComponent.circle != null) {
       Circle c = collisionComponent.circle;
