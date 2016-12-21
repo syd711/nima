@@ -67,7 +67,7 @@ public class SpineComponent implements Component {
   }
 
   public void setRotation(float angle) {
-    this.targetAngle = angle * -1;
+    this.targetAngle = Math.round(angle * -1);
 
   }
 

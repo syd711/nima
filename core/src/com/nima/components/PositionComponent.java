@@ -1,7 +1,6 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
-import com.nima.util.Settings;
 
 /**
  *
@@ -19,6 +17,11 @@ public class PositionComponent implements Component {
   public float y = 0.0f;
 
   public PositionComponent() {
+  }
+
+  public PositionComponent(float x, float y) {
+    this.x = x;
+    this.y = y;
   }
 
   public PositionComponent(MapObject object) {
@@ -49,13 +52,5 @@ public class PositionComponent implements Component {
   public void translate(float x, float y) {
     this.x += x;
     this.y += y;
-  }
-
-  public void center() {
-    float w = Gdx.graphics.getWidth();
-    float h = Gdx.graphics.getHeight();
-
-    x = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
-    y = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
   }
 }

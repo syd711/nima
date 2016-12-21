@@ -51,10 +51,9 @@ public class EntityManager {
     float x = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
     float y = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
-    PositionComponent positionComponent = engine.createComponent(PositionComponent.class);
+    PositionComponent positionComponent = new PositionComponent(x, y);
     positionComponent.x = x;
     positionComponent.y = y;
-    positionComponent.center();
     player.add(positionComponent);
 
     CollisionComponent collisionComponent = new CollisionComponent(spineComponent);

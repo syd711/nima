@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.nima.components.DimensionComponent;
 import com.nima.components.PositionComponent;
 import com.nima.components.SpineComponent;
 import com.nima.managers.EntityManager;
@@ -19,8 +20,10 @@ public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
   public TiledMultiMapRenderer tiledMapRenderer;
   private MainInputProcessor inputProcessor;
+
   private SpineComponent player;
   private PositionComponent playerPosition;
+  private DimensionComponent playerDimension;
 
   public static DebugRenderer DEBUG_RENDERER;
 
@@ -43,10 +46,12 @@ public class Main extends ApplicationAdapter {
 
     ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
     ComponentMapper<SpineComponent> spineMap = ComponentMapper.getFor(SpineComponent.class);
+    ComponentMapper<DimensionComponent> dimensionMap = ComponentMapper.getFor(DimensionComponent.class);
     this.playerPosition = positionMap.get(entityManager.getPlayer());
+    this.playerDimension = dimensionMap.get(entityManager.getPlayer());
     this.player = spineMap.get(entityManager.getPlayer());
 
-    inputProcessor = new MainInputProcessor(player, playerPosition);
+    inputProcessor = new MainInputProcessor(player, playerPosition, playerDimension);
     Gdx.input.setInputProcessor(inputProcessor);
   }
 
