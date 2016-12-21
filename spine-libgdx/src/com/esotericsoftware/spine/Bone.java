@@ -30,13 +30,13 @@
 
 package com.esotericsoftware.spine;
 
-import static com.badlogic.gdx.math.MathUtils.*;
-import static com.badlogic.gdx.math.Matrix3.*;
-
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.BoneData.TransformMode;
+
+import static com.badlogic.gdx.math.MathUtils.*;
+import static com.badlogic.gdx.math.Matrix3.*;
 
 /** Stores a bone's current pose. */
 public class Bone implements Updatable {
@@ -46,6 +46,7 @@ public class Bone implements Updatable {
 	final Array<Bone> children = new Array();
 	float x, y, rotation, scaleX, scaleY, shearX, shearY;
 	float ax, ay, arotation, ascaleX, ascaleY, ashearX, ashearY;
+	float rootRotation;
 	boolean appliedValid;
 
 	float a, b, worldX;
@@ -99,7 +100,7 @@ public class Bone implements Updatable {
 	public void updateWorldTransform (float x, float y, float rotation, float scaleX, float scaleY, float shearX, float shearY) {
 		ax = x;
 		ay = y;
-		arotation = rotation;
+		arotation = 45;
 		ascaleX = scaleX;
 		ascaleY = scaleY;
 		ashearX = shearX;
@@ -108,6 +109,7 @@ public class Bone implements Updatable {
 
 		Bone parent = this.parent;
 		if (parent == null) { // Root bone.
+			rotation = rootRotation;
 			float rotationY = rotation + 90 + shearY;
 			float la = cosDeg(rotation + shearX) * scaleX;
 			float lb = cosDeg(rotationY) * scaleY;
@@ -282,6 +284,14 @@ public class Bone implements Updatable {
 
 	public void setRotation (float rotation) {
 		this.rotation = rotation;
+	}
+
+	public void setRootRotation(float rootRotation) {
+		this.rootRotation = rootRotation;
+	}
+
+	public float getRootRotation() {
+		return this.rootRotation;
 	}
 
 	/** The local scaleX. */

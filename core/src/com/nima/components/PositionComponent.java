@@ -57,8 +57,5 @@ public class PositionComponent implements Component {
 
     x = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
     y = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
-
-    x = 0;
-    y = 0;
   }
 }

@@ -7,6 +7,7 @@ public class Settings {
 
   public static final boolean DEBUG = true;
   public static final int ACTOR_VELOCITY = 5;
+  public static final int ACTOR_ROTATION_SPEED = 2;
 
   /**
    * Map Settings
