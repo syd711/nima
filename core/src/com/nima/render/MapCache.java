@@ -45,6 +45,7 @@ public class MapCache {
   /**
    * Invokes the map loader thread for the given position.
    * If the current frame hasn't changed, the loader thread is not notified.
+   *
    * @param frameX current frame X
    * @param frameY current frame Y
    */
@@ -54,21 +55,15 @@ public class MapCache {
       this.frameY = frameY;
       new CachedMapLoader(this, frameX, frameY).start();
     }
-
-    evictCache();
   }
 
   /**
    * Checks which maps are not used anymore
    */
-  private void evictCache() {
-    //TODO cache eviction
-//    while(cacheMap.size() > CACHE_SIZE) {
-//      Iterator<Map.Entry<String, TiledMap>> iterator = cacheMap.entrySet().iterator();
-//      Map.Entry<String, TiledMap> next = iterator.next();
-//      iterator.remove();
-//      LOG.info("Evicted " + next.getKey());
-//    }
+  public void evict(CachedTiledMap map) {
+    //TODO no buffer here
+    cacheMap.remove(map.getFilename());
+    LOG.info("Evicted " + map.getFilename());
   }
 
   /**
@@ -76,6 +71,7 @@ public class MapCache {
    * If the frame is not found, an exception is thrown since
    * this method is access from the rendering and should never
    * load a map directly.
+   *
    * @param x frame position X
    * @param y frame position Y
    */
@@ -95,7 +91,7 @@ public class MapCache {
     String key = prefix + x + "," + y + ".tmx";
     if(folder != null) {
       if(!folder.endsWith("/")) {
-        folder+="/";
+        folder += "/";
       }
       key = folder + key;
     }

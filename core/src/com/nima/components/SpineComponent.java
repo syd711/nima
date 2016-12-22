@@ -20,6 +20,7 @@ public class SpineComponent implements Component {
   private String defaultAnimation;
 
   private float targetAngle = 0;
+  private boolean rotateLeft = false;
 
   public SpineComponent(String spineName, String defaultAnimation, float scale) {
     this.defaultAnimation = defaultAnimation;
@@ -42,25 +43,39 @@ public class SpineComponent implements Component {
     skeleton.setPosition(x, y);
   }
 
+  /**
+   * Renders the spine with the given renderer.
+   */
   public void render(BatchTiledMapRenderer renderer) {
     state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
-
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
 
+    updateRotation();
+    skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
+  }
+
+  /**
+   * Checks if a rotation has been applied that is not finished yet.
+   */
+  private void updateRotation() {
     float currentAngle = skeleton.getRootBone().getRootRotation();
     if(currentAngle != targetAngle) {
-      if(currentAngle <= 0 && targetAngle <= 0) {
+      if(rotateLeft) {
         float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
+        if(newAngle < -180) {
+          newAngle = 180-(newAngle%180);
+        }
         skeleton.getRootBone().setRootRotation(newAngle);
       }
       else {
-        float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
+        float newAngle = currentAngle + Settings.ACTOR_ROTATION_SPEED;
+        if(newAngle > 180) {
+          newAngle = -180+(newAngle%180);
+        }
         skeleton.getRootBone().setRootRotation(newAngle);
       }
     }
-
-    skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 
   public float getRotation() {
@@ -70,13 +85,23 @@ public class SpineComponent implements Component {
   public void setRotation(float angle) {
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     this.targetAngle = Math.round((angle - modulo) * -1);
-    System.out.println(this.targetAngle);
+    float currentAngle = skeleton.getRootBone().getRootRotation();
 
+    float normalizedTarget = targetAngle;
+    if(normalizedTarget < 0) {
+      normalizedTarget = 360 - (normalizedTarget * -1);
+    }
+
+    float normalizedSource = currentAngle;
+    if(normalizedSource < 0) {
+      normalizedSource = 360 - (normalizedSource * -1);
+    }
+
+    rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
   }
 
   public float getScaling() {
     return json.getScale();
   }
-
 
 }
