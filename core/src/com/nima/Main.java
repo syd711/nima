@@ -1,15 +1,12 @@
 package com.nima;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.nima.components.DimensionComponent;
-import com.nima.components.PositionComponent;
-import com.nima.components.SpineComponent;
+import com.nima.actors.Player;
 import com.nima.managers.EntityManager;
 import com.nima.render.DebugRenderer;
 import com.nima.render.TiledMultiMapRenderer;
@@ -20,10 +17,7 @@ public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
   public TiledMultiMapRenderer tiledMapRenderer;
   private MainInputProcessor inputProcessor;
-
-  private SpineComponent player;
-  private PositionComponent playerPosition;
-  private DimensionComponent playerDimension;
+  private Player player;
 
   public static DebugRenderer DEBUG_RENDERER;
 
@@ -44,14 +38,9 @@ public class Main extends ApplicationAdapter {
     DEBUG_RENDERER = new DebugRenderer(tiledMapRenderer, camera);
     entityManager = EntityManager.create(engine, tiledMapRenderer, camera);
 
-    ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
-    ComponentMapper<SpineComponent> spineMap = ComponentMapper.getFor(SpineComponent.class);
-    ComponentMapper<DimensionComponent> dimensionMap = ComponentMapper.getFor(DimensionComponent.class);
-    this.playerPosition = positionMap.get(entityManager.getPlayer());
-    this.playerDimension = dimensionMap.get(entityManager.getPlayer());
-    this.player = spineMap.get(entityManager.getPlayer());
+    this.player = entityManager.getPlayer();
 
-    inputProcessor = new MainInputProcessor(player, playerPosition, playerDimension);
+    inputProcessor = new MainInputProcessor(player);
     Gdx.input.setInputProcessor(inputProcessor);
   }
 
@@ -79,9 +68,9 @@ public class Main extends ApplicationAdapter {
    * the player is currently on.
    */
   private void updateActorFrame() {
-    float x = playerPosition.x;
+    float x = player.getX();
     int actorFrameX = (int) (x / Settings.FRAME_PIXELS_X);
-    float y = playerPosition.y;
+    float y = player.getY();
     int actorFrameY = (int) (y / Settings.FRAME_PIXELS_Y);
     tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
   }
@@ -93,16 +82,16 @@ public class Main extends ApplicationAdapter {
    */
   private void handleKeyInput() {
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      playerPosition.translate(-Settings.ACTOR_VELOCITY, 0);
+      player.getPositionComponent().translate(-Settings.ACTOR_VELOCITY, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      playerPosition.translate(Settings.ACTOR_VELOCITY, 0);
+      player.getPositionComponent().translate(Settings.ACTOR_VELOCITY, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      playerPosition.translate(0, Settings.ACTOR_VELOCITY);
+      player.getPositionComponent().translate(0, Settings.ACTOR_VELOCITY);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      playerPosition.translate(0, -Settings.ACTOR_VELOCITY);
+      player.getPositionComponent().translate(0, -Settings.ACTOR_VELOCITY);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
       camera.zoom = 0.5f;

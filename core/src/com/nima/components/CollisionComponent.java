@@ -64,7 +64,7 @@ public class CollisionComponent implements Component {
     }
   }
 
-  public void updatePosition() {
+  public void updateBody() {
     if(this.spineComponent != null) {
       float w = spineComponent.skeleton.getData().getWidth() * spineComponent.getScaling();
       polygon.setPosition(this.spineComponent.skeleton.getX()-w/2, this.spineComponent.skeleton.getY());

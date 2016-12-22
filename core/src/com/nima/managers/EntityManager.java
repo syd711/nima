@@ -10,15 +10,15 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.google.common.collect.Lists;
 import com.nima.actors.Camera;
+import com.nima.actors.Player;
 import com.nima.actors.Updateable;
-import com.nima.components.*;
+import com.nima.components.CollisionComponent;
+import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.PlayerCollisionSystem;
 import com.nima.systems.SpinePositionSystem;
 import com.nima.systems.SpineRenderSystem;
-import com.nima.util.Resources;
-import com.nima.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class EntityManager implements MapChangeListener {
   private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
 
   private PooledEngine engine;
-  private Entity player;
+  private Player player;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> entities = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
@@ -43,26 +43,8 @@ public class EntityManager implements MapChangeListener {
     renderer.addMapChangeListener(this);
 
     //create player
-    player = new Entity();
-    SpineComponent spineComponent = new SpineComponent(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
-    DimensionComponent dimensionComponent = new DimensionComponent(spineComponent);
-    player.add(spineComponent);
-    player.add(dimensionComponent);
-
-    float w = Gdx.graphics.getWidth();
-    float h = Gdx.graphics.getHeight();
-
-    float x = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
-    float y = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
-
-    PositionComponent positionComponent = new PositionComponent(x, y);
-    positionComponent.x = x;
-    positionComponent.y = y;
-    player.add(positionComponent);
-
-    CollisionComponent collisionComponent = new CollisionComponent(spineComponent);
-    player.add(collisionComponent);
-    engine.addEntity(player);
+    player = new Player();
+    engine.addEntity(player.getEntity());
 
     //create systems
     SpinePositionSystem positionSystem = new SpinePositionSystem(renderer);
@@ -71,10 +53,11 @@ public class EntityManager implements MapChangeListener {
     SpineRenderSystem spineRenderSystem = new SpineRenderSystem(renderer);
     engine.addSystem(spineRenderSystem);
 
-    PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem(collisionComponent);
+    PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem();
     engine.addSystem(collisionSystem);
 
-    updateables.add(new Camera(camera, positionComponent));
+
+    updateables.add(new Camera(camera, player));
   }
 
   public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera) {
@@ -86,7 +69,7 @@ public class EntityManager implements MapChangeListener {
     return INSTANCE;
   }
 
-  public Entity getPlayer() {
+  public Player getPlayer() {
     return player;
   }
 

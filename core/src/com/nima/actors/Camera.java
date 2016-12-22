@@ -2,28 +2,26 @@ package com.nima.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.nima.components.PositionComponent;
 import com.nima.util.Settings;
 
 public class Camera implements Updateable {
   private OrthographicCamera camera;
-  private PositionComponent positionComponent;
 
   private float worldWidth;
   private float worldHeight;
+  private Player player;
 
-  public Camera(OrthographicCamera camera, PositionComponent positionComponent) {
+  public Camera(OrthographicCamera camera, Player player) {
     this.camera = camera;
-    this.positionComponent = positionComponent;
-
+    this.player = player;
     this.worldWidth = Settings.WORLD_WIDTH * Settings.FRAME_PIXELS_X;
     this.worldHeight = Settings.WORLD_HEIGHT * Settings.FRAME_PIXELS_Y;
   }
 
   @Override
   public void update() {
-    float x = positionComponent.x;
-    float y = positionComponent.y;
+    float x = player.getPositionComponent().x;
+    float y = player.getPositionComponent().y;
 
     boolean keepX = false;
     boolean keepY = false;

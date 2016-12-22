@@ -55,6 +55,11 @@ public class SpineComponent implements Component {
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 
+  public void rotate(float angle, boolean rotateLeft) {
+    this.targetAngle = angle;
+    this.rotateLeft = rotateLeft;
+  }
+
   /**
    * Checks if a rotation has been applied that is not finished yet.
    */
@@ -79,25 +84,7 @@ public class SpineComponent implements Component {
   }
 
   public float getRotation() {
-    return skeleton.getRootBone().getWorldRotationX();
-  }
-
-  public void setRotation(float angle) {
-    float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
-    this.targetAngle = Math.round((angle - modulo) * -1);
-    float currentAngle = skeleton.getRootBone().getRootRotation();
-
-    float normalizedTarget = targetAngle;
-    if(normalizedTarget < 0) {
-      normalizedTarget = 360 - (normalizedTarget * -1);
-    }
-
-    float normalizedSource = currentAngle;
-    if(normalizedSource < 0) {
-      normalizedSource = 360 - (normalizedSource * -1);
-    }
-
-    rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
+    return skeleton.getRootBone().getRootRotation();
   }
 
   public float getScaling() {

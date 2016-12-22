@@ -2,6 +2,7 @@ package com.nima;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.nima.actors.Player;
 import com.nima.components.DimensionComponent;
 import com.nima.components.PositionComponent;
 import com.nima.components.SpineComponent;
@@ -11,14 +12,10 @@ import com.nima.components.SpineComponent;
  */
 public class MainInputProcessor implements InputProcessor {
 
-  private PositionComponent playerPosition;
-  private DimensionComponent playerDimension;
-  private SpineComponent player;
+  private Player player;
 
-  public MainInputProcessor(SpineComponent player, PositionComponent playerPosition, DimensionComponent playerDimension) {
+  public MainInputProcessor(Player player) {
     this.player = player;
-    this.playerDimension = playerDimension;
-    this.playerPosition = playerPosition;
   }
 
   @Override
@@ -48,8 +45,7 @@ public class MainInputProcessor implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
-      double angleDeg = Math.atan2(screenY - playerPosition.y+playerDimension.height/2, screenX - playerPosition.x+playerDimension.width/2) * 180 / Math.PI;
-      player.setRotation((float) angleDeg);
+      player.moveTo(screenX, screenY);
       return true;
     }
     return false;
