@@ -1,20 +1,23 @@
 package com.nima.managers;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.google.common.collect.Lists;
 import com.nima.actors.Camera;
-import com.nima.actors.MapObjectToEntityConverter;
 import com.nima.actors.Updateable;
-import com.nima.components.CollisionComponent;
-import com.nima.components.DimensionComponent;
-import com.nima.components.PositionComponent;
-import com.nima.components.SpineComponent;
+import com.nima.components.*;
+import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.PlayerCollisionSystem;
 import com.nima.systems.SpinePositionSystem;
 import com.nima.systems.SpineRenderSystem;
+import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
@@ -24,23 +27,24 @@ import java.util.logging.Logger;
 /**
  * Central Ashley initialization of entity systems.
  */
-public class EntityManager {
+public class EntityManager implements MapChangeListener {
   private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
 
   private PooledEngine engine;
   private Entity player;
-  private List<Updateable> updateables = new ArrayList();
-  private List<Entity> entities = new ArrayList();
-  private List<Entity> destroyEntities = new ArrayList();
+  private List<Updateable> updateables = new ArrayList<>();
+  private List<Entity> entities = new ArrayList<>();
+  private List<Entity> destroyEntities = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera) {
     this.engine = engine;
+    renderer.addMapChangeListener(this);
 
     //create player
     player = new Entity();
-    SpineComponent spineComponent = new SpineComponent("spines/spineboy/spineboy", "walk", 0.3f);
+    SpineComponent spineComponent = new SpineComponent(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
     DimensionComponent dimensionComponent = new DimensionComponent(spineComponent);
     player.add(spineComponent);
     player.add(dimensionComponent);
@@ -71,7 +75,6 @@ public class EntityManager {
     engine.addSystem(collisionSystem);
 
     updateables.add(new Camera(camera, positionComponent));
-    updateables.add(new MapObjectToEntityConverter(engine, renderer));
   }
 
   public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera) {
@@ -114,5 +117,23 @@ public class EntityManager {
 
       LOG.info("Ashley engine has " + engine.getEntities().size() + " entities");
     }
+  }
+
+  @Override
+  public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
+    for(MapObject mapObject : mapObjects) {
+      Entity entity = new Entity();
+      entity.add(new MapObjectComponent(mapObject));
+      entity.add(new CollisionComponent(mapObject));
+      EntityManager.getInstance().add(entity);
+    }
+    LOG.info("Added " + mapObjects.size() + " ashley entities.");
+  }
+
+  @Override
+  public void mapRemoved(TiledMap map, List<MapObject> mapObjects) {
+    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
+    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
+    destroy(entities);
   }
 }

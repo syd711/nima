@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,12 +12,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
+  private final static Logger LOG = Logger.getLogger(TiledMultiMapRenderer.class.getName());
+
   public int actorFrameX = 0;
   public int actorFrameY = 0;
 
@@ -30,7 +31,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private int frameNumberY;
   private TiledMap frameMap;
 
-  private List<MapObject> mapObjects = new ArrayList();
+  private List<MapChangeListener> mapChangeListeners = new ArrayList<>();
+  private boolean dirty = true;
+  private List<CachedTiledMap> currentMaps = new ArrayList<>();
 
   public TiledMultiMapRenderer(String mapFolder, String mapPrefix) {
     super(null);
@@ -40,11 +43,16 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
     this.frameTilesY = groundLayer.getHeight();
+  }
 
-    cachedTiledMap.renderObjects();
+  public void addMapChangeListener(MapChangeListener listener) {
+    this.mapChangeListeners.add(listener);
   }
 
   public void setActorFrame(int x, int y) {
+    if(this.actorFrameX != x || this.actorFrameY != y) {
+      dirty = true;
+    }
     this.actorFrameX = x;
     this.actorFrameY = y;
   }
@@ -62,8 +70,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
 
-    //TODO optimize collecting
-    mapObjects.clear();
+    List<CachedTiledMap> actualMaps = new ArrayList<>();
 
     MapLayers layers = getMap().getLayers();
     for(MapLayer layer : layers) {
@@ -78,22 +85,16 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
               frameNumberY = y;
               //get the map for the current frame
               CachedTiledMap cachedTiledMap = MapCache.getInstance().get(x, y);
-              cachedTiledMap.renderObjects();
+              if(!actualMaps.contains(cachedTiledMap)) {
+                actualMaps.add(cachedTiledMap);
+              }
+
 
               frameMap = cachedTiledMap.getMap();
               MapLayer l = frameMap.getLayers().get(layerName);
 
-              if(l != null) {
-                //simple tile map rendering
-                if(l instanceof TiledMapTileLayer) {
-                  renderTileLayer((TiledMapTileLayer) l);
-                }
-                else {
-                  Iterator<MapObject> iterator = l.getObjects().iterator();
-                  while(iterator.hasNext()) {
-                    mapObjects.add(iterator.next());
-                  }
-                }
+              if(l != null && l instanceof TiledMapTileLayer) {
+                renderTileLayer((TiledMapTileLayer) l);
               }
             }
           }
@@ -102,10 +103,42 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     } //end layer rendering
 
     endRender();
+
+    //listener handling
+    if(dirty) {
+      updateListeners(actualMaps);
+      dirty = false;
+    }
+
+    actualMaps.clear();
   }
 
-  public List<MapObject> getMapObjects() {
-    return mapObjects;
+  /**
+   * Compares the map that have been rendered
+   * with the latest rendering result. Only called when dirty
+   * @param actualMaps the maps that have been rendered during the last call
+   */
+  private void updateListeners(List<CachedTiledMap> actualMaps) {
+    for(CachedTiledMap cachedMap : currentMaps) {
+      if(!actualMaps.contains(cachedMap)) {
+        for(MapChangeListener mapChangeListener : mapChangeListeners) {
+          mapChangeListener.mapRemoved(cachedMap.getMap(), cachedMap.getMapObjects());
+          LOG.info("Removed map " + cachedMap.getFilename());
+        }
+      }
+    }
+
+    for(CachedTiledMap cachedMap : actualMaps) {
+      if(!currentMaps.contains(cachedMap)) {
+        for(MapChangeListener mapChangeListener : mapChangeListeners) {
+          mapChangeListener.mapAdded(cachedMap.getMap(), cachedMap.getMapObjects());
+          LOG.info("Added map " + cachedMap.getFilename());
+        }
+      }
+    }
+
+    this.currentMaps.clear();
+    this.currentMaps.addAll(actualMaps);
   }
 
   @Override
@@ -122,7 +155,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     final float layerTileWidth = layer.getTileWidth() * unitScale;
     final float layerTileHeight = layer.getTileHeight() * unitScale;
 
-    float y = frameTilesY * layerTileHeight + frameNumberY*Settings.FRAME_PIXELS_Y;
+    float y = frameTilesY * layerTileHeight + frameNumberY * Settings.FRAME_PIXELS_Y;
     final float[] vertices = this.vertices;
 
     //start rendering rows from top to bottom

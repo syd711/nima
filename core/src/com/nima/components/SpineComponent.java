@@ -49,14 +49,15 @@ public class SpineComponent implements Component {
     skeleton.updateWorldTransform();
 
     float currentAngle = skeleton.getRootBone().getRootRotation();
-    if(currentAngle < targetAngle) {
-      float newAngle = currentAngle + Settings.ACTOR_ROTATION_SPEED;
-      skeleton.getRootBone().setRootRotation(newAngle);
-    }
-
-    if(currentAngle > targetAngle) {
-      float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
-      skeleton.getRootBone().setRootRotation(newAngle);
+    if(currentAngle != targetAngle) {
+      if(currentAngle <= 0 && targetAngle <= 0) {
+        float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
+        skeleton.getRootBone().setRootRotation(newAngle);
+      }
+      else {
+        float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
+        skeleton.getRootBone().setRootRotation(newAngle);
+      }
     }
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
@@ -67,7 +68,9 @@ public class SpineComponent implements Component {
   }
 
   public void setRotation(float angle) {
-    this.targetAngle = Math.round(angle * -1);
+    float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
+    this.targetAngle = Math.round((angle - modulo) * -1);
+    System.out.println(this.targetAngle);
 
   }
 

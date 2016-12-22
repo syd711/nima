@@ -71,7 +71,14 @@ public class Main extends ApplicationAdapter {
     tiledMapRenderer.getBatch().end();
 
     handleKeyInput();
+    updateActorFrame();
+  }
 
+  /**
+   * Notifies the map renderer on which map
+   * the player is currently on.
+   */
+  private void updateActorFrame() {
     float x = playerPosition.x;
     int actorFrameX = (int) (x / Settings.FRAME_PIXELS_X);
     float y = playerPosition.y;

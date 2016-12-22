@@ -11,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.nima.util.Settings;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -27,14 +29,21 @@ public class CachedTiledMap {
 
   private String filename;
 
+  private List<MapObject> mapObjects = new ArrayList<>();
+
   protected CachedTiledMap(TmxCacheMapLoader loader) {
     this.map = loader.getMap();
     this.filename = loader.getFilename();
     this.frameNumberX = loader.getFrameX();
     this.frameNumberY = loader.getFrameY();
+    renderObjects();
   }
 
-  protected void renderObjects() {
+  public List<MapObject> getMapObjects() {
+    return mapObjects;
+  }
+
+  private void renderObjects() {
     if(!rendered) {
       rendered = true;
 
@@ -45,6 +54,7 @@ public class CachedTiledMap {
         MapObjects objects = mapLayer.getObjects();
         for(MapObject object : objects) {
           renderObject(object, xOffset, yOffset);
+          mapObjects.add(object);
         }
       }
 
@@ -70,12 +80,17 @@ public class CachedTiledMap {
     }
   }
 
-
   public TiledMap getMap() {
     return map;
   }
 
   public String getFilename() {
     return filename;
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    return getFilename().equals(((CachedTiledMap)obj).getFilename());
   }
 }
