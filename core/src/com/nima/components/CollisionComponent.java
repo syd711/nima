@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
-import com.nima.Main;
 
 /**
  * Component responsible for handling the collision of entities
@@ -27,8 +26,6 @@ public class CollisionComponent implements Component {
     float y = spineComponent.skeleton.getY();
     polygon = new Polygon(new float[]{0, 0, w, 0, w, h, 0, h});
     polygon.setPosition(x-w/2, y);
-
-    Main.DEBUG_RENDERER.render(polygon);
   }
 
   /**
@@ -49,7 +46,6 @@ public class CollisionComponent implements Component {
       float y = rectangle.getRectangle().y;
       polygon = new Polygon(new float[]{0, 0, w, 0, w, h, 0, h});
       polygon.setPosition(x, y);
-      Main.DEBUG_RENDERER.render(rectangle.getRectangle());
     }
     else if(mapObject instanceof PolygonMapObject) {
       PolygonMapObject p = (PolygonMapObject) mapObject;
@@ -60,7 +56,6 @@ public class CollisionComponent implements Component {
       Ellipse ellipse = e.getEllipse();
       float radius = ellipse.width/2;
       circle = new Circle(ellipse.x+radius, ellipse.y+radius, radius);
-      Main.DEBUG_RENDERER.render(circle);
     }
   }
 

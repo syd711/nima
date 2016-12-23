@@ -11,6 +11,10 @@ public class Camera implements Updateable {
   private float worldHeight;
   private Player player;
 
+
+  private float centerX;
+  private float centerY;
+
   public Camera(OrthographicCamera camera, Player player) {
     this.camera = camera;
     this.player = player;
@@ -20,8 +24,8 @@ public class Camera implements Updateable {
 
   @Override
   public void update() {
-    float x = player.getPositionComponent().x;
-    float y = player.getPositionComponent().y;
+    float x = Math.round(player.getPositionComponent().x);
+    float y = Math.round(player.getPositionComponent().y);
 
     boolean keepX = false;
     boolean keepY = false;
@@ -51,9 +55,18 @@ public class Camera implements Updateable {
 
     if(!keepX) {
       camera.position.x = x;
+      player.getScreenPosition().defaultX();
     }
+    else {
+      player.getScreenPosition().setX(player.getPositionComponent().x);
+    }
+
     if(!keepY) {
       camera.position.y = y;
+      player.getScreenPosition().defaultY();
+    }
+    else {
+      player.getScreenPosition().setY(player.getPositionComponent().y);
     }
   }
 }

@@ -2,24 +2,34 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.nima.components.CollisionComponent;
-import com.nima.components.DimensionComponent;
-import com.nima.components.PositionComponent;
-import com.nima.components.SpineComponent;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.nima.components.*;
+import com.nima.util.MathUtil;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 /**
  * The player with all ashley components.
  */
-public class Player {
+public class Player implements Updateable {
   private DimensionComponent dimension;
   private PositionComponent position;
+  private ScreenPositionComponent screenPosition;
   private SpineComponent spine;
   private CollisionComponent collision;
-  private Entity entity;
 
-  public Player() {
+  private SpeedComponent speed;
+  private Entity entity;
+  private float targetX;
+
+  private float targetY;
+  //box2d
+  private Body body;
+
+  public Player(World world) {
     entity = new Entity();
     spine = new SpineComponent(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
     dimension = new DimensionComponent(spine);
@@ -29,25 +39,77 @@ public class Player {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
-    float x = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
-    float y = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
+    targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
+    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
-    position = new PositionComponent(x, y);
-    position.x = x;
-    position.y = y;
+    position = new PositionComponent(targetX, targetY);
     entity.add(position);
+
+    screenPosition = new ScreenPositionComponent(targetX, targetY);
+    entity.add(screenPosition);
+
+    speed = new SpeedComponent(Settings.ACTOR_DEFAULT_SPEED);
+    entity.add(speed);
 
     collision = new CollisionComponent(spine);
     entity.add(collision);
+
+
+
+    //box2d
+    BodyDef def = new BodyDef();
+    def.type = BodyDef.BodyType.DynamicBody;
+    def.fixedRotation = false;
+    def.position.set(targetX, targetY);
+    body = world.createBody(def);
+
+    PolygonShape shape = new PolygonShape();
+    //calculated from center!
+    shape.setAsBox(dimension.width / 2 / Settings.PPM, dimension.height / 2 / Settings.PPM);
+    body.createFixture(shape, 1f);
+    shape.dispose();
+  }
+
+  public Body getBody() {
+    return body;
+  }
+
+  @Override
+  public void update() {
+    if(position.x != targetX || position.y != targetY) {
+      float currentAngle = spine.getRotation();
+      double x = Math.abs(Math.cos(currentAngle)*100)*speed.value/100 + speed.value;
+      double y = Math.abs(Math.sin(currentAngle)*100)*speed.value/100 + speed.value;
+
+      if(currentAngle >= 0 && currentAngle <= 90) {
+        position.x = position.x + (float) x;
+        position.y = position.y + (float) y;
+      }
+      else if(currentAngle > 90 && currentAngle <= 180) {
+        position.x = position.x - (float) x;
+        position.y = position.y + (float) y;
+      }
+      else if(currentAngle < 0 && currentAngle >= -90) {
+        position.x = position.x + (float) x;
+        position.y = position.y - (float) y;
+      }
+      else if(currentAngle < -90 && currentAngle >= -180) {
+        position.x = position.x - (float) x;
+        position.y = position.y - (float) y;
+      }
+    }
   }
 
   /**
    * Executes the moving to the given coordinates
+   *
    * @param screenX the click point X
    * @param screenY the click point Y
    */
   public void moveTo(float screenX, float screenY) {
-    double angle = Math.atan2(screenY - position.y+dimension.height/2, screenX - position.x+dimension.width/2) * 180 / Math.PI;
+    this.targetX = screenX;
+    this.targetY = Gdx.graphics.getHeight()-screenY;
+    float angle = MathUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = Math.round((angle - modulo) * -1);
@@ -63,8 +125,36 @@ public class Player {
       normalizedSource = 360 - (normalizedSource * -1);
     }
 
+    System.out.println(angle);
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
     spine.rotate(targetAngle, rotateLeft);
+
+//    Vector2 direction = new Vector2(body.getPosition().x, body.getPosition().y);
+//    screenY = Gdx.graphics.getHeight()-screenY;
+//    float x = body.getPosition().x;
+//    float y = body.getPosition().y;
+//    if(screenX < x) {
+//      x = x-100;
+//    }
+//    else {
+//      x = x+100;
+//    }
+//
+//    if(screenY < y) {
+//      y = y -100;
+//    }
+//    else {
+//      y = y+100;
+//    }
+//    direction.set(x, y);
+
+//    Vector2 direction = new Vector2(screenX, Gdx.graphics.getHeight()-screenY);
+//
+//    direction.sub(body.getPosition());
+//    direction.nor();
+//
+//    float speed = 950;
+//    body.setLinearVelocity(direction.scl(speed));
   }
 
   public void setDimensionComponent(DimensionComponent dimensionComponent) {
@@ -101,5 +191,9 @@ public class Player {
 
   public Entity getEntity() {
     return entity;
+  }
+
+  public ScreenPositionComponent getScreenPosition() {
+    return screenPosition;
   }
 }

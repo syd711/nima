@@ -5,14 +5,16 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.nima.Main;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.fullscreen = false;
-		config.title = "Nima 0.1";
-		config.width = 1024;
-		config.height = 768;
-		config.resizable = false;
+  public static void main(String[] arg) {
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    config.fullscreen = false;
+    config.title = "Nima 0.1";
+    config.width = 1024;
+    config.height = 768;
+    config.resizable = false;
+    config.backgroundFPS = 60;
+    config.foregroundFPS = 60;
 //		config.fullscreen = true;
-		new LwjglApplication(new Main(), config);
-	}
+    new LwjglApplication(new Main(), config);
+  }
 }

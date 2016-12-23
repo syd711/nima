@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
 import com.nima.actors.Camera;
 import com.nima.actors.Player;
@@ -32,22 +33,24 @@ public class EntityManager implements MapChangeListener {
 
   private PooledEngine engine;
   private Player player;
+  private World world;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> entities = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 
-  private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera) {
+  private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera) {
     this.engine = engine;
+    this.world = world;
     renderer.addMapChangeListener(this);
 
     //create player
-    player = new Player();
+    player = new Player(world);
     engine.addEntity(player.getEntity());
 
     //create systems
-    SpinePositionSystem positionSystem = new SpinePositionSystem(renderer);
+    SpinePositionSystem positionSystem = new SpinePositionSystem();
     engine.addSystem(positionSystem);
 
     SpineRenderSystem spineRenderSystem = new SpineRenderSystem(renderer);
@@ -56,12 +59,12 @@ public class EntityManager implements MapChangeListener {
     PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem();
     engine.addSystem(collisionSystem);
 
-
     updateables.add(new Camera(camera, player));
+    updateables.add(player);
   }
 
-  public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera) {
-    INSTANCE = new EntityManager(engine, renderer, camera);
+  public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera) {
+    INSTANCE = new EntityManager(engine, renderer, world, camera);
     return INSTANCE;
   }
 

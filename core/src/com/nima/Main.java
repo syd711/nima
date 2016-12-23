@@ -3,45 +3,56 @@ package com.nima;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.nima.actors.Player;
 import com.nima.managers.EntityManager;
-import com.nima.render.DebugRenderer;
+import com.nima.managers.InputManager;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 public class Main extends ApplicationAdapter {
   private OrthographicCamera camera;
-  public TiledMultiMapRenderer tiledMapRenderer;
-  private MainInputProcessor inputProcessor;
+  private TiledMultiMapRenderer tiledMapRenderer;
+  private InputManager inputManager;
   private Player player;
-
-  public static DebugRenderer DEBUG_RENDERER;
 
   //Ashley
   private PooledEngine engine = new PooledEngine();
   private EntityManager entityManager;
+
+  //Box2d
+  private World world;
+  private Box2DDebugRenderer box2DDebugRenderer;
+
+
 
   @Override
   public void create() {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
+    //camera
     camera = new OrthographicCamera();
     camera.setToOrtho(false, w, h);
     camera.update();
 
+    //box2d
+    world = new World(new Vector2(0, 0), false);
+    box2DDebugRenderer = new Box2DDebugRenderer();
+
+    //map and player stuff
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    DEBUG_RENDERER = new DebugRenderer(tiledMapRenderer, camera);
-    entityManager = EntityManager.create(engine, tiledMapRenderer, camera);
+    entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera);
+    player = entityManager.getPlayer();
 
-    this.player = entityManager.getPlayer();
-
-    inputProcessor = new MainInputProcessor(player);
-    Gdx.input.setInputProcessor(inputProcessor);
+    //input processing
+    inputManager = new InputManager(player);
+    Gdx.input.setInputProcessor(inputManager);
   }
 
   @Override
@@ -56,11 +67,16 @@ public class Main extends ApplicationAdapter {
 
     tiledMapRenderer.getBatch().begin();
     entityManager.update();
-//    DEBUG_RENDERER.render();
+    update(Gdx.graphics.getDeltaTime());
     tiledMapRenderer.getBatch().end();
 
-    handleKeyInput();
+    inputManager.handleKeyInput();
     updateActorFrame();
+  }
+
+  private void update(float deltaTime) {
+    world.step(deltaTime, 6, 2);
+//    box2DDebugRenderer.render(world, camera.combined);
   }
 
   /**
@@ -75,26 +91,10 @@ public class Main extends ApplicationAdapter {
     tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
   }
 
-  /**
-   * Listening for key events for moving the character, etc.
-   * Do not mix this with an InputProcessor which handles
-   * single key events, e.g. open the map overview.
-   */
-  private void handleKeyInput() {
-    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      player.getPositionComponent().translate(-Settings.ACTOR_VELOCITY, 0);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      player.getPositionComponent().translate(Settings.ACTOR_VELOCITY, 0);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      player.getPositionComponent().translate(0, Settings.ACTOR_VELOCITY);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      player.getPositionComponent().translate(0, -Settings.ACTOR_VELOCITY);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
-      camera.zoom = 0.5f;
-    }
+  @Override
+  public void dispose() {
+    box2DDebugRenderer.dispose();
+    world.dispose();
+    super.dispose();
   }
 }

@@ -31,7 +31,7 @@ public class PlayerCollisionSystem extends IteratingSystem {
     }
     CollisionComponent collisionComponent = collisionsMap.get(entity);
     if(playerCollision.collidesWith(entity, collisionComponent)) {
-      LOG.info("Player has hit " + collisionComponent);
+//      LOG.info("Player has hit " + collisionComponent);
     }
   }
 }

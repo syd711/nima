@@ -60,6 +60,11 @@ public class SpineComponent implements Component {
     this.rotateLeft = rotateLeft;
   }
 
+  public boolean isRotating() {
+    float currentAngle = skeleton.getRootBone().getRootRotation();
+    return currentAngle != targetAngle;
+  }
+
   /**
    * Checks if a rotation has been applied that is not finished yet.
    */

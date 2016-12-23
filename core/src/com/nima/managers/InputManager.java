@@ -1,21 +1,40 @@
-package com.nima;
+package com.nima.managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.nima.actors.Player;
-import com.nima.components.DimensionComponent;
-import com.nima.components.PositionComponent;
-import com.nima.components.SpineComponent;
+import com.nima.util.Settings;
 
 /**
- * Created by Matthias on 16.12.2016.
+ * Handles all kind of user input.
  */
-public class MainInputProcessor implements InputProcessor {
+public class InputManager implements InputProcessor {
 
   private Player player;
 
-  public MainInputProcessor(Player player) {
+  public InputManager(Player player) {
     this.player = player;
+  }
+
+  /**
+   * Listening for key events for moving the character, etc.
+   * Do not mix this with an InputProcessor which handles
+   * single key events, e.g. open the map overview.
+   */
+  public void handleKeyInput() {
+    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+      player.getPositionComponent().translate(-Settings.ACTOR_DEFAULT_SPEED, 0);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+      player.getPositionComponent().translate(Settings.ACTOR_DEFAULT_SPEED, 0);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+      player.getPositionComponent().translate(0, Settings.ACTOR_DEFAULT_SPEED);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+      player.getPositionComponent().translate(0, -Settings.ACTOR_DEFAULT_SPEED);
+    }
   }
 
   @Override

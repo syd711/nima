@@ -6,17 +6,13 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.nima.components.PositionComponent;
 import com.nima.components.SpineComponent;
-import com.nima.render.TiledMultiMapRenderer;
 
 public class SpinePositionSystem extends IteratingSystem {
   private ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
   private ComponentMapper<SpineComponent> spineMap = ComponentMapper.getFor(SpineComponent.class);
 
-  private TiledMultiMapRenderer renderer;
-
-  public SpinePositionSystem(TiledMultiMapRenderer renderer) {
+  public SpinePositionSystem() {
     super(Family.all(SpineComponent.class).get());
-    this.renderer = renderer;
   }
 
   public void processEntity(Entity entity, float deltaTime) {

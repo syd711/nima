@@ -38,7 +38,8 @@ public class TmxCacheMapLoader extends TmxMapLoader {
     this.frameX = frameX;
     this.frameY = frameY;
 
-    super.load(filename);
+    TmxMapLoader.Parameters par = new TmxMapLoader.Parameters();
+    load(filename, par);
 
     Array<FileHandle> textureFiles = this.textureFiles;
     for(FileHandle textureFile : textureFiles) {
