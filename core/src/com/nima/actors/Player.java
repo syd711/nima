@@ -41,8 +41,8 @@ public class Player implements Updateable {
     float h = Gdx.graphics.getHeight();
 
     targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
-//    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2)+dimension.height/2;
-    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
+    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2)+dimension.height/2;
+//    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
     position = new PositionComponent(targetX, targetY);
     entity.add(position);
@@ -133,7 +133,6 @@ public class Player implements Updateable {
       normalizedSource = 360 - (normalizedSource * -1);
     }
 
-    System.out.println(angle);
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
     spine.rotate(targetAngle, rotateLeft);
   }

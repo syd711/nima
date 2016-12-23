@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.actors.Player;
+import com.nima.hud.Hud;
 import com.nima.managers.EntityManager;
 import com.nima.managers.InputManager;
 import com.nima.render.TiledMultiMapRenderer;
@@ -29,6 +30,8 @@ public class Main extends ApplicationAdapter {
   private World world;
   private Box2DDebugRenderer box2DDebugRenderer;
 
+  //Scene2d
+  private Hud hud;
 
 
   @Override
@@ -50,6 +53,9 @@ public class Main extends ApplicationAdapter {
     entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera);
     player = entityManager.getPlayer();
 
+    //hud creation
+    hud = new Hud();
+
     //input processing
     inputManager = new InputManager(player);
     Gdx.input.setInputProcessor(inputManager);
@@ -63,15 +69,20 @@ public class Main extends ApplicationAdapter {
 
     camera.update();
     tiledMapRenderer.setView(camera);
+
     tiledMapRenderer.render();
 
     tiledMapRenderer.getBatch().begin();
+
     entityManager.update();
     update(Gdx.graphics.getDeltaTime());
+
     tiledMapRenderer.getBatch().end();
 
     inputManager.handleKeyInput();
     updateActorFrame();
+
+    hud.render();
   }
 
   private void update(float deltaTime) {
