@@ -2,6 +2,7 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -40,6 +41,7 @@ public class Player implements Updateable {
     float h = Gdx.graphics.getHeight();
 
     targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
+//    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2)+dimension.height/2;
     targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
     position = new PositionComponent(targetX, targetY);
@@ -48,13 +50,11 @@ public class Player implements Updateable {
     screenPosition = new ScreenPositionComponent(targetX, targetY);
     entity.add(screenPosition);
 
-    speed = new SpeedComponent(Settings.ACTOR_DEFAULT_SPEED);
+    speed = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
     entity.add(speed);
 
     collision = new CollisionComponent(spine);
     entity.add(collision);
-
-
 
     //box2d
     BodyDef def = new BodyDef();
@@ -77,25 +77,33 @@ public class Player implements Updateable {
   @Override
   public void update() {
     if(position.x != targetX || position.y != targetY) {
+      if(spine.isRotating() && speed.isAtFullSpeed()) {
+        speed.setCurrentValue(speed.currentValue - speed.targetValue * 40 / 100);
+      }
+      else if(!speed.isAtFullSpeed()) {
+        speed.setCurrentValue(speed.currentValue + speed.targetValue * 1 / 100);
+      }
+
       float currentAngle = spine.getRotation();
-      double x = Math.abs(Math.cos(currentAngle)*100)*speed.value/100 + speed.value;
-      double y = Math.abs(Math.sin(currentAngle)*100)*speed.value/100 + speed.value;
+      Vector2 delta = MathUtil.getUpdatedCoordinates(currentAngle, speed.currentValue);
+      float x = delta.x;
+      float y = delta.y;
 
       if(currentAngle >= 0 && currentAngle <= 90) {
-        position.x = position.x + (float) x;
-        position.y = position.y + (float) y;
+        position.x = position.x + x;
+        position.y = position.y + y;
       }
       else if(currentAngle > 90 && currentAngle <= 180) {
-        position.x = position.x - (float) x;
-        position.y = position.y + (float) y;
+        position.x = position.x - x;
+        position.y = position.y + y;
       }
       else if(currentAngle < 0 && currentAngle >= -90) {
-        position.x = position.x + (float) x;
-        position.y = position.y - (float) y;
+        position.x = position.x + x;
+        position.y = position.y - y;
       }
       else if(currentAngle < -90 && currentAngle >= -180) {
-        position.x = position.x - (float) x;
-        position.y = position.y - (float) y;
+        position.x = position.x - x;
+        position.y = position.y - y;
       }
     }
   }
@@ -108,7 +116,7 @@ public class Player implements Updateable {
    */
   public void moveTo(float screenX, float screenY) {
     this.targetX = screenX;
-    this.targetY = Gdx.graphics.getHeight()-screenY;
+    this.targetY = Gdx.graphics.getHeight() - screenY;
     float angle = MathUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
@@ -128,33 +136,6 @@ public class Player implements Updateable {
     System.out.println(angle);
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
     spine.rotate(targetAngle, rotateLeft);
-
-//    Vector2 direction = new Vector2(body.getPosition().x, body.getPosition().y);
-//    screenY = Gdx.graphics.getHeight()-screenY;
-//    float x = body.getPosition().x;
-//    float y = body.getPosition().y;
-//    if(screenX < x) {
-//      x = x-100;
-//    }
-//    else {
-//      x = x+100;
-//    }
-//
-//    if(screenY < y) {
-//      y = y -100;
-//    }
-//    else {
-//      y = y+100;
-//    }
-//    direction.set(x, y);
-
-//    Vector2 direction = new Vector2(screenX, Gdx.graphics.getHeight()-screenY);
-//
-//    direction.sub(body.getPosition());
-//    direction.nor();
-//
-//    float speed = 950;
-//    body.setLinearVelocity(direction.scl(speed));
   }
 
   public void setDimensionComponent(DimensionComponent dimensionComponent) {

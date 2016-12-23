@@ -36,11 +36,11 @@ public class ScreenPositionComponent implements Component {
     this.y = y;
   }
 
-  public void defaultX() {
-    this.x = defaultX;
+  public float getDefaultX() {
+    return defaultX;
   }
 
-  public void defaultY() {
-    this.y = defaultY;
+  public float getDefaultY() {
+    return defaultY;
   }
 }

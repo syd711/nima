@@ -36,7 +36,7 @@ public class SpineComponent implements Component {
 
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
-    state.setAnimation(0, defaultAnimation, true);
+//    state.setAnimation(0, defaultAnimation, true);
   }
 
   public void setPosition(float x, float y) {

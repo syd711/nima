@@ -11,10 +11,6 @@ public class Camera implements Updateable {
   private float worldHeight;
   private Player player;
 
-
-  private float centerX;
-  private float centerY;
-
   public Camera(OrthographicCamera camera, Player player) {
     this.camera = camera;
     this.player = player;
@@ -33,40 +29,42 @@ public class Camera implements Updateable {
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
 
+    float centerX = player.getScreenPosition().getDefaultX();
+    float centerY = player.getScreenPosition().getDefaultY();
+
     //x left
     if(x < (width / 2)) {
+      centerX = x;
       keepX = true;
     }
 
     //x right
     if(x > (worldWidth - (width / 2))) {
+      centerX = x%Settings.FRAME_PIXELS_X;
       keepX = true;
     }
 
     //y bottom
     if(y < (height / 2)) {
+      centerY = y;
       keepY = true;
     }
 
     //y top
     if(y > (worldHeight - (height / 2))) {
+      centerY = y%Settings.FRAME_PIXELS_Y;
       keepY = true;
     }
 
     if(!keepX) {
       camera.position.x = x;
-      player.getScreenPosition().defaultX();
-    }
-    else {
-      player.getScreenPosition().setX(player.getPositionComponent().x);
     }
 
     if(!keepY) {
       camera.position.y = y;
-      player.getScreenPosition().defaultY();
     }
-    else {
-      player.getScreenPosition().setY(player.getPositionComponent().y);
-    }
+
+    player.getScreenPosition().setX(centerX);
+    player.getScreenPosition().setY(centerY);
   }
 }

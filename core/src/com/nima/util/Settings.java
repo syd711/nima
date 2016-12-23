@@ -6,8 +6,8 @@ package com.nima.util;
 public class Settings {
 
   public static final boolean DEBUG = true;
-  public static final int ACTOR_DEFAULT_SPEED = 2;
-  public static final int ACTOR_ROTATION_SPEED = 1;
+  public static final float MAX_ACTOR_SPEED = 3f;
+  public static final float ACTOR_ROTATION_SPEED = 2;
 
   /**
    * Map Settings

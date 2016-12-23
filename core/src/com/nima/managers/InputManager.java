@@ -24,16 +24,16 @@ public class InputManager implements InputProcessor {
    */
   public void handleKeyInput() {
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      player.getPositionComponent().translate(-Settings.ACTOR_DEFAULT_SPEED, 0);
+      player.getPositionComponent().translate(-Settings.MAX_ACTOR_SPEED, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      player.getPositionComponent().translate(Settings.ACTOR_DEFAULT_SPEED, 0);
+      player.getPositionComponent().translate(Settings.MAX_ACTOR_SPEED, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      player.getPositionComponent().translate(0, Settings.ACTOR_DEFAULT_SPEED);
+      player.getPositionComponent().translate(0, Settings.MAX_ACTOR_SPEED);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      player.getPositionComponent().translate(0, -Settings.ACTOR_DEFAULT_SPEED);
+      player.getPositionComponent().translate(0, -Settings.MAX_ACTOR_SPEED);
     }
   }
 
