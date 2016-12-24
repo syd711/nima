@@ -1,6 +1,5 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,7 +14,7 @@ import com.nima.util.Settings;
 /**
  * The player with all ashley components.
  */
-public class Player implements Updateable {
+public class Player extends Spine implements Updateable {
   private DimensionComponent dimension;
   private PositionComponent position;
   private ScreenPositionComponent screenPosition;
@@ -23,7 +22,6 @@ public class Player implements Updateable {
   private CollisionComponent collision;
 
   private SpeedComponent speed;
-  private Entity entity;
   private float targetX;
 
   private float targetY;
@@ -31,11 +29,10 @@ public class Player implements Updateable {
   private Body body;
 
   public Player(World world) {
-    entity = new Entity();
     spine = new SpineComponent(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
     dimension = new DimensionComponent(spine);
-    entity.add(spine);
-    entity.add(dimension);
+    add(spine);
+    add(dimension);
 
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
@@ -45,16 +42,16 @@ public class Player implements Updateable {
 //    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
     position = new PositionComponent(targetX, targetY);
-    entity.add(position);
+    add(position);
 
     screenPosition = new ScreenPositionComponent(targetX, targetY);
-    entity.add(screenPosition);
+    add(screenPosition);
 
     speed = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
-    entity.add(speed);
+    add(speed);
 
     collision = new CollisionComponent(spine);
-    entity.add(collision);
+    add(collision);
 
     //box2d
     BodyDef def = new BodyDef();
@@ -117,6 +114,11 @@ public class Player implements Updateable {
   public void moveTo(float screenX, float screenY) {
     this.targetX = screenX;
     this.targetY = Gdx.graphics.getHeight() - screenY;
+
+    move();
+  }
+
+  private void move() {
     float angle = MathUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
@@ -167,10 +169,6 @@ public class Player implements Updateable {
 
   public float getY() {
     return position.y;
-  }
-
-  public Entity getEntity() {
-    return entity;
   }
 
   public ScreenPositionComponent getScreenPosition() {

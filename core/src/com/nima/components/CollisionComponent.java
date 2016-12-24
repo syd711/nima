@@ -16,9 +16,11 @@ public class CollisionComponent implements Component {
   private MapObject mapObject;
   private SpineComponent spineComponent;
   private Circle circle;
+  private boolean movable = false;
 
   public CollisionComponent(SpineComponent spineComponent) {
     this.spineComponent = spineComponent;
+    this.movable = true;
 
     float w = spineComponent.skeleton.getData().getWidth() * spineComponent.getScaling();
     float h = spineComponent.skeleton.getData().getHeight() * spineComponent.getScaling();
@@ -97,5 +99,9 @@ public class CollisionComponent implements Component {
       }
     }
     return false;
+  }
+
+  public boolean isMovable() {
+    return movable;
   }
 }
