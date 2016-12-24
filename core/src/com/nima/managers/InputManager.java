@@ -4,17 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.nima.actors.Player;
+import com.nima.components.MovementComponent;
+import com.nima.components.PositionComponent;
 import com.nima.util.Settings;
+
+import static sun.audio.AudioPlayer.player;
 
 /**
  * Handles all kind of user input.
  */
 public class InputManager implements InputProcessor {
 
-  private Player player;
+  private PositionComponent positionComponent;
+  private final MovementComponent movementComponent;
 
   public InputManager(Player player) {
-    this.player = player;
+    this.positionComponent = player.getComponent(PositionComponent.class);
+    movementComponent = player.getComponent(MovementComponent.class);
   }
 
   /**
@@ -24,16 +30,16 @@ public class InputManager implements InputProcessor {
    */
   public void handleKeyInput() {
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      player.getPositionComponent().translate(-Settings.MAX_ACTOR_SPEED, 0);
+      positionComponent.translate(-Settings.MAX_ACTOR_SPEED, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      player.getPositionComponent().translate(Settings.MAX_ACTOR_SPEED, 0);
+      positionComponent.translate(Settings.MAX_ACTOR_SPEED, 0);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      player.getPositionComponent().translate(0, Settings.MAX_ACTOR_SPEED);
+      positionComponent.translate(0, Settings.MAX_ACTOR_SPEED);
     }
     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      player.getPositionComponent().translate(0, -Settings.MAX_ACTOR_SPEED);
+      positionComponent.translate(0, -Settings.MAX_ACTOR_SPEED);
     }
   }
 
@@ -64,7 +70,9 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
-      player.moveTo(screenX, screenY);
+      float targetX = screenX;
+      float targetY = Gdx.graphics.getHeight() - screenY;
+      movementComponent.moveTo(targetX, targetY);
       return true;
     }
     return false;

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.actors.Player;
+import com.nima.components.PositionComponent;
 import com.nima.hud.Hud;
 import com.nima.managers.EntityManager;
 import com.nima.managers.InputManager;
@@ -21,6 +22,7 @@ public class Main extends ApplicationAdapter {
   private TiledMultiMapRenderer tiledMapRenderer;
   private InputManager inputManager;
   private Player player;
+  private PositionComponent positionComponent;
 
   //Ashley
   private PooledEngine engine = new PooledEngine();
@@ -52,6 +54,7 @@ public class Main extends ApplicationAdapter {
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
     entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera);
     player = entityManager.getPlayer();
+    positionComponent = player.getComponent(PositionComponent.class);
 
     //hud creation
     hud = new Hud();
@@ -95,9 +98,9 @@ public class Main extends ApplicationAdapter {
    * the player is currently on.
    */
   private void updateActorFrame() {
-    float x = player.getX();
+    float x = positionComponent.x;
     int actorFrameX = (int) (x / Settings.FRAME_PIXELS_X);
-    float y = player.getY();
+    float y = positionComponent.y;
     int actorFrameY = (int) (y / Settings.FRAME_PIXELS_Y);
     tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
   }

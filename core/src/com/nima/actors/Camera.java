@@ -2,6 +2,8 @@ package com.nima.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.nima.components.PositionComponent;
+import com.nima.components.ScreenPositionComponent;
 import com.nima.util.Settings;
 
 public class Camera implements Updateable {
@@ -10,18 +12,23 @@ public class Camera implements Updateable {
   private float worldWidth;
   private float worldHeight;
   private Player player;
+  private PositionComponent positionComponent;
+  private ScreenPositionComponent screenPositionComponent;
 
   public Camera(OrthographicCamera camera, Player player) {
     this.camera = camera;
     this.player = player;
+
+    this.screenPositionComponent = player.getComponent(ScreenPositionComponent.class);
+    this.positionComponent = player.getComponent(PositionComponent.class);
     this.worldWidth = Settings.WORLD_WIDTH * Settings.FRAME_PIXELS_X;
     this.worldHeight = Settings.WORLD_HEIGHT * Settings.FRAME_PIXELS_Y;
   }
 
   @Override
   public void update() {
-    float x = Math.round(player.getPositionComponent().x);
-    float y = Math.round(player.getPositionComponent().y);
+    float x = Math.round(positionComponent.x);
+    float y = Math.round(positionComponent.y);
 
     boolean keepX = false;
     boolean keepY = false;
@@ -29,8 +36,8 @@ public class Camera implements Updateable {
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
 
-    float centerX = player.getScreenPosition().getDefaultX();
-    float centerY = player.getScreenPosition().getDefaultY();
+    float centerX = screenPositionComponent.getDefaultX();
+    float centerY = screenPositionComponent.getDefaultY();
 
     //x left
     if(x < (width / 2)) {
@@ -64,7 +71,7 @@ public class Camera implements Updateable {
       camera.position.y = y;
     }
 
-    player.getScreenPosition().setX(centerX);
-    player.getScreenPosition().setY(centerY);
+    screenPositionComponent.setX(centerX);
+    screenPositionComponent.setY(centerY);
   }
 }

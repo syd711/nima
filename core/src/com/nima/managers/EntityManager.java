@@ -18,6 +18,7 @@ import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.CollisionSystem;
+import com.nima.systems.SpineMovementSystem;
 import com.nima.systems.SpinePositionSystem;
 import com.nima.systems.SpineRenderSystem;
 
@@ -58,6 +59,9 @@ public class EntityManager implements MapChangeListener {
 
     CollisionSystem collisionSystem = new CollisionSystem(engine);
     engine.addSystem(collisionSystem);
+
+    SpineMovementSystem movementSystem = new SpineMovementSystem();
+    engine.addSystem(movementSystem);
 
     updateables.add(new Camera(camera, player));
     updateables.add(player);
