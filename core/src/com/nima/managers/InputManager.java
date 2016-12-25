@@ -80,13 +80,13 @@ public class InputManager implements InputProcessor {
 
       Entity target = EntityManager.getInstance().getEntityAt(targetX, targetY);
       if(target != null) {
-        movementComponent.moveToEntity(target);
-      }
-      else {
-        Vector2 mapTarget = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
-        movementComponent.moveTo(mapTarget.x, mapTarget.y);
+        if(movementComponent.moveToEntity(target)) {
+          return true;
+        }
       }
 
+      Vector2 mapTarget = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
+      movementComponent.moveTo(mapTarget.x, mapTarget.y);
       return true;
     }
     return false;

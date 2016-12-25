@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.Location;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
@@ -13,7 +14,6 @@ import com.nima.util.Settings;
  */
 public class MovementComponent implements Component {
 
-  private ScreenPositionComponent screenPosition;
   private CollisionComponent collisionComponent;
   private PositionComponent position;
   private SpineComponent spineComponent;
@@ -27,14 +27,10 @@ public class MovementComponent implements Component {
 
   public MovementComponent(Spine spine) {
     this.spine = spine;
-    this.screenPosition = spine.getComponent(ScreenPositionComponent.class);
     this.collisionComponent = spine.getComponent(CollisionComponent.class);
     this.spineComponent = spine.getComponent(SpineComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
-
-//    this.screenTargetX = this.position.x;
-//    this.screenTargetY = this.position.y;
   }
 
   public void move() {
@@ -90,8 +86,16 @@ public class MovementComponent implements Component {
     moveSpine();
   }
 
-  public void moveToEntity(Entity entity) {
-//    entity.get
+  /**
+   * Returns true if the target entity is a valid target to move to
+   * @param entity the entity that has been clicked on
+   */
+  public boolean moveToEntity(Entity entity) {
+    if(entity instanceof Location) {
+
+      return true;
+    }
+    return false;
   }
 
 

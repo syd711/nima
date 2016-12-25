@@ -1,5 +1,6 @@
 package com.nima;
 
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ import com.nima.util.Settings;
 
 public class Main extends ApplicationAdapter {
   public static OrthographicCamera camera;
+  private RayHandler rayHandler;
   private TiledMultiMapRenderer tiledMapRenderer;
   private InputManager inputManager;
   private Player player;
@@ -43,6 +45,7 @@ public class Main extends ApplicationAdapter {
 
     //camera
     camera = new OrthographicCamera();
+//    camera.zoom = 1.5f;
     camera.setToOrtho(false, w, h);
     camera.update();
 
@@ -50,9 +53,16 @@ public class Main extends ApplicationAdapter {
     world = new World(new Vector2(0, 0), false);
     box2DDebugRenderer = new Box2DDebugRenderer();
 
+    //light
+    this.rayHandler = new RayHandler(world);
+    rayHandler.setCulling(true);
+    rayHandler.setCombinedMatrix(camera);
+    rayHandler.setAmbientLight(0f);
+    RayHandler.useDiffuseLight(true);
+
     //map and player stuff
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera);
+    entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera, rayHandler);
     player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 
@@ -73,17 +83,20 @@ public class Main extends ApplicationAdapter {
     camera.update();
     tiledMapRenderer.setView(camera);
 
+    tiledMapRenderer.preRender();
     tiledMapRenderer.render();
+    tiledMapRenderer.postRender();
 
     tiledMapRenderer.getBatch().begin();
-
     entityManager.update();
     update(Gdx.graphics.getDeltaTime());
-
     tiledMapRenderer.getBatch().end();
 
     inputManager.handleKeyInput();
     updateActorFrame();
+
+    rayHandler.setCombinedMatrix(camera);
+    rayHandler.updateAndRender();
 
     hud.render();
   }

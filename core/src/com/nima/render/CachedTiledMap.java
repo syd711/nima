@@ -3,11 +3,12 @@ package com.nima.render;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.nima.util.Settings;
 
@@ -68,15 +69,19 @@ public class CachedTiledMap {
    */
   private void renderObject(MapObject object, float xOffset, float yOffset) {
     if(object instanceof RectangleMapObject) {
-      RectangleMapObject rectangle = (RectangleMapObject) object;
-      Rectangle r = rectangle.getRectangle();
+      RectangleMapObject mapObject = (RectangleMapObject) object;
+      Rectangle r = mapObject.getRectangle();
       r.setPosition(xOffset + r.getX(), yOffset + r.getY());
     }
     else if(object instanceof PolygonMapObject) {
+      PolygonMapObject mapObject = (PolygonMapObject) object;
+      Polygon polygon = mapObject.getPolygon();
+      polygon.setPosition(xOffset + polygon.getX(), yOffset + polygon.getY());
     }
-    else if(object instanceof PolylineMapObject) {
-    }
-    else if(object instanceof CircleMapObject) {
+    else if(object instanceof EllipseMapObject) {
+      EllipseMapObject mapObject = (EllipseMapObject) object;
+      Ellipse circle = mapObject.getEllipse();
+      circle.setPosition(xOffset + circle.x, yOffset + circle.y);
     }
   }
 

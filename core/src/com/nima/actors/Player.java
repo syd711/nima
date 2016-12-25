@@ -1,9 +1,7 @@
 package com.nima.actors;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.components.*;
 import com.nima.util.Resources;
@@ -14,7 +12,7 @@ import com.nima.util.Settings;
  */
 public class Player extends Spine implements Updateable {
 
-  public Player(World world) {
+  public Player(World world, RayHandler rayHandler) {
     spineComponent = new SpineComponent(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
     add(spineComponent);
     DimensionComponent dimensionComponent = new DimensionComponent(spineComponent);
@@ -27,6 +25,7 @@ public class Player extends Spine implements Updateable {
     float targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2) + dimensionComponent.height / 2;
 //    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
+    add(new LightComponent(rayHandler));
     add(new PositionComponent(targetX, targetY));
     add(new ScreenPositionComponent(targetX, targetY));
     add(new SpeedComponent(Settings.MAX_ACTOR_SPEED));

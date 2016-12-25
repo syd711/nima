@@ -61,12 +61,13 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     this.actorFrameY = y;
   }
 
+  public void preRender() {
+    MapCache.getInstance().updateCache(actorFrameX, actorFrameY);
+    beginRender();
+  }
+
   @Override
   public void render() {
-    MapCache.getInstance().updateCache(actorFrameX, actorFrameY);
-
-    beginRender();
-
     if(Settings.DEBUG) {
       Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
@@ -110,8 +111,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
       debugRenderer.render();
     }
 
-    endRender();
-
     //listener handling
     if(dirty) {
       updateListeners(actualMaps);
@@ -119,6 +118,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     }
 
     actualMaps.clear();
+  }
+
+  public void postRender() {
+    endRender();
   }
 
   /**
