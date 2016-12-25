@@ -1,9 +1,10 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Spine;
-import com.nima.util.MathUtil;
+import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
 
 /**
@@ -44,7 +45,7 @@ public class MovementComponent implements Component {
         }
 
         float currentAngle = spineComponent.getRotation();
-        Vector2 delta = MathUtil.getUpdatedCoordinates(currentAngle, speed.currentValue);
+        Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentValue);
         float x = delta.x;
         float y = delta.y;
 
@@ -86,7 +87,38 @@ public class MovementComponent implements Component {
   }
 
   private void moveSpine() {
-    float angle = MathUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
+    updateRotation();
+    updateSpeed();
+  }
+
+  /**
+   * Updates the spine speed depending
+   * on the click distance
+   */
+  private void updateSpeed() {
+    Vector2 point1 = new Vector2(screenPosition.getX(), screenPosition.getY());
+    Vector2 point2 = new Vector2(targetX, targetY);
+
+    //TODO offset not working
+    float speedOffset = 30; //px
+    float distance = point1.dst(point2) - speedOffset;
+    float percentage = 0;
+    if(distance > 0) {
+      float maxDistance = Gdx.graphics.getHeight()/2;
+      if(distance > maxDistance) {
+        distance = maxDistance;
+      }
+
+      percentage = distance * 100 / maxDistance;
+    }
+    speed.setTargetSpeedPercentage(percentage);
+  }
+
+  /**
+   * Calculate to turn right or left
+   */
+  private void updateRotation() {
+    float angle = GraphicsUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = Math.round((angle - modulo) * -1);

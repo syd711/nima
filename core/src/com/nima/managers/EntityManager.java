@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
 import com.nima.actors.Camera;
@@ -22,6 +24,8 @@ import com.nima.systems.CollisionSystem;
 import com.nima.systems.SpineMovementSystem;
 import com.nima.systems.SpinePositionSystem;
 import com.nima.systems.SpineRenderSystem;
+import com.nima.util.GraphicsUtil;
+import com.nima.util.PolygonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,7 @@ public class EntityManager implements MapChangeListener {
 
   private PooledEngine engine;
   private Player player;
+  private OrthographicCamera camera;
   private World world;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
@@ -46,6 +51,7 @@ public class EntityManager implements MapChangeListener {
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera) {
     this.engine = engine;
     this.world = world;
+    this.camera = camera;
     renderer.addMapChangeListener(this);
 
     //create player
@@ -165,5 +171,24 @@ public class EntityManager implements MapChangeListener {
         collisionListener.collisionEnd((Spine)entity, mapObjectEntity);
       }
     }
+  }
+
+  public Entity getEntityAt(float screenX, float screenY) {
+    Vector2 clickPoint = GraphicsUtil.transform2WorldCoordinates(camera, screenX, screenY);
+    Polygon clickPolygon = PolygonUtil.clickPolygon(clickPoint);
+    TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
+
+    //most likely a map entity
+    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
+    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
+    for(Entity entity : entities) {
+      CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
+      if(collisionComponent.collidesWith(clickPolygon)) {
+        System.out.println("Clicked at " + entity);
+        return entity;
+      }
+    }
+
+    return null;
   }
 }

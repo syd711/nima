@@ -1,5 +1,6 @@
 package com.nima.managers;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -71,10 +72,17 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
-      GameStateManager.getInstance().setPaused(false);
       float targetX = screenX;
       float targetY = Gdx.graphics.getHeight() - screenY;
-      movementComponent.moveTo(targetX, targetY);
+
+      Entity target = EntityManager.getInstance().getEntityAt(targetX, targetY);
+      if(target != null) {
+
+      }
+      else {
+        movementComponent.moveTo(targetX, targetY);
+      }
+
       return true;
     }
     return false;

@@ -2,6 +2,7 @@ package com.nima.util;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.nima.components.SpineComponent;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -15,13 +16,24 @@ import java.util.List;
 public class PolygonUtil {
 
   public static Polygon rectangle2Polygon(float w, float h, float x, float y) {
-    Polygon polygon = new Polygon(new float[]{x, y, w+x, y, w+x, h+y, x, h+y});
+    Polygon polygon = new Polygon(new float[]{x, y, w + x, y, w + x, h + y, x, h + y});
     polygon.setPosition(x, y);
     return polygon;
   }
 
+  public static Polygon clickPolygon(Vector2 clickPoint) {
+    float w = 10;
+    float h = 10;
+    float x = clickPoint.x - 5;
+    float y = clickPoint.y - 5;
+    float[] vertices = createVertices(w, h, x, y);
+    Polygon polygon = new Polygon(vertices);
+    polygon.setPosition(0, 0);
+    return polygon;
+  }
+
   private static float[] createVertices(float w, float h, float x, float y) {
-    return new float[]{x, y, w+x, y, w+x, h+y, x, h+y};
+    return new float[]{x, y, w + x, y, w + x, h + y, x, h + y};
   }
 
   public static Polygon spine2Polygon(SpineComponent spine) {
@@ -40,7 +52,7 @@ public class PolygonUtil {
   }
 
   public static float[] convertSpineVertices(float[] vertices) {
-    if(vertices.length%5 != 0) {
+    if(vertices.length % 5 != 0) {
       throw new UnsupportedOperationException("Vertices have wrong size");
     }
 
@@ -48,8 +60,8 @@ public class PolygonUtil {
     int index = 0;
     while(index < vertices.length) {
       converted.add(vertices[index]);
-      converted.add(vertices[index+1]);
-      index+=5;
+      converted.add(vertices[index + 1]);
+      index += 5;
     }
 
     return ArrayUtils.toPrimitive(converted.toArray(new Float[converted.size()]));

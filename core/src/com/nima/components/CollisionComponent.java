@@ -25,12 +25,10 @@ public class CollisionComponent implements Component {
   private MapObject mapObject;
   private SpineComponent spineComponent;
   private Circle circle;
-  private boolean movable = false;
   private List<CollisionComponent> collidingObjects = new ArrayList<>();
 
   public CollisionComponent(SpineComponent spineComponent) {
     this.spineComponent = spineComponent;
-    this.movable = true;
   }
 
   /**
@@ -56,8 +54,8 @@ public class CollisionComponent implements Component {
     else if(mapObject instanceof EllipseMapObject) {
       EllipseMapObject e = (EllipseMapObject) mapObject;
       Ellipse ellipse = e.getEllipse();
-      float radius = ellipse.width/2;
-      circle = new Circle(ellipse.x+radius, ellipse.y+radius, radius);
+      float radius = ellipse.width / 2;
+      circle = new Circle(ellipse.x + radius, ellipse.y + radius, radius);
       TiledMultiMapRenderer.debugRenderer.render(circle);
     }
   }
@@ -67,7 +65,7 @@ public class CollisionComponent implements Component {
       polygons.clear();
       boolean premultipliedAlpha = false;
       Array<Slot> drawOrder = spineComponent.skeleton.getDrawOrder();
-      for (int i = 0, n = drawOrder.size; i < n; i++) {
+      for(int i = 0, n = drawOrder.size; i < n; i++) {
         Slot slot = drawOrder.get(i);
         Attachment attachment = slot.getAttachment();
         if(attachment instanceof RegionAttachment) {
@@ -80,10 +78,6 @@ public class CollisionComponent implements Component {
         }
       }
     }
-  }
-
-  public boolean isMapObject() {
-    return this.mapObject != null;
   }
 
   /**
@@ -105,16 +99,19 @@ public class CollisionComponent implements Component {
     else if(collisionComponent.circle != null) {
       Circle c = collisionComponent.circle;
       for(Polygon polygon : polygons) {
-        float []vertices=polygon.getTransformedVertices();
-        Vector2 center=new Vector2(c.x, c.y);
-        float squareRadius=c.radius*c.radius;
-        for (int i=0;i<vertices.length;i+=2){
-          if (i==0){
-            if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+        float[] vertices = polygon.getTransformedVertices();
+        Vector2 center = new Vector2(c.x, c.y);
+        float squareRadius = c.radius * c.radius;
+        for(int i = 0; i < vertices.length; i += 2) {
+          if(i == 0) {
+            if(Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length - 2], vertices[vertices.length - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
               return true;
-          } else {
-            if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+            }
+          }
+          else {
+            if(Intersector.intersectSegmentCircle(new Vector2(vertices[i - 2], vertices[i - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
               return true;
+            }
           }
         }
       }
@@ -122,8 +119,33 @@ public class CollisionComponent implements Component {
     return false;
   }
 
-  public boolean isMovable() {
-    return movable;
+  public boolean collidesWith(Polygon clickPoint) {
+    if(!polygons.isEmpty()) {
+      for(Polygon polygon : polygons) {
+        if(Intersector.overlapConvexPolygons(polygon, clickPoint)) {
+          return true;
+        }
+      }
+    }
+    else if(circle != null) {
+      float[] vertices = clickPoint.getTransformedVertices();
+      Vector2 center = new Vector2(circle.x, circle.y);
+      float squareRadius = circle.radius * circle.radius;
+      for(int i = 0; i < vertices.length; i += 2) {
+        if(i == 0) {
+          if(Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length - 2], vertices[vertices.length - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
+            return true;
+          }
+        }
+        else {
+          if(Intersector.intersectSegmentCircle(new Vector2(vertices[i - 2], vertices[i - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
+            return true;
+          }
+
+        }
+      }
+    }
+    return false;
   }
 
   public boolean isColliding(CollisionComponent collisionComponent) {
