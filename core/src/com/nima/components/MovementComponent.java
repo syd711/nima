@@ -1,6 +1,7 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Main;
@@ -86,6 +87,13 @@ public class MovementComponent implements Component {
     this.targetY = y;
     moveSpine();
   }
+
+  public void moveToEntity(Entity entity) {
+//    entity.get
+  }
+
+
+  // -------------------- Helper --------------------------------------
 
   private void moveSpine() {
     if(updateSpeed() > 0) {

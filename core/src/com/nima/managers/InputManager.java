@@ -77,7 +77,7 @@ public class InputManager implements InputProcessor {
 
       Entity target = EntityManager.getInstance().getEntityAt(targetX, targetY);
       if(target != null) {
-
+        movementComponent.moveToEntity(target);
       }
       else {
         movementComponent.moveTo(targetX, targetY);

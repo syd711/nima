@@ -44,6 +44,7 @@ public class EntityManager implements MapChangeListener {
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
+  private List<EntityClickedListener> entityClickedListeners = new ArrayList<>();
   private List<CollisionListener> collisionListeners = new ArrayList<>();
 
   private static EntityManager INSTANCE;
@@ -184,7 +185,6 @@ public class EntityManager implements MapChangeListener {
     for(Entity entity : entities) {
       CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
       if(collisionComponent.collidesWith(clickPolygon)) {
-        System.out.println("Clicked at " + entity);
         return entity;
       }
     }
