@@ -12,7 +12,7 @@ import com.nima.util.Settings;
  */
 public class SpineComponent implements Component {
   protected final TextureAtlas atlas;
-  protected final Skeleton skeleton;
+  public final Skeleton skeleton;
   protected final AnimationState state;
 
   protected SkeletonRenderer skeletonRenderer;

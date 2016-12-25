@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.nima.Main;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private final static Logger LOG = Logger.getLogger(TiledMultiMapRenderer.class.getName());
+  public static TiledDebugRenderer debugRenderer;
 
   public int actorFrameX = 0;
   public int actorFrameY = 0;
@@ -39,6 +41,8 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     super(null);
     CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(cachedTiledMap.getMap());
+
+    debugRenderer = new TiledDebugRenderer(Main.camera);
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
@@ -101,6 +105,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         }
       }
     } //end layer rendering
+
+    if(Settings.DEBUG) {
+      debugRenderer.render();
+    }
 
     endRender();
 

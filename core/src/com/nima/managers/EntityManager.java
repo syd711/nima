@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
 import com.nima.actors.Camera;
 import com.nima.actors.Player;
+import com.nima.actors.Spine;
 import com.nima.actors.Updateable;
 import com.nima.components.CollisionComponent;
 import com.nima.components.MapObjectComponent;
@@ -36,8 +37,9 @@ public class EntityManager implements MapChangeListener {
   private Player player;
   private World world;
   private List<Updateable> updateables = new ArrayList<>();
-  private List<Entity> entities = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
+
+  private List<CollisionListener> collisionListeners = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 
@@ -80,20 +82,36 @@ public class EntityManager implements MapChangeListener {
     return player;
   }
 
+  public void addCollisionListener(CollisionListener listener) {
+    this.collisionListeners.add(listener);
+  }
+
   public void add(Updateable agent) { updateables.add(agent); }
 
   public void add(Entity entity) {
-    entities.add(entity);
     engine.addEntity(entity);
   }
 
+  /**
+   * Registers entities to be destroyed
+   * for the next render interval.
+   * @param toDestroy the list of entities to be destroyed
+   */
   public void destroy(List<Entity> toDestroy) {
-    entities.removeAll(toDestroy);
     destroyEntities.addAll(toDestroy);
   }
 
+  /**
+   * Uses the Ashley engine to update
+   * all classes implementing the Updateable interface.
+   * This can be used for non-component based refreshes.
+   */
   public void update() {
     engine.update(Gdx.graphics.getDeltaTime());
+
+    if(GameStateManager.getInstance().isPaused()) {
+      return;
+    }
 
     for (Updateable updateable : updateables) {
       updateable.update();
@@ -125,5 +143,27 @@ public class EntityManager implements MapChangeListener {
     ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
     ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
     destroy(entities);
+  }
+
+  public void notifyCollisionStart(Entity entity, Entity mapObjectEntity) {
+    for(CollisionListener collisionListener : collisionListeners) {
+      if(entity instanceof Player) {
+        collisionListener.collisionStart((Player)entity, mapObjectEntity);
+      }
+      else if(entity instanceof Spine) {
+        collisionListener.collisionStart((Spine)entity, mapObjectEntity);
+      }
+    }
+  }
+
+  public void notifyCollisionEnd(Entity entity, Entity mapObjectEntity) {
+    for(CollisionListener collisionListener : collisionListeners) {
+      if(entity instanceof Player) {
+        collisionListener.collisionEnd((Player)entity, mapObjectEntity);
+      }
+      else if(entity instanceof Spine) {
+        collisionListener.collisionEnd((Spine)entity, mapObjectEntity);
+      }
+    }
   }
 }

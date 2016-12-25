@@ -12,6 +12,7 @@ import com.nima.util.Settings;
 public class MovementComponent implements Component {
 
   private ScreenPositionComponent screenPosition;
+  private CollisionComponent collisionComponent;
   private PositionComponent position;
   private SpineComponent spineComponent;
   private SpeedComponent speed;
@@ -23,6 +24,7 @@ public class MovementComponent implements Component {
   public MovementComponent(Spine spine) {
     this.spine = spine;
     this.screenPosition = spine.getComponent(ScreenPositionComponent.class);
+    this.collisionComponent = spine.getComponent(CollisionComponent.class);
     this.spineComponent = spine.getComponent(SpineComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
@@ -64,8 +66,19 @@ public class MovementComponent implements Component {
         }
       }
     }
+
+    updateBody();
   }
 
+  private void updateBody() {
+    collisionComponent.updateBody();
+  }
+
+  /**
+   * Moves to the given screen coordinates
+   * @param x  screen x
+   * @param y  screen y
+   */
   public void moveTo(float x, float y) {
     this.targetX = x;
     this.targetY = y;

@@ -7,27 +7,30 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.Array;
+import com.esotericsoftware.spine.Slot;
+import com.esotericsoftware.spine.attachments.Attachment;
+import com.esotericsoftware.spine.attachments.RegionAttachment;
+import com.nima.render.TiledMultiMapRenderer;
+import com.nima.util.PolygonUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Component responsible for handling the collision of entities
  */
 public class CollisionComponent implements Component {
-  private Polygon polygon;
+  private List<Polygon> polygons = new ArrayList<>();
   private MapObject mapObject;
   private SpineComponent spineComponent;
   private Circle circle;
   private boolean movable = false;
+  private List<CollisionComponent> collidingObjects = new ArrayList<>();
 
   public CollisionComponent(SpineComponent spineComponent) {
     this.spineComponent = spineComponent;
     this.movable = true;
-
-    float w = spineComponent.skeleton.getData().getWidth() * spineComponent.getScaling();
-    float h = spineComponent.skeleton.getData().getHeight() * spineComponent.getScaling();
-    float x = spineComponent.skeleton.getX();
-    float y = spineComponent.skeleton.getY();
-    polygon = new Polygon(new float[]{0, 0, w, 0, w, h, 0, h});
-    polygon.setPosition(x-w/2, y);
   }
 
   /**
@@ -42,30 +45,40 @@ public class CollisionComponent implements Component {
 
     if(mapObject instanceof RectangleMapObject) {
       RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-      float w = rectangle.getRectangle().width;
-      float h = rectangle.getRectangle().height;
-      float x = rectangle.getRectangle().x;
-      float y = rectangle.getRectangle().y;
-      polygon = new Polygon(new float[]{0, 0, w, 0, w, h, 0, h});
-      polygon.setPosition(x, y);
+      polygons.add(PolygonUtil.rectangle2Polygon(rectangle.getRectangle()));
+      TiledMultiMapRenderer.debugRenderer.render(polygons);
     }
     else if(mapObject instanceof PolygonMapObject) {
       PolygonMapObject p = (PolygonMapObject) mapObject;
-      polygon = p.getPolygon();
+      polygons.add(p.getPolygon());
+      TiledMultiMapRenderer.debugRenderer.render(polygons);
     }
     else if(mapObject instanceof EllipseMapObject) {
       EllipseMapObject e = (EllipseMapObject) mapObject;
       Ellipse ellipse = e.getEllipse();
       float radius = ellipse.width/2;
       circle = new Circle(ellipse.x+radius, ellipse.y+radius, radius);
+      TiledMultiMapRenderer.debugRenderer.render(circle);
     }
   }
 
   public void updateBody() {
     if(this.spineComponent != null) {
-      float w = spineComponent.skeleton.getData().getWidth() * spineComponent.getScaling();
-      polygon.setPosition(this.spineComponent.skeleton.getX()-w/2, this.spineComponent.skeleton.getY());
-      polygon.setRotation(this.spineComponent.getRotation());
+      polygons.clear();
+      boolean premultipliedAlpha = false;
+      Array<Slot> drawOrder = spineComponent.skeleton.getDrawOrder();
+      for (int i = 0, n = drawOrder.size; i < n; i++) {
+        Slot slot = drawOrder.get(i);
+        Attachment attachment = slot.getAttachment();
+        if(attachment instanceof RegionAttachment) {
+          RegionAttachment regionAttachment = (RegionAttachment) attachment;
+          float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+          String name = slot.getData().getName();
+          Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+          polygons.add(p);
+          TiledMultiMapRenderer.debugRenderer.render(name, p);
+        }
+      }
     }
   }
 
@@ -80,21 +93,29 @@ public class CollisionComponent implements Component {
    * the source is always a polygon!
    */
   public boolean collidesWith(Entity entity, CollisionComponent collisionComponent) {
-    if(collisionComponent.polygon != null) {
-      return Intersector.overlapConvexPolygons(polygon, collisionComponent.polygon);
+    if(!collisionComponent.polygons.isEmpty()) {
+      for(Polygon polygon : polygons) {
+        for(Polygon p : collisionComponent.polygons) {
+          if(Intersector.overlapConvexPolygons(polygon, p)) {
+            return true;
+          }
+        }
+      }
     }
     else if(collisionComponent.circle != null) {
       Circle c = collisionComponent.circle;
-      float []vertices=polygon.getTransformedVertices();
-      Vector2 center=new Vector2(c.x, c.y);
-      float squareRadius=c.radius*c.radius;
-      for (int i=0;i<vertices.length;i+=2){
-        if (i==0){
-          if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
-            return true;
-        } else {
-          if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
-            return true;
+      for(Polygon polygon : polygons) {
+        float []vertices=polygon.getTransformedVertices();
+        Vector2 center=new Vector2(c.x, c.y);
+        float squareRadius=c.radius*c.radius;
+        for (int i=0;i<vertices.length;i+=2){
+          if (i==0){
+            if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+              return true;
+          } else {
+            if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+              return true;
+          }
         }
       }
     }
@@ -103,5 +124,17 @@ public class CollisionComponent implements Component {
 
   public boolean isMovable() {
     return movable;
+  }
+
+  public boolean isColliding(CollisionComponent collisionComponent) {
+    return collidingObjects.contains(collisionComponent);
+  }
+
+  public void addCollision(CollisionComponent collisionComponent) {
+    this.collidingObjects.add(collisionComponent);
+  }
+
+  public void removeCollision(CollisionComponent collisionComponent) {
+    this.collidingObjects.remove(collisionComponent);
   }
 }

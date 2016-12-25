@@ -1,6 +1,9 @@
 package com.nima.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.components.*;
 import com.nima.util.Resources;
@@ -39,13 +42,12 @@ public class Player extends Spine implements Updateable {
 //
 //    PolygonShape shape = new PolygonShape();
 //    //calculated from center!
-//    shape.setAsBox(dimension.width / 2 / Settings.PPM, dimension.height / 2 / Settings.PPM);
+//    shape.setAsBox(dimensionComponent.width / 2 / Settings.PPM, dimensionComponent.height / 2 / Settings.PPM);
 //    body.createFixture(shape, 1f);
 //    shape.dispose();
   }
 
   @Override
   public void update() {
-
   }
 }

@@ -8,8 +8,6 @@ import com.nima.components.MovementComponent;
 import com.nima.components.PositionComponent;
 import com.nima.util.Settings;
 
-import static sun.audio.AudioPlayer.player;
-
 /**
  * Handles all kind of user input.
  */
@@ -53,6 +51,9 @@ public class InputManager implements InputProcessor {
     if(keycode == Input.Keys.ESCAPE) {
       System.exit(0);
     }
+    else if(keycode == Input.Keys.SPACE) {
+      GameStateManager.getInstance().togglePause();
+    }
     return true;
   }
 
@@ -70,6 +71,7 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
+      GameStateManager.getInstance().setPaused(false);
       float targetX = screenX;
       float targetY = Gdx.graphics.getHeight() - screenY;
       movementComponent.moveTo(targetX, targetY);

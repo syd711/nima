@@ -18,7 +18,7 @@ import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 public class Main extends ApplicationAdapter {
-  private OrthographicCamera camera;
+  public static OrthographicCamera camera;
   private TiledMultiMapRenderer tiledMapRenderer;
   private InputManager inputManager;
   private Player player;
