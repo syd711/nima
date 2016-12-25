@@ -4,9 +4,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
+import com.nima.Main;
 import com.nima.actors.Player;
 import com.nima.components.MovementComponent;
 import com.nima.components.PositionComponent;
+import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
 
 /**
@@ -80,7 +83,8 @@ public class InputManager implements InputProcessor {
         movementComponent.moveToEntity(target);
       }
       else {
-        movementComponent.moveTo(targetX, targetY);
+        Vector2 mapTarget = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
+        movementComponent.moveTo(mapTarget.x, mapTarget.y);
       }
 
       return true;

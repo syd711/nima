@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.nima.Main;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
@@ -21,8 +20,10 @@ public class MovementComponent implements Component {
   private SpeedComponent speed;
   private Spine spine;
 
-  private float targetX;
-  private float targetY;
+  private float mapTargetX;
+  private float mapTargetY;
+
+  private boolean move = false;
 
   public MovementComponent(Spine spine) {
     this.spine = spine;
@@ -32,13 +33,13 @@ public class MovementComponent implements Component {
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
 
-    this.targetX = this.position.x;
-    this.targetY = this.position.y;
+//    this.screenTargetX = this.position.x;
+//    this.screenTargetY = this.position.y;
   }
 
   public void move() {
     if(spine != null) {
-      if(position.x != targetX || position.y != targetY) {
+      if(move) {
         if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
           speed.setCurrentValue(speed.currentValue - speed.targetValue * 30 / 100);
         }
@@ -83,8 +84,9 @@ public class MovementComponent implements Component {
    * @param y  screen y
    */
   public void moveTo(float x, float y) {
-    this.targetX = x;
-    this.targetY = y;
+    move = true;
+    this.mapTargetX = x;
+    this.mapTargetY = y;
     moveSpine();
   }
 
@@ -106,8 +108,8 @@ public class MovementComponent implements Component {
    * on the click distance
    */
   private float updateSpeed() {
-    Vector2 point1 = new Vector2(screenPosition.getX(), screenPosition.getY());
-    Vector2 point2 = new Vector2(targetX, targetY);
+    Vector2 point1 = new Vector2(position.x, position.y);
+    Vector2 point2 = new Vector2(mapTargetX, mapTargetY);
 
     //TODO offset not working
     float speedOffset = 30; //px
@@ -134,9 +136,8 @@ public class MovementComponent implements Component {
    * Calculate to turn right or left
    */
   private void updateRotation() {
-//    float angle = GraphicsUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
-    Vector2 target = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
-    float angle = GraphicsUtil.getAngle(position.x, position.y, target.x, target.y) * -1;
+//    float angle = GraphicsUtil.getAngle(screenPosition.getX(), screenPosition.getY(), screenTargetX, screenTargetY) * -1;
+    float angle = GraphicsUtil.getAngle(position.x, position.y, mapTargetX, mapTargetY) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = Math.round((angle - modulo) * -1);
@@ -154,5 +155,13 @@ public class MovementComponent implements Component {
 
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
     spineComponent.rotate(targetAngle, rotateLeft);
+  }
+
+  public boolean isMove() {
+    return move;
+  }
+
+  public void setMove(boolean move) {
+    this.move = move;
   }
 }
