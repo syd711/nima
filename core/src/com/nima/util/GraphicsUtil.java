@@ -9,9 +9,6 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class GraphicsUtil {
 
-  /**
-   * Be aware to pass the screen coordinates here!
-   */
   public static float getAngle(float sourceX, float sourceY, float targetX, float targetY) {
     return (float) Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
   }
@@ -44,8 +41,6 @@ public class GraphicsUtil {
       targetY = targetY + screenY - centerY;
     }
 
-
-    System.out.println(targetX + "/" + targetY);
     return new Vector2(targetX, targetY);
   }
 }

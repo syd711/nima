@@ -3,6 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.Main;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
@@ -38,7 +39,7 @@ public class MovementComponent implements Component {
     if(spine != null) {
       if(position.x != targetX || position.y != targetY) {
         if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
-          speed.setCurrentValue(speed.currentValue - speed.targetValue * 40 / 100);
+          speed.setCurrentValue(speed.currentValue - speed.targetValue * 30 / 100);
         }
         else if(!speed.isAtFullSpeed()) {
           speed.setCurrentValue(speed.currentValue + speed.targetValue * 1 / 100);
@@ -87,15 +88,16 @@ public class MovementComponent implements Component {
   }
 
   private void moveSpine() {
-    updateRotation();
-    updateSpeed();
+    if(updateSpeed() > 0) {
+      updateRotation();
+    }
   }
 
   /**
    * Updates the spine speed depending
    * on the click distance
    */
-  private void updateSpeed() {
+  private float updateSpeed() {
     Vector2 point1 = new Vector2(screenPosition.getX(), screenPosition.getY());
     Vector2 point2 = new Vector2(targetX, targetY);
 
@@ -111,14 +113,22 @@ public class MovementComponent implements Component {
 
       percentage = distance * 100 / maxDistance;
     }
+
+    if(percentage < 10) {
+      percentage = 0;
+    }
+
     speed.setTargetSpeedPercentage(percentage);
+    return percentage;
   }
 
   /**
    * Calculate to turn right or left
    */
   private void updateRotation() {
-    float angle = GraphicsUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
+//    float angle = GraphicsUtil.getAngle(screenPosition.getX(), screenPosition.getY(), targetX, targetY) * -1;
+    Vector2 target = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
+    float angle = GraphicsUtil.getAngle(position.x, position.y, target.x, target.y) * -1;
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = Math.round((angle - modulo) * -1);
