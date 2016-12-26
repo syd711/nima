@@ -8,6 +8,7 @@ public class GameStateManager {
 
   private boolean paused;
   private boolean inGameMenu;
+  private boolean navigating = true;
 
   private GameStateManager() {
     //force singleton
@@ -35,5 +36,13 @@ public class GameStateManager {
 
   public void setInGameMenu(boolean inGameMenu) {
     this.inGameMenu = inGameMenu;
+  }
+
+  public boolean isNavigating() {
+    return navigating;
+  }
+
+  public void setNavigating(boolean navigating) {
+    this.navigating = navigating;
   }
 }

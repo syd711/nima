@@ -1,11 +1,10 @@
 package com.nima.managers;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.nima.Main;
 import com.nima.actors.Player;
 import com.nima.components.MovementComponent;
 import com.nima.components.PositionComponent;
@@ -18,9 +17,13 @@ import com.nima.util.Settings;
 public class InputManager implements InputProcessor {
 
   private PositionComponent positionComponent;
-  private final MovementComponent movementComponent;
+  private MovementComponent movementComponent;
+  private OrthographicCamera camera;
+  private Player player;
 
-  public InputManager(Player player) {
+  public InputManager(Player player, OrthographicCamera camera) {
+    this.camera = camera;
+    this.player = player;
     this.positionComponent = player.getComponent(PositionComponent.class);
     movementComponent = player.getComponent(MovementComponent.class);
   }
@@ -74,19 +77,14 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (button == Input.Buttons.LEFT) {
-      float targetX = screenX;
-      float targetY = Gdx.graphics.getHeight() - screenY;
+      if(GameStateManager.getInstance().isNavigating()) {
+        float targetX = screenX;
+        float targetY = Gdx.graphics.getHeight() - screenY;
 
-      Entity target = EntityManager.getInstance().getEntityAt(targetX, targetY);
-      if(target != null) {
-        if(movementComponent.moveToEntity(target)) {
-          return true;
-        }
+        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+        player.moveTo(worldCoordinates);
+        return true;
       }
-
-      Vector2 mapTarget = GraphicsUtil.transform2WorldCoordinates(Main.camera, targetX, targetY);
-      movementComponent.moveTo(mapTarget.x, mapTarget.y);
-      return true;
     }
     return false;
   }

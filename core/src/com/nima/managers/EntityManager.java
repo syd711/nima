@@ -20,7 +20,6 @@ import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
-import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 
 import java.util.ArrayList;
@@ -55,7 +54,6 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
     //create player
     player = new Player(world, rayHandler);
-    addEntityClickListener(player);
     engine.addEntity(player);
 
     //create systems
@@ -73,6 +71,9 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
     LightSystem lightSystem = new LightSystem();
     engine.addSystem(lightSystem);
+
+    SpeedSystem speedSystem = new SpeedSystem();
+    engine.addSystem(speedSystem);
 
     updateables.add(new AmbientLight(rayHandler));
     updateables.add(new Camera(camera, player));
@@ -179,8 +180,8 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     }
   }
 
-  protected Entity getEntityAt(float screenX, float screenY) {
-    Vector2 clickPoint = GraphicsUtil.transform2WorldCoordinates(camera, screenX, screenY);
+  public Entity getEntityAt(float x, float y) {
+    Vector2 clickPoint = new Vector2(x, y);
     Polygon clickPolygon = PolygonUtil.clickPolygon(clickPoint);
     TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
 
@@ -203,11 +204,6 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
   @Override
   public void entityClicked(Entity entity) {
     System.out.println(entity + " clicked");
-  }
-
-  @Override
-  public void entityDoubleClicked(Entity entity) {
-    //not supported yet
   }
 
   // --------------- Helper ---------------------------------------------------------

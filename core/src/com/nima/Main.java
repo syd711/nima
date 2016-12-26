@@ -69,7 +69,7 @@ public class Main extends ApplicationAdapter {
     hud = new Hud();
 
     //input processing
-    inputManager = new InputManager(player);
+    inputManager = new InputManager(player, camera);
     Gdx.input.setInputProcessor(inputManager);
   }
 

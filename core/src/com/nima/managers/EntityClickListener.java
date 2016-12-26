@@ -8,5 +8,4 @@ import com.badlogic.ashley.core.Entity;
 public interface EntityClickListener {
 
   void entityClicked(Entity entity);
-  void entityDoubleClicked(Entity entity);
 }
