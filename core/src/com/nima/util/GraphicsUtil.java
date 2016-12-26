@@ -13,6 +13,15 @@ public class GraphicsUtil {
     return (float) Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
   }
 
+  public static Vector2 getScreenCenter(float objectHeight) {
+    float w = Gdx.graphics.getWidth();
+    float h = Gdx.graphics.getHeight();
+
+    float targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
+    float targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2) + objectHeight / 2;
+    return new Vector2(targetX, targetY);
+  }
+
   public static Vector2 getUpdatedCoordinates(float angle, float speed) {
     float absAngle = Math.abs(angle);
     float baseX = (float) (Math.cos(Math.toRadians(absAngle)) * speed);

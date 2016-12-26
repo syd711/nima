@@ -108,7 +108,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
    * for the next render interval.
    * @param toDestroy the list of entities to be destroyed
    */
-  public void destroy(List<Entity> toDestroy) {
+  protected void destroy(List<Entity> toDestroy) {
     destroyEntities.addAll(toDestroy);
   }
 
@@ -178,7 +178,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     }
   }
 
-  public Entity getEntityAt(float screenX, float screenY) {
+  protected Entity getEntityAt(float screenX, float screenY) {
     Vector2 clickPoint = GraphicsUtil.transform2WorldCoordinates(camera, screenX, screenY);
     Polygon clickPolygon = PolygonUtil.clickPolygon(clickPoint);
     TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
@@ -206,7 +206,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
   @Override
   public void entityDoubleClicked(Entity entity) {
-
+    //not supported yet
   }
 
   // --------------- Helper ---------------------------------------------------------
@@ -215,6 +215,5 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     for(EntityClickListener entityClickListener : this.entityClickListeners) {
       entityClickListener.entityClicked(entity);
     }
-
   }
 }
