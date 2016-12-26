@@ -25,7 +25,7 @@ public class Player extends Spine implements Updateable {
     float targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2) + dimensionComponent.height / 2;
 //    targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
 
-//    add(new LightComponent(rayHandler, 2000, targetX, targetY, true));
+//    add(new LightComponent(rayHandler, 4000, targetX, targetY, true));
     add(new PositionComponent(targetX, targetY));
     add(new ScreenPositionComponent(targetX, targetY));
     add(new SpeedComponent(Settings.MAX_ACTOR_SPEED));

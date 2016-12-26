@@ -13,19 +13,13 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
-import com.nima.actors.Camera;
-import com.nima.actors.Player;
-import com.nima.actors.Spine;
-import com.nima.actors.Updateable;
+import com.nima.actors.*;
 import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
-import com.nima.systems.CollisionSystem;
-import com.nima.systems.SpineMovementSystem;
-import com.nima.systems.SpinePositionSystem;
-import com.nima.systems.SpineRenderSystem;
+import com.nima.systems.*;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 
@@ -75,6 +69,10 @@ public class EntityManager implements MapChangeListener {
     SpineMovementSystem movementSystem = new SpineMovementSystem();
     engine.addSystem(movementSystem);
 
+    LightSystem lightSystem = new LightSystem();
+    engine.addSystem(lightSystem);
+
+    updateables.add(new AmbientLight(rayHandler));
     updateables.add(new Camera(camera, player));
     updateables.add(player);
   }

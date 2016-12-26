@@ -55,10 +55,9 @@ public class Main extends ApplicationAdapter {
 
     //light
     rayHandler = new RayHandler(world);
+    RayHandler.useDiffuseLight(true);
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
-    rayHandler.setAmbientLight(1f);
-    RayHandler.useDiffuseLight(true);
 
     //map and player stuff
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
