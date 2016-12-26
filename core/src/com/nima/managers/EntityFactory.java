@@ -11,21 +11,26 @@ import com.nima.components.LightComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
 
+import java.util.logging.Logger;
+
 import static com.nima.managers.EntityProperties.*;
 
 /**
  * Uses MapObjects to create Ashley entities from them.
  */
 public class EntityFactory {
+  private static final Logger LOG = Logger.getLogger(EntityFactory.class.getName());
+
   private static final float DEFAULT_LIGHT_DISTANCE = 300;
   private static final float DEFAULT_LIGHT_DEGREE = 45;
   private static final float DEFAULT_CONE_DEGREE = 45;
 
   public static Entity createEntity(TiledMap map, MapObject mapObject, RayHandler rayHandler) {
     String entityType = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-
     if(entityType == null) {
-      throw new UnsupportedOperationException("No object type given on map entity " + mapObject.getName() + " on map " + map);
+      LOG.warning("Undefined map object " + mapObject.getProperties().get("id") + " found on " + map);
+      new CollisionComponent(mapObject);
+      return null;
     }
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(EntityProperties.PROPERTY_CENTERED_POSITION);
@@ -50,6 +55,9 @@ public class EntityFactory {
       entity.add(new MapObjectComponent(mapObject));
       entity.add(new LocationComponent(mapObject));
       entity.add(new CollisionComponent(mapObject));
+    }
+    else {
+      throw new UnsupportedOperationException("Unsupported map object " + mapObject.getProperties().get("id") + " found on " + map);
     }
 
     return entity;

@@ -137,7 +137,9 @@ public class EntityManager implements MapChangeListener {
   public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
     for(MapObject mapObject : mapObjects) {
       Entity entity = EntityFactory.createEntity(map, mapObject, rayHandler);
-      engine.addEntity(entity);
+      if(entity != null) {
+        engine.addEntity(entity);
+      }
     }
     LOG.info("Added " + mapObjects.size() + " ashley entities.");
   }
