@@ -56,23 +56,19 @@ public class TiledDebugRenderer {
     shapeRenderer.end();
   }
 
-  public void render(Circle circle) {
-    this.circles.add(circle);
-  }
-
-  public void render(Rectangle rectangle) {
-    this.rectangles.add(rectangle);
-  }
-
-  public void render(Polygon polygon) {
-    this.polygons.add(polygon);
+  public void render(Object o) {
+    if(o instanceof Circle) {
+      this.circles.add((Circle) o);
+    }
+    else if(o instanceof Rectangle) {
+      this.rectangles.add((Rectangle) o);
+    }
+    else if(o instanceof Polygon) {
+      this.polygons.add((Polygon) o);
+    }
   }
 
   public void render(String key, Polygon polygon) {
     this.mappedPolygon.put(key, polygon);
-  }
-
-  public void render(List<Polygon> polygons) {
-    this.polygons.addAll(polygons);
   }
 }

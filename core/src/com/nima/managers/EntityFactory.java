@@ -10,10 +10,11 @@ import com.nima.components.CollisionComponent;
 import com.nima.components.LightComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
+import com.nima.render.MapConstants;
 
 import java.util.logging.Logger;
 
-import static com.nima.managers.EntityProperties.*;
+import static com.nima.render.MapConstants.*;
 
 /**
  * Uses MapObjects to create Ashley entities from them.
@@ -33,7 +34,7 @@ public class EntityFactory {
       return null;
     }
 
-    Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(EntityProperties.PROPERTY_CENTERED_POSITION);
+    Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
 
     Entity entity = null;
     if(entityType.equals(TYPE_POINT_LIGHT)) {

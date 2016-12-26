@@ -3,7 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.nima.managers.EntityProperties;
+import com.nima.render.MapConstants;
 
 /**
  *
@@ -23,7 +23,7 @@ public class PositionComponent implements Component {
   }
 
   public PositionComponent(MapObject object) {
-    Vector2 position = (Vector2) object.getProperties().get(EntityProperties.PROPERTY_POSITION);
+    Vector2 position = (Vector2) object.getProperties().get(MapConstants.PROPERTY_POSITION);
     this.x = position.x;
     this.y = position.y;
   }

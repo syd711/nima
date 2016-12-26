@@ -1,9 +1,12 @@
 package com.nima.util;
 
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.Array;
+import com.esotericsoftware.spine.Slot;
+import com.esotericsoftware.spine.attachments.Attachment;
+import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.components.SpineComponent;
+import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -67,12 +70,69 @@ public class PolygonUtil {
     return ArrayUtils.toPrimitive(converted.toArray(new Float[converted.size()]));
   }
 
-  public static Polygon rectangle2Polygon(Rectangle rectangle) {
-    float w = rectangle.width;
-    float h = rectangle.height;
-    float x = 0;
-    float y = 0;
-    return rectangle2Polygon(w, h, x, y);
+  public static boolean checkForCollision(List<Object> sourceEntity, List<Object> targetEntities) {
+    for(Object thisCollisionComponent : targetEntities) {
+      for(Object thatCollisionComponent : sourceEntity) {
+        if(thisCollisionComponent instanceof Polygon && thatCollisionComponent instanceof Polygon) {
+          if(Intersector.overlapConvexPolygons((Polygon)thisCollisionComponent, (Polygon)thatCollisionComponent)) {
+            return true;
+          }
+        }
+        else if(thisCollisionComponent instanceof Polygon && thatCollisionComponent instanceof Circle) {
+          Polygon p = (Polygon) thisCollisionComponent;
+          Circle c = (Circle) thatCollisionComponent;
+          if(PolygonUtil.circleIntersectingPolygon(c, p)) {
+            return true;
+          }
+        }
+        else if(thatCollisionComponent instanceof Polygon && thisCollisionComponent instanceof Circle) {
+          Polygon p = (Polygon) thatCollisionComponent;
+          Circle c = (Circle) thisCollisionComponent;
+          if(PolygonUtil.circleIntersectingPolygon(c, p)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public static List<Polygon> createSpinePolygons(SpineComponent spineComponent) {
+    List<Polygon> polygons = new ArrayList<>();
+    boolean premultipliedAlpha = false;
+    Array<Slot> drawOrder = spineComponent.skeleton.getDrawOrder();
+    for(int i = 0, n = drawOrder.size; i < n; i++) {
+      Slot slot = drawOrder.get(i);
+      Attachment attachment = slot.getAttachment();
+      if(attachment instanceof RegionAttachment) {
+        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+        String name = slot.getData().getName();
+        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+        polygons.add(p);
+        TiledMultiMapRenderer.debugRenderer.render(name, p);
+      }
+    }
+    return polygons;
+  }
+
+  public static boolean circleIntersectingPolygon(Circle c, Polygon p) {
+    float[] vertices = p.getTransformedVertices();
+    Vector2 center = new Vector2(c.x, c.y);
+    float squareRadius = c.radius * c.radius;
+    for(int i = 0; i < vertices.length; i += 2) {
+      if(i == 0) {
+        if(Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length - 2], vertices[vertices.length - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
+          return true;
+        }
+      }
+      else {
+        if(Intersector.intersectSegmentCircle(new Vector2(vertices[i - 2], vertices[i - 1]), new Vector2(vertices[i], vertices[i + 1]), center, squareRadius)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
@@ -88,5 +148,13 @@ public class PolygonUtil {
     float distance = point1.dst(point2);
 
     return new Vector2(polygon.getX() + distance/2, polygon.getY() + distance/2);
+  }
+
+  private static Polygon rectangle2Polygon(Rectangle rectangle) {
+    float w = rectangle.width;
+    float h = rectangle.height;
+    float x = 0;
+    float y = 0;
+    return rectangle2Polygon(w, h, x, y);
   }
 }

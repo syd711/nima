@@ -51,6 +51,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     this.rayHandler = rayHandler;
 
     renderer.addMapChangeListener(this);
+    addEntityClickListener(this);
 
     //create player
     player = new Player(world, rayHandler);
@@ -200,7 +201,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
   @Override
   public void entityClicked(Entity entity) {
-
+    System.out.println(entity + " clicked");
   }
 
   @Override
