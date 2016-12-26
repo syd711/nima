@@ -92,11 +92,11 @@
 </data>
  </layer>
  <objectgroup name="collision">
-  <object id="3" name="The Northern Wall" x="92" y="40" width="197" height="222"/>
-  <object id="4" name="Minor 1" x="316" y="601" width="102" height="102">
+  <object id="3" name="The Northern Wall" type="Planet" x="92" y="40" width="197" height="222"/>
+  <object id="4" name="Minor 1" type="Station" x="316" y="601" width="102" height="102">
    <ellipse/>
   </object>
-  <object id="5" name="Minor 2" x="679" y="511">
+  <object id="5" name="Minor 2" type="Station" x="679" y="511">
    <polygon points="0,0 29,-29 65,-18 73,13 63,47 42,56 22,55 6,50 0,24"/>
   </object>
  </objectgroup>

@@ -10,6 +10,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.nima.managers.EntityProperties;
+import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
@@ -72,16 +75,34 @@ public class CachedTiledMap {
       RectangleMapObject mapObject = (RectangleMapObject) object;
       Rectangle r = mapObject.getRectangle();
       r.setPosition(xOffset + r.getX(), yOffset + r.getY());
+
+      //additional properties
+      Vector2 position = r.getPosition(new Vector2());
+      object.getProperties().put(EntityProperties.PROPERTY_POSITION, position);
+      Vector2 centeredPosition = new Vector2(position.x+r.width/2, position.y+r.height/2);
+      object.getProperties().put(EntityProperties.PROPERTY_CENTERED_POSITION, centeredPosition);
     }
     else if(object instanceof PolygonMapObject) {
       PolygonMapObject mapObject = (PolygonMapObject) object;
       Polygon polygon = mapObject.getPolygon();
       polygon.setPosition(xOffset + polygon.getX(), yOffset + polygon.getY());
+
+      //additional properties
+      Vector2 position = new Vector2(polygon.getX(), polygon.getY());
+      object.getProperties().put(EntityProperties.PROPERTY_POSITION, position);
+      Vector2 centeredPosition = PolygonUtil.getCenter(polygon);
+      object.getProperties().put(EntityProperties.PROPERTY_CENTERED_POSITION, centeredPosition);
     }
     else if(object instanceof EllipseMapObject) {
       EllipseMapObject mapObject = (EllipseMapObject) object;
       Ellipse circle = mapObject.getEllipse();
       circle.setPosition(xOffset + circle.x, yOffset + circle.y);
+
+      //additional properties
+      Vector2 position = new Vector2(circle.x, circle.y);
+      object.getProperties().put(EntityProperties.PROPERTY_POSITION, position);
+      Vector2 centeredPosition = new Vector2(circle.x + circle.width / 2, circle.y + circle.height / 2);
+      object.getProperties().put(EntityProperties.PROPERTY_CENTERED_POSITION, centeredPosition);
     }
   }
 

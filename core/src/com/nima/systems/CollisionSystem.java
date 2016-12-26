@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.nima.components.CollisionComponent;
-import com.nima.components.MapObjectComponent;
+import com.nima.components.LocationComponent;
 import com.nima.components.SpineComponent;
 import com.nima.managers.EntityManager;
 
@@ -39,7 +39,7 @@ public class CollisionSystem extends AbstractIteratingSystem {
   private void checkSpineMapObjectsCollisions(Entity entity) {
     CollisionComponent spine = entity.getComponent(CollisionComponent.class);
 
-    Family mapObjectsFamily = Family.all(MapObjectComponent.class).get();
+    Family mapObjectsFamily = Family.all(LocationComponent.class).get();
     ImmutableArray<Entity> entities = engine.getEntitiesFor(mapObjectsFamily);
 
     //check all map entities

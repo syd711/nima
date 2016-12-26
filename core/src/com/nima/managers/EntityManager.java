@@ -13,12 +13,19 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
-import com.nima.actors.*;
+import com.nima.actors.Camera;
+import com.nima.actors.Player;
+import com.nima.actors.Spine;
+import com.nima.actors.Updateable;
 import com.nima.components.CollisionComponent;
+import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
-import com.nima.systems.*;
+import com.nima.systems.CollisionSystem;
+import com.nima.systems.SpineMovementSystem;
+import com.nima.systems.SpinePositionSystem;
+import com.nima.systems.SpineRenderSystem;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 
@@ -35,6 +42,7 @@ public class EntityManager implements MapChangeListener {
   private PooledEngine engine;
   private Player player;
   private OrthographicCamera camera;
+  private RayHandler rayHandler;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
@@ -46,6 +54,7 @@ public class EntityManager implements MapChangeListener {
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {
     this.engine = engine;
     this.camera = camera;
+    this.rayHandler = rayHandler;
 
     renderer.addMapChangeListener(this);
 
@@ -65,9 +74,6 @@ public class EntityManager implements MapChangeListener {
 
     SpineMovementSystem movementSystem = new SpineMovementSystem();
     engine.addSystem(movementSystem);
-
-    LightSystem lightSystem = new LightSystem();
-    engine.addSystem(lightSystem);
 
     updateables.add(new Camera(camera, player));
     updateables.add(player);
@@ -89,8 +95,6 @@ public class EntityManager implements MapChangeListener {
   public void addCollisionListener(CollisionListener listener) {
     this.collisionListeners.add(listener);
   }
-
-  public void add(Updateable agent) { updateables.add(agent); }
 
   public void add(Entity entity) {
     engine.addEntity(entity);
@@ -134,10 +138,8 @@ public class EntityManager implements MapChangeListener {
   @Override
   public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
     for(MapObject mapObject : mapObjects) {
-      Entity entity = new Location();
-      entity.add(new MapObjectComponent(mapObject));
-      entity.add(new CollisionComponent(mapObject));
-      EntityManager.getInstance().add(entity);
+      Entity entity = EntityFactory.createEntity(map, mapObject, rayHandler);
+      engine.addEntity(entity);
     }
     LOG.info("Added " + mapObjects.size() + " ashley entities.");
   }
@@ -177,7 +179,7 @@ public class EntityManager implements MapChangeListener {
     TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
 
     //most likely a map entity
-    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
+    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(LocationComponent.class).get());
     ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
     for(Entity entity : entities) {
       CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);

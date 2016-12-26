@@ -74,4 +74,19 @@ public class PolygonUtil {
     float y = rectangle.y;
     return rectangle2Polygon(w, h, x, y);
   }
+
+  /**
+   * There is no actual center of a polygon, so we simply
+   * use the first and the middle vertice and use the distance between them
+   */
+  public static Vector2 getCenter(Polygon polygon) {
+    float[] vertices = polygon.getVertices();
+    int index = Math.round(vertices.length/2);
+
+    Vector2 point1 = new Vector2(vertices[0], vertices[1]);
+    Vector2 point2 = new Vector2(vertices[index+1], vertices[index+2]);
+    float distance = point1.dst(point2);
+
+    return new Vector2(polygon.getX() + distance/2, polygon.getY() + distance/2);
+  }
 }

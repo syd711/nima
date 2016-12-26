@@ -54,10 +54,10 @@ public class Main extends ApplicationAdapter {
     box2DDebugRenderer = new Box2DDebugRenderer();
 
     //light
-    this.rayHandler = new RayHandler(world);
+    rayHandler = new RayHandler(world);
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
-    rayHandler.setAmbientLight(0f);
+    rayHandler.setAmbientLight(1f);
     RayHandler.useDiffuseLight(true);
 
     //map and player stuff
