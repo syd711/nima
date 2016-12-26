@@ -55,6 +55,7 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
     //create player
     player = new Player(world, rayHandler);
+    addEntityClickListener(player);
     engine.addEntity(player);
 
     //create systems

@@ -22,6 +22,7 @@ public class MovementComponent implements Component {
 
   private float mapTargetX;
   private float mapTargetY;
+  private Entity target;
 
   public MovementComponent(Spine spine) {
     this.spine = spine;
@@ -33,42 +34,43 @@ public class MovementComponent implements Component {
 
   public void move() {
     if(spine != null) {
-        if(speed.getTargetSpeed() == 0) {
-          if(speed.getCurrentSpeed() > 0) {
-            speed.setCurrentSpeed(speed.getCurrentSpeed()-speed.getMaxSpeed()*10/100);
-          }
-        }
-
-        //reduce speed while the actor is rotating
-        if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
-          speed.setCurrentSpeed(speed.currentSpeed - speed.targetSpeed * 30 / 100);
-        }
-        else if(!speed.isAtFullSpeed()) { //increase speed
-          speed.setCurrentSpeed(speed.currentSpeed + speed.targetSpeed * 1 / 100);
-        }
-
-        float currentAngle = spineComponent.getRotation();
-        Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
-        float x = delta.x;
-        float y = delta.y;
-
-        if(currentAngle >= 0 && currentAngle <= 90) {
-          position.x = position.x + x;
-          position.y = position.y + y;
-        }
-        else if(currentAngle > 90 && currentAngle <= 180) {
-          position.x = position.x - x;
-          position.y = position.y + y;
-        }
-        else if(currentAngle < 0 && currentAngle >= -90) {
-          position.x = position.x + x;
-          position.y = position.y - y;
-        }
-        else if(currentAngle < -90 && currentAngle >= -180) {
-          position.x = position.x - x;
-          position.y = position.y - y;
+      if(speed.getTargetSpeed() == 0) {
+        if(speed.getCurrentSpeed() > 0) {
+          float newSpeed = speed.getCurrentSpeed() - speed.getMaxSpeed() * 5 / 100;
+          System.out.println(newSpeed);
+          speed.setCurrentSpeed(newSpeed);
         }
       }
+      //reduce speed while the actor is rotating
+      else if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
+        speed.setCurrentSpeed(speed.currentSpeed - speed.targetSpeed * 30 / 100);
+      }
+      else if(!speed.isAtFullSpeed() && speed.getTargetSpeed() > 0) { //increase speed
+        speed.setCurrentSpeed(speed.currentSpeed + speed.targetSpeed * 1 / 100);
+      }
+
+      float currentAngle = spineComponent.getRotation();
+      Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
+      float x = delta.x;
+      float y = delta.y;
+
+      if(currentAngle >= 0 && currentAngle <= 90) {
+        position.x = position.x + x;
+        position.y = position.y + y;
+      }
+      else if(currentAngle > 90 && currentAngle <= 180) {
+        position.x = position.x - x;
+        position.y = position.y + y;
+      }
+      else if(currentAngle < 0 && currentAngle >= -90) {
+        position.x = position.x + x;
+        position.y = position.y - y;
+      }
+      else if(currentAngle < -90 && currentAngle >= -180) {
+        position.x = position.x - x;
+        position.y = position.y - y;
+      }
+    }
 
     updateBody();
   }
@@ -81,8 +83,9 @@ public class MovementComponent implements Component {
 
   /**
    * Moves to the given screen coordinates
-   * @param x  screen x
-   * @param y  screen y
+   *
+   * @param x screen x
+   * @param y screen y
    */
   public void moveTo(float x, float y) {
     this.mapTargetX = x;
@@ -94,6 +97,7 @@ public class MovementComponent implements Component {
 
   /**
    * Returns true if the target entity is a valid target to move to
+   *
    * @param entity the entity that has been clicked on
    */
   public boolean moveToEntity(Entity entity) {
@@ -107,6 +111,14 @@ public class MovementComponent implements Component {
   }
 
 
+  public void setTarget(Entity target) {
+    this.target = target;
+  }
+
+  public Entity getTarget() {
+    return target;
+  }
+
   // -------------------- Helper --------------------------------------
 
   private void updateBody() {
@@ -117,29 +129,33 @@ public class MovementComponent implements Component {
    * Updates the spine speed depending
    * on the click distance
    */
-  private float updateSpeed() {
-    Vector2 point1 = new Vector2(position.x, position.y);
-    Vector2 point2 = new Vector2(mapTargetX, mapTargetY);
+  private void updateSpeed() {
+    if(target == null) {
+      Vector2 point1 = new Vector2(position.x, position.y);
+      Vector2 point2 = new Vector2(mapTargetX, mapTargetY);
 
-    //TODO offset not working
-    float speedOffset = 30; //px
-    float distance = point1.dst(point2) - speedOffset;
-    float percentage = 0;
-    if(distance > 0) {
-      float maxDistance = Gdx.graphics.getHeight()/2;
-      if(distance > maxDistance) {
-        distance = maxDistance;
+      //TODO offset not working
+      float speedOffset = 30; //px
+      float distance = point1.dst(point2) - speedOffset;
+      float percentage = 0;
+      if(distance > 0) {
+        float maxDistance = Gdx.graphics.getHeight() / 2;
+        if(distance > maxDistance) {
+          distance = maxDistance;
+        }
+
+        percentage = distance * 100 / maxDistance;
       }
 
-      percentage = distance * 100 / maxDistance;
-    }
+      if(percentage < 10) {
+        percentage = 0;
+      }
 
-    if(percentage < 10) {
-      percentage = 0;
+      speed.setTargetSpeedPercentage(percentage);
     }
-
-    speed.setTargetSpeedPercentage(percentage);
-    return percentage;
+    else {
+      speed.setTargetSpeedPercentage(100);
+    }
   }
 
   /**

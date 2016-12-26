@@ -30,7 +30,7 @@ public class Player extends Spine implements Updateable, EntityClickListener {
 
   @Override
   public void entityClicked(Entity entity) {
-
+    movementComponent.setTarget(entity);
   }
 
   @Override

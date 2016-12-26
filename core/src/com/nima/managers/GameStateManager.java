@@ -7,6 +7,7 @@ public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
 
   private boolean paused;
+  private boolean inGameMenu;
 
   private GameStateManager() {
     //force singleton
@@ -26,5 +27,13 @@ public class GameStateManager {
 
   public void togglePause() {
     this.paused = !paused;
+  }
+
+  public boolean isInGameMenu() {
+    return inGameMenu;
+  }
+
+  public void setInGameMenu(boolean inGameMenu) {
+    this.inGameMenu = inGameMenu;
   }
 }

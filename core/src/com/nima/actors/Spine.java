@@ -14,6 +14,7 @@ abstract public class Spine extends Entity {
   protected PositionComponent positionComponent;
   protected SpeedComponent speedComponent;
   protected CollisionComponent collisionComponent;
+  protected ScalingComponent scalingComponent;
 
   public Spine(String path, String defaultAnimation, float scaling) {
     spineComponent = new SpineComponent(path, defaultAnimation, scaling);
@@ -21,6 +22,9 @@ abstract public class Spine extends Entity {
 
     positionComponent = new PositionComponent(0, 0);
     add(positionComponent);
+
+    scalingComponent = new ScalingComponent(spineComponent, scaling);
+    add(scalingComponent);
 
     dimensionComponent = new DimensionComponent(spineComponent);
     add(dimensionComponent);
