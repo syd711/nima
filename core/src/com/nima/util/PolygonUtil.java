@@ -70,8 +70,8 @@ public class PolygonUtil {
   public static Polygon rectangle2Polygon(Rectangle rectangle) {
     float w = rectangle.width;
     float h = rectangle.height;
-    float x = rectangle.x;
-    float y = rectangle.y;
+    float x = 0;
+    float y = 0;
     return rectangle2Polygon(w, h, x, y);
   }
 

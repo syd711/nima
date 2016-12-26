@@ -43,7 +43,10 @@ public class CollisionComponent implements Component {
 
     if(mapObject instanceof RectangleMapObject) {
       RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-      polygons.add(PolygonUtil.rectangle2Polygon(rectangle.getRectangle()));
+      Rectangle r = rectangle.getRectangle();
+      Polygon polygon = PolygonUtil.rectangle2Polygon(r.width, r.height, 0, 0);
+      polygon.setPosition(r.x, r.y);
+      polygons.add(polygon);
       TiledMultiMapRenderer.debugRenderer.render(polygons);
     }
     else if(mapObject instanceof PolygonMapObject) {
