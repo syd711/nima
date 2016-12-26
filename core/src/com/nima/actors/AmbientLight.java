@@ -8,10 +8,11 @@ import box2dLight.RayHandler;
 public class AmbientLight implements Updateable {
 
   private RayHandler rayHandler;
+  private float brightness = 0.7f;
 
   public AmbientLight(RayHandler rayHandler) {
     this.rayHandler = rayHandler;
-    rayHandler.setAmbientLight(.7f, .7f, .7f, 0.7f);
+    rayHandler.setAmbientLight(.7f, .7f, .7f, brightness);
   }
 
   @Override

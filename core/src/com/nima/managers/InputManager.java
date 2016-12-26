@@ -63,7 +63,6 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean keyTyped(char character) {
-
     return false;
   }
 

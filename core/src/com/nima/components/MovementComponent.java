@@ -23,8 +23,6 @@ public class MovementComponent implements Component {
   private float mapTargetX;
   private float mapTargetY;
 
-  private boolean move = false;
-
   public MovementComponent(Spine spine) {
     this.spine = spine;
     this.collisionComponent = spine.getComponent(CollisionComponent.class);
@@ -35,16 +33,22 @@ public class MovementComponent implements Component {
 
   public void move() {
     if(spine != null) {
-      if(move) {
-        if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
-          speed.setCurrentValue(speed.currentValue - speed.targetValue * 30 / 100);
+        if(speed.getTargetSpeed() == 0) {
+          if(speed.getCurrentSpeed() > 0) {
+            speed.setCurrentSpeed(speed.getCurrentSpeed()-speed.getMaxSpeed()*10/100);
+          }
         }
-        else if(!speed.isAtFullSpeed()) {
-          speed.setCurrentValue(speed.currentValue + speed.targetValue * 1 / 100);
+
+        //reduce speed while the actor is rotating
+        if(spineComponent.isRotating() && speed.isAtFullSpeed()) {
+          speed.setCurrentSpeed(speed.currentSpeed - speed.targetSpeed * 30 / 100);
+        }
+        else if(!speed.isAtFullSpeed()) { //increase speed
+          speed.setCurrentSpeed(speed.currentSpeed + speed.targetSpeed * 1 / 100);
         }
 
         float currentAngle = spineComponent.getRotation();
-        Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentValue);
+        Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
         float x = delta.x;
         float y = delta.y;
 
@@ -65,14 +69,15 @@ public class MovementComponent implements Component {
           position.y = position.y - y;
         }
       }
-    }
 
     updateBody();
   }
 
-  private void updateBody() {
-    collisionComponent.updateBody();
+
+  public void stop() {
+    speed.setTargetSpeedPercentage(0);
   }
+
 
   /**
    * Moves to the given screen coordinates
@@ -80,10 +85,11 @@ public class MovementComponent implements Component {
    * @param y  screen y
    */
   public void moveTo(float x, float y) {
-    move = true;
     this.mapTargetX = x;
     this.mapTargetY = y;
-    moveSpine();
+
+    updateSpeed();
+    updateRotation();
   }
 
   /**
@@ -92,7 +98,9 @@ public class MovementComponent implements Component {
    */
   public boolean moveToEntity(Entity entity) {
     if(entity instanceof Location) {
-
+      MapObjectComponent mapObjectComponent = entity.getComponent(MapObjectComponent.class);
+      Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
+      moveTo(centeredPosition.x, centeredPosition.y);
       return true;
     }
     return false;
@@ -101,10 +109,8 @@ public class MovementComponent implements Component {
 
   // -------------------- Helper --------------------------------------
 
-  private void moveSpine() {
-    if(updateSpeed() > 0) {
-      updateRotation();
-    }
+  private void updateBody() {
+    collisionComponent.updateBody();
   }
 
   /**
@@ -159,13 +165,5 @@ public class MovementComponent implements Component {
 
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
     spineComponent.rotate(targetAngle, rotateLeft);
-  }
-
-  public boolean isMove() {
-    return move;
-  }
-
-  public void setMove(boolean move) {
-    this.move = move;
   }
 }

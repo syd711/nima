@@ -8,29 +8,41 @@ import com.badlogic.ashley.core.Component;
 public class SpeedComponent implements Component {
 
   public float maxSpeed;
-  public float currentValue;
-  public float targetValue;
+  public float currentSpeed;
+  public float targetSpeed;
 
   public SpeedComponent(float maxSpeed) {
     this.maxSpeed = maxSpeed;
-    this.currentValue = 0;
+    this.currentSpeed = 0;
   }
 
   public boolean isAtFullSpeed() {
-    return this.targetValue == currentValue;
+    return this.targetSpeed == currentSpeed;
   }
 
   public void setTargetSpeedPercentage(float percentage) {
     System.out.println("Speed: " + percentage + "%");
-    this.targetValue = maxSpeed*percentage/100;
+    this.targetSpeed = maxSpeed*percentage/100;
   }
 
-  public void setCurrentValue(float v) {
+  public float getTargetSpeed() {
+    return targetSpeed;
+  }
+
+  public float getCurrentSpeed() {
+    return currentSpeed;
+  }
+
+  public float getMaxSpeed() {
+    return maxSpeed;
+  }
+
+  public void setCurrentSpeed(float v) {
     if(v >=0) {
-      this.currentValue = v;
+      this.currentSpeed = v;
     }
-    if(currentValue > targetValue) {
-      currentValue = targetValue;
+    if(currentSpeed > targetSpeed) {
+      currentSpeed = targetSpeed;
     }
   }
 }

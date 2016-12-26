@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 /**
  * Central Ashley initialization of entity systems.
  */
-public class EntityManager implements MapChangeListener {
+public class EntityManager implements MapChangeListener, EntityClickListener {
   private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
 
   private PooledEngine engine;
@@ -40,7 +40,7 @@ public class EntityManager implements MapChangeListener {
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
-  private List<EntityClickedListener> entityClickedListeners = new ArrayList<>();
+  private List<EntityClickListener> entityClickListeners = new ArrayList<>();
   private List<CollisionListener> collisionListeners = new ArrayList<>();
 
   private static EntityManager INSTANCE;
@@ -88,6 +88,10 @@ public class EntityManager implements MapChangeListener {
 
   public Player getPlayer() {
     return player;
+  }
+
+  public void addEntityClickListener(EntityClickListener entityClickListener) {
+    this.entityClickListeners.add(entityClickListener);
   }
 
   public void addCollisionListener(CollisionListener listener) {
@@ -184,10 +188,32 @@ public class EntityManager implements MapChangeListener {
     for(Entity entity : entities) {
       CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
       if(collisionComponent.collidesWith(clickPolygon)) {
+        notifyEntityClickListeners(entity);
         return entity;
       }
     }
 
     return null;
+  }
+
+  //------------- Entity click listener --------------------------------------------
+
+  @Override
+  public void entityClicked(Entity entity) {
+
+  }
+
+  @Override
+  public void entityDoubleClicked(Entity entity) {
+
+  }
+
+  // --------------- Helper ---------------------------------------------------------
+
+  private void notifyEntityClickListeners(Entity entity) {
+    for(EntityClickListener entityClickListener : this.entityClickListeners) {
+      entityClickListener.entityClicked(entity);
+    }
+
   }
 }

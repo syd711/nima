@@ -2,6 +2,8 @@ package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
+import com.nima.managers.EntityProperties;
 
 /**
  * Component implementation for map objects
@@ -17,7 +19,7 @@ public class MapObjectComponent implements Component {
     return mapObject.getName();
   }
 
-  public String getType() {
-    return (String) mapObject.getProperties().get("type");
+  public Vector2 getCenteredPosition() {
+    return (Vector2) mapObject.getProperties().get(EntityProperties.PROPERTY_CENTERED_POSITION);
   }
 }
