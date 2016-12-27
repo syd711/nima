@@ -82,6 +82,24 @@ public class PolygonUtil {
     return false;
   }
 
+  public static Vector2 getSpineCenter(Spine spine, String slotName) {
+    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+    boolean premultipliedAlpha = false;
+    for(int i = 0, n = drawOrder.size; i < n; i++) {
+      Slot slot = drawOrder.get(i);
+      Attachment attachment = slot.getAttachment();
+      if(attachment instanceof RegionAttachment) {
+        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+        String name = slot.getData().getName();
+        if(slotName.equals(slotName)) {
+          return new Vector2(vertices[0], vertices[1]);
+        }
+      }
+    }
+    return null;
+  }
+
   public static List<Polygon> createSpinePolygons(Spine spine) {
     List<Polygon> polygons = new ArrayList<>();
     boolean premultipliedAlpha = false;

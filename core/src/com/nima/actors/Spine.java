@@ -4,8 +4,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
+import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
 
 /**
@@ -30,12 +32,10 @@ abstract public class Spine extends Entity implements Updateable {
   private final SkeletonJson json;
   private String defaultAnimation;
 
-
   public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling) {
     this.renderer = renderer;
-
     this.defaultAnimation = defaultAnimation;
-    skeletonRenderer = new SkeletonRenderer();
+    this.skeletonRenderer = new SkeletonRenderer();
 
     atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
     // This loads skeleton JSON data, which is stateless.
@@ -104,5 +104,9 @@ abstract public class Spine extends Entity implements Updateable {
 
   protected float getHeight() {
     return skeleton.getData().getHeight() * scalingComponent.getScaling();
+  }
+
+  public Vector2 getCenter() {
+    return PolygonUtil.getSpineCenter(this, "torso");
   }
 }

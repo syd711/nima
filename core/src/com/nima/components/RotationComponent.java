@@ -89,10 +89,8 @@ public class RotationComponent implements Component {
     float width = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
     float height = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
 
-//    float x = (float) (positionComponent.x + Math.cos(width/2));
-//    float y = (float) (positionComponent.y + Math.sin(height/2));
-    float x = positionComponent.x;
-    float y = positionComponent.y;
+    float x = spine.getCenter().x;
+    float y = spine.getCenter().y;
     float angle = GraphicsUtil.getAngle(x, y, mapTargetX, mapTargetY) * -1;
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = (float) Math.round((angle - modulo) * -1);
