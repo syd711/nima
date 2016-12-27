@@ -72,9 +72,6 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     LightSystem lightSystem = new LightSystem();
     engine.addSystem(lightSystem);
 
-    SpeedSystem speedSystem = new SpeedSystem();
-    engine.addSystem(speedSystem);
-
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
 

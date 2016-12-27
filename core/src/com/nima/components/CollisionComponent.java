@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
-import com.nima.actors.Spine;
 import com.nima.render.MapConstants;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.PolygonUtil;
@@ -17,12 +16,11 @@ import java.util.List;
  * Component responsible for handling the collision of entities
  */
 public class CollisionComponent implements Component {
-  private List<Object> collisionComponents = new ArrayList<>();
-  private SpineComponent spineComponent;
+  public List<Object> collisionComponents = new ArrayList<>();
   private List<CollisionComponent> collidingObjects = new ArrayList<>();
 
-  public CollisionComponent(SpineComponent spineComponent) {
-    this.spineComponent = spineComponent;
+  public CollisionComponent() {
+
   }
 
   /**
@@ -36,17 +34,6 @@ public class CollisionComponent implements Component {
     Object collisionObject = object.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
     collisionComponents.add(collisionObject);
     TiledMultiMapRenderer.debugRenderer.render(collisionObject);
-  }
-
-  /**
-   * If the entity is a moving object like a spine, it's polygons must be refresh.
-   * This is ensured by the MovementSystem.
-   */
-  public void updateBody(Entity entity) {
-    if(this.spineComponent != null) {
-      collisionComponents.clear();
-      collisionComponents.addAll(PolygonUtil.createSpinePolygons((Spine) entity));
-    }
   }
 
   /**

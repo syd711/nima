@@ -64,7 +64,7 @@ abstract public class Spine extends Entity implements Updateable {
     scalingComponent = new ScalingComponent(1f);
     add(scalingComponent);
 
-    collisionComponent = new CollisionComponent(spineComponent);
+    collisionComponent = new CollisionComponent();
     add(collisionComponent);
 
     movementComponent = new MovementComponent(this);
@@ -97,6 +97,7 @@ abstract public class Spine extends Entity implements Updateable {
       skeleton.getRootBone().setScale(scalingComponent.getScaling());
     }
     skeleton.setPosition(positionComponent.x, positionComponent.y);
+    speedComponent.updateSpeed();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }

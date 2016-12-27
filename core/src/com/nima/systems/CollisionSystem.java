@@ -5,10 +5,12 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.nima.actors.Spine;
 import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.SpineComponent;
 import com.nima.managers.EntityManager;
+import com.nima.util.PolygonUtil;
 
 import java.util.logging.Logger;
 
@@ -37,8 +39,14 @@ public class CollisionSystem extends AbstractIteratingSystem {
    * @param entity the spine entity
    */
   private void checkSpineMapObjectsCollisions(Entity entity) {
-    CollisionComponent spine = entity.getComponent(CollisionComponent.class);
-    spine.updateBody(entity);
+    CollisionComponent spineCollision = entity.getComponent(CollisionComponent.class);
+
+    /*
+     * If the entity is a moving object like a spine, it's polygons must be refresh.
+     * This is ensured by the MovementSystem.
+     */
+    spineCollision.collisionComponents.clear();
+    spineCollision.collisionComponents.addAll(PolygonUtil.createSpinePolygons((Spine) entity));
 
     Family mapObjectsFamily = Family.all(LocationComponent.class).get();
     ImmutableArray<Entity> entities = engine.getEntitiesFor(mapObjectsFamily);
@@ -46,17 +54,17 @@ public class CollisionSystem extends AbstractIteratingSystem {
     //check all map entities
     for(Entity mapEntity : entities) {
       CollisionComponent mapObject = mapEntity.getComponent(CollisionComponent.class);
-      if(spine.collidesWith(entity, mapObject)) {
+      if(spineCollision.collidesWith(entity, mapObject)) {
         //check if the collision was already registered
-        if(!spine.isColliding(mapObject)) {
-          spine.addCollision(mapObject);
+        if(!spineCollision.isColliding(mapObject)) {
+          spineCollision.addCollision(mapObject);
           EntityManager.getInstance().notifyCollisionStart(entity, mapEntity);
         }
       }
       else {
         //de-register the collision and notify listeners
-        if(spine.isColliding(mapObject)) {
-          spine.removeCollision(mapObject);
+        if(spineCollision.isColliding(mapObject)) {
+          spineCollision.removeCollision(mapObject);
           EntityManager.getInstance().notifyCollisionEnd(entity, mapEntity);
         }
       }

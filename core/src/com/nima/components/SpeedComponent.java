@@ -21,24 +21,21 @@ public class SpeedComponent implements Component {
     this.currentSpeed = 0;
   }
 
-
-  public boolean isAtTargetSpeed() {
-    return currentSpeed == targetSpeed;
-  }
-
   public void setTargetSpeedPercentage(float percentage) {
     targetSpeed = maxSpeed*percentage/100;
     targetSpeed = (float) (Math.round(targetSpeed * 100.0) / 100.0);
   }
 
   public void updateSpeed() {
-    if(currentSpeed < targetSpeed) {
-      currentSpeed+=velocityUp;
+    if(currentSpeed != targetSpeed) {
+      if(currentSpeed < targetSpeed) {
+        currentSpeed+=velocityUp;
+      }
+      else if (currentSpeed > targetSpeed && currentSpeed > 0) {
+        currentSpeed-=velocityDown;
+      }
+      currentSpeed = (float) (Math.round(currentSpeed * 100.0) / 100.0);
     }
-    else if (currentSpeed > targetSpeed && currentSpeed > 0) {
-      currentSpeed-=velocityDown;
-    }
-    currentSpeed = (float) (Math.round(currentSpeed * 100.0) / 100.0);
   }
 
   public void calculateTargetSpeed(Vector2 point1, Vector2 point2) {
