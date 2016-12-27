@@ -53,15 +53,15 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     addEntityClickListener(this);
 
     //create player
-    player = new Player(world, rayHandler);
+    player = new Player(renderer, world, rayHandler);
     engine.addEntity(player);
 
     //create systems
     SpinePositionSystem positionSystem = new SpinePositionSystem();
     engine.addSystem(positionSystem);
 
-    SpineRenderSystem spineRenderSystem = new SpineRenderSystem(renderer);
-    engine.addSystem(spineRenderSystem);
+    RotationSystem rotationSystem = new RotationSystem();
+    engine.addSystem(rotationSystem);
 
     CollisionSystem collisionSystem = new CollisionSystem(engine);
     engine.addSystem(collisionSystem);

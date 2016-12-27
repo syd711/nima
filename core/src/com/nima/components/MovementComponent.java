@@ -13,7 +13,7 @@ import com.nima.util.Settings;
  */
 public class MovementComponent implements Component {
 
-  private CollisionComponent collisionComponent;
+  private RotationComponent rotationComponent;
   private PositionComponent position;
   private SpineComponent spineComponent;
   private SpeedComponent speed;
@@ -25,7 +25,7 @@ public class MovementComponent implements Component {
 
   public MovementComponent(Spine spine) {
     this.spine = spine;
-    this.collisionComponent = spine.getComponent(CollisionComponent.class);
+    this.rotationComponent = spine.getComponent(RotationComponent.class);
     this.spineComponent = spine.getComponent(SpineComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
@@ -33,7 +33,7 @@ public class MovementComponent implements Component {
 
   public void move() {
     if(spine != null) {
-      float currentAngle = spineComponent.getRotation();
+      float currentAngle = rotationComponent.getRotation();
       Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
       float x = delta.x;
       float y = delta.y;
@@ -55,8 +55,6 @@ public class MovementComponent implements Component {
         position.y = position.y - y;
       }
     }
-
-    updateBody();
   }
 
 
@@ -94,20 +92,11 @@ public class MovementComponent implements Component {
     return false;
   }
 
-
-  public void setTarget(Entity target) {
-    this.target = target;
-  }
-
   public Entity getTarget() {
     return target;
   }
 
   // -------------------- Helper --------------------------------------
-
-  private void updateBody() {
-    collisionComponent.updateBody();
-  }
 
   /**
    * Calculate to turn right or left
@@ -117,7 +106,7 @@ public class MovementComponent implements Component {
 
     float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
     float targetAngle = Math.round((angle - modulo) * -1);
-    float currentAngle = spineComponent.getRotation();
+    float currentAngle = rotationComponent.getRotation();
 
     float normalizedTarget = targetAngle;
     if(normalizedTarget < 0) {
@@ -130,6 +119,6 @@ public class MovementComponent implements Component {
     }
 
     boolean rotateLeft = (normalizedTarget - normalizedSource + 360) % 360 > 180;
-    spineComponent.rotate(targetAngle, rotateLeft);
+    rotationComponent.rotate(targetAngle, rotateLeft);
   }
 }

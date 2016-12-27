@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Ellipse;
+import com.nima.actors.Spine;
 
 /**
  * The size of map entities
@@ -35,10 +36,11 @@ public class DimensionComponent implements Component {
 
   /**
    * Constructor for spines
-   * @param spineComponent the spine object to create the polygon for
+   * @param spine the spine object to create the polygon for
    */
-  public DimensionComponent(SpineComponent spineComponent) {
-    width = spineComponent.skeleton.getData().getWidth()*spineComponent.getScaling();
-    height = spineComponent.skeleton.getData().getHeight()*spineComponent.getScaling();
+  public DimensionComponent(Spine spine) {
+    ScalingComponent scalingComponent = spine.getComponent(ScalingComponent.class);
+    width = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
+    height = spine.skeleton.getData().getHeight()*scalingComponent.getScaling();
   }
 }

@@ -38,6 +38,7 @@ public class CollisionSystem extends AbstractIteratingSystem {
    */
   private void checkSpineMapObjectsCollisions(Entity entity) {
     CollisionComponent spine = entity.getComponent(CollisionComponent.class);
+    spine.updateBody(entity);
 
     Family mapObjectsFamily = Family.all(LocationComponent.class).get();
     ImmutableArray<Entity> entities = engine.getEntitiesFor(mapObjectsFamily);

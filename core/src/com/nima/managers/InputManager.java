@@ -9,23 +9,18 @@ import com.nima.actors.Player;
 import com.nima.components.MovementComponent;
 import com.nima.components.PositionComponent;
 import com.nima.util.GraphicsUtil;
-import com.nima.util.Settings;
 
 /**
  * Handles all kind of user input.
  */
 public class InputManager implements InputProcessor {
 
-  private PositionComponent positionComponent;
-  private MovementComponent movementComponent;
   private OrthographicCamera camera;
   private Player player;
 
   public InputManager(Player player, OrthographicCamera camera) {
     this.camera = camera;
     this.player = player;
-    this.positionComponent = player.getComponent(PositionComponent.class);
-    movementComponent = player.getComponent(MovementComponent.class);
   }
 
   /**
@@ -34,18 +29,18 @@ public class InputManager implements InputProcessor {
    * single key events, e.g. open the map overview.
    */
   public void handleKeyInput() {
-    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      positionComponent.translate(-Settings.MAX_ACTOR_SPEED, 0);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      positionComponent.translate(Settings.MAX_ACTOR_SPEED, 0);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      positionComponent.translate(0, Settings.MAX_ACTOR_SPEED);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      positionComponent.translate(0, -Settings.MAX_ACTOR_SPEED);
-    }
+//    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+//      positionComponent.translate(-Settings.MAX_ACTOR_SPEED, 0);
+//    }
+//    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+//      positionComponent.translate(Settings.MAX_ACTOR_SPEED, 0);
+//    }
+//    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+//      positionComponent.translate(0, Settings.MAX_ACTOR_SPEED);
+//    }
+//    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+//      positionComponent.translate(0, -Settings.MAX_ACTOR_SPEED);
+//    }
   }
 
   @Override

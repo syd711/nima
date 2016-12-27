@@ -2,6 +2,7 @@ package com.nima.actors;
 
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.components.ScreenPositionComponent;
@@ -14,8 +15,8 @@ import com.nima.util.Resources;
  */
 public class Player extends Spine implements Updateable {
 
-  public Player(World world, RayHandler rayHandler) {
-    super(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
+  public Player(BatchTiledMapRenderer renderer, World world, RayHandler rayHandler) {
+    super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(dimensionComponent.height);
     positionComponent.x = screenCenter.x;
@@ -26,6 +27,7 @@ public class Player extends Spine implements Updateable {
 
   @Override
   public void update() {
+    super.update();
   }
 
   public void moveTo(Vector2 worldCoordinates) {

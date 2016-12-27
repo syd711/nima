@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
+import com.nima.actors.Spine;
 import com.nima.render.MapConstants;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.PolygonUtil;
@@ -17,7 +18,6 @@ import java.util.List;
  */
 public class CollisionComponent implements Component {
   private List<Object> collisionComponents = new ArrayList<>();
-  private MapObject mapObject;
   private SpineComponent spineComponent;
   private List<CollisionComponent> collidingObjects = new ArrayList<>();
 
@@ -33,8 +33,7 @@ public class CollisionComponent implements Component {
    * @param object the map object to create the polygon for
    */
   public CollisionComponent(MapObject object) {
-    this.mapObject = object;
-    Object collisionObject = mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
+    Object collisionObject = object.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
     collisionComponents.add(collisionObject);
     TiledMultiMapRenderer.debugRenderer.render(collisionObject);
   }
@@ -43,10 +42,10 @@ public class CollisionComponent implements Component {
    * If the entity is a moving object like a spine, it's polygons must be refresh.
    * This is ensured by the MovementSystem.
    */
-  public void updateBody() {
+  public void updateBody(Entity entity) {
     if(this.spineComponent != null) {
       collisionComponents.clear();
-      collisionComponents.addAll(PolygonUtil.createSpinePolygons(spineComponent));
+      collisionComponents.addAll(PolygonUtil.createSpinePolygons((Spine) entity));
     }
   }
 

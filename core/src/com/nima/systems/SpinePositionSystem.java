@@ -19,7 +19,7 @@ public class SpinePositionSystem extends AbstractIteratingSystem {
     SpineComponent spineComponent = spineMap.get(entity);
 
     if(spineComponent != null) {
-      spineComponent.setPosition(positionComponent.x, positionComponent.y);
+      positionComponent.setPosition(positionComponent.x, positionComponent.y);
     }
   }
 }

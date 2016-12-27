@@ -1,13 +1,17 @@
 package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.esotericsoftware.spine.*;
 import com.nima.components.*;
 import com.nima.util.Settings;
 
 /**
  * Superclass for spine entities
  */
-abstract public class Spine extends Entity {
+abstract public class Spine extends Entity implements Updateable {
   protected SpineComponent spineComponent;
   protected MovementComponent movementComponent;
   protected DimensionComponent dimensionComponent;
@@ -15,22 +19,54 @@ abstract public class Spine extends Entity {
   protected SpeedComponent speedComponent;
   protected CollisionComponent collisionComponent;
   protected ScalingComponent scalingComponent;
+  protected RotationComponent rotationComponent;
 
-  public Spine(String path, String defaultAnimation, float scaling) {
-    spineComponent = new SpineComponent(path, defaultAnimation, scaling);
+  protected BatchTiledMapRenderer renderer;
+
+  protected final TextureAtlas atlas;
+  public final Skeleton skeleton;
+  protected final AnimationState state;
+
+  protected SkeletonRenderer skeletonRenderer;
+  private final SkeletonJson json;
+  private String defaultAnimation;
+
+
+  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float scaling) {
+    this.renderer = renderer;
+
+    this.defaultAnimation = defaultAnimation;
+    skeletonRenderer = new SkeletonRenderer();
+
+    atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
+    // This loads skeleton JSON data, which is stateless.
+    json = new SkeletonJson(atlas);
+    json.setScale(scaling); // Load the skeleton at x% the size it was in Spine.
+    SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal(path + ".json"));
+
+    skeleton = new Skeleton(skeletonData); // Skeleton holds skeleton state (bone positions, slot attachments, etc).
+
+    AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
+    state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
+//    state.setAnimation(0, defaultAnimation, true);
+
+    spineComponent = new SpineComponent();
     add(spineComponent);
 
-    positionComponent = new PositionComponent(0, 0);
+    positionComponent = new PositionComponent(this);
     add(positionComponent);
-
-    scalingComponent = new ScalingComponent(spineComponent, scaling);
-    add(scalingComponent);
-
-    dimensionComponent = new DimensionComponent(spineComponent);
-    add(dimensionComponent);
 
     speedComponent = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
     add(speedComponent);
+
+    rotationComponent = new RotationComponent(this);
+    add(rotationComponent);
+
+    scalingComponent = new ScalingComponent(this, scaling);
+    add(scalingComponent);
+
+    dimensionComponent = new DimensionComponent(this);
+    add(dimensionComponent);
 
     collisionComponent = new CollisionComponent(spineComponent);
     add(collisionComponent);
@@ -50,5 +86,16 @@ abstract public class Spine extends Entity {
 //    shape.setAsBox(dimensionComponent.width / 2 / Settings.PPM, dimensionComponent.height / 2 / Settings.PPM);
 //    body.createFixture(shape, 1f);
 //    shape.dispose();
+
+  }
+
+
+  @Override
+  public void update() {
+    state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
+    state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
+    skeleton.updateWorldTransform();
+
+    skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 }

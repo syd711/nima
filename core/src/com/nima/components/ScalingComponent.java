@@ -1,6 +1,7 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
+import com.nima.actors.Spine;
 
 /**
  * Component implementation for scaling
@@ -11,15 +12,19 @@ public class ScalingComponent implements Component {
   private float currentScale;
   private float targetScale;
 
-  private SpineComponent spineComponent;
+  private Spine spine;
 
-  public ScalingComponent(SpineComponent spineComponent, float scaling) {
+  public ScalingComponent(Spine spine, float scaling) {
     this.scaling = scaling;
-    this.spineComponent = spineComponent;
+    this.spine = spine;
   }
 
   public void setScaling(float scaling) {
     this.scaling = scaling;
-    this.spineComponent.skeleton.getRootBone().setScale(scaling);
+    this.spine.skeleton.getRootBone().setScale(scaling);
+  }
+
+  public float getScaling() {
+    return scaling;
   }
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
-import com.nima.components.SpineComponent;
+import com.nima.actors.Spine;
 import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -39,9 +39,9 @@ public class PolygonUtil {
     return new float[]{x, y, w + x, y, w + x, h + y, x, h + y};
   }
 
-  public static Polygon spine2Polygon(SpineComponent spine) {
-    float w = spine.skeleton.getData().getWidth() * spine.getScaling();
-    float h = spine.skeleton.getData().getHeight() * spine.getScaling();
+  public static Polygon spine2Polygon(Spine spine, float scaling, float rotation) {
+    float w = spine.skeleton.getData().getWidth() * scaling;
+    float h = spine.skeleton.getData().getHeight() * scaling;
     float x = spine.skeleton.getX();
 //    float x = spine.skeleton.getX()-w/2;
     float y = spine.skeleton.getY();
@@ -50,7 +50,7 @@ public class PolygonUtil {
     polygon.setPosition(0, 0);
     polygon.setOrigin(x, y);
     polygon.setVertices(createVertices(w, h, x, y));
-    polygon.setRotation(spine.getRotation());
+    polygon.setRotation(rotation);
     return polygon;
   }
 
@@ -97,10 +97,10 @@ public class PolygonUtil {
     return false;
   }
 
-  public static List<Polygon> createSpinePolygons(SpineComponent spineComponent) {
+  public static List<Polygon> createSpinePolygons(Spine spine) {
     List<Polygon> polygons = new ArrayList<>();
     boolean premultipliedAlpha = false;
-    Array<Slot> drawOrder = spineComponent.skeleton.getDrawOrder();
+    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
     for(int i = 0, n = drawOrder.size; i < n; i++) {
       Slot slot = drawOrder.get(i);
       Attachment attachment = slot.getAttachment();
