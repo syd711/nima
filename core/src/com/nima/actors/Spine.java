@@ -52,6 +52,9 @@ abstract public class Spine extends Entity implements Updateable {
     spineComponent = new SpineComponent();
     add(spineComponent);
 
+    scalingComponent = new ScalingComponent(1f);
+    add(scalingComponent);
+
     positionComponent = new PositionComponent();
     add(positionComponent);
 
@@ -60,9 +63,6 @@ abstract public class Spine extends Entity implements Updateable {
 
     rotationComponent = new RotationComponent(this);
     add(rotationComponent);
-
-    scalingComponent = new ScalingComponent(1f);
-    add(scalingComponent);
 
     collisionComponent = new CollisionComponent();
     add(collisionComponent);

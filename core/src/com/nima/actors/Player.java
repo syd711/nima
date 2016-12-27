@@ -6,14 +6,18 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nima.components.ScreenPositionComponent;
+import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
+import com.nima.managers.GameStateManager;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 
 /**
  * The player with all ashley components.
  */
-public class Player extends Spine implements Updateable {
+public class Player extends Spine implements Updateable, CollisionListener {
+
+  private Entity targetEntity;
 
   public Player(BatchTiledMapRenderer renderer, World world, RayHandler rayHandler) {
     super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
@@ -28,13 +32,18 @@ public class Player extends Spine implements Updateable {
   @Override
   public void update() {
     super.update();
+
+    if(targetEntity != null && scalingComponent.getCurrentScaling() == 0.4f) {
+      GameStateManager.getInstance().setNavigating(false);
+      GameStateManager.getInstance().setInGameMenu(true);
+    }
   }
 
   public void moveTo(Vector2 worldCoordinates) {
     //first update the target to move to...
-    Entity target = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
-    if(target != null) {
-      movementComponent.moveToEntity(target);
+    targetEntity = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
+    if(targetEntity != null) {
+      movementComponent.moveToEntity(targetEntity);
     }
     else {
       movementComponent.moveTo(worldCoordinates.x, worldCoordinates.y);
@@ -44,5 +53,32 @@ public class Player extends Spine implements Updateable {
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
     Vector2 point2 = new Vector2(worldCoordinates.x, worldCoordinates.y);
     speedComponent.calculateTargetSpeed(point1, point2);
+  }
+
+  //------------------ Collision Listener --------------------------------
+
+  @Override
+  public void collisionStart(Player player, Entity mapObjectEntity) {
+    if(targetEntity != null && targetEntity.equals(mapObjectEntity)) {
+      System.out.println("Reached destination");
+      scalingComponent.setScaling(0.4f);
+    }
+  }
+
+  @Override
+  public void collisionEnd(Player player, Entity mapObjectEntity) {
+    if(scalingComponent.getScaling() < 1f) {
+      scalingComponent.setScaling(1f);
+    }
+  }
+
+  @Override
+  public void collisionStart(Spine spine, Entity mapObjectEntity) {
+
+  }
+
+  @Override
+  public void collisionEnd(Spine spine, Entity mapObjectEntity) {
+
   }
 }

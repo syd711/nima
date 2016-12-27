@@ -39,21 +39,6 @@ public class PolygonUtil {
     return new float[]{x, y, w + x, y, w + x, h + y, x, h + y};
   }
 
-  public static Polygon spine2Polygon(Spine spine, float scaling, float rotation) {
-    float w = spine.skeleton.getData().getWidth() * scaling;
-    float h = spine.skeleton.getData().getHeight() * scaling;
-    float x = spine.skeleton.getX();
-//    float x = spine.skeleton.getX()-w/2;
-    float y = spine.skeleton.getY();
-    Polygon polygon = new Polygon();
-//    polygon.setPosition(x-w/2, y);
-    polygon.setPosition(0, 0);
-    polygon.setOrigin(x, y);
-    polygon.setVertices(createVertices(w, h, x, y));
-    polygon.setRotation(rotation);
-    return polygon;
-  }
-
   public static float[] convertSpineVertices(float[] vertices) {
     if(vertices.length % 5 != 0) {
       throw new UnsupportedOperationException("Vertices have wrong size");

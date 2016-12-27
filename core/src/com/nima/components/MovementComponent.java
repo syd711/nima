@@ -15,46 +15,44 @@ public class MovementComponent implements Component {
   private RotationComponent rotationComponent;
   private PositionComponent position;
   private SpeedComponent speed;
-  private Spine spine;
 
   private Entity target;
 
   public MovementComponent(Spine spine) {
-    this.spine = spine;
     this.rotationComponent = spine.getComponent(RotationComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
   }
 
   public void move() {
-    if(spine != null) {
-      float currentAngle = rotationComponent.getRotation();
-      Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
-      float x = delta.x;
-      float y = delta.y;
+    float currentAngle = rotationComponent.getRotation();
+    Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
+    float x = delta.x;
+    float y = delta.y;
 
-      if(currentAngle >= 0 && currentAngle <= 90) {
-        position.x = position.x + x;
-        position.y = position.y + y;
-      }
-      else if(currentAngle > 90 && currentAngle <= 180) {
-        position.x = position.x - x;
-        position.y = position.y + y;
-      }
-      else if(currentAngle < 0 && currentAngle >= -90) {
-        position.x = position.x + x;
-        position.y = position.y - y;
-      }
-      else if(currentAngle < -90 && currentAngle >= -180) {
-        position.x = position.x - x;
-        position.y = position.y - y;
-      }
+    if(currentAngle >= 0 && currentAngle <= 90) {
+      position.x = position.x + x;
+      position.y = position.y + y;
+    }
+    else if(currentAngle > 90 && currentAngle <= 180) {
+      position.x = position.x - x;
+      position.y = position.y + y;
+    }
+    else if(currentAngle < 0 && currentAngle >= -90) {
+      position.x = position.x + x;
+      position.y = position.y - y;
+    }
+    else if(currentAngle < -90 && currentAngle >= -180) {
+      position.x = position.x - x;
+      position.y = position.y - y;
     }
   }
 
 
   public void stop() {
-    speed.setTargetSpeedPercentage(0);
+    if(speed.targetSpeed > 0) {
+      speed.setTargetSpeedPercentage(0);
+    }
   }
 
 
@@ -66,7 +64,7 @@ public class MovementComponent implements Component {
    */
   public void moveTo(float x, float y) {
     target = null;
-    rotationComponent.setRotationTarget(position.x, position.y, x, y);
+    rotationComponent.setRotationTarget(x, y);
   }
 
   /**

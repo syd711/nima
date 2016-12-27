@@ -24,6 +24,7 @@ public class SpeedComponent implements Component {
   public void setTargetSpeedPercentage(float percentage) {
     targetSpeed = maxSpeed*percentage/100;
     targetSpeed = (float) (Math.round(targetSpeed * 100.0) / 100.0);
+    System.out.println("Target Speed: " + targetSpeed);
   }
 
   public void updateSpeed() {

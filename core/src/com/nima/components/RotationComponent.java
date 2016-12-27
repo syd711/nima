@@ -13,8 +13,15 @@ public class RotationComponent implements Component {
   private boolean rotateLeft = false;
   private Spine spine;
 
+  private float mapTargetX = -1f;
+  private float mapTargetY = -1f;
+  private PositionComponent positionComponent;
+  private ScalingComponent scalingComponent;
+
   public RotationComponent(Spine spine) {
     this.spine = spine;
+    this.positionComponent = spine.getComponent(PositionComponent.class);
+    this.scalingComponent = spine.getComponent(ScalingComponent.class);
   }
 
   public void rotate(float angle, boolean rotateLeft) {
@@ -30,11 +37,11 @@ public class RotationComponent implements Component {
   /**
    * Calculate to turn right or left
    */
-  public void setRotationTarget(float x, float y, float mapTargetX, float mapTargetY) {
-    float angle = GraphicsUtil.getAngle(x, y, mapTargetX, mapTargetY) * -1;
+  public void setRotationTarget(float mapTargetX, float mapTargetY) {
+    this.mapTargetX = mapTargetX;
+    this.mapTargetY = mapTargetY;
 
-    float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
-    float targetAngle = Math.round((angle - modulo) * -1);
+    float targetAngle = getTargetAngle();
     float currentAngle = getRotation();
 
     float normalizedTarget = targetAngle;
@@ -76,6 +83,25 @@ public class RotationComponent implements Component {
 
   public float getRotation() {
     return spine.skeleton.getRootBone().getRootRotation();
+  }
+
+  private float getTargetAngle() {
+    float width = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
+    float height = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
+
+//    float x = (float) (positionComponent.x + Math.cos(width/2));
+//    float y = (float) (positionComponent.y + Math.sin(height/2));
+    float x = positionComponent.x;
+    float y = positionComponent.y;
+    float angle = GraphicsUtil.getAngle(x, y, mapTargetX, mapTargetY) * -1;
+    float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
+    float targetAngle = (float) Math.round((angle - modulo) * -1);
+    //avoid spinning
+    if(targetAngle == -180) {
+      targetAngle = -178;
+    }
+    System.out.println("Target Angle: " + targetAngle);
+    return targetAngle;
   }
 
 }
