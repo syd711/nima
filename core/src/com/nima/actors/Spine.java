@@ -52,7 +52,7 @@ abstract public class Spine extends Entity implements Updateable {
     spineComponent = new SpineComponent();
     add(spineComponent);
 
-    positionComponent = new PositionComponent(this);
+    positionComponent = new PositionComponent();
     add(positionComponent);
 
     speedComponent = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
@@ -61,7 +61,7 @@ abstract public class Spine extends Entity implements Updateable {
     rotationComponent = new RotationComponent(this);
     add(rotationComponent);
 
-    scalingComponent = new ScalingComponent(this, 1f);
+    scalingComponent = new ScalingComponent(1f);
     add(scalingComponent);
 
     collisionComponent = new CollisionComponent(spineComponent);
@@ -92,10 +92,16 @@ abstract public class Spine extends Entity implements Updateable {
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
 
+    float scaleX = skeleton.getRootBone().getScaleX();
+    if(scaleX != scalingComponent.getScaling()) {
+      skeleton.getRootBone().setScale(scalingComponent.getScaling());
+    }
+    skeleton.setPosition(positionComponent.x, positionComponent.y);
+
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 
   protected float getHeight() {
-    return skeleton.getData().getHeight()*scalingComponent.getScaling();
+    return skeleton.getData().getHeight() * scalingComponent.getScaling();
   }
 }
