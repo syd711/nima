@@ -18,7 +18,7 @@ public class Player extends Spine implements Updateable {
   public Player(BatchTiledMapRenderer renderer, World world, RayHandler rayHandler) {
     super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
 
-    Vector2 screenCenter = GraphicsUtil.getScreenCenter(dimensionComponent.height);
+    Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     positionComponent.x = screenCenter.x;
     positionComponent.y = screenCenter.y;
 

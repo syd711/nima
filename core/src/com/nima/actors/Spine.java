@@ -14,7 +14,6 @@ import com.nima.util.Settings;
 abstract public class Spine extends Entity implements Updateable {
   protected SpineComponent spineComponent;
   protected MovementComponent movementComponent;
-  protected DimensionComponent dimensionComponent;
   protected PositionComponent positionComponent;
   protected SpeedComponent speedComponent;
   protected CollisionComponent collisionComponent;
@@ -32,7 +31,7 @@ abstract public class Spine extends Entity implements Updateable {
   private String defaultAnimation;
 
 
-  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float scaling) {
+  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling) {
     this.renderer = renderer;
 
     this.defaultAnimation = defaultAnimation;
@@ -41,7 +40,7 @@ abstract public class Spine extends Entity implements Updateable {
     atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
     // This loads skeleton JSON data, which is stateless.
     json = new SkeletonJson(atlas);
-    json.setScale(scaling); // Load the skeleton at x% the size it was in Spine.
+    json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
     SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal(path + ".json"));
 
     skeleton = new Skeleton(skeletonData); // Skeleton holds skeleton state (bone positions, slot attachments, etc).
@@ -62,11 +61,8 @@ abstract public class Spine extends Entity implements Updateable {
     rotationComponent = new RotationComponent(this);
     add(rotationComponent);
 
-    scalingComponent = new ScalingComponent(this, scaling);
+    scalingComponent = new ScalingComponent(this, 1f);
     add(scalingComponent);
-
-    dimensionComponent = new DimensionComponent(this);
-    add(dimensionComponent);
 
     collisionComponent = new CollisionComponent(spineComponent);
     add(collisionComponent);
@@ -97,5 +93,9 @@ abstract public class Spine extends Entity implements Updateable {
     skeleton.updateWorldTransform();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
+  }
+
+  protected float getHeight() {
+    return skeleton.getData().getHeight()*scalingComponent.getScaling();
   }
 }
