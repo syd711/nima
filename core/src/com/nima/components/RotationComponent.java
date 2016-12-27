@@ -15,12 +15,10 @@ public class RotationComponent implements Component {
 
   private float mapTargetX = -1f;
   private float mapTargetY = -1f;
-  private PositionComponent positionComponent;
   private ScalingComponent scalingComponent;
 
   public RotationComponent(Spine spine) {
     this.spine = spine;
-    this.positionComponent = spine.getComponent(PositionComponent.class);
     this.scalingComponent = spine.getComponent(ScalingComponent.class);
   }
 
@@ -62,7 +60,19 @@ public class RotationComponent implements Component {
    * Checks if a rotation has been applied that is not finished yet.
    */
   public void updateRotation() {
+    if(mapTargetX < 0) {
+      return;
+    }
+
     float currentAngle = spine.skeleton.getRootBone().getRootRotation();
+    float updateAngle = getTargetAngle();
+    if(currentAngle == updateAngle) {
+      mapTargetX = -1;
+    }
+    else {
+      targetAngle = updateAngle;
+    }
+
     if(isRotating()) {
       if(rotateLeft) {
         float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;

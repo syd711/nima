@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpeedComponent implements Component {
 
-  public float velocityUp = 0.05f;
-  public float velocityDown = 0.05f;
+  public float velocityUp = 0.03f;
+  public float velocityDown = 0.03f;
 
   public float maxSpeed;
   public float currentSpeed;
