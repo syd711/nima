@@ -31,10 +31,6 @@ public class SpeedComponent implements Component {
     targetSpeed = (float) (Math.round(targetSpeed * 100.0) / 100.0);
   }
 
-  public float getTargetSpeed() {
-    return targetSpeed;
-  }
-
   public void updateSpeed() {
     if(currentSpeed < targetSpeed) {
       currentSpeed+=velocityUp;
