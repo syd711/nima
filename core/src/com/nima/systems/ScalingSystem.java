@@ -14,6 +14,6 @@ public class ScalingSystem extends AbstractIteratingSystem {
 
   public void process(Entity entity, float deltaTime) {
     ScalingComponent scalingComponent = skalingsMap.get(entity);
-    scalingComponent.updateScaling();
+    scalingComponent.updateValue();
   }
 }

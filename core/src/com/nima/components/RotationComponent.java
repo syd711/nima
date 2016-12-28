@@ -15,11 +15,9 @@ public class RotationComponent implements Component {
 
   private float mapTargetX = -1f;
   private float mapTargetY = -1f;
-  private ScalingComponent scalingComponent;
 
   public RotationComponent(Spine spine) {
     this.spine = spine;
-    this.scalingComponent = spine.getComponent(ScalingComponent.class);
   }
 
   public void rotate(float angle, boolean rotateLeft) {
@@ -96,9 +94,6 @@ public class RotationComponent implements Component {
   }
 
   private float getTargetAngle() {
-    float width = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
-    float height = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
-
     float x = spine.getCenter().x;
     float y = spine.getCenter().y;
     float angle = GraphicsUtil.getAngle(x, y, mapTargetX, mapTargetY) * -1;

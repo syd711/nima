@@ -29,16 +29,6 @@ public class Player extends Spine implements Updateable, CollisionListener {
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
   }
 
-  @Override
-  public void update() {
-    super.update();
-
-    if(targetEntity != null && scalingComponent.getCurrentScaling() == 0.4f) {
-//      GameStateManager.getInstance().setNavigating(false);
-//      GameStateManager.getInstance().setInGameMenu(true);
-    }
-  }
-
   /**
    * Applying the input the user has inputted.
    * @param worldCoordinates
@@ -73,14 +63,14 @@ public class Player extends Spine implements Updateable, CollisionListener {
   public void collisionStart(Player player, Entity mapObjectEntity) {
     if(targetEntity != null && targetEntity.equals(mapObjectEntity)) {
       System.out.println("Reached destination");
-      scalingComponent.setScaling(0.4f);
+      scalingComponent.setTargetValue(0.4f);
     }
   }
 
   @Override
   public void collisionEnd(Player player, Entity mapObjectEntity) {
-    if(scalingComponent.getScaling() < 1f) {
-      scalingComponent.setScaling(1f);
+    if(scalingComponent.getCurrentVaule() < 1f) {
+      scalingComponent.setTargetValue(1f);
     }
   }
 

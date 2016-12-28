@@ -40,7 +40,7 @@ public class DimensionComponent implements Component {
    */
   public DimensionComponent(Spine spine) {
     ScalingComponent scalingComponent = spine.getComponent(ScalingComponent.class);
-    width = spine.skeleton.getData().getWidth()*scalingComponent.getScaling();
+    width = spine.skeleton.getData().getWidth()*scalingComponent.getCurrentVaule();
     
   }
 }
