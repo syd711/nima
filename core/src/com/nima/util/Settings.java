@@ -8,10 +8,12 @@ public class Settings {
   public static final boolean DEBUG = true;
   public static final float MAX_ACTOR_SPEED = 3f;
   public static final float ACTOR_ROTATION_SPEED = 2;
+  public static final float DOCKING_TARGET_SCALE = 0.4f;
 
   /**
    * Light Settings
    */
+  public static final float AMBIENT_LIGHT_BRIGHTNESS = 0.8f;
   public static final float FADE_OUT_OFFSET = 0.01f;
   public static final float FADE_IN_OFFSET = 0.01f;
 

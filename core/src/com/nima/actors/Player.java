@@ -9,8 +9,11 @@ import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
+import com.nima.managers.GameStateManager;
+import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
+import com.nima.util.Settings;
 
 /**
  * The player with all ashley components.
@@ -20,6 +23,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
   public float velocityDown = 0.03f;
 
   private Entity targetEntity;
+  private boolean dockingProcedure = false;
 
   public Player(BatchTiledMapRenderer renderer, World world, RayHandler rayHandler) {
     super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
@@ -34,11 +38,27 @@ public class Player extends Spine implements Updateable, CollisionListener {
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
   }
 
+  @Override
+  public void update() {
+    super.update();
+
+    if(dockingProcedure) {
+      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
+      if(lightSystem.isOutFaded()) {
+        GameStateManager.getInstance().enterStationMode();
+      }
+    }
+  }
+
   /**
    * Applying the input the user has inputted.
    * @param worldCoordinates
    */
   public void setTargetCoordinates(Vector2 worldCoordinates) {
+    if(dockingProcedure) {
+      return;
+    }
+
     //first update the target to move to...
     float targetX = worldCoordinates.x;
     float targetY = worldCoordinates.y;
@@ -67,8 +87,12 @@ public class Player extends Spine implements Updateable, CollisionListener {
   @Override
   public void collisionStart(Player player, Entity mapObjectEntity) {
     if(targetEntity != null && targetEntity.equals(mapObjectEntity)) {
-      System.out.println("Reached destination");
-      scalingComponent.setTargetValue(0.4f);
+      dockingProcedure = true;
+      speedComponent.setTargetValue(1.5f);
+      scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
+
+      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
+      lightSystem.fadeOut(true);
     }
   }
 

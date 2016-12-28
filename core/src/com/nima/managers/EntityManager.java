@@ -2,6 +2,7 @@ package com.nima.managers;
 
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
@@ -13,7 +14,10 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
-import com.nima.actors.*;
+import com.nima.actors.Camera;
+import com.nima.actors.Player;
+import com.nima.actors.Spine;
+import com.nima.actors.Updateable;
 import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
@@ -43,6 +47,8 @@ public class EntityManager implements MapChangeListener {
 
   private static EntityManager INSTANCE;
 
+  private final LightSystem lightSystem;
+
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {
     this.engine = engine;
     this.rayHandler = rayHandler;
@@ -67,13 +73,12 @@ public class EntityManager implements MapChangeListener {
     SpineMovementSystem movementSystem = new SpineMovementSystem();
     engine.addSystem(movementSystem);
 
-    LightSystem lightSystem = new LightSystem();
+    lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
 
-    updateables.add(new AmbientLight(rayHandler));
     updateables.add(new Camera(camera, player));
     updateables.add(player);
   }
@@ -89,6 +94,10 @@ public class EntityManager implements MapChangeListener {
 
   public Player getPlayer() {
     return player;
+  }
+
+  public LightSystem getLightSystem() {
+    return lightSystem;
   }
 
   /**
@@ -122,6 +131,18 @@ public class EntityManager implements MapChangeListener {
    */
   protected void destroy(List<Entity> toDestroy) {
     destroyEntities.addAll(toDestroy);
+  }
+
+  /**
+   * Pauses all ashley systems
+   * @param pause
+   */
+  public void pauseSystems(boolean pause) {
+    SpinePositionSystem positionSystem = new SpinePositionSystem();
+    ImmutableArray<EntitySystem> systems = engine.getSystems();
+    for(EntitySystem system : systems) {
+      system.setProcessing(!pause);
+    }
   }
 
   /**

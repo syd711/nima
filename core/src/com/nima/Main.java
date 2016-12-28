@@ -35,7 +35,7 @@ public class Main extends ApplicationAdapter {
   private Box2DDebugRenderer box2DDebugRenderer;
 
   //Scene2d
-  private Hud hud;
+  private static Hud hud;
 
 
   @Override

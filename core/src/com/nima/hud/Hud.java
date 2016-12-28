@@ -15,6 +15,7 @@ import com.nima.actors.Player;
 import com.nima.components.MapObjectComponent;
 import com.nima.managers.DefaultCollisionListener;
 import com.nima.managers.EntityManager;
+import com.nima.managers.GameStateManager;
 
 /**
  * The game HUD
@@ -24,10 +25,10 @@ public class Hud extends DefaultCollisionListener {
   private final Stage stage;
   private Button dockButton;
   private final Label stationLabel;
+  private final Texture bground;
 
   public Hud() {
     stage = new Stage();
-    Gdx.input.setInputProcessor(stage);
 
     Table table = new Table();
     table.top();
@@ -63,11 +64,20 @@ public class Hud extends DefaultCollisionListener {
 
     stage.addActor(table);
 
+    bground = new Texture(Gdx.files.internal("stations/background/planet.jpg"));
+
     EntityManager.getInstance().addCollisionListener(this);
   }
 
   public void render() {
     stage.act();
+
+    if(GameStateManager.getInstance().isStationMode()) {
+      stage.getBatch().begin();
+      stage.getBatch().draw(bground, 0, 0, 1050, 1050);
+      stage.getBatch().end();
+    }
+
     stage.draw();
   }
 
