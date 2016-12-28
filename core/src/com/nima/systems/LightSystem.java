@@ -15,6 +15,7 @@ public class LightSystem extends AbstractIteratingSystem {
 
   public void process(Entity entity, float deltaTime) {
     LightComponent light = lightsMap.get(entity);
+    light.updateValue();
     if(light.isMoveable()) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
       light.setPosition(positionComponent.x, positionComponent.y);

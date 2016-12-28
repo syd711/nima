@@ -10,6 +10,12 @@ public class Settings {
   public static final float ACTOR_ROTATION_SPEED = 2;
 
   /**
+   * Light Settings
+   */
+  public static final float FADE_OUT_OFFSET = 0.01f;
+  public static final float FADE_IN_OFFSET = 0.01f;
+
+  /**
    * Map Settings
    */
   public static final String OBJECT_LAYER = "collisions";
