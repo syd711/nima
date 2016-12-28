@@ -6,8 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Player;
-import com.nima.components.MovementComponent;
-import com.nima.components.PositionComponent;
 import com.nima.util.GraphicsUtil;
 
 /**
@@ -71,15 +69,13 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    if (button == Input.Buttons.LEFT) {
-      if(GameStateManager.getInstance().isNavigating()) {
-        float targetX = screenX;
-        float targetY = Gdx.graphics.getHeight() - screenY;
+    if(button == Input.Buttons.LEFT) {
+      float targetX = screenX;
+      float targetY = Gdx.graphics.getHeight() - screenY;
 
-        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        player.moveTo(worldCoordinates);
-        return true;
-      }
+      Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+      player.setTargetCoordinates(worldCoordinates);
+      return true;
     }
     return false;
   }

@@ -5,10 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
-import com.nima.managers.GameStateManager;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 
@@ -34,24 +34,36 @@ public class Player extends Spine implements Updateable, CollisionListener {
     super.update();
 
     if(targetEntity != null && scalingComponent.getCurrentScaling() == 0.4f) {
-      GameStateManager.getInstance().setNavigating(false);
-      GameStateManager.getInstance().setInGameMenu(true);
+//      GameStateManager.getInstance().setNavigating(false);
+//      GameStateManager.getInstance().setInGameMenu(true);
     }
   }
 
-  public void moveTo(Vector2 worldCoordinates) {
+  /**
+   * Applying the input the user has inputted.
+   * @param worldCoordinates
+   */
+  public void setTargetCoordinates(Vector2 worldCoordinates) {
     //first update the target to move to...
+    float targetX = worldCoordinates.x;
+    float targetY = worldCoordinates.y;
+
     targetEntity = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(targetEntity != null) {
-      movementComponent.moveToEntity(targetEntity);
-    }
-    else {
-      movementComponent.moveTo(worldCoordinates.x, worldCoordinates.y);
+      MapObjectComponent mapObjectComponent = targetEntity.getComponent(MapObjectComponent.class);
+      Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
+      targetX = centeredPosition.x;
+      targetY = centeredPosition.y;
     }
 
+    moveTo(targetX, targetY);
+  }
+
+  private void moveTo(float x, float y) {
+    movementComponent.moveTo(x, y);
     //...then the speed to travel with
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
-    Vector2 point2 = new Vector2(worldCoordinates.x, worldCoordinates.y);
+    Vector2 point2 = new Vector2(x, y);
     speedComponent.calculateTargetSpeed(point1, point2);
   }
 

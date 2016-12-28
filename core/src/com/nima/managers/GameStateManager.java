@@ -5,10 +5,7 @@ package com.nima.managers;
  */
 public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
-
-  private boolean paused;
-  private boolean inGameMenu;
-  private boolean navigating = true;
+  private boolean paused = false;
 
   private GameStateManager() {
     //force singleton
@@ -22,27 +19,7 @@ public class GameStateManager {
     return paused;
   }
 
-  public void setPaused(boolean paused) {
-    this.paused = paused;
-  }
-
   public void togglePause() {
-    this.paused = !paused;
-  }
-
-  public boolean isInGameMenu() {
-    return inGameMenu;
-  }
-
-  public void setInGameMenu(boolean inGameMenu) {
-    this.inGameMenu = inGameMenu;
-  }
-
-  public boolean isNavigating() {
-    return navigating;
-  }
-
-  public void setNavigating(boolean navigating) {
-    this.navigating = navigating;
+    paused = !paused;
   }
 }

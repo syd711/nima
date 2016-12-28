@@ -29,12 +29,11 @@ import java.util.logging.Logger;
 /**
  * Central Ashley initialization of entity systems.
  */
-public class EntityManager implements MapChangeListener, EntityClickListener {
+public class EntityManager implements MapChangeListener {
   private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
 
   private PooledEngine engine;
   private Player player;
-  private OrthographicCamera camera;
   private RayHandler rayHandler;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
@@ -46,11 +45,9 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
 
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {
     this.engine = engine;
-    this.camera = camera;
     this.rayHandler = rayHandler;
 
     renderer.addMapChangeListener(this);
-    addEntityClickListener(this);
 
     //create player
     player = new Player(renderer, world, rayHandler);
@@ -94,14 +91,26 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     return player;
   }
 
+  /**
+   * Registers an entity click listener
+   * @param entityClickListener
+   */
   public void addEntityClickListener(EntityClickListener entityClickListener) {
     this.entityClickListeners.add(entityClickListener);
   }
 
+  /**
+   * Registers a collision listener
+   * @param listener
+   */
   public void addCollisionListener(CollisionListener listener) {
     this.collisionListeners.add(listener);
   }
 
+  /**
+   * Adds the given entity to the Ashley engine.
+   * @param entity the entity to add
+   */
   public void add(Entity entity) {
     engine.addEntity(entity);
   }
@@ -198,13 +207,6 @@ public class EntityManager implements MapChangeListener, EntityClickListener {
     }
 
     return null;
-  }
-
-  //------------- Entity click listener --------------------------------------------
-
-  @Override
-  public void entityClicked(Entity entity) {
-    System.out.println(entity + " clicked");
   }
 
   // --------------- Helper ---------------------------------------------------------
