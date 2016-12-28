@@ -6,6 +6,6 @@ package com.nima.components;
 public class ScalingComponent extends DelimitingComponent {
 
   public ScalingComponent(float scaling) {
-    super(scaling, 0.01f, 0.01f);
+    super(scaling,  scaling, 1f,0.01f, 0.01f);
   }
 }

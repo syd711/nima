@@ -16,6 +16,8 @@ import com.nima.util.Resources;
  * The player with all ashley components.
  */
 public class Player extends Spine implements Updateable, CollisionListener {
+  public float velocityUp = 0.03f;
+  public float velocityDown = 0.03f;
 
   private Entity targetEntity;
 
@@ -25,6 +27,9 @@ public class Player extends Spine implements Updateable, CollisionListener {
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     positionComponent.x = screenCenter.x;
     positionComponent.y = screenCenter.y;
+
+    speedComponent.setIncreaseBy(velocityUp);
+    speedComponent.setDecreaseBy(velocityDown);
 
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
   }
@@ -69,7 +74,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
   @Override
   public void collisionEnd(Player player, Entity mapObjectEntity) {
-    if(scalingComponent.getCurrentVaule() < 1f) {
+    if(scalingComponent.getCurrentValue() < 1f) {
       scalingComponent.setTargetValue(1f);
     }
   }

@@ -1,42 +1,15 @@
 package com.nima.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * The current speed of an entity
  */
-public class SpeedComponent implements Component {
-
-  public float velocityUp = 0.03f;
-  public float velocityDown = 0.03f;
-
-  public float maxSpeed;
-  public float currentSpeed;
-  public float targetSpeed;
+public class SpeedComponent extends DelimitingComponent {
 
   public SpeedComponent(float maxSpeed) {
-    this.maxSpeed = maxSpeed;
-    this.currentSpeed = 0;
-  }
-
-  public void setTargetSpeedPercentage(float percentage) {
-    targetSpeed = maxSpeed*percentage/100;
-    targetSpeed = (float) (Math.round(targetSpeed * 100.0) / 100.0);
-    System.out.println("Target Speed: " + targetSpeed);
-  }
-
-  public void updateSpeed() {
-    if(currentSpeed != targetSpeed) {
-      if(currentSpeed < targetSpeed) {
-        currentSpeed+=velocityUp;
-      }
-      else if (currentSpeed > targetSpeed && currentSpeed > 0) {
-        currentSpeed-=velocityDown;
-      }
-      currentSpeed = (float) (Math.round(currentSpeed * 100.0) / 100.0);
-    }
+    super(0, 0, maxSpeed, 0, 0);
   }
 
   public void calculateTargetSpeed(Vector2 point1, Vector2 point2) {
@@ -61,6 +34,6 @@ public class SpeedComponent implements Component {
       percentage = 100;
     }
 
-    setTargetSpeedPercentage(percentage);
+    setTargetPercentage(percentage);
   }
 }

@@ -26,7 +26,7 @@ public class MovementComponent implements Component {
 
   public void move() {
     float currentAngle = rotationComponent.getRotation();
-    Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.currentSpeed);
+    Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.getCurrentValue());
     float x = delta.x;
     float y = delta.y;
 
@@ -50,8 +50,8 @@ public class MovementComponent implements Component {
 
 
   public void stop() {
-    if(speed.targetSpeed > 0) {
-      speed.setTargetSpeedPercentage(0);
+    if(speed.getTargetValue() > 0) {
+      speed.setTargetPercentage(0);
     }
   }
 

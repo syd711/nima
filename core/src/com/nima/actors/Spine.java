@@ -93,17 +93,17 @@ abstract public class Spine extends Entity implements Updateable {
     skeleton.updateWorldTransform();
 
     float scaleX = skeleton.getRootBone().getScaleX();
-    if(scaleX != scalingComponent.getCurrentVaule()) {
-      skeleton.getRootBone().setScale(scalingComponent.getCurrentVaule());
+    if(scaleX != scalingComponent.getCurrentValue()) {
+      skeleton.getRootBone().setScale(scalingComponent.getCurrentValue());
     }
     skeleton.setPosition(positionComponent.x, positionComponent.y);
-    speedComponent.updateSpeed();
+    speedComponent.updateValue();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 
   protected float getHeight() {
-    return skeleton.getData().getHeight() * scalingComponent.getCurrentVaule();
+    return skeleton.getData().getHeight() * scalingComponent.getCurrentValue();
   }
 
   public Vector2 getCenter() {
