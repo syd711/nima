@@ -48,13 +48,17 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean keyUp(int keycode) {
-    if(keycode == Input.Keys.ESCAPE) {
-      System.exit(0);
+    if(!GameStateManager.getInstance().isInputBlocked()) {
+      if(keycode == Input.Keys.ESCAPE) {
+        System.exit(0);
+      }
+      else if(keycode == Input.Keys.SPACE) {
+        GameStateManager.getInstance().togglePause();
+        return true;
+      }
     }
-    else if(keycode == Input.Keys.SPACE) {
-      GameStateManager.getInstance().togglePause();
-    }
-    return true;
+
+    return false;
   }
 
   @Override
@@ -69,13 +73,17 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    if(button == Input.Buttons.LEFT) {
-      float targetX = screenX;
-      float targetY = Gdx.graphics.getHeight() - screenY;
+    if(!GameStateManager.getInstance().isInputBlocked()) {
+      if (button == Input.Buttons.LEFT) {
+        if(GameStateManager.getInstance().isNavigating()) {
+          float targetX = screenX;
+          float targetY = Gdx.graphics.getHeight() - screenY;
 
-      Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-      player.setTargetCoordinates(worldCoordinates);
-      return true;
+          Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+          player.setTargetCoordinates(worldCoordinates);
+          return true;
+        }
+      }
     }
     return false;
   }

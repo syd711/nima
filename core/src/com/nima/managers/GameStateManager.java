@@ -6,6 +6,8 @@ package com.nima.managers;
 public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
   private boolean paused = false;
+  private boolean navigating = true;
+  private boolean inputBlocked = false;
 
   private GameStateManager() {
     //force singleton
@@ -21,5 +23,17 @@ public class GameStateManager {
 
   public void togglePause() {
     paused = !paused;
+  }
+
+  public boolean isNavigating() {
+    return navigating;
+  }
+
+  public boolean isInputBlocked() {
+    return inputBlocked;
+  }
+
+  public void setInputBlocked(boolean inputBlocked) {
+    this.inputBlocked = inputBlocked;
   }
 }
