@@ -1,21 +1,18 @@
-package com.nima.ai;
+package com.nima.components;
 
-import com.badlogic.gdx.ai.steer.Proximity;
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 
 /**
- * The AI steering implementation for Spines.
+ * AI steerable implementation for box2d bodies.
  */
-public class SpineSteerable implements Steerable<Vector2>, Proximity<Vector2> {
-
-  private Spine spine;
+public class SteerableComponent implements Component, Steerable<Vector2> {
   private boolean tagged;
   private float boundingRadius;
   private float maxLinearSpeed;
@@ -28,8 +25,9 @@ public class SpineSteerable implements Steerable<Vector2>, Proximity<Vector2> {
 
   private Body body;
 
-  public SpineSteerable(Spine spine, Body body, float boundingRadius) {
-    this.spine = spine;
+  public SteerableComponent(Body body) {
+    this.body = body;
+
     this.body = body;
     this.boundingRadius = 30;
 
@@ -66,6 +64,7 @@ public class SpineSteerable implements Steerable<Vector2>, Proximity<Vector2> {
       }
     }
   }
+
 
   @Override
   public Vector2 getLinearVelocity() {
@@ -189,21 +188,4 @@ public class SpineSteerable implements Steerable<Vector2>, Proximity<Vector2> {
     return steeringOutput;
   }
 
-
-  // -------------------- Proximity Impl --------------------------------
-  @Override
-  public Steerable<Vector2> getOwner() {
-    return this;
-  }
-
-  @Override
-  public void setOwner(Steerable<Vector2> owner) {
-
-  }
-
-  @Override
-  public int findNeighbors(ProximityCallback<Vector2> callback) {
-//    callback.reportNeighbor()
-    return 1;
-  }
 }

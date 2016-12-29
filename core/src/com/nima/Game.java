@@ -31,7 +31,7 @@ public class Game extends ApplicationAdapter {
   private EntityManager entityManager;
 
   //Box2d
-  private World world;
+  public static World world;
   private Box2DDebugRenderer box2DDebugRenderer;
 
   //Scene2d
@@ -61,7 +61,7 @@ public class Game extends ApplicationAdapter {
 
     //map and player stuff
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
-    entityManager = EntityManager.create(engine, tiledMapRenderer, world, camera, rayHandler);
+    entityManager = EntityManager.create(engine, tiledMapRenderer, camera, rayHandler);
     player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 

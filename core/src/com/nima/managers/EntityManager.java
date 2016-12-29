@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
 import com.nima.actors.*;
 import com.nima.components.CollisionComponent;
@@ -46,14 +45,14 @@ public class EntityManager implements MapChangeListener {
 
   private final LightSystem lightSystem;
 
-  private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {
+  private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
     this.engine = engine;
     this.rayHandler = rayHandler;
 
     renderer.addMapChangeListener(this);
 
     //create player
-    player = new Player(renderer, world, rayHandler);
+    player = new Player(renderer, rayHandler);
     addCollisionListener(player);
     engine.addEntity(player);
 
@@ -70,22 +69,26 @@ public class EntityManager implements MapChangeListener {
     SpineMovementSystem movementSystem = new SpineMovementSystem();
     engine.addSystem(movementSystem);
 
-    lightSystem = new LightSystem(rayHandler);
-    engine.addSystem(lightSystem);
-
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
+
+    SteerableSystem steerableSystem = new SteerableSystem();
+    engine.addSystem(steerableSystem);
+
+    lightSystem = new LightSystem(rayHandler);
+    engine.addSystem(lightSystem);
 
     updateables.add(new Camera(camera, player));
     updateables.add(player);
 
-    Merchant m = new Merchant(world, player, renderer);
+    //TODO
+    Hunter m = new Hunter(player, renderer, 300, 300);
     engine.addEntity(m);
     updateables.add(m);
   }
 
-  public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {
-    INSTANCE = new EntityManager(engine, renderer, world, camera, rayHandler);
+  public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
+    INSTANCE = new EntityManager(engine, renderer, camera, rayHandler);
     return INSTANCE;
   }
 

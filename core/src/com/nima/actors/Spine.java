@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
+import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
 
@@ -14,11 +15,12 @@ import com.nima.util.Settings;
  * Superclass for spine entities
  */
 abstract public class Spine extends Entity implements Updateable {
-
+  protected SteerableComponent steerableComponent;
+  protected BodyComponent bodyComponent;
   protected SpineComponent spineComponent;
-  public MovementComponent movementComponent;
+  protected MovementComponent movementComponent;
   protected PositionComponent positionComponent;
-  public SpeedComponent speedComponent;
+  protected SpeedComponent speedComponent;
   protected CollisionComponent collisionComponent;
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
@@ -26,16 +28,19 @@ abstract public class Spine extends Entity implements Updateable {
   protected BatchTiledMapRenderer renderer;
 
   protected final TextureAtlas atlas;
-  public final Skeleton skeleton;
   protected final AnimationState state;
-
   protected SkeletonRenderer skeletonRenderer;
+
+  public final Skeleton skeleton;
+
   private final SkeletonJson json;
-  private String defaultAnimation;
 
   public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling) {
+    this(renderer, path, defaultAnimation, jsonScaling, -1f, -1f);
+  }
+
+  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling, float x, float y) {
     this.renderer = renderer;
-    this.defaultAnimation = defaultAnimation;
     this.skeletonRenderer = new SkeletonRenderer();
 
     atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
@@ -50,14 +55,14 @@ abstract public class Spine extends Entity implements Updateable {
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
 //    state.setAnimation(0, defaultAnimation, true);
 
+    positionComponent = new PositionComponent();
+    add(positionComponent);
+
     spineComponent = new SpineComponent();
     add(spineComponent);
 
     scalingComponent = new ScalingComponent(1f);
     add(scalingComponent);
-
-    positionComponent = new PositionComponent();
-    add(positionComponent);
 
     speedComponent = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
     add(speedComponent);
@@ -70,6 +75,18 @@ abstract public class Spine extends Entity implements Updateable {
 
     movementComponent = new MovementComponent(this);
     add(movementComponent);
+
+    bodyComponent = new BodyComponent(this, x, y);
+    add(bodyComponent);
+
+    steerableComponent = new SteerableComponent(bodyComponent.body);
+    add(steerableComponent);
+
+    if(x == -1 || y == -1) {
+      Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
+      positionComponent.x = screenCenter.x;
+      positionComponent.y = screenCenter.y;
+    }
   }
 
 
