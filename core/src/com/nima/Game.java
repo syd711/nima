@@ -18,7 +18,7 @@ import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
 
-public class Main extends ApplicationAdapter {
+public class Game extends ApplicationAdapter {
   public static OrthographicCamera camera;
   private RayHandler rayHandler;
   private TiledMultiMapRenderer tiledMapRenderer;

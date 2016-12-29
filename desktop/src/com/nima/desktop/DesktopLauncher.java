@@ -2,7 +2,7 @@ package com.nima.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.nima.Main;
+import com.nima.Game;
 
 public class DesktopLauncher {
   public static void main(String[] arg) {
@@ -15,7 +15,7 @@ public class DesktopLauncher {
     config.backgroundFPS = 60;
     config.foregroundFPS = 60;
 //		config.fullscreen = true;
-    new LwjglApplication(new Main(), config);
+    new LwjglApplication(new Game(), config);
 //    new LwjglApplication(new Box2dTestApplication(), config);
   }
 }

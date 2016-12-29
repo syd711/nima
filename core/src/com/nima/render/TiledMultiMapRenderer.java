@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.nima.Main;
+import com.nima.Game;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(cachedTiledMap.getMap());
 
-    debugRenderer = new TiledDebugRenderer(Main.camera);
+    debugRenderer = new TiledDebugRenderer(Game.camera);
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();

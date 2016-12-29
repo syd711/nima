@@ -1,7 +1,7 @@
 package com.nima.managers;
 
 import com.badlogic.gdx.Gdx;
-import com.nima.Main;
+import com.nima.Game;
 import com.nima.actors.Player;
 
 /**
@@ -54,7 +54,7 @@ public class GameStateManager {
     Player player = EntityManager.getInstance().getPlayer();
     player.leaveStation();
 
-    Gdx.input.setInputProcessor(Main.inputManager);
+    Gdx.input.setInputProcessor(Game.inputManager);
     EntityManager.getInstance().pauseSystems(false);
   }
 
