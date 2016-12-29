@@ -79,7 +79,7 @@ public class EntityManager implements MapChangeListener {
     updateables.add(new Camera(camera, player));
     updateables.add(player);
 
-    Merchant m = new Merchant(player, renderer);
+    Merchant m = new Merchant(world, player, renderer);
     engine.addEntity(m);
     updateables.add(m);
   }

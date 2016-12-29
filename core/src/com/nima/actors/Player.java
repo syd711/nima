@@ -2,9 +2,14 @@ package com.nima.actors;
 
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.nima.ai.SpineSteerable;
 import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
 import com.nima.managers.CollisionListener;
@@ -19,11 +24,13 @@ import com.nima.util.Settings;
  * The player with all ashley components.
  */
 public class Player extends Spine implements Updateable, CollisionListener {
+  public final SpineSteerable steerable;
   public float velocityUp = 0.03f;
   public float velocityDown = 0.03f;
 
   private Entity targetEntity;
   private boolean dockingProcedure = false;
+  public final Body body;
 
   public Player(BatchTiledMapRenderer renderer, World world, RayHandler rayHandler) {
     super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
@@ -34,6 +41,21 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
     speedComponent.setIncreaseBy(velocityUp);
     speedComponent.setDecreaseBy(velocityDown);
+
+    BodyDef def = new BodyDef();
+    def.type = BodyDef.BodyType.DynamicBody;
+    def.fixedRotation = false;
+    def.position.set(positionComponent.x, positionComponent.y);
+    body = world.createBody(def);
+
+    PolygonShape shape = new PolygonShape();
+    //calculated from center!
+    shape.setAsBox(skeleton.getData().getWidth() * 0.2f / 2 / Settings.PPM, skeleton.getData().getHeight() * 0.2f / 2 / Settings.PPM);
+    body.createFixture(shape, 1f);
+    shape.dispose();
+
+    //AI
+    steerable = new SpineSteerable(this, body,500);
 
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
   }
@@ -48,10 +70,15 @@ public class Player extends Spine implements Updateable, CollisionListener {
         GameStateManager.getInstance().enterStationMode();
       }
     }
+
+    body.setTransform(getCenter().x, getCenter().y, 0);
+
+    steerable.update(Gdx.graphics.getDeltaTime());
   }
 
   /**
    * Applying the input the user has inputted.
+   *
    * @param worldCoordinates
    */
   public void setTargetCoordinates(Vector2 worldCoordinates) {

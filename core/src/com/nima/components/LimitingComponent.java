@@ -62,4 +62,8 @@ abstract public class LimitingComponent implements Component {
   public void setTargetValue(float target) {
     this.targetValue = target;
   }
+
+  public void setMaxValue() {
+    this.targetValue = maxValue;
+  }
 }

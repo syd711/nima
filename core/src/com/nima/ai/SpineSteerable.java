@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 
@@ -24,23 +25,55 @@ public class SpineSteerable implements Steerable<Vector2> {
   private SteeringBehavior<Vector2> behavior;
   private SteeringAcceleration<Vector2> steeringOutput;
 
-  public SpineSteerable(Spine spine, float boundingRadius) {
+  private Body body;
+
+  public SpineSteerable(Spine spine, Body body, float boundingRadius) {
     this.spine = spine;
-    this.boundingRadius = boundingRadius;
+    this.body = body;
+    this.boundingRadius = 5000;
+
+    this.maxLinearSpeed = 5500;
+    this.maxLinearAcceleration = 5000;
+    this.maxAngularSpeed = 30;
+    this.maxAngularAcceleration = 5500;
+    this.tagged = false;
+
+    this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
 
   public void update(float delta) {
+    if(behavior != null) {
+      behavior.calculateSteering(steeringOutput);
+      applySteering(delta);
+    }
+  }
 
+  private void applySteering(float delta) {
+    boolean anyAccelerations = false;
+    if(!steeringOutput.isZero()) {
+      Vector2 force = steeringOutput.linear.scl(150);
+      body.applyForceToCenter(force, true);
+      body.applyAngularImpulse(0, true);
+      anyAccelerations = true;
+    }
+
+    if(anyAccelerations) {
+      Vector2 velocity = body.getLinearVelocity();
+      float currentSpeedSquare = velocity.len2();
+      if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+        body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
+      }
+    }
   }
 
   @Override
   public Vector2 getLinearVelocity() {
-    return new Vector2(5, 5);
+    return body.getLinearVelocity();
   }
 
   @Override
   public float getAngularVelocity() {
-    return 1 ;
+    return body.getAngularVelocity() ;
   }
 
   @Override
@@ -110,17 +143,17 @@ public class SpineSteerable implements Steerable<Vector2> {
 
   @Override
   public Vector2 getPosition() {
-    return spine.getCenter();
+    return body.getPosition();
   }
 
   @Override
   public float getOrientation() {
-    return spine.skeleton.getRootBone().getRootRotation();
+    return body.getAngle();
   }
 
   @Override
   public void setOrientation(float orientation) {
-    spine.skeleton.getRootBone().setRootRotation(orientation);
+
   }
 
   @Override
@@ -137,6 +170,7 @@ public class SpineSteerable implements Steerable<Vector2> {
   public Location<Vector2> newLocation() {
     return null;
   }
+
 
   public SteeringBehavior<Vector2> getBehavior() {
     return behavior;

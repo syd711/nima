@@ -79,32 +79,30 @@ public class Main extends ApplicationAdapter {
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//    if(GameStateManager.getInstance().isNavigating()) {
-      camera.update();
-      tiledMapRenderer.setView(camera);
+    camera.update();
+    tiledMapRenderer.setView(camera);
 
-      tiledMapRenderer.preRender();
-      tiledMapRenderer.render();
-      tiledMapRenderer.postRender();
+    tiledMapRenderer.preRender();
+    tiledMapRenderer.render();
+    tiledMapRenderer.postRender();
 
-      tiledMapRenderer.getBatch().begin();
-      entityManager.update();
-      update(Gdx.graphics.getDeltaTime());
-      tiledMapRenderer.getBatch().end();
+    tiledMapRenderer.getBatch().begin();
+    entityManager.update();
+    update(Gdx.graphics.getDeltaTime());
+    tiledMapRenderer.getBatch().end();
 
-      inputManager.handleKeyInput();
-      updateActorFrame();
+    inputManager.handleKeyInput();
+    updateActorFrame();
 
-      rayHandler.setCombinedMatrix(camera);
-      rayHandler.updateAndRender();
+    rayHandler.setCombinedMatrix(camera);
+    rayHandler.updateAndRender();
 
-      hud.render();
-//    }
+    hud.render();
   }
 
   private void update(float deltaTime) {
     world.step(deltaTime, 6, 2);
-//    box2DDebugRenderer.render(world, camera.combined);
+    box2DDebugRenderer.render(world, camera.combined);
   }
 
   /**

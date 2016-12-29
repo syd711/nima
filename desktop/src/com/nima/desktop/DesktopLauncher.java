@@ -16,5 +16,6 @@ public class DesktopLauncher {
     config.foregroundFPS = 60;
 //		config.fullscreen = true;
     new LwjglApplication(new Main(), config);
+//    new LwjglApplication(new Box2dTestApplication(), config);
   }
 }

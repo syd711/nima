@@ -103,9 +103,6 @@ public class RotationComponent implements Component {
     if(targetAngle == -180) {
       targetAngle = -178;
     }
-    if(targetAngle == -2) {
-      System.out.println("debug");
-    }
     System.out.println("Target Angle: " + targetAngle);
     return targetAngle;
   }
