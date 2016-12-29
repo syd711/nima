@@ -43,16 +43,18 @@ public class Merchant extends Spine {
     PolygonShape shape = new PolygonShape();
     //calculated from center!
     shape.setAsBox(skeleton.getData().getWidth()*0.2f / 2 / Settings.PPM, skeleton.getData().getHeight()*0.2f / 2 / Settings.PPM);
-    body.createFixture(shape, 1f);
+    body.createFixture(shape, 0f);
     shape.dispose();
 
     //AI
     steerable = new SpineSteerable(this, body,500);
 
     Arrive<Vector2> arrive = new Arrive<>(steerable, player.steerable);
+//    Evade<Vector2> arrive = new Evade<>(steerable, player.steerable);
     arrive.setTimeToTarget(0.01f);
     arrive.setArrivalTolerance(2f);
     arrive.setDecelerationRadius(10);
+//    arrive.setEnabled(true);
 
     steerable.setBehavior(arrive);
   }

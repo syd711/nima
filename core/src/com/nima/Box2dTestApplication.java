@@ -66,7 +66,7 @@ public class Box2dTestApplication extends ApplicationAdapter {
     body.createFixture(shape, 1f);
     shape.dispose();
 
-    target = new TestSteeringEntity(body, 30);
+    target = new TestSteeringEntity(body, 130);
 
     Arrive<Vector2> arrive = new Arrive<>(entity, target);
     arrive.setTimeToTarget(0.1f);

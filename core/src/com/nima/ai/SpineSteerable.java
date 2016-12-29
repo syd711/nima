@@ -1,5 +1,6 @@
 package com.nima.ai;
 
+import com.badlogic.gdx.ai.steer.Proximity;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -12,7 +13,7 @@ import com.nima.util.GraphicsUtil;
 /**
  * The AI steering implementation for Spines.
  */
-public class SpineSteerable implements Steerable<Vector2> {
+public class SpineSteerable implements Steerable<Vector2>, Proximity<Vector2> {
 
   private Spine spine;
   private boolean tagged;
@@ -30,10 +31,10 @@ public class SpineSteerable implements Steerable<Vector2> {
   public SpineSteerable(Spine spine, Body body, float boundingRadius) {
     this.spine = spine;
     this.body = body;
-    this.boundingRadius = 5000;
+    this.boundingRadius = 30;
 
-    this.maxLinearSpeed = 5500;
-    this.maxLinearAcceleration = 5000;
+    this.maxLinearSpeed = 1150;
+    this.maxLinearAcceleration = 10;
     this.maxAngularSpeed = 30;
     this.maxAngularAcceleration = 5500;
     this.tagged = false;
@@ -51,7 +52,7 @@ public class SpineSteerable implements Steerable<Vector2> {
   private void applySteering(float delta) {
     boolean anyAccelerations = false;
     if(!steeringOutput.isZero()) {
-      Vector2 force = steeringOutput.linear.scl(150);
+      Vector2 force = steeringOutput.linear.scl(1000*delta);
       body.applyForceToCenter(force, true);
       body.applyAngularImpulse(0, true);
       anyAccelerations = true;
@@ -186,5 +187,23 @@ public class SpineSteerable implements Steerable<Vector2> {
 
   public SteeringAcceleration<Vector2> getSteeringOutput() {
     return steeringOutput;
+  }
+
+
+  // -------------------- Proximity Impl --------------------------------
+  @Override
+  public Steerable<Vector2> getOwner() {
+    return this;
+  }
+
+  @Override
+  public void setOwner(Steerable<Vector2> owner) {
+
+  }
+
+  @Override
+  public int findNeighbors(ProximityCallback<Vector2> callback) {
+//    callback.reportNeighbor()
+    return 1;
   }
 }
