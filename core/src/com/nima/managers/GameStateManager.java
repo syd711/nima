@@ -1,5 +1,9 @@
 package com.nima.managers;
 
+import com.badlogic.gdx.Gdx;
+import com.nima.Main;
+import com.nima.actors.Player;
+
 /**
  * Wraps the status, e.g. if paused
  */
@@ -40,7 +44,18 @@ public class GameStateManager {
 
   public void enterStationMode() {
     stationMode = true;
+    navigating = false;
     EntityManager.getInstance().pauseSystems(true);
+  }
+
+  public void leaveStationMode() {
+    stationMode = false;
+    navigating = true;
+    Player player = EntityManager.getInstance().getPlayer();
+    player.leaveStation();
+
+    Gdx.input.setInputProcessor(Main.inputManager);
+    EntityManager.getInstance().pauseSystems(false);
   }
 
   public boolean isStationMode() {

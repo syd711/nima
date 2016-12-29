@@ -14,10 +14,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.collect.Lists;
-import com.nima.actors.Camera;
-import com.nima.actors.Player;
-import com.nima.actors.Spine;
-import com.nima.actors.Updateable;
+import com.nima.actors.*;
 import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
@@ -81,6 +78,10 @@ public class EntityManager implements MapChangeListener {
 
     updateables.add(new Camera(camera, player));
     updateables.add(player);
+
+    Merchant m = new Merchant(player, renderer);
+    engine.addEntity(m);
+    updateables.add(m);
   }
 
   public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, World world, OrthographicCamera camera, RayHandler rayHandler) {

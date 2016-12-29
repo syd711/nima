@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
+import com.nima.ai.SpineSteerable;
 import com.nima.components.*;
 import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
@@ -14,6 +15,8 @@ import com.nima.util.Settings;
  * Superclass for spine entities
  */
 abstract public class Spine extends Entity implements Updateable {
+  protected SpineSteerable steerable;
+
   protected SpineComponent spineComponent;
   protected MovementComponent movementComponent;
   protected PositionComponent positionComponent;
@@ -83,6 +86,9 @@ abstract public class Spine extends Entity implements Updateable {
 //    body.createFixture(shape, 1f);
 //    shape.dispose();
 
+
+    //AI
+    steerable = new SpineSteerable(this, 50);
   }
 
 

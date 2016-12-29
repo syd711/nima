@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Player;
+import com.nima.components.RotationComponent;
+import com.nima.components.SpeedComponent;
 import com.nima.util.GraphicsUtil;
 
 /**
@@ -54,6 +56,9 @@ public class InputManager implements InputProcessor {
       }
       else if(keycode == Input.Keys.SPACE) {
         GameStateManager.getInstance().togglePause();
+        return true;
+      }
+      else if(keycode == Input.Keys.T) {
         return true;
       }
     }

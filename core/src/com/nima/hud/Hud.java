@@ -6,10 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.nima.actors.Player;
 import com.nima.components.MapObjectComponent;
@@ -49,13 +49,13 @@ public class Hud extends DefaultCollisionListener {
     TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
     style.font = new BitmapFont();
     style.fontColor = Color.RED;
-    dockButton = new TextButton("Dock!", style);
+    dockButton = new TextButton("Leave Station", style);
     dockButton.padTop(20);
     dockButton.padRight(20);
-    dockButton.addListener(new InputListener() {
+    dockButton.addListener(new ChangeListener() {
       @Override
-      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        System.out.println("button");
+      public void changed (ChangeEvent event, Actor actor) {
+        GameStateManager.getInstance().leaveStationMode();
       }
     });
     table.add(dockButton).expandX().align(Align.right);
@@ -73,9 +73,14 @@ public class Hud extends DefaultCollisionListener {
     stage.act();
 
     if(GameStateManager.getInstance().isStationMode()) {
+      dockButton.setVisible(true);
       stage.getBatch().begin();
       stage.getBatch().draw(bground, 0, 0, 1050, 1050);
       stage.getBatch().end();
+      Gdx.input.setInputProcessor(stage);
+    }
+    else {
+      dockButton.setVisible(false);
     }
 
     stage.draw();

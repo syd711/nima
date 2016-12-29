@@ -13,6 +13,16 @@ public class GraphicsUtil {
     return (float) Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
   }
 
+  public static float vectorToAngle(Vector2 vector2) {
+    return (float) Math.atan2(-vector2.x, vector2.y);
+  }
+
+  public static Vector2 angleToVector(Vector2 outVector, float angle) {
+    outVector.x = -(float) Math.sin(angle);
+    outVector.y = (float) Math.cos(angle);
+    return outVector;
+  }
+
   public static Vector2 getScreenCenter(float objectHeight) {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * The current speed of an entity
  */
-public class SpeedComponent extends DelimitingComponent {
+public class SpeedComponent extends LimitingComponent {
 
   public SpeedComponent(float maxSpeed) {
     super(0, 0, maxSpeed, 0, 0);

@@ -10,7 +10,7 @@ import com.nima.util.Settings;
 /**
  * Component implementation for map objects
  */
-public class LightComponent extends DelimitingComponent {
+public class LightComponent extends LimitingComponent {
   private final PositionalLight pointLight;
   private final int MAX_RAYS = 2000;
   private boolean moveable;

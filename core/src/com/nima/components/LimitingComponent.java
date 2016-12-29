@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Component;
  * with an incrementing and decrementing value.
  * The lower bound is assumed to be always 0.
  */
-abstract public class DelimitingComponent implements Component {
+abstract public class LimitingComponent implements Component {
 
   private float targetValue;
   private float currentValue;
@@ -16,7 +16,7 @@ abstract public class DelimitingComponent implements Component {
   private float decreaseBy;
   private float increaseBy;
 
-  public DelimitingComponent(float targetValue, float currentValue, float maxValue, float decreaseBy, float increaseBy) {
+  public LimitingComponent(float targetValue, float currentValue, float maxValue, float decreaseBy, float increaseBy) {
     this.currentValue = currentValue;
     this.targetValue = targetValue;
     this.maxValue = maxValue;

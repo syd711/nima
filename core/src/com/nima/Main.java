@@ -22,7 +22,7 @@ public class Main extends ApplicationAdapter {
   public static OrthographicCamera camera;
   private RayHandler rayHandler;
   private TiledMultiMapRenderer tiledMapRenderer;
-  private InputManager inputManager;
+  public static InputManager inputManager;
   private Player player;
   private PositionComponent positionComponent;
 

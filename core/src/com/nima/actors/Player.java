@@ -87,20 +87,13 @@ public class Player extends Spine implements Updateable, CollisionListener {
   @Override
   public void collisionStart(Player player, Entity mapObjectEntity) {
     if(targetEntity != null && targetEntity.equals(mapObjectEntity)) {
-      dockingProcedure = true;
-      speedComponent.setTargetValue(1.5f);
-      scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
-
-      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-      lightSystem.fadeOut(true);
+      enterStation();
     }
   }
 
   @Override
   public void collisionEnd(Player player, Entity mapObjectEntity) {
-    if(scalingComponent.getCurrentValue() < 1f) {
-      scalingComponent.setTargetValue(1f);
-    }
+
   }
 
   @Override
@@ -110,6 +103,28 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
   @Override
   public void collisionEnd(Spine spine, Entity mapObjectEntity) {
+
+  }
+
+  //--------------- Event execution-----------------------------
+
+  private void enterStation() {
+    dockingProcedure = true;
+    speedComponent.setTargetValue(1.5f);
+    scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
+
+    LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
+    lightSystem.fadeOut(true);
+  }
+
+  public void leaveStation() {
+    scalingComponent.setTargetValue(1f);
+    LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
+    lightSystem.fadeOut(false);
+    speedComponent.setTargetValue(0f);
+    dockingProcedure = false;
+    targetEntity = null;
+    rotationComponent.setRotationTarget(positionComponent.x + 100, positionComponent.y);
 
   }
 }

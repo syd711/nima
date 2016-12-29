@@ -64,7 +64,7 @@ public class RotationComponent implements Component {
 
     float currentAngle = spine.skeleton.getRootBone().getRootRotation();
     float updateAngle = getTargetAngle();
-    if(currentAngle == updateAngle) {
+    if(currentAngle == updateAngle || currentAngle+2 == updateAngle || currentAngle-2 == updateAngle) {
       mapTargetX = -1;
     }
     else {
@@ -102,6 +102,9 @@ public class RotationComponent implements Component {
     //avoid spinning
     if(targetAngle == -180) {
       targetAngle = -178;
+    }
+    if(targetAngle == -2) {
+      System.out.println("debug");
     }
     System.out.println("Target Angle: " + targetAngle);
     return targetAngle;

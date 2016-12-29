@@ -43,7 +43,8 @@ public class LightSystem extends EntitySystem {
   }
 
   private void updateAmbientLight() {
-    if(currentBrightness > 0 && currentBrightness < 1 && currentBrightness != brightness) {
+    if(currentBrightness != brightness) {
+      System.out.println("Brightness: " + currentBrightness);
       if(brightness < currentBrightness) {
         currentBrightness = currentBrightness - Settings.FADE_OUT_OFFSET;
       }
