@@ -2,6 +2,7 @@ package com.nima.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.nima.Game;
 import com.nima.util.Settings;
 
@@ -37,9 +39,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private boolean dirty = true;
   private List<CachedTiledMap> currentMaps = new ArrayList<>();
 
-  public TiledMultiMapRenderer(String mapFolder, String mapPrefix) {
-    super(null);
-    CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(mapFolder, mapPrefix);
+  public TiledMultiMapRenderer(World world, String mapFolder, String mapPrefix, SpriteBatch batch) {
+    super(null, batch);
+    CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(world, mapFolder, mapPrefix);
     setMap(cachedTiledMap.getMap());
 
     debugRenderer = new TiledDebugRenderer(Game.camera);

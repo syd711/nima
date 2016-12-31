@@ -70,7 +70,7 @@ abstract public class Spine extends Entity implements Updateable {
     rotationComponent = new RotationComponent(this);
     add(rotationComponent);
 
-    collisionComponent = new CollisionComponent();
+    collisionComponent = new CollisionComponent(this);
     add(collisionComponent);
 
     movementComponent = new MovementComponent(this);

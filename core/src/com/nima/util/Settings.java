@@ -20,7 +20,6 @@ public class Settings {
   /**
    * Map Settings
    */
-  public static final String OBJECT_LAYER = "collisions";
   public static final int FRAME_PIXELS_X = 1920;
   public static final int FRAME_PIXELS_Y = 1280;
 
@@ -32,5 +31,9 @@ public class Settings {
   public static final int START_FRAME_X = 0;
   public static final int START_FRAME_Y = 0;
 
-  public static final float PPM = 1;
+  /**
+   * Box2d Settings
+   */
+  public final static float MPP = 0.01f;
+  public final static int PPM = 100;
 }

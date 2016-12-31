@@ -1,6 +1,7 @@
 package com.nima.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.World;
 import com.nima.util.Settings;
 
 import java.util.Queue;
@@ -22,9 +23,11 @@ public class CachedMapLoader extends Thread {
   private int frameX = -1;
   private int frameY = -1;
   private boolean gdlThread = false;
+  private World world;
 
-  public CachedMapLoader(MapCache mapCache, int frameX, int frameY) {
+  public CachedMapLoader(MapCache mapCache, World world, int frameX, int frameY) {
     this.mapCache = mapCache;
+    this.world = world;
     this.frameX = frameX;
     this.frameY = frameY;
   }
@@ -68,7 +71,7 @@ public class CachedMapLoader extends Thread {
   }
 
   private void doCache(TmxCacheMapLoader loader) {
-    CachedTiledMap cachedMap = new CachedTiledMap(loader);
+    CachedTiledMap cachedMap = new CachedTiledMap(loader, world);
     mapCache.cacheMap.put(loader.getFilename(), cachedMap);
   }
 

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.nima.Game;
 import com.nima.actors.Spine;
 import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
@@ -46,7 +47,8 @@ public class CollisionSystem extends AbstractIteratingSystem {
      * This is ensured by the MovementSystem.
      */
     spineCollision.collisionComponents.clear();
-    spineCollision.collisionComponents.addAll(PolygonUtil.createSpinePolygons((Spine) entity));
+
+    PolygonUtil.createSpineBody(Game.world, (Spine) entity) ;
 
     Family mapObjectsFamily = Family.all(LocationComponent.class).get();
     ImmutableArray<Entity> entities = engine.getEntitiesFor(mapObjectsFamily);

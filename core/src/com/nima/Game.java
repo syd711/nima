@@ -6,6 +6,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -37,6 +39,10 @@ public class Game extends ApplicationAdapter {
   //Scene2d
   private static Hud hud;
 
+  private final static int VIEWPORT_WIDTH = 16;
+  private final static int VIEWPORT_HEIGHT = 9;
+
+  private SpriteBatch batch;
 
   @Override
   public void create() {
@@ -45,13 +51,14 @@ public class Game extends ApplicationAdapter {
 
     //camera
     camera = new OrthographicCamera();
-//    camera.zoom = 1.5f;
-    camera.setToOrtho(false, w, h);
+//    camera.position.set(VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT, 0);
+    camera.setToOrtho(false);
     camera.update();
 
     //box2d
     world = new World(new Vector2(0, 0), false);
     box2DDebugRenderer = new Box2DDebugRenderer();
+    batch = new SpriteBatch();
 
     //light
     rayHandler = new RayHandler(world);
@@ -60,7 +67,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCombinedMatrix(camera);
 
     //map and player stuff
-    tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX);
+    tiledMapRenderer = new TiledMultiMapRenderer(world, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
     entityManager = EntityManager.create(engine, tiledMapRenderer, camera, rayHandler);
     player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
@@ -80,6 +87,10 @@ public class Game extends ApplicationAdapter {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     camera.update();
+
+    Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(Settings.PPM, Settings.PPM, 0);
+    batch.setProjectionMatrix(camera.combined);
+
     tiledMapRenderer.setView(camera);
 
     tiledMapRenderer.preRender();
@@ -88,7 +99,10 @@ public class Game extends ApplicationAdapter {
 
     tiledMapRenderer.getBatch().begin();
     entityManager.update();
-    update(Gdx.graphics.getDeltaTime());
+    float deltaTime = Gdx.graphics.getDeltaTime();
+    world.step(deltaTime, 6, 2);
+    box2DDebugRenderer.render(world, debugMatrix);
+
     tiledMapRenderer.getBatch().end();
 
     inputManager.handleKeyInput();
@@ -98,11 +112,6 @@ public class Game extends ApplicationAdapter {
     rayHandler.updateAndRender();
 
     hud.render();
-  }
-
-  private void update(float deltaTime) {
-    world.step(deltaTime, 6, 2);
-    box2DDebugRenderer.render(world, camera.combined);
   }
 
   /**

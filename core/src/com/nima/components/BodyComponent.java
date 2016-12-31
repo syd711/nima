@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.nima.Game;
 import com.nima.actors.Spine;
+import com.nima.render.MapConstants;
 import com.nima.util.Settings;
 
 /**
@@ -16,20 +17,20 @@ public class BodyComponent implements Component {
 
   public Body body;
 
-  public BodyComponent(MapObject mapObject) {
-
+  public BodyComponent(MapObject object) {
+    body = (Body) object.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
   }
 
   public BodyComponent(Spine spine, float x, float y) {
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.DynamicBody;
     def.fixedRotation = false;
-    def.position.set(x, y);
+    def.position.set(x*Settings.MPP, y*Settings.MPP);
     body = Game.world.createBody(def);
 
     PolygonShape shape = new PolygonShape();
     //calculated from center!
-    shape.setAsBox(spine.skeleton.getData().getWidth() * 0.2f / 2 / Settings.PPM, spine.skeleton.getData().getHeight() * 0.2f / 2 / Settings.PPM);
+    shape.setAsBox(spine.skeleton.getData().getWidth()/ 2 / Settings.MPP, spine.skeleton.getData().getHeight() / 2 / Settings.MPP);
     body.createFixture(shape, 0f);
     shape.dispose();
   }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="7">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -96,8 +96,8 @@
   <object id="4" name="Minor 1" type="Station" x="316" y="601" width="102" height="102">
    <ellipse/>
   </object>
-  <object id="5" name="Minor 2" type="Station" x="679" y="511">
-   <polygon points="0,0 29,-29 65,-18 73,13 63,47 42,56 22,55 6,50 0,24"/>
+  <object id="6" name="Minor 2" type="Station" x="661" y="477" width="102" height="102">
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

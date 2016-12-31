@@ -82,9 +82,9 @@ public class EntityManager implements MapChangeListener {
     updateables.add(player);
 
     //TODO
-    Hunter m = new Hunter(player, renderer, 300, 300);
-    engine.addEntity(m);
-    updateables.add(m);
+//    Hunter m = new Hunter(player, renderer, 300, 300);
+//    engine.addEntity(m);
+//    updateables.add(m);
   }
 
   public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
@@ -175,6 +175,8 @@ public class EntityManager implements MapChangeListener {
     }
   }
 
+  //-------------------- Map Caching -------------------------------------------------------
+
   @Override
   public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
     for(MapObject mapObject : mapObjects) {
@@ -192,6 +194,8 @@ public class EntityManager implements MapChangeListener {
     ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
     destroy(entities);
   }
+
+  //-------------------- /Map Caching ------------------------------------------------------
 
   public void notifyCollisionStart(Entity entity, Entity mapObjectEntity) {
     for(CollisionListener collisionListener : collisionListeners) {

@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
+import com.nima.Game;
+import com.nima.actors.Spine;
 import com.nima.render.MapConstants;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.PolygonUtil;
@@ -19,8 +21,8 @@ public class CollisionComponent implements Component {
   public List<Object> collisionComponents = new ArrayList<>();
   private List<CollisionComponent> collidingObjects = new ArrayList<>();
 
-  public CollisionComponent() {
-
+  public CollisionComponent(Spine spine) {
+    PolygonUtil.createSpineBody(Game.world, spine);
   }
 
   /**

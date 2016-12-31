@@ -6,10 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Location;
-import com.nima.components.CollisionComponent;
-import com.nima.components.LightComponent;
-import com.nima.components.LocationComponent;
-import com.nima.components.MapObjectComponent;
+import com.nima.components.*;
 import com.nima.render.MapConstants;
 
 import java.util.logging.Logger;
@@ -54,6 +51,7 @@ public class EntityFactory {
     else if(entityType.equals(TYPE_PLANET) || entityType.equals(TYPE_STATION)) {
       entity = new Location();
       entity.add(new MapObjectComponent(mapObject));
+      entity.add(new BodyComponent(mapObject));
       entity.add(new LocationComponent(mapObject));
       entity.add(new CollisionComponent(mapObject));
     }

@@ -1,12 +1,16 @@
 package com.nima.util;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
-import com.nima.render.TiledMultiMapRenderer;
+import com.nima.components.PositionComponent;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -59,7 +63,7 @@ public class PolygonUtil {
     for(Object thisCollisionComponent : targetEntities) {
       for(Object thatCollisionComponent : sourceEntity) {
         if(thisCollisionComponent instanceof Polygon && thatCollisionComponent instanceof Polygon) {
-          if(Intersector.overlapConvexPolygons((Polygon)thisCollisionComponent, (Polygon)thatCollisionComponent)) {
+          if(Intersector.overlapConvexPolygons((Polygon) thisCollisionComponent, (Polygon) thatCollisionComponent)) {
             return true;
           }
         }
@@ -100,8 +104,34 @@ public class PolygonUtil {
     return null;
   }
 
-  public static List<Polygon> createSpinePolygons(Spine spine) {
-    List<Polygon> polygons = new ArrayList<>();
+//  public static List<Polygon> createSpinePolygons(Spine spine) {
+//    List<Polygon> polygons = new ArrayList<>();
+//    boolean premultipliedAlpha = false;
+//    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+//    for(int i = 0, n = drawOrder.size; i < n; i++) {
+//      Slot slot = drawOrder.get(i);
+//      Attachment attachment = slot.getAttachment();
+//      if(attachment instanceof RegionAttachment) {
+//        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+//        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+//        String name = slot.getData().getName();
+//        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+//        polygons.add(p);
+//        TiledMultiMapRenderer.debugRenderer.render(name, p);
+//      }
+//    }
+//    return polygons;
+//  }
+
+  private static boolean rendered = false;
+
+  public static void createSpineBody(World world, Spine spine) {
+    if(rendered) {
+      return;
+    }
+
+    PositionComponent pos = spine.getComponent(PositionComponent.class);
+
     boolean premultipliedAlpha = false;
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
     for(int i = 0, n = drawOrder.size; i < n; i++) {
@@ -111,12 +141,25 @@ public class PolygonUtil {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
         String name = slot.getData().getName();
-        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
-        polygons.add(p);
-        TiledMultiMapRenderer.debugRenderer.render(name, p);
+        float[] floats = PolygonUtil.convertSpineVertices(vertices);
+
+        if(floats[0] > 0) {
+          rendered = true;
+          BodyDef def = new BodyDef();
+          def.type = BodyDef.BodyType.DynamicBody;
+          def.fixedRotation = false;
+          def.position.set((floats[0] + pos.x) * Settings.MPP, (floats[1] + pos.y) * Settings.MPP);
+          Body body = world.createBody(def);
+
+          PolygonShape shape = new PolygonShape();
+          shape.setAsBox((floats[2] - floats[0]) / 2 * Settings.MPP, (floats[3] - floats[5]) / 2 * Settings.MPP);
+          body.createFixture(shape, 1f);
+          shape.dispose();
+        }
+
+
       }
     }
-    return polygons;
   }
 
   public static boolean circleIntersectingPolygon(Circle c, Polygon p) {
@@ -144,13 +187,13 @@ public class PolygonUtil {
    */
   public static Vector2 getCenter(Polygon polygon) {
     float[] vertices = polygon.getVertices();
-    int index = Math.round(vertices.length/2);
+    int index = Math.round(vertices.length / 2);
 
     Vector2 point1 = new Vector2(vertices[0], vertices[1]);
-    Vector2 point2 = new Vector2(vertices[index+1], vertices[index+2]);
+    Vector2 point2 = new Vector2(vertices[index + 1], vertices[index + 2]);
     float distance = point1.dst(point2);
 
-    return new Vector2(polygon.getX() + distance/2, polygon.getY() + distance/2);
+    return new Vector2(polygon.getX() + distance / 2, polygon.getY() + distance / 2);
   }
 
   private static Polygon rectangle2Polygon(Rectangle rectangle) {
