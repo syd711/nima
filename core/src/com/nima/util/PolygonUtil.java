@@ -143,8 +143,8 @@ public class PolygonUtil {
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
 
     BodyDef def = new BodyDef();
-    def.type = BodyDef.BodyType.StaticBody;
-    def.fixedRotation = false;
+    def.type = BodyDef.BodyType.DynamicBody;
+//    def.fixedRotation = false;
     def.position.set((pos.x) * Settings.MPP, (pos.y) * Settings.MPP);
     Body body = world.createBody(def);
 

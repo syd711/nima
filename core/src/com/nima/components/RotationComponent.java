@@ -78,6 +78,7 @@ public class RotationComponent implements Component {
           newAngle = 180 - (newAngle % 180);
         }
         spine.skeleton.getRootBone().setRootRotation(newAngle);
+
       }
       else {
         float newAngle = currentAngle + Settings.ACTOR_ROTATION_SPEED;
@@ -87,6 +88,15 @@ public class RotationComponent implements Component {
         spine.skeleton.getRootBone().setRootRotation(newAngle);
       }
     }
+  }
+
+  public float getB2dAngle() {
+    BodyComponent bodyComponent = spine.getComponent(BodyComponent.class);
+    double DEGREES_TO_RADIANS = Math.PI/180;
+    float angle = spine.skeleton.getRootBone().getRootRotation();
+    float b2dAngle = (float) (angle*DEGREES_TO_RADIANS);
+    System.out.println(b2dAngle);
+    return b2dAngle;
   }
 
   public float getRotation() {
@@ -103,7 +113,7 @@ public class RotationComponent implements Component {
     if(targetAngle == -180) {
       targetAngle = -178;
     }
-    System.out.println("Target Angle: " + targetAngle);
+//    System.out.println("Target Angle: " + targetAngle);
     return targetAngle;
   }
 

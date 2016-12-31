@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.MapObjectComponent;
+import com.nima.components.RotationComponent;
 import com.nima.components.ScreenPositionComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
@@ -47,7 +48,8 @@ public class Player extends Spine implements Updateable, CollisionListener {
       }
     }
 
-    bodyComponent.getBody().setTransform(getCenter().x*MPP, getCenter().y*MPP, 0);
+    RotationComponent rotationComponent = getComponent(RotationComponent.class);
+    bodyComponent.getBody().setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
   }
 
   /**
