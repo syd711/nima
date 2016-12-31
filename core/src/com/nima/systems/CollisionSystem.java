@@ -47,6 +47,7 @@ public class CollisionSystem extends AbstractIteratingSystem {
      * This is ensured by the MovementSystem.
      */
     spineCollision.collisionComponents.clear();
+    spineCollision.collisionComponents.addAll(PolygonUtil.createSpinePolygons((Spine) entity));
 
     PolygonUtil.createSpineBody(Game.world, (Spine) entity) ;
 

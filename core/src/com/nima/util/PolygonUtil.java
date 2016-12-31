@@ -1,16 +1,14 @@
 package com.nima.util;
 
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
 import com.nima.components.PositionComponent;
+import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -41,6 +39,22 @@ public class PolygonUtil {
 
   private static float[] createVertices(float w, float h, float x, float y) {
     return new float[]{x, y, w + x, y, w + x, h + y, x, h + y};
+  }
+
+  public static float[] convertSpine2Box2dVertices(float[] vertices) {
+    if(vertices.length % 5 != 0) {
+      throw new UnsupportedOperationException("Vertices have wrong size");
+    }
+
+    List<Float> converted = new ArrayList<>();
+    int index = 0;
+    while(index < vertices.length) {
+      converted.add(vertices[index]*Settings.MPP);
+      converted.add(vertices[index + 1]*Settings.MPP);
+      index += 5;
+    }
+
+    return ArrayUtils.toPrimitive(converted.toArray(new Float[converted.size()]));
   }
 
   public static float[] convertSpineVertices(float[] vertices) {
@@ -104,34 +118,8 @@ public class PolygonUtil {
     return null;
   }
 
-//  public static List<Polygon> createSpinePolygons(Spine spine) {
-//    List<Polygon> polygons = new ArrayList<>();
-//    boolean premultipliedAlpha = false;
-//    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
-//    for(int i = 0, n = drawOrder.size; i < n; i++) {
-//      Slot slot = drawOrder.get(i);
-//      Attachment attachment = slot.getAttachment();
-//      if(attachment instanceof RegionAttachment) {
-//        RegionAttachment regionAttachment = (RegionAttachment) attachment;
-//        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-//        String name = slot.getData().getName();
-//        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
-//        polygons.add(p);
-//        TiledMultiMapRenderer.debugRenderer.render(name, p);
-//      }
-//    }
-//    return polygons;
-//  }
-
-  private static boolean rendered = false;
-
-  public static void createSpineBody(World world, Spine spine) {
-    if(rendered) {
-      return;
-    }
-
-    PositionComponent pos = spine.getComponent(PositionComponent.class);
-
+  public static List<Polygon> createSpinePolygons(Spine spine) {
+    List<Polygon> polygons = new ArrayList<>();
     boolean premultipliedAlpha = false;
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
     for(int i = 0, n = drawOrder.size; i < n; i++) {
@@ -141,23 +129,49 @@ public class PolygonUtil {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
         String name = slot.getData().getName();
-        float[] floats = PolygonUtil.convertSpineVertices(vertices);
+        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+        polygons.add(p);
+        TiledMultiMapRenderer.debugRenderer.render(name, p);
+      }
+    }
+    return polygons;
+  }
+
+  private static boolean rendered = false;
+
+  public static void createSpineBody(World world, Spine spine) {
+    if(rendered) {
+      return;
+    }
+
+    PositionComponent pos = spine.getComponent(PositionComponent.class);
+    boolean premultipliedAlpha = false;
+    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+
+    BodyDef def = new BodyDef();
+    def.type = BodyDef.BodyType.StaticBody;
+    def.fixedRotation = false;
+    def.position.set((pos.x) * Settings.MPP, (pos.y) * Settings.MPP);
+    Body body = world.createBody(def);
+
+    for(int i = 0, n = drawOrder.size; i < n; i++) {
+      Slot slot = drawOrder.get(i);
+      Attachment attachment = slot.getAttachment();
+      if(attachment instanceof RegionAttachment) {
+        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+        String name = slot.getData().getName();
+        float[] floats = PolygonUtil.convertSpine2Box2dVertices(vertices);
 
         if(floats[0] > 0) {
           rendered = true;
-          BodyDef def = new BodyDef();
-          def.type = BodyDef.BodyType.DynamicBody;
-          def.fixedRotation = false;
-          def.position.set((floats[0] + pos.x) * Settings.MPP, (floats[1] + pos.y) * Settings.MPP);
-          Body body = world.createBody(def);
-
           PolygonShape shape = new PolygonShape();
-          shape.setAsBox((floats[2] - floats[0]) / 2 * Settings.MPP, (floats[3] - floats[5]) / 2 * Settings.MPP);
-          body.createFixture(shape, 1f);
+          shape.set(floats);
+          FixtureDef fdef = new FixtureDef();
+          fdef.shape = shape;
+          body.createFixture(fdef);
           shape.dispose();
         }
-
-
       }
     }
   }

@@ -111,6 +111,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCombinedMatrix(camera);
     rayHandler.updateAndRender();
 
+    //hud overlay at last
     hud.render();
   }
 
