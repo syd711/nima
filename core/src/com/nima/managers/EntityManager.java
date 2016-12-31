@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.google.common.collect.Lists;
 import com.nima.actors.*;
-import com.nima.components.CollisionComponent;
 import com.nima.components.LocationComponent;
 import com.nima.components.MapObjectComponent;
 import com.nima.render.MapChangeListener;
@@ -228,11 +227,11 @@ public class EntityManager implements MapChangeListener {
     ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(LocationComponent.class).get());
     ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
     for(Entity entity : entities) {
-      CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
-      if(collisionComponent.collidesWith(clickPolygon)) {
-        notifyEntityClickListeners(entity);
-        return entity;
-      }
+//      CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
+//      if(collisionComponent.collidesWith(clickPolygon)) {
+//        notifyEntityClickListeners(entity);
+//        return entity;
+//      }
     }
 
     return null;

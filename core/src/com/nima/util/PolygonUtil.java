@@ -49,8 +49,8 @@ public class PolygonUtil {
     List<Float> converted = new ArrayList<>();
     int index = 0;
     while(index < vertices.length) {
-      converted.add(vertices[index]*Settings.MPP);
-      converted.add(vertices[index + 1]*Settings.MPP);
+      converted.add(vertices[index] * Settings.MPP);
+      converted.add(vertices[index + 1] * Settings.MPP);
       index += 5;
     }
 
@@ -137,13 +137,7 @@ public class PolygonUtil {
     return polygons;
   }
 
-  private static boolean rendered = false;
-
-  public static void createSpineBody(World world, Spine spine) {
-    if(rendered) {
-      return;
-    }
-
+  public static Body createSpineBody(World world, Spine spine) {
     PositionComponent pos = spine.getComponent(PositionComponent.class);
     boolean premultipliedAlpha = false;
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
@@ -160,20 +154,20 @@ public class PolygonUtil {
       if(attachment instanceof RegionAttachment) {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-        String name = slot.getData().getName();
         float[] floats = PolygonUtil.convertSpine2Box2dVertices(vertices);
-
-        if(floats[0] > 0) {
-          rendered = true;
-          PolygonShape shape = new PolygonShape();
-          shape.set(floats);
-          FixtureDef fdef = new FixtureDef();
-          fdef.shape = shape;
-          body.createFixture(fdef);
-          shape.dispose();
+        if(floats[0] == 0) {
+          return null;
         }
+
+        PolygonShape shape = new PolygonShape();
+        shape.set(floats);
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = shape;
+        body.createFixture(fdef);
+        shape.dispose();
       }
     }
+    return body;
   }
 
   public static boolean circleIntersectingPolygon(Circle c, Polygon p) {

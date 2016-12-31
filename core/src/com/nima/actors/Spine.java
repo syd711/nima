@@ -21,7 +21,6 @@ abstract public class Spine extends Entity implements Updateable {
   protected MovementComponent movementComponent;
   protected PositionComponent positionComponent;
   protected SpeedComponent speedComponent;
-  protected CollisionComponent collisionComponent;
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
 
@@ -55,14 +54,19 @@ abstract public class Spine extends Entity implements Updateable {
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
 //    state.setAnimation(0, defaultAnimation, true);
 
+    scalingComponent = new ScalingComponent(1f);
+    add(scalingComponent);
+
     positionComponent = new PositionComponent();
+    if(x == -1 || y == -1) {
+      Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
+      positionComponent.x = screenCenter.x;
+      positionComponent.y = screenCenter.y;
+    }
     add(positionComponent);
 
     spineComponent = new SpineComponent();
     add(spineComponent);
-
-    scalingComponent = new ScalingComponent(1f);
-    add(scalingComponent);
 
     speedComponent = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
     add(speedComponent);
@@ -70,23 +74,13 @@ abstract public class Spine extends Entity implements Updateable {
     rotationComponent = new RotationComponent(this);
     add(rotationComponent);
 
-    collisionComponent = new CollisionComponent(this);
-    add(collisionComponent);
-
     movementComponent = new MovementComponent(this);
     add(movementComponent);
 
-    bodyComponent = new BodyComponent(this, x, y);
+    bodyComponent = new BodyComponent(this);
     add(bodyComponent);
-
-    steerableComponent = new SteerableComponent(bodyComponent.body);
-    add(steerableComponent);
-
-    if(x == -1 || y == -1) {
-      Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
-      positionComponent.x = screenCenter.x;
-      positionComponent.y = screenCenter.y;
-    }
+//    steerableComponent = new SteerableComponent(bodyComponent.body);
+//    add(steerableComponent);
   }
 
 

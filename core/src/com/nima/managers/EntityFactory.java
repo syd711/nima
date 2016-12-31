@@ -27,7 +27,6 @@ public class EntityFactory {
     String entityType = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
     if(entityType == null) {
       LOG.warning("Undefined map object " + mapObject.getProperties().get("id") + " found on " + map);
-      new CollisionComponent(mapObject);
       return null;
     }
 
@@ -53,7 +52,6 @@ public class EntityFactory {
       entity.add(new MapObjectComponent(mapObject));
       entity.add(new BodyComponent(mapObject));
       entity.add(new LocationComponent(mapObject));
-      entity.add(new CollisionComponent(mapObject));
     }
     else {
       throw new UnsupportedOperationException("Unsupported map object " + mapObject.getProperties().get("id") + " found on " + map);
