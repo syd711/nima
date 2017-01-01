@@ -40,7 +40,8 @@ public class SpineUtil {
 
 
   /**
-   *
+   * Returns the center of the spine by search for
+   * a slot with the given name and returning it's first position vertice.
    */
   public static Vector2 getSpineCenter(Spine spine, String slotName) {
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
@@ -51,6 +52,7 @@ public class SpineUtil {
       if(attachment instanceof RegionAttachment) {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+        //TODO not exact enough
         String name = slot.getData().getName();
         if(slotName.equals(name)) {
           return new Vector2(vertices[0], vertices[1]);
