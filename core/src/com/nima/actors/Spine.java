@@ -7,10 +7,9 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
-import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.GraphicsUtil;
-import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
+import com.nima.util.SpineUtil;
 
 import static com.nima.util.Settings.MPP;
 
@@ -36,6 +35,7 @@ abstract public class Spine extends Entity implements Updateable {
   public final Skeleton skeleton;
 
   private final SkeletonJson json;
+  private final float jsonScaling;
 
   public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling) {
     this(renderer, path, defaultAnimation, jsonScaling, -1f, -1f);
@@ -43,6 +43,7 @@ abstract public class Spine extends Entity implements Updateable {
 
   public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling, float x, float y) {
     this.renderer = renderer;
+    this.jsonScaling = jsonScaling;
     this.skeletonRenderer = new SkeletonRenderer();
 
     atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
@@ -87,9 +88,9 @@ abstract public class Spine extends Entity implements Updateable {
 //    add(steerableComponent);
   }
 
-  float r = 5; // radius or distance from the box
-  float theta = 0; // could be any, up to you
-  float rotationSpeed = 0.5f;
+  public float getJsonScaling() {
+    return jsonScaling;
+  }
 
   @Override
   public void update() {
@@ -109,25 +110,7 @@ abstract public class Spine extends Entity implements Updateable {
 
     //box2d rendering
     PositionComponent pos = getComponent(PositionComponent.class);
-    bodyComponent.getBody().setTransform(pos.x*MPP, pos.y*MPP, rotationComponent.getB2dAngle());//
-    TiledMultiMapRenderer.debugRenderer.render("test", PolygonUtil.clickPolygon(positionComponent.getPosition()));
-
-//    List<List<Float>> spineVertices = getSpineVertices(this);
-//
-//    Array<Fixture> fixtureList = body.getFixtureList();
-//    for(int i=0; i<fixtureList.size; i++) {
-//      List<Float> floatList = spineVertices.get(i);
-//      float[] floats = ArrayUtils.toPrimitive(floatList.toArray(new Float[floatList.size()]));
-//
-//      body.destroyFixture(fixtureList.get(i));
-//
-//      PolygonShape shape = new PolygonShape();
-//      shape.set(floats);
-//      FixtureDef fdef = new FixtureDef();
-//      fdef.isSensor = true;
-//      fdef.shape = shape;
-//      body.createFixture(fdef);
-//    }
+    bodyComponent.body.setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
   }
 
   protected float getHeight() {
@@ -135,6 +118,6 @@ abstract public class Spine extends Entity implements Updateable {
   }
 
   public Vector2 getCenter() {
-    return PolygonUtil.getSpineCenter(this, "torso");
+    return SpineUtil.getSpineCenter(this, "torso");
   }
 }
