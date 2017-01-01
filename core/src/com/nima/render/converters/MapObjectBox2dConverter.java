@@ -34,7 +34,7 @@ public class MapObjectBox2dConverter extends MapObjectConverter {
   }
 
   @Override
-  public void converRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
+  public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
     createBody(mapObject, getRectangle(mapObject));
   }
 

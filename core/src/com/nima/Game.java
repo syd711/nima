@@ -46,9 +46,6 @@ public class Game extends ApplicationAdapter {
   //Scene2d
   private static Hud hud;
 
-  private final static int VIEWPORT_WIDTH = 16;
-  private final static int VIEWPORT_HEIGHT = 9;
-
   private SpriteBatch batch;
 
   @Override
@@ -58,7 +55,6 @@ public class Game extends ApplicationAdapter {
 
     //camera
     camera = new OrthographicCamera();
-//    camera.position.set(VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT, 0);
     camera.setToOrtho(false);
     camera.update();
 
@@ -94,7 +90,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
 
-    //Create the multi map renderer + converters
+    //Create the multi map renderer + converters, keep order!
     List<MapObjectConverter> converterList = new ArrayList<>();
     converterList.add(new MapObjectPositionUpdateConverter());
     converterList.add(new MapObjectPositionConverter());

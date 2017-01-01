@@ -18,7 +18,7 @@ import com.nima.util.PolygonUtil;
 public class MapObjectCenteredPositionConverter extends MapObjectConverter {
 
   @Override
-  public void converRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
+  public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
     Rectangle r = mapObject.getRectangle();
     Vector2 position = r.getPosition(new Vector2());
     Vector2 centeredPosition = new Vector2(position.x+r.width/2, position.y+r.height/2);

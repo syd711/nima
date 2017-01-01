@@ -23,7 +23,7 @@ abstract public class MapObjectConverter {
     }
 
     if(mapObject instanceof RectangleMapObject) {
-      converRectangle(mapFragment, (RectangleMapObject) mapObject);
+      convertRectangle(mapFragment, (RectangleMapObject) mapObject);
     }
     else if(mapObject instanceof PolygonMapObject) {
       convertPolygon(mapFragment, (PolygonMapObject) mapObject);
@@ -45,7 +45,7 @@ abstract public class MapObjectConverter {
     return true;
   }
 
-  public abstract void converRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject);
+  public abstract void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject);
 
   public abstract void convertPolygon(TiledMapFragment mapFragment, PolygonMapObject mapObject);
 
