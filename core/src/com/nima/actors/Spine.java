@@ -11,6 +11,8 @@ import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
 
+import static com.nima.util.Settings.MPP;
+
 /**
  * Superclass for spine entities
  */
@@ -86,6 +88,7 @@ abstract public class Spine extends Entity implements Updateable {
 
   @Override
   public void update() {
+    //spine rendering
     state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
@@ -98,6 +101,10 @@ abstract public class Spine extends Entity implements Updateable {
     speedComponent.updateValue();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
+
+    //box2d rendering
+    PositionComponent pos = getComponent(PositionComponent.class);
+    bodyComponent.getBody().setTransform(pos.x*MPP, pos.y*MPP, rotationComponent.getB2dAngle());
   }
 
   protected float getHeight() {

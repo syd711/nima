@@ -16,8 +16,6 @@ public class MovementComponent implements Component {
   private PositionComponent position;
   private SpeedComponent speed;
 
-  private Entity target;
-
   public MovementComponent(Spine spine) {
     this.rotationComponent = spine.getComponent(RotationComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
@@ -48,13 +46,11 @@ public class MovementComponent implements Component {
     }
   }
 
-
   public void stop() {
     if(speed.getTargetValue() > 0) {
       speed.setTargetPercentage(0);
     }
   }
-
 
   /**
    * Moves to the given screen coordinates
@@ -63,7 +59,6 @@ public class MovementComponent implements Component {
    * @param y screen y
    */
   public void moveTo(float x, float y) {
-    target = null;
     rotationComponent.setRotationTarget(x, y);
   }
 
@@ -77,14 +72,8 @@ public class MovementComponent implements Component {
       MapObjectComponent mapObjectComponent = entity.getComponent(MapObjectComponent.class);
       Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
       moveTo(centeredPosition.x, centeredPosition.y);
-      target = entity;
       return true;
     }
     return false;
   }
-
-  public Entity getTarget() {
-    return target;
-  }
-
 }

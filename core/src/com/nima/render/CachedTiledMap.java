@@ -157,6 +157,7 @@ public class CachedTiledMap {
       if(shape != null) {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+
 //      fixtureDef.filter.categoryBits = Settings.LEVEL_BITS;
 //      fixtureDef.filter.maskBits = (short) (Settings.FRIENDLY_BITS |
 //          Settings.ENEMY_BITS |
@@ -168,9 +169,10 @@ public class CachedTiledMap {
 //        bodyDef.position.x = x;
 //        bodyDef.position.y = y;
         Body body = world.createBody(bodyDef);
-        body.setActive(false);
+        body.setActive(true);
         body.createFixture(fixtureDef);
         fixtureDef.shape = null;
+        fixtureDef.isSensor = true;
         shape.dispose();
         object.getProperties().put(MapConstants.PROPERTY_COLLISION_COMPONENT, body);
       }

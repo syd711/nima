@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.MapObjectComponent;
-import com.nima.components.RotationComponent;
 import com.nima.components.ScreenPositionComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
@@ -14,8 +13,6 @@ import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
-
-import static com.nima.util.Settings.MPP;
 
 /**
  * The player with all ashley components.
@@ -47,9 +44,6 @@ public class Player extends Spine implements Updateable, CollisionListener {
         GameStateManager.getInstance().enterStationMode();
       }
     }
-
-    RotationComponent rotationComponent = getComponent(RotationComponent.class);
-    bodyComponent.getBody().setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
   }
 
   /**

@@ -91,11 +91,9 @@ public class RotationComponent implements Component {
   }
 
   public float getB2dAngle() {
-    BodyComponent bodyComponent = spine.getComponent(BodyComponent.class);
     double DEGREES_TO_RADIANS = Math.PI/180;
     float angle = spine.skeleton.getRootBone().getRootRotation();
     float b2dAngle = (float) (angle*DEGREES_TO_RADIANS);
-    System.out.println(b2dAngle);
     return b2dAngle;
   }
 

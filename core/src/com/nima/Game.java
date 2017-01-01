@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.nima.actors.Player;
 import com.nima.components.PositionComponent;
 import com.nima.hud.Hud;
@@ -57,6 +56,27 @@ public class Game extends ApplicationAdapter {
 
     //box2d
     world = new World(new Vector2(0, 0), false);
+    world.setContactListener(new ContactListener() {
+      @Override
+      public void beginContact(Contact contact) {
+        System.out.println("Contact!");
+      }
+
+      @Override
+      public void endContact(Contact contact) {
+
+      }
+
+      @Override
+      public void preSolve(Contact contact, Manifold oldManifold) {
+
+      }
+
+      @Override
+      public void postSolve(Contact contact, ContactImpulse impulse) {
+
+      }
+    });
     box2DDebugRenderer = new Box2DDebugRenderer();
     batch = new SpriteBatch();
 
@@ -80,6 +100,8 @@ public class Game extends ApplicationAdapter {
     Gdx.input.setInputProcessor(inputManager);
   }
 
+  int debugRender = 0;
+
   @Override
   public void render() {
     Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -101,7 +123,13 @@ public class Game extends ApplicationAdapter {
     entityManager.update();
     float deltaTime = Gdx.graphics.getDeltaTime();
     world.step(deltaTime, 6, 2);
-    box2DDebugRenderer.render(world, debugMatrix);
+
+    debugRender++;
+    if(debugRender%2 == 0) {
+      debugRender = 0;
+      box2DDebugRenderer.render(world, debugMatrix);
+    }
+
 
     tiledMapRenderer.getBatch().end();
 

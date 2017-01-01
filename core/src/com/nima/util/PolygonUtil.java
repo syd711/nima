@@ -1,13 +1,16 @@
 package com.nima.util;
 
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
-import com.nima.components.PositionComponent;
 import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -100,6 +103,9 @@ public class PolygonUtil {
     return false;
   }
 
+  /**
+   * @deprecated use box2d center!
+   */
   public static Vector2 getSpineCenter(Spine spine, String slotName) {
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
     boolean premultipliedAlpha = false;
@@ -110,7 +116,7 @@ public class PolygonUtil {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
         String name = slot.getData().getName();
-        if(slotName.equals(slotName)) {
+        if(slotName.equals(name)) {
           return new Vector2(vertices[0], vertices[1]);
         }
       }
@@ -138,14 +144,19 @@ public class PolygonUtil {
   }
 
   public static Body createSpineBody(World world, Spine spine) {
-    PositionComponent pos = spine.getComponent(PositionComponent.class);
+    float w = Gdx.graphics.getWidth();
+    float h = Gdx.graphics.getHeight();
+
+    float targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
+    float targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2);
+
     boolean premultipliedAlpha = false;
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
 
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.DynamicBody;
 //    def.fixedRotation = false;
-    def.position.set((pos.x) * Settings.MPP, (pos.y) * Settings.MPP);
+    def.position.set((targetX) * Settings.MPP, (targetY) * Settings.MPP);
     Body body = world.createBody(def);
 
     for(int i = 0, n = drawOrder.size; i < n; i++) {
@@ -162,6 +173,7 @@ public class PolygonUtil {
         PolygonShape shape = new PolygonShape();
         shape.set(floats);
         FixtureDef fdef = new FixtureDef();
+        fdef.isSensor = true;
         fdef.shape = shape;
         body.createFixture(fdef);
         shape.dispose();
@@ -202,13 +214,5 @@ public class PolygonUtil {
     float distance = point1.dst(point2);
 
     return new Vector2(polygon.getX() + distance / 2, polygon.getY() + distance / 2);
-  }
-
-  private static Polygon rectangle2Polygon(Rectangle rectangle) {
-    float w = rectangle.width;
-    float h = rectangle.height;
-    float x = 0;
-    float y = 0;
-    return rectangle2Polygon(w, h, x, y);
   }
 }
