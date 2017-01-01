@@ -15,9 +15,17 @@ import com.nima.components.PositionComponent;
 import com.nima.hud.Hud;
 import com.nima.managers.EntityManager;
 import com.nima.managers.InputManager;
+import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMultiMapRenderer;
+import com.nima.render.converters.MapObjectBox2dConverter;
+import com.nima.render.converters.MapObjectCenteredPositionConverter;
+import com.nima.render.converters.MapObjectPositionConverter;
+import com.nima.render.converters.MapObjectPositionUpdateConverter;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends ApplicationAdapter {
   public static OrthographicCamera camera;
@@ -86,9 +94,18 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
 
-    //map and player stuff
-    tiledMapRenderer = new TiledMultiMapRenderer(world, Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
+    //Create the multi map renderer + converters
+    List<MapObjectConverter> converterList = new ArrayList<>();
+    converterList.add(new MapObjectPositionUpdateConverter());
+    converterList.add(new MapObjectPositionConverter());
+    converterList.add(new MapObjectCenteredPositionConverter());
+    converterList.add(new MapObjectBox2dConverter(world));
+    tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch, converterList);
+
+    //Ashley Entity Engine
     entityManager = EntityManager.create(engine, tiledMapRenderer, camera, rayHandler);
+
+    //init player
     player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 

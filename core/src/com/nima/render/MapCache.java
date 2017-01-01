@@ -1,7 +1,5 @@
 package com.nima.render;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
@@ -12,7 +10,7 @@ public class MapCache {
   private static final Logger LOG = Logger.getLogger(MapCache.class.getName());
   private static MapCache INSTANCE = new MapCache();
 
-  protected LinkedHashMap<String, CachedTiledMap> cacheMap = new LinkedHashMap<>();
+  protected LinkedHashMap<String, TiledMapFragment> cacheMap = new LinkedHashMap<>();
 
   //file infos
   private String folder;
@@ -21,8 +19,6 @@ public class MapCache {
   //center position
   private int frameX = -1;
   private int frameY = -1;
-
-  private World world;
 
   public static MapCache getInstance() {
     return INSTANCE;
@@ -33,14 +29,13 @@ public class MapCache {
     //nothing
   }
 
-  public CachedTiledMap initCache(World world, String folder, String filePrefix) {
-    this.world = world;
+  public TiledMapFragment initCache(String folder, String filePrefix) {
     this.folder = folder;
     this.prefix = filePrefix;
 
-    CachedMapLoader cachedMapLoader = new CachedMapLoader(this, world, 0, 0);
-    cachedMapLoader.setGdlThread(true);
-    cachedMapLoader.run();
+    MapFragmentLoader mapFragmentLoader = new MapFragmentLoader(this, 0, 0);
+    mapFragmentLoader.setGdlThread(true);
+    mapFragmentLoader.run();
 
     String key = keyFor(0, 0);
     return cacheMap.get(key);
@@ -57,16 +52,14 @@ public class MapCache {
     if(this.frameX != frameX || this.frameY != frameY) {
       this.frameX = frameX;
       this.frameY = frameY;
-      new CachedMapLoader(this, world, frameX, frameY).start();
+      new MapFragmentLoader(this, frameX, frameY).start();
     }
   }
 
   /**
    * Checks which maps are not used anymore
    */
-  public void evict(CachedTiledMap map) {
-    //TODO no buffer here
-    map.destroy();
+  public void evict(TiledMapFragment map) {
     cacheMap.remove(map.getFilename());
     LOG.info("Evicted " + map.getFilename());
   }
@@ -80,7 +73,7 @@ public class MapCache {
    * @param x frame position X
    * @param y frame position Y
    */
-  public CachedTiledMap get(int x, int y) {
+  public TiledMapFragment get(int x, int y) {
     String key = keyFor(x, y);
     if(cacheMap.containsKey(key)) {
       return cacheMap.get(key);

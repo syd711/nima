@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.nima.Game;
 import com.nima.util.Settings;
 
@@ -37,18 +37,25 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
   private List<MapChangeListener> mapChangeListeners = new ArrayList<>();
   private boolean dirty = true;
-  private List<CachedTiledMap> currentMaps = new ArrayList<>();
+  private List<TiledMapFragment> currentMaps = new ArrayList<>();
 
-  public TiledMultiMapRenderer(World world, String mapFolder, String mapPrefix, SpriteBatch batch) {
+  private List<MapObjectConverter> objectConverters;
+
+  public TiledMultiMapRenderer(String mapFolder, String mapPrefix, SpriteBatch batch, List<MapObjectConverter> mapObjectConverters) {
     super(null, batch);
-    CachedTiledMap cachedTiledMap = MapCache.getInstance().initCache(world, mapFolder, mapPrefix);
-    setMap(cachedTiledMap.getMap());
+    this.objectConverters = mapObjectConverters;
+    TiledMapFragment tiledMapFragment = MapCache.getInstance().initCache(mapFolder, mapPrefix);
+    setMap(tiledMapFragment.getMap());
 
     debugRenderer = new TiledDebugRenderer(Game.camera);
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
     this.frameTilesY = groundLayer.getHeight();
+  }
+
+  public void addMapObjectConverter(MapObjectConverter mapObjectConverter) {
+    this.objectConverters.add(mapObjectConverter);
   }
 
   public void addMapChangeListener(MapChangeListener listener) {
@@ -77,7 +84,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
 
-    List<CachedTiledMap> actualMaps = new ArrayList<>();
+    List<TiledMapFragment> actualMaps = new ArrayList<>();
 
     MapLayers layers = getMap().getLayers();
     for(MapLayer layer : layers) {
@@ -91,13 +98,13 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
               frameNumberX = x;
               frameNumberY = y;
               //get the map for the current frame
-              CachedTiledMap cachedTiledMap = MapCache.getInstance().get(x, y);
-              if(!actualMaps.contains(cachedTiledMap)) {
-                actualMaps.add(cachedTiledMap);
+              TiledMapFragment tiledMapFragment = MapCache.getInstance().get(x, y);
+              if(!actualMaps.contains(tiledMapFragment)) {
+                actualMaps.add(tiledMapFragment);
               }
 
 
-              frameMap = cachedTiledMap.getMap();
+              frameMap = tiledMapFragment.getMap();
               MapLayer l = frameMap.getLayers().get(layerName);
 
               if(l != null && l instanceof TiledMapTileLayer) {
@@ -131,18 +138,37 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
    * with the latest rendering result. Only called when dirty
    * @param actualMaps the maps that have been rendered during the last call
    */
-  private void updateListeners(List<CachedTiledMap> actualMaps) {
-    for(CachedTiledMap cachedMap : currentMaps) {
+  private void updateListeners(List<TiledMapFragment> actualMaps) {
+    for(TiledMapFragment cachedMap : currentMaps) {
       if(!actualMaps.contains(cachedMap)) {
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
           mapChangeListener.mapRemoved(cachedMap.getMap(), cachedMap.getMapObjects());
           LOG.info("Removed map " + cachedMap.getFilename());
         }
+
+        //destroy all map objects after notifying listeners
+        for(MapObjectConverter objectConverter : objectConverters) {
+          List<MapObject> mapObjects = cachedMap.getMapObjects();
+          for(MapObject mapObject : mapObjects) {
+            objectConverter.destroy(cachedMap, mapObject);
+          }
+        }
+
+        //TODO no real caching here
+        MapCache.getInstance().evict(cachedMap);
       }
     }
 
-    for(CachedTiledMap cachedMap : actualMaps) {
+    for(TiledMapFragment cachedMap : actualMaps) {
       if(!currentMaps.contains(cachedMap)) {
+        //convert all map objects before notifying listeners
+        for(MapObjectConverter objectConverter : objectConverters) {
+          List<MapObject> mapObjects = cachedMap.getMapObjects();
+          for(MapObject mapObject : mapObjects) {
+            objectConverter.convertMapObject(cachedMap, mapObject);
+          }
+        }
+
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
           mapChangeListener.mapAdded(cachedMap.getMap(), cachedMap.getMapObjects());
           LOG.info("Added map " + cachedMap.getFilename());

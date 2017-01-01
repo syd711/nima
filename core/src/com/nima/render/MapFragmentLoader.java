@@ -1,7 +1,6 @@
 package com.nima.render;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.World;
 import com.nima.util.Settings;
 
 import java.util.Queue;
@@ -14,8 +13,8 @@ import java.util.logging.Logger;
  *
  * Otherwise the corresponding frames will be loaded asynchronously.
  */
-public class CachedMapLoader extends Thread {
-  private final static Logger LOG = Logger.getLogger(CachedMapLoader.class.getName());
+public class MapFragmentLoader extends Thread {
+  private final static Logger LOG = Logger.getLogger(MapFragmentLoader.class.getName());
 
   private Queue<TmxCacheMapLoader> mapQueue = new ConcurrentLinkedQueue<>();
 
@@ -23,11 +22,9 @@ public class CachedMapLoader extends Thread {
   private int frameX = -1;
   private int frameY = -1;
   private boolean gdlThread = false;
-  private World world;
 
-  public CachedMapLoader(MapCache mapCache, World world, int frameX, int frameY) {
+  public MapFragmentLoader(MapCache mapCache, int frameX, int frameY) {
     this.mapCache = mapCache;
-    this.world = world;
     this.frameX = frameX;
     this.frameY = frameY;
   }
@@ -71,7 +68,7 @@ public class CachedMapLoader extends Thread {
   }
 
   private void doCache(TmxCacheMapLoader loader) {
-    CachedTiledMap cachedMap = new CachedTiledMap(loader, world);
+    TiledMapFragment cachedMap = new TiledMapFragment(loader);
     mapCache.cacheMap.put(loader.getFilename(), cachedMap);
   }
 
