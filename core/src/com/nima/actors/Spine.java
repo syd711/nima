@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
+import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
 import com.nima.util.Settings;
@@ -81,10 +83,14 @@ abstract public class Spine extends Entity implements Updateable {
 
     bodyComponent = new BodyComponent(this);
     add(bodyComponent);
+
 //    steerableComponent = new SteerableComponent(bodyComponent.body);
 //    add(steerableComponent);
   }
 
+  float r = 5; // radius or distance from the box
+  float theta = 0; // could be any, up to you
+  float rotationSpeed = 0.5f;
 
   @Override
   public void update() {
@@ -104,7 +110,27 @@ abstract public class Spine extends Entity implements Updateable {
 
     //box2d rendering
     PositionComponent pos = getComponent(PositionComponent.class);
-    bodyComponent.getBody().setTransform(pos.x*MPP, pos.y*MPP, rotationComponent.getB2dAngle());
+    bodyComponent.getBody().setTransform(pos.x*MPP, pos.y*MPP, rotationComponent.getB2dAngle());//
+    TiledMultiMapRenderer.debugRenderer.render("test", PolygonUtil.clickPolygon(positionComponent.getPosition()));
+
+    Body body = bodyComponent.getBody();
+
+//    List<List<Float>> spineVertices = getSpineVertices(this);
+//
+//    Array<Fixture> fixtureList = body.getFixtureList();
+//    for(int i=0; i<fixtureList.size; i++) {
+//      List<Float> floatList = spineVertices.get(i);
+//      float[] floats = ArrayUtils.toPrimitive(floatList.toArray(new Float[floatList.size()]));
+//
+//      body.destroyFixture(fixtureList.get(i));
+//
+//      PolygonShape shape = new PolygonShape();
+//      shape.set(floats);
+//      FixtureDef fdef = new FixtureDef();
+//      fdef.isSensor = true;
+//      fdef.shape = shape;
+//      body.createFixture(fdef);
+//    }
   }
 
   protected float getHeight() {

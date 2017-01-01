@@ -1,7 +1,7 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
-import com.nima.actors.Spine;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  *
@@ -13,5 +13,9 @@ public class PositionComponent implements Component {
   public void setPosition(float x, float y) {
     this.x = x;
     this.y = y;
+  }
+
+  public Vector2 getPosition() {
+    return new Vector2(x, y);
   }
 }

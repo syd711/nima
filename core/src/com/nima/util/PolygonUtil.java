@@ -11,11 +11,12 @@ import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
-import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.nima.util.Settings.MPP;
 
 /**
  * Creating polygon and transform them
@@ -52,8 +53,8 @@ public class PolygonUtil {
     List<Float> converted = new ArrayList<>();
     int index = 0;
     while(index < vertices.length) {
-      converted.add(vertices[index] * Settings.MPP);
-      converted.add(vertices[index + 1] * Settings.MPP);
+      converted.add(vertices[index] * MPP);
+      converted.add(vertices[index + 1] * MPP);
       index += 5;
     }
 
@@ -124,23 +125,46 @@ public class PolygonUtil {
     return null;
   }
 
-  public static List<Polygon> createSpinePolygons(Spine spine) {
-    List<Polygon> polygons = new ArrayList<>();
+//  public static List<Polygon> createSpinePolygons(Spine spine) {
+//    List<Polygon> polygons = new ArrayList<>();
+//    boolean premultipliedAlpha = false;
+//    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+//    for(int i = 0, n = drawOrder.size; i < n; i++) {
+//      Slot slot = drawOrder.get(i);
+//      Attachment attachment = slot.getAttachment();
+//      if(attachment instanceof RegionAttachment) {
+//        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+//        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+//        String name = slot.getData().getName();
+//        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+//        polygons.add(p);
+//        TiledMultiMapRenderer.debugRenderer.render(name, p);
+//      }
+//    }
+//    return polygons;
+//  }
+
+  public static List<List<Float>> getSpineVertices(Spine spine) {
+    List<List<Float>> result = new ArrayList<>();
     boolean premultipliedAlpha = false;
     Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+
     for(int i = 0, n = drawOrder.size; i < n; i++) {
       Slot slot = drawOrder.get(i);
       Attachment attachment = slot.getAttachment();
       if(attachment instanceof RegionAttachment) {
         RegionAttachment regionAttachment = (RegionAttachment) attachment;
         float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-        String name = slot.getData().getName();
-        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
-        polygons.add(p);
-        TiledMultiMapRenderer.debugRenderer.render(name, p);
+        float[] floats = PolygonUtil.convertSpine2Box2dVertices(vertices);
+
+        List<Float> floatList = new ArrayList<Float>(floats.length);
+        for (float f : floats) {
+          floatList.add(Float.valueOf(f));
+        }
+        result.add(floatList);
       }
     }
-    return polygons;
+    return result;
   }
 
   public static Body createSpineBody(World world, Spine spine) {
@@ -156,7 +180,7 @@ public class PolygonUtil {
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.DynamicBody;
 //    def.fixedRotation = false;
-    def.position.set((targetX) * Settings.MPP, (targetY) * Settings.MPP);
+    def.position.set((targetX) * MPP, (targetY) * MPP);
     Body body = world.createBody(def);
 
     for(int i = 0, n = drawOrder.size; i < n; i++) {
@@ -179,6 +203,19 @@ public class PolygonUtil {
         shape.dispose();
       }
     }
+
+//    BodyDef bdef = new BodyDef();
+//    bdef.type = BodyDef.BodyType.StaticBody;
+//    bdef.position.set(targetX*MPP, targetY*MPP);
+//    Body b = world.createBody(def);
+//    PolygonShape shape = new PolygonShape();
+//    shape.setAsBox(spine.skeleton.getData().getWidth()* MPP/2, spine.skeleton.getData().getHeight()*MPP/2);
+//    FixtureDef fdef = new FixtureDef();
+//    fdef.isSensor = true;
+//    fdef.shape = shape;
+//    b.createFixture(fdef);
+//    shape.dispose();
+
     return body;
   }
 
