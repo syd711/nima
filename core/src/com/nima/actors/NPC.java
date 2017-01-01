@@ -16,7 +16,7 @@ public class NPC extends Spine {
   public void update() {
     super.update();
 
-    positionComponent.x = bodyComponent.getBody().getPosition().x;
-    positionComponent.y = bodyComponent.getBody().getPosition().y;
+//    positionComponent.x = bodyComponent.getBody().getPosition().x;
+//    positionComponent.y = bodyComponent.getBody().getPosition().y;
   }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
 import com.nima.render.TiledMultiMapRenderer;
@@ -112,8 +111,6 @@ abstract public class Spine extends Entity implements Updateable {
     PositionComponent pos = getComponent(PositionComponent.class);
     bodyComponent.getBody().setTransform(pos.x*MPP, pos.y*MPP, rotationComponent.getB2dAngle());//
     TiledMultiMapRenderer.debugRenderer.render("test", PolygonUtil.clickPolygon(positionComponent.getPosition()));
-
-    Body body = bodyComponent.getBody();
 
 //    List<List<Float>> spineVertices = getSpineVertices(this);
 //

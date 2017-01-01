@@ -11,6 +11,7 @@ import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
+import com.nima.render.TiledMultiMapRenderer;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -125,24 +126,54 @@ public class PolygonUtil {
     return null;
   }
 
-//  public static List<Polygon> createSpinePolygons(Spine spine) {
-//    List<Polygon> polygons = new ArrayList<>();
-//    boolean premultipliedAlpha = false;
-//    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
-//    for(int i = 0, n = drawOrder.size; i < n; i++) {
-//      Slot slot = drawOrder.get(i);
-//      Attachment attachment = slot.getAttachment();
-//      if(attachment instanceof RegionAttachment) {
-//        RegionAttachment regionAttachment = (RegionAttachment) attachment;
-//        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-//        String name = slot.getData().getName();
-//        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
-//        polygons.add(p);
-//        TiledMultiMapRenderer.debugRenderer.render(name, p);
-//      }
-//    }
-//    return polygons;
-//  }
+  public static List<Polygon> createSpinePolygons(Spine spine) {
+    List<Polygon> polygons = new ArrayList<>();
+    boolean premultipliedAlpha = false;
+    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
+    for(int i = 0, n = drawOrder.size; i < n; i++) {
+      Slot slot = drawOrder.get(i);
+      Attachment attachment = slot.getAttachment();
+      if(attachment instanceof RegionAttachment) {
+        RegionAttachment regionAttachment = (RegionAttachment) attachment;
+        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
+        String name = slot.getData().getName();
+        Polygon p = new Polygon(PolygonUtil.convertSpineVertices(vertices));
+        polygons.add(p);
+        TiledMultiMapRenderer.debugRenderer.render(name, p);
+      }
+    }
+    return polygons;
+  }
+
+  public static List<Body> toBox2dBody(World world, List<Polygon> polygons) {
+    List<Body> result = new ArrayList<>();
+    for(Polygon polygon : polygons) {
+      BodyDef def = new BodyDef();
+      def.type = BodyDef.BodyType.DynamicBody;
+
+      float[] vertices = polygon.getVertices();
+      List<Float> converted = new ArrayList<>();
+      for(float vertex : vertices) {
+        converted.add(vertex * MPP);
+      }
+      float[] box2dVertices = ArrayUtils.toPrimitive(converted.toArray(new Float[converted.size()]));
+
+
+      def.position.set((vertices[0]) * MPP, (vertices[1]) * MPP);
+      Body body = world.createBody(def);
+
+      PolygonShape shape = new PolygonShape();
+      shape.set(box2dVertices);
+      FixtureDef fdef = new FixtureDef();
+      fdef.isSensor = true;
+      fdef.shape = shape;
+      body.createFixture(fdef);
+      shape.dispose();
+
+      result.add(body);
+    }
+    return result;
+  }
 
   public static List<List<Float>> getSpineVertices(Spine spine) {
     List<List<Float>> result = new ArrayList<>();
