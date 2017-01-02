@@ -113,12 +113,13 @@ public class Game extends ApplicationAdapter {
     float deltaTime = Gdx.graphics.getDeltaTime();
     world.step(deltaTime, 6, 2);
 
-    debugRender++;
-    if(debugRender%2 == 0) {
-      debugRender = 0;
-      box2DDebugRenderer.render(world, debugMatrix);
+    if(Settings.DEBUG) {
+      debugRender++;
+      if(debugRender%2 == 0) {
+        debugRender = 0;
+        box2DDebugRenderer.render(world, debugMatrix);
+      }
     }
-
 
     tiledMapRenderer.getBatch().end();
 

@@ -22,7 +22,10 @@ public class GameContactListener implements ContactListener {
 
   @Override
   public void endContact(Contact contact) {
+    Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
+    EntityManager.getInstance().notifyCollisionEnd(userDataA, userDataB);
   }
 
   @Override
