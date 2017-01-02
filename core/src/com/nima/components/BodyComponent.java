@@ -21,5 +21,6 @@ public class BodyComponent implements Component {
 
   public BodyComponent(Spine spine) {
     body = SpineUtil.createSpineBody(Game.world, spine);
+    body.setUserData(spine);
   }
 }

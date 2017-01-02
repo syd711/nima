@@ -61,4 +61,11 @@ abstract public class MapObjectConverter {
   public void destroy(TiledMapFragment mapFragment, MapObject mapObject) {
 
   }
+
+  protected float getProperty(MapObject mapObject, String property, float defaultValue) {
+    if(mapObject.getProperties().containsKey(property)) {
+      return Float.valueOf(String.valueOf(mapObject.getProperties().get(property)));
+    }
+    return defaultValue;
+  }
 }

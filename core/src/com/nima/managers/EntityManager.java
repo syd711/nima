@@ -8,15 +8,14 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.google.common.collect.Lists;
-import com.nima.actors.*;
+import com.nima.actors.Camera;
+import com.nima.actors.Player;
+import com.nima.actors.Spine;
+import com.nima.actors.Updateable;
 import com.nima.components.LocationComponent;
-import com.nima.components.MapObjectComponent;
-import com.nima.render.MapChangeListener;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.PolygonUtil;
@@ -28,7 +27,7 @@ import java.util.logging.Logger;
 /**
  * Central Ashley initialization of entity systems.
  */
-public class EntityManager implements MapChangeListener {
+public class EntityManager {
   private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
 
   private PooledEngine engine;
@@ -48,8 +47,6 @@ public class EntityManager implements MapChangeListener {
     this.engine = engine;
     this.rayHandler = rayHandler;
 
-    renderer.addMapChangeListener(this);
-
     //create player
     player = new Player(renderer, rayHandler);
     addCollisionListener(player);
@@ -61,9 +58,6 @@ public class EntityManager implements MapChangeListener {
 
     RotationSystem rotationSystem = new RotationSystem();
     engine.addSystem(rotationSystem);
-
-    CollisionSystem collisionSystem = new CollisionSystem(engine);
-    engine.addSystem(collisionSystem);
 
     SpineMovementSystem movementSystem = new SpineMovementSystem();
     engine.addSystem(movementSystem);
@@ -176,23 +170,23 @@ public class EntityManager implements MapChangeListener {
 
   //-------------------- Map Caching -------------------------------------------------------
 
-  @Override
-  public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
-    for(MapObject mapObject : mapObjects) {
-      Entity entity = EntityFactory.createEntity(map, mapObject, rayHandler);
-      if(entity != null) {
-        engine.addEntity(entity);
-      }
-    }
-    LOG.info("Added " + mapObjects.size() + " ashley entities.");
-  }
-
-  @Override
-  public void mapRemoved(TiledMap map, List<MapObject> mapObjects) {
-    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
-    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
-    destroy(entities);
-  }
+//  @Override
+//  public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
+//    for(MapObject mapObject : mapObjects) {
+//      Entity entity = EntityFactory.createEntity(map, mapObject, rayHandler);
+//      if(entity != null) {
+//        engine.addEntity(entity);
+//      }
+//    }
+//    LOG.info("Added " + mapObjects.size() + " ashley entities.");
+//  }
+//
+//  @Override
+//  public void mapRemoved(TiledMap map, List<MapObject> mapObjects) {
+//    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
+//    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
+//    destroy(entities);
+//  }
 
   //-------------------- /Map Caching ------------------------------------------------------
 

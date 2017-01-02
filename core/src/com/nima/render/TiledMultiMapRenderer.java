@@ -39,11 +39,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private boolean dirty = true;
   private List<TiledMapFragment> currentMaps = new ArrayList<>();
 
-  private List<MapObjectConverter> objectConverters;
+  private List<MapObjectConverter> objectConverters = new ArrayList<>();
 
-  public TiledMultiMapRenderer(String mapFolder, String mapPrefix, SpriteBatch batch, List<MapObjectConverter> mapObjectConverters) {
+  public TiledMultiMapRenderer(String mapFolder, String mapPrefix, SpriteBatch batch) {
     super(null, batch);
-    this.objectConverters = mapObjectConverters;
     TiledMapFragment tiledMapFragment = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(tiledMapFragment.getMap());
 
@@ -142,7 +141,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     for(TiledMapFragment cachedMap : currentMaps) {
       if(!actualMaps.contains(cachedMap)) {
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
-          mapChangeListener.mapRemoved(cachedMap.getMap(), cachedMap.getMapObjects());
+          mapChangeListener.mapRemoved(cachedMap);
           LOG.info("Removed map " + cachedMap.getFilename());
         }
 
@@ -170,7 +169,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         }
 
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
-          mapChangeListener.mapAdded(cachedMap.getMap(), cachedMap.getMapObjects());
+          mapChangeListener.mapAdded(cachedMap);
           LOG.info("Added map " + cachedMap.getFilename());
         }
       }

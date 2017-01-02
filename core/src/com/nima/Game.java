@@ -9,30 +9,23 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.nima.actors.Player;
 import com.nima.components.PositionComponent;
 import com.nima.hud.Hud;
 import com.nima.managers.EntityManager;
 import com.nima.managers.InputManager;
-import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMultiMapRenderer;
-import com.nima.render.converters.MapObjectBox2dConverter;
-import com.nima.render.converters.MapObjectCenteredPositionConverter;
-import com.nima.render.converters.MapObjectPositionConverter;
-import com.nima.render.converters.MapObjectPositionUpdateConverter;
+import com.nima.render.converters.*;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game extends ApplicationAdapter {
   public static OrthographicCamera camera;
   private RayHandler rayHandler;
   private TiledMultiMapRenderer tiledMapRenderer;
   public static InputManager inputManager;
-  private Player player;
   private PositionComponent positionComponent;
 
   //Ashley
@@ -60,27 +53,7 @@ public class Game extends ApplicationAdapter {
 
     //box2d
     world = new World(new Vector2(0, 0), false);
-    world.setContactListener(new ContactListener() {
-      @Override
-      public void beginContact(Contact contact) {
-        System.out.println("Contact!");
-      }
-
-      @Override
-      public void endContact(Contact contact) {
-
-      }
-
-      @Override
-      public void preSolve(Contact contact, Manifold oldManifold) {
-
-      }
-
-      @Override
-      public void postSolve(Contact contact, ContactImpulse impulse) {
-
-      }
-    });
+    world.setContactListener(new GameContactListener());
     box2DDebugRenderer = new Box2DDebugRenderer();
     batch = new SpriteBatch();
 
@@ -90,19 +63,22 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
 
-    //Create the multi map renderer + converters, keep order!
-    List<MapObjectConverter> converterList = new ArrayList<>();
-    converterList.add(new MapObjectPositionUpdateConverter());
-    converterList.add(new MapObjectPositionConverter());
-    converterList.add(new MapObjectCenteredPositionConverter());
-    converterList.add(new MapObjectBox2dConverter(world));
-    tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch, converterList);
+    tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
 
     //Ashley Entity Engine
     entityManager = EntityManager.create(engine, tiledMapRenderer, camera, rayHandler);
 
+    //Create the multi map renderer + converters, keep order!
+    tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
+    tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
+    tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
+    tiledMapRenderer.addMapObjectConverter(new MapObjectBox2dConverter(world));
+    tiledMapRenderer.addMapObjectConverter(new MapObject2ConeLightConverter(rayHandler));
+    tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
+    tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
+
     //init player
-    player = entityManager.getPlayer();
+    Player player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 
     //hud creation
