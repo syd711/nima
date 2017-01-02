@@ -3,21 +3,20 @@ package com.nima.managers;
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.google.common.collect.Lists;
+import com.nima.Game;
 import com.nima.actors.Camera;
 import com.nima.actors.Player;
 import com.nima.actors.Spine;
 import com.nima.actors.Updateable;
-import com.nima.components.LocationComponent;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
+import com.nima.util.Box2dUtil;
 import com.nima.util.PolygonUtil;
 
 import java.util.ArrayList;
@@ -217,18 +216,7 @@ public class EntityManager {
     Polygon clickPolygon = PolygonUtil.clickPolygon(clickPoint);
     TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
 
-    //most likely a map entity
-    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(LocationComponent.class).get());
-    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
-    for(Entity entity : entities) {
-//      CollisionComponent collisionComponent = entity.getComponent(CollisionComponent.class);
-//      if(collisionComponent.collidesWith(clickPolygon)) {
-//        notifyEntityClickListeners(entity);
-//        return entity;
-//      }
-    }
-
-    return null;
+    return Box2dUtil.getEntityAt(Game.world, clickPoint);
   }
 
   // --------------- Helper ---------------------------------------------------------

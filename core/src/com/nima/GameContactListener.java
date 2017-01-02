@@ -1,9 +1,11 @@
 package com.nima;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.nima.managers.EntityManager;
 
 /**
  * The Box2d world contact listener
@@ -11,10 +13,11 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class GameContactListener implements ContactListener {
   @Override
   public void beginContact(Contact contact) {
-    Object userDataA = contact.getFixtureA().getBody().getUserData();
-    Object userDataB = contact.getFixtureB().getBody().getUserData();
+    Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
     System.out.println(userDataA + "/" + userDataB);
+    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);
   }
 
   @Override

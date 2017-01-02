@@ -122,6 +122,5 @@ public class Player extends Spine implements Updateable, CollisionListener {
     dockingProcedure = false;
     targetEntity = null;
     rotationComponent.setRotationTarget(positionComponent.x + 100, positionComponent.y);
-
   }
 }
