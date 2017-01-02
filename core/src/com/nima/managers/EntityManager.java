@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
-import com.nima.actors.Camera;
-import com.nima.actors.Player;
-import com.nima.actors.Spine;
-import com.nima.actors.Updateable;
+import com.nima.actors.*;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.Box2dUtil;
@@ -74,9 +71,9 @@ public class EntityManager {
     updateables.add(player);
 
     //TODO
-//    Hunter m = new Hunter(player, renderer, 300, 300);
-//    engine.addEntity(m);
-//    updateables.add(m);
+    Hunter m = new Hunter(player, renderer, 300, 300);
+    engine.addEntity(m);
+    updateables.add(m);
   }
 
   public static EntityManager create(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {

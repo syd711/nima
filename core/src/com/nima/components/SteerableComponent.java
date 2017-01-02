@@ -29,12 +29,12 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
     this.body = body;
 
     this.body = body;
-    this.boundingRadius = 30;
+    this.boundingRadius = 200;
 
-    this.maxLinearSpeed = 1150;
-    this.maxLinearAcceleration = 10;
+    this.maxLinearSpeed = 500;
+    this.maxLinearAcceleration = 500;
     this.maxAngularSpeed = 30;
-    this.maxAngularAcceleration = 5500;
+    this.maxAngularAcceleration = 10;
     this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
@@ -50,17 +50,35 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
   private void applySteering(float delta) {
     boolean anyAccelerations = false;
     if(!steeringOutput.isZero()) {
-      Vector2 force = steeringOutput.linear.scl(1000*delta);
+      Vector2 force = steeringOutput.linear.scl(delta);
       body.applyForceToCenter(force, true);
-      body.applyAngularImpulse(0, true);
       anyAccelerations = true;
     }
 
+    if(steeringOutput.angular != 0) {
+      body.applyTorque(steeringOutput.angular * delta, true);
+      anyAccelerations = true;
+    }
+    else {
+      Vector2 linVel = getLinearVelocity();
+      if(!linVel.isZero()) {
+        float newOrientation = vectorToAngle(linVel);
+        body.setAngularVelocity((newOrientation - getAngularVelocity())*delta);
+        body.setTransform(body.getPosition(), newOrientation);
+      }
+    }
+
     if(anyAccelerations) {
+      //Linear capping
       Vector2 velocity = body.getLinearVelocity();
       float currentSpeedSquare = velocity.len2();
       if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
         body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
+      }
+
+      //Angular capping
+      if(body.getAngularVelocity() > maxAngularSpeed) {
+        body.setAngularVelocity(maxAngularSpeed);
       }
     }
   }
@@ -93,7 +111,7 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
 
   @Override
   public float getZeroLinearSpeedThreshold() {
-    return 0;
+    return 0.001f ;
   }
 
   @Override

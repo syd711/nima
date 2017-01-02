@@ -84,8 +84,8 @@ abstract public class Spine extends Entity implements Updateable {
     bodyComponent = new BodyComponent(this);
     add(bodyComponent);
 
-//    steerableComponent = new SteerableComponent(bodyComponent.body);
-//    add(steerableComponent);
+    steerableComponent = new SteerableComponent(bodyComponent.body);
+    add(steerableComponent);
   }
 
   public float getJsonScaling() {
@@ -94,6 +94,17 @@ abstract public class Spine extends Entity implements Updateable {
 
   @Override
   public void update() {
+    renderSpine();
+
+    //box2d rendering
+    PositionComponent pos = getComponent(PositionComponent.class);
+    bodyComponent.body.setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
+  }
+
+  /**
+   * Renders the Spine using the map batch
+   */
+  protected void renderSpine() {
     //spine rendering
     state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
@@ -107,10 +118,6 @@ abstract public class Spine extends Entity implements Updateable {
     speedComponent.updateValue();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
-
-    //box2d rendering
-    PositionComponent pos = getComponent(PositionComponent.class);
-    bodyComponent.body.setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
   }
 
   protected float getHeight() {

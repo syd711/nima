@@ -12,11 +12,4 @@ public class NPC extends Spine {
     super(renderer, path, defaultAnimation, jsonScaling, x, y);
   }
 
-  @Override
-  public void update() {
-    super.update();
-
-//    positionComponent.x = bodyComponent.getBody().getPosition().x;
-//    positionComponent.y = bodyComponent.getBody().getPosition().y;
-  }
 }
