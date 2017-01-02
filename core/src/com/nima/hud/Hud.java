@@ -90,9 +90,12 @@ public class Hud extends DefaultCollisionListener {
   @Override
   public void collisionStart(Player player, Entity mapObjectEntity) {
     MapObjectComponent mapObjectComponent = mapObjectEntity.getComponent(MapObjectComponent.class);
-    String name = mapObjectComponent.getName();
+    if(mapObjectComponent != null) {
+      String name = mapObjectComponent.getName();
 
-    stationLabel.setText("Enter '" + name + "'");
+      stationLabel.setText("Enter '" + name + "'");
+    }
+
   }
 
   @Override
