@@ -64,6 +64,9 @@ public class EntityManager {
     SteerableSystem steerableSystem = new SteerableSystem();
     engine.addSystem(steerableSystem);
 
+    SpeedSystem speedSystem = new SpeedSystem();
+    engine.addSystem(speedSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 

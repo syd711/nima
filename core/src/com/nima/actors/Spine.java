@@ -112,7 +112,6 @@ abstract public class Spine extends Entity implements Updateable {
 
 
     skeleton.setPosition(positionComponent.x, positionComponent.y);
-    speedComponent.updateValue();
 
     skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
