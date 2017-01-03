@@ -38,6 +38,10 @@ public class RotationComponent implements Component {
     this.mapTargetY = mapTargetY;
 
     float targetAngle = getTargetAngle();
+    setRotationTarget(targetAngle);
+  }
+
+  public void setRotationTarget(float targetAngle) {
     float currentAngle = getRotation();
 
     float normalizedTarget = targetAngle;
