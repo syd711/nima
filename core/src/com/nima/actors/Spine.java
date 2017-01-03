@@ -110,10 +110,7 @@ abstract public class Spine extends Entity implements Updateable {
     state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
 
-    float scaleX = skeleton.getRootBone().getScaleX();
-    if(scaleX != scalingComponent.getCurrentValue()) {
-      skeleton.getRootBone().setScale(scalingComponent.getCurrentValue());
-    }
+
     skeleton.setPosition(positionComponent.x, positionComponent.y);
     speedComponent.updateValue();
 

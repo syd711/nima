@@ -3,6 +3,7 @@ package com.nima.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.nima.actors.Spine;
 import com.nima.components.ScalingComponent;
 
 public class ScalingSystem extends AbstractIteratingSystem {
@@ -15,5 +16,13 @@ public class ScalingSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     ScalingComponent scalingComponent = skalingsMap.get(entity);
     scalingComponent.updateValue();
+
+    if(entity instanceof Spine) {
+      Spine spine = (Spine) entity;
+      float scaleX = spine.skeleton.getRootBone().getScaleX();
+      if(scaleX != scalingComponent.getCurrentValue()) {
+        spine.skeleton.getRootBone().setScale(scalingComponent.getCurrentValue());
+      }
+    }
   }
 }
