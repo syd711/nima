@@ -28,7 +28,6 @@ public class EntityManager {
 
   private PooledEngine engine;
   private Player player;
-  private RayHandler rayHandler;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
@@ -41,10 +40,9 @@ public class EntityManager {
 
   private EntityManager(PooledEngine engine, TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
     this.engine = engine;
-    this.rayHandler = rayHandler;
 
     //create player
-    player = new Player(renderer, rayHandler);
+    player = new Player();
     addCollisionListener(player);
     engine.addEntity(player);
 
@@ -67,6 +65,9 @@ public class EntityManager {
     SpeedSystem speedSystem = new SpeedSystem();
     engine.addSystem(speedSystem);
 
+    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer);
+    engine.addSystem(renderSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 
@@ -74,7 +75,7 @@ public class EntityManager {
     updateables.add(player);
 
     //TODO
-    Hunter m = new Hunter(player, renderer, 300, 300);
+    Hunter m = new Hunter(player, 300, 300);
     engine.addEntity(m);
     updateables.add(m);
   }

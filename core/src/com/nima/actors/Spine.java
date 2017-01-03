@@ -26,29 +26,22 @@ abstract public class Spine extends Entity implements Updateable {
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
 
-  protected BatchTiledMapRenderer renderer;
-
-  protected final TextureAtlas atlas;
-  protected final AnimationState state;
-  protected SkeletonRenderer skeletonRenderer;
-
+  public final AnimationState state;
+  public SkeletonRenderer skeletonRenderer;
   public final Skeleton skeleton;
+  public final float jsonScaling;
 
-  private final SkeletonJson json;
-  private final float jsonScaling;
-
-  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling) {
-    this(renderer, path, defaultAnimation, jsonScaling, -1f, -1f);
+  public Spine(String path, String defaultAnimation, float jsonScaling) {
+    this(path, defaultAnimation, jsonScaling, -1f, -1f);
   }
 
-  public Spine(BatchTiledMapRenderer renderer, String path, String defaultAnimation, float jsonScaling, float x, float y) {
-    this.renderer = renderer;
+  public Spine(String path, String defaultAnimation, float jsonScaling, float x, float y) {
     this.jsonScaling = jsonScaling;
     this.skeletonRenderer = new SkeletonRenderer();
 
-    atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
+    TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
     // This loads skeleton JSON data, which is stateless.
-    json = new SkeletonJson(atlas);
+    SkeletonJson json = new SkeletonJson(atlas);
     json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
     SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal(path + ".json"));
 
@@ -88,10 +81,6 @@ abstract public class Spine extends Entity implements Updateable {
     add(steerableComponent);
   }
 
-  public float getJsonScaling() {
-    return jsonScaling;
-  }
-
   @Override
   public void update() {
     renderSpine();
@@ -105,15 +94,10 @@ abstract public class Spine extends Entity implements Updateable {
    * Renders the Spine using the map batch
    */
   protected void renderSpine() {
-    //spine rendering
-    state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.
-    state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
-    skeleton.updateWorldTransform();
+
 
 
     skeleton.setPosition(positionComponent.x, positionComponent.y);
-
-    skeletonRenderer.draw(renderer.getBatch(), skeleton); // Draw the skeleton images.
   }
 
   protected float getHeight() {

@@ -26,7 +26,7 @@ public class SpineUtil {
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();
-    float scaling = spine.getJsonScaling();
+    float scaling = spine.jsonScaling;
     shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
 
     FixtureDef fdef = new FixtureDef();

@@ -1,8 +1,6 @@
 package com.nima.actors;
 
-import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
@@ -24,8 +22,8 @@ public class Player extends Spine implements Updateable, CollisionListener {
   private Entity targetEntity;
   private boolean dockingProcedure = false;
 
-  public Player(BatchTiledMapRenderer renderer, RayHandler rayHandler) {
-    super(renderer, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
+  public Player() {
+    super(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
 
     speedComponent.setIncreaseBy(velocityUp);
     speedComponent.setDecreaseBy(velocityDown);
