@@ -7,7 +7,6 @@ import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 
 import static com.nima.util.Settings.MPP;
-import static com.nima.util.Settings.PPM;
 
 /**
  * A merchant spine
@@ -38,10 +37,8 @@ public class Hunter extends NPC {
 
   @Override
   public void update() {
-    renderSpine();
-
-    positionComponent.x = bodyComponent.body.getPosition().x*PPM;
-    positionComponent.y = bodyComponent.body.getPosition().y*PPM;
+//    positionComponent.x = bodyComponent.body.getPosition().x*PPM;
+//    positionComponent.y = bodyComponent.body.getPosition().y*PPM;
 //    rotationComponent.setRotationTarget(positionComponent.x, positionComponent.y);
 
 //    System.out.println(bodyComponent.body.getPosition().x*PPM);

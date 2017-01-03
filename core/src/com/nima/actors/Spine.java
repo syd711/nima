@@ -3,15 +3,12 @@ package com.nima.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
 import com.nima.util.SpineUtil;
-
-import static com.nima.util.Settings.MPP;
 
 /**
  * Superclass for spine entities
@@ -83,21 +80,6 @@ abstract public class Spine extends Entity implements Updateable {
 
   @Override
   public void update() {
-    renderSpine();
-
-    //box2d rendering
-    PositionComponent pos = getComponent(PositionComponent.class);
-    bodyComponent.body.setTransform(getCenter().x*MPP, getCenter().y*MPP, rotationComponent.getB2dAngle());
-  }
-
-  /**
-   * Renders the Spine using the map batch
-   */
-  protected void renderSpine() {
-
-
-
-    skeleton.setPosition(positionComponent.x, positionComponent.y);
   }
 
   protected float getHeight() {
