@@ -68,6 +68,8 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
       }
     }
 
+
+
     if(anyAccelerations) {
       //Linear capping
       Vector2 velocity = body.getLinearVelocity();
