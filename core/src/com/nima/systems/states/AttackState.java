@@ -9,7 +9,7 @@ import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.components.PositionComponent;
 import com.nima.components.SteerableComponent;
-import com.nima.systems.behaviours.FaceBehaviour;
+import com.nima.systems.behaviours.FaceToPlayerBehaviour;
 
 /**
  * The different states of an attack.
@@ -21,6 +21,7 @@ public enum AttackState implements State<NPC> {
     public void enter(NPC npc) {
       SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
       steerableComponent.setBehavior(null);
+      steerableComponent.setFaceBehaviour(null);
     }
 
     @Override
@@ -32,14 +33,10 @@ public enum AttackState implements State<NPC> {
     @Override
     public void enter(NPC npc) {
       SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-//      Arrive<Vector2> arrive = new Arrive<>(steerableComponent, Player.getInstance().getComponent(SteerableComponent.class));
-//      arrive.setTimeToTarget(0.4f);
-//      arrive.setArrivalTolerance(3f);
-//      arrive.setDecelerationRadius(10);
       Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, Player.getInstance().getComponent(SteerableComponent.class));
       behaviour.setMaxPredictionTime(0.7f);
-
       steerableComponent.setBehavior(behaviour);
+      steerableComponent.setFaceBehaviour(new FaceToPlayerBehaviour(npc));
     }
 
     @Override
@@ -51,9 +48,9 @@ public enum AttackState implements State<NPC> {
     @Override
     public void enter(NPC npc) {
       SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-      FaceBehaviour face = new FaceBehaviour(npc, Player.getInstance());
+      FaceToPlayerBehaviour face = new FaceToPlayerBehaviour(npc);
       steerableComponent.setBehavior(null);
-      steerableComponent.setCustomBehaviour(face);
+      steerableComponent.setFaceBehaviour(face);
     }
 
     @Override
@@ -105,7 +102,6 @@ public enum AttackState implements State<NPC> {
     }
 
     if(npc.attackStateMachine.getCurrentState() != newState) {
-      System.out.println(newState);
       npc.attackStateMachine.changeState(newState);
     }
   }
@@ -113,7 +109,6 @@ public enum AttackState implements State<NPC> {
   private static float getDistanceToPlayer(NPC npc) {
     PositionComponent npcPosition = npc.getComponent(PositionComponent.class);
     PositionComponent playerPosition = Player.getInstance().getComponent(PositionComponent.class);
-    float dst = npcPosition.getPosition().dst(playerPosition.getPosition());
-    return dst;
+    return npcPosition.getPosition().dst(playerPosition.getPosition());
   }
 }

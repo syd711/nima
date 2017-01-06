@@ -1,35 +1,9 @@
 package com.nima.systems.behaviours;
 
-import com.badlogic.gdx.math.Vector2;
-import com.nima.actors.NPC;
-import com.nima.actors.Player;
-import com.nima.components.BodyComponent;
-
 /**
- * Custom FACE behaviour.
- *
- * We pretend it to be a real SteeringBehaviour to use the update method.
+ * Custom face behaviours
  */
-public class FaceBehaviour implements CustomBehaviour {
-  private final BodyComponent bodyComponent;
-  private final BodyComponent targetBodyComponent;
+public interface FaceBehaviour {
 
-  public FaceBehaviour(NPC npc, Player player) {
-    bodyComponent = npc.getComponent(BodyComponent.class);
-    targetBodyComponent = player.getComponent(BodyComponent.class);
-  }
-
-  public void update() {
-    //in Step() function
-    float bodyAngle = bodyComponent.body.getAngle();
-    Vector2 toTarget = targetBodyComponent.body.getPosition().sub(bodyComponent.body.getPosition());
-    float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
-
-    float totalRotation = desiredAngle - bodyAngle;
-    float change = (float) (1 * Math.toDegrees(1)); //allow 1 degree rotation per time step
-    float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
-
-//    System.out.println(Math.toDegrees(newAngle));
-    bodyComponent.body.setTransform(bodyComponent.body.getPosition(), newAngle);
-  }
+  void update();
 }

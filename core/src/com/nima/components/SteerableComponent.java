@@ -7,7 +7,7 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nima.systems.behaviours.CustomBehaviour;
+import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;
 
 /**
@@ -22,8 +22,7 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
   private float maxAngularAcceleration;
 
   private SteeringBehavior<Vector2> behavior;
-  //TODO argh
-  private CustomBehaviour customBehaviour;
+  private FaceBehaviour faceBehaviour;
   private SteeringAcceleration<Vector2> steeringOutput;
 
   private Body body;
@@ -47,8 +46,8 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
       applySteering(delta);
     }
 
-    if(customBehaviour != null) {
-      customBehaviour.update();
+    if(faceBehaviour != null) {
+      faceBehaviour.update();
     }
   }
 
@@ -213,7 +212,7 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
     return steeringOutput;
   }
 
-  public void setCustomBehaviour(CustomBehaviour customBehaviour) {
-    this.customBehaviour = customBehaviour;
+  public void setFaceBehaviour(FaceBehaviour faceBehaviour) {
+    this.faceBehaviour = faceBehaviour;
   }
 }
