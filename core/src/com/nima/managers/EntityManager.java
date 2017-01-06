@@ -8,6 +8,8 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -248,9 +250,17 @@ public class EntityManager {
     return component;
   }
 
+  public BodyComponent addBodyComponent(Bullet entity, PositionComponent positionComponent, Sprite sprite) {
+    BodyComponent component = createComponent(BodyComponent.class);
+    component.body = Box2dUtil.createSpriteBody(positionComponent, Game.world, sprite);
+    component.body.setUserData(entity);
+    entity.add(component);
+    return component;
+  }
+
   public BodyComponent addBodyComponent(Spine spine) {
     BodyComponent component = createComponent(BodyComponent.class);
-    Body body = SpineUtil.createSpineBody(Game.world, spine);
+    Body body = Box2dUtil.createSpineBody(Game.world, spine);
     component.body = body;
     component.body.setUserData(spine);
     spine.add(component);
@@ -308,10 +318,17 @@ public class EntityManager {
     return component;
   }
 
-  // --------------- Helper ---------------------------------------------------------
-  private void notifyEntityClickListeners(Entity entity) {
-    for(EntityClickListener entityClickListener : this.entityClickListeners) {
-      entityClickListener.entityClicked(entity);
-    }
+  public SpriteComponent addSpriteComponent(Entity entity, String resourceLocation) {
+    SpriteComponent component = createComponent(SpriteComponent.class);
+    component.setTextures(new Texture(resourceLocation));
+    entity.add(component);
+    return component;
+  }
+
+  public BulletDamageComponent addBulletDamageComponent(Entity entity, int damage) {
+    BulletDamageComponent component = createComponent(BulletDamageComponent.class);
+    component.damage = damage;
+    entity.add(component);
+    return component;
   }
 }

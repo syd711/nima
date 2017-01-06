@@ -3,6 +3,7 @@ package com.nima.actors;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.components.ShootingComponent;
 import com.nima.systems.states.AttackState;
 import com.nima.util.GraphicsUtil;
 
@@ -29,6 +30,8 @@ public class NPC extends Spine {
     speedComponent.setIncreaseBy(0.2f);
     speedComponent.setDecreaseBy(0.2f);
 
+
+    add(new ShootingComponent());
 
     this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
   }

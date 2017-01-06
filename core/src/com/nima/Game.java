@@ -1,7 +1,6 @@
 package com.nima;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,6 +21,8 @@ import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 public class Game extends ApplicationAdapter {
+  public static long currentTimeMillis;
+
   public static OrthographicCamera camera;
   private RayHandler rayHandler;
   private TiledMultiMapRenderer tiledMapRenderer;
@@ -39,6 +40,7 @@ public class Game extends ApplicationAdapter {
   private static Hud hud;
 
   private SpriteBatch batch;
+
 
   @Override
   public void create() {
@@ -92,6 +94,8 @@ public class Game extends ApplicationAdapter {
 
   @Override
   public void render() {
+    currentTimeMillis = System.currentTimeMillis();
+
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

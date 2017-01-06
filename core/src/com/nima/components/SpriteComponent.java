@@ -3,27 +3,18 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 
 public class SpriteComponent implements Component, Poolable {
-  public Array<Sprite> sprites = new Array<Sprite>();
+  public Sprite sprite;
 
-  public SpriteComponent() {
-  }
-
-  public SpriteComponent(Texture... textures) {
-    addTextures(textures);
-  }
-
-  public void addTextures(Texture... textures) {
-    for(Texture texture : textures)
-      sprites.add(new Sprite(texture));
+  public void setTextures(Texture texture) {
+    sprite = new Sprite(texture);
   }
 
   @Override
   public void reset() {
-    sprites.clear();
+    sprite = null;
   }
 }

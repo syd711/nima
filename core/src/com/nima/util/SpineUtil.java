@@ -14,31 +14,7 @@ import static com.nima.util.Settings.MPP;
  * Utilities for handling spines.
  */
 public class SpineUtil {
-  /**
-   * Creates the Box2d body for the given spine
-   */
-  public static Body createSpineBody(World world, Spine spine) {
-    Vector2 center = spine.getCenter();
 
-    BodyDef bdef = new BodyDef();
-    bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(center.x * MPP, center.y * MPP);
-    Body b = world.createBody(bdef);
-
-    PolygonShape shape = new PolygonShape();
-    float scaling = spine.jsonScaling;
-    shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
-
-    FixtureDef fdef = new FixtureDef();
-    fdef.isSensor = true;
-    fdef.density = 1;
-    fdef.restitution = 0.9f;
-    fdef.shape = shape;
-    b.createFixture(fdef);
-    shape.dispose();
-
-    return b;
-  }
 
 
   /**
