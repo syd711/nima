@@ -1,6 +1,5 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -12,12 +11,10 @@ import com.nima.util.SpineUtil;
 /**
  * Superclass for spine entities
  */
-abstract public class Spine extends Entity implements Updateable {
+abstract public class Spine extends BodyEntity implements Updateable {
   protected SteerableComponent steerableComponent;
-  protected BodyComponent bodyComponent;
   protected SpineComponent spineComponent;
   protected MovementComponent movementComponent;
-  protected PositionComponent positionComponent;
   protected SpeedComponent speedComponent;
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;

@@ -1,9 +1,17 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
+import com.nima.managers.EntityManager;
 
 /**
- * Created by Matthias on 06.01.2017.
+ * Entity for bullets
  */
-public class Bullet extends Entity {
+public class Bullet extends Sprite {
+  public static Bullet newBullet() {
+    return new Bullet("sprites/laser.png");
+  }
+
+  private Bullet(String resourceLocation) {
+    super(resourceLocation);
+    EntityManager.getInstance().addBulletDamageComponent(this, 10);
+  }
 }

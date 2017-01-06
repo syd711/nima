@@ -13,7 +13,6 @@ import com.nima.Game;
 import com.nima.actors.Bullet;
 import com.nima.actors.Player;
 import com.nima.components.BodyComponent;
-import com.nima.components.PositionComponent;
 import com.nima.components.ShootingComponent;
 import com.nima.managers.EntityManager;
 
@@ -21,7 +20,7 @@ import com.nima.managers.EntityManager;
  * Used during fighting
  */
 public class ShootingSystem extends IteratingSystem {
-  private ComponentMapper<ShootingComponent> shootingMap     = ComponentMapper.getFor(ShootingComponent.class);
+  private ComponentMapper<ShootingComponent> shootingMap = ComponentMapper.getFor(ShootingComponent.class);
 
   public ShootingSystem() {
     super(Family.all(ShootingComponent.class).get());
@@ -29,31 +28,28 @@ public class ShootingSystem extends IteratingSystem {
 
   @Override
   protected void processEntity(Entity entity, float deltaTime) {
-    int bulletDelayMillis = 350;
-    long   lastBulletTime = shootingMap.get(entity).lastBulletTime;
+    int bulletDelayMillis = 1350;
+    long lastBulletTime = shootingMap.get(entity).lastBulletTime;
 
-    if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-      if (Game.currentTimeMillis - lastBulletTime > bulletDelayMillis) {
-        Bullet eBullet = new Bullet();
-        Sprite sprite = EntityManager.getInstance().addSpriteComponent(eBullet, "sprites/laser.png").sprite;
-        EntityManager.getInstance().addBulletDamageComponent(eBullet, 10);
-        PositionComponent positionComponent = EntityManager.getInstance().addPositionComponent(eBullet, true, sprite.getHeight());
-        BodyComponent bodyComponent = EntityManager.getInstance().addBodyComponent(eBullet, positionComponent, sprite);
+    if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+      if(Game.currentTimeMillis - lastBulletTime > bulletDelayMillis) {
+        Bullet bullet = Bullet.newBullet();
 
         //TODO dont use player here
-        Vector2 toTarget = Player.getInstance().getComponent(BodyComponent.class).body.getPosition().sub(bodyComponent.body.getPosition());
+        Vector2 toTarget = Player.getInstance().getComponent(BodyComponent.class).body.getPosition().sub(bullet.bodyComponent.body.getPosition());
         float angle = (float) Math.atan2(-toTarget.x, toTarget.y);
         angle = (float) Math.toDegrees(angle);
 
-        Body bullet = bodyComponent.body;
-        bullet.setTransform(bullet.getPosition().x, bullet.getPosition().y, (float) Math.toRadians(angle - 90f));
-        bullet.applyLinearImpulse(new Vector2(0.004f * (float) Math.sin(Math.toRadians(-angle)),
-            0.004f * (float) Math.cos(Math.toRadians(angle))), bullet.getPosition(), true);
-        sprite.setRotation((float) Math.toDegrees(bullet.getAngle()));
+        Body bulletBody = bullet.bodyComponent.body;
+        Sprite sprite = bullet.spriteComponent.sprite;
+        bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, (float) Math.toRadians(angle - 90f));
+        bulletBody.applyLinearImpulse(new Vector2(0.004f * (float) Math.sin(Math.toRadians(-angle)),
+            0.004f * (float) Math.cos(Math.toRadians(angle))), bulletBody.getPosition(), true);
+        sprite.setRotation((float) Math.toDegrees(bulletBody.getAngle()));
 
         shootingMap.get(entity).lastBulletTime = Game.currentTimeMillis;
 
-        EntityManager.getInstance().add(eBullet);
+        EntityManager.getInstance().add(bullet);
       }
     }
   }

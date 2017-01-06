@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Pool;
 public class PositionComponent implements Component, Pool.Poolable {
   public float x = 0.0f;
   public float y = 0.0f;
+  public int z = 0;
 
   public void setPosition(float x, float y) {
     this.x = x;
@@ -24,5 +25,6 @@ public class PositionComponent implements Component, Pool.Poolable {
   public void reset() {
     this.x = 0f;
     this.y = 0f;
+    this.z = 0;
   }
 }

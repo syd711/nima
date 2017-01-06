@@ -79,6 +79,9 @@ public class EntityManager {
     ShootingSystem shootingSystem = new ShootingSystem();
     engine.addSystem(shootingSystem);
 
+    SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
+    engine.addSystem(spriteRenderSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 
@@ -250,7 +253,7 @@ public class EntityManager {
     return component;
   }
 
-  public BodyComponent addBodyComponent(Bullet entity, PositionComponent positionComponent, Sprite sprite) {
+  public BodyComponent addBodyComponent(BodyEntity entity, PositionComponent positionComponent, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = Box2dUtil.createSpriteBody(positionComponent, Game.world, sprite);
     component.body.setUserData(entity);
