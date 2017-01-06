@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.nima.systems.behaviours.CustomBehaviour;
 import com.nima.util.GraphicsUtil;
 
 /**
@@ -21,6 +22,8 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
   private float maxAngularAcceleration;
 
   private SteeringBehavior<Vector2> behavior;
+  //TODO argh
+  private CustomBehaviour customBehaviour;
   private SteeringAcceleration<Vector2> steeringOutput;
 
   private Body body;
@@ -43,6 +46,10 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
       behavior.calculateSteering(steeringOutput);
       applySteering(delta);
     }
+
+    if(customBehaviour != null) {
+      customBehaviour.update();
+    }
   }
 
   private void applySteering(float delta) {
@@ -53,18 +60,18 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
       anyAccelerations = true;
     }
 
-    if(steeringOutput.angular != 0) {
-      body.applyTorque(steeringOutput.angular * delta, true);
-      anyAccelerations = true;
-    }
-    else {
-      Vector2 linVel = getLinearVelocity();
-      if(!linVel.isZero()) {
-        float newOrientation = vectorToAngle(linVel);
-        body.setAngularVelocity((newOrientation - getAngularVelocity())*delta);
-        body.setTransform(body.getPosition(), newOrientation);
-      }
-    }
+//    if(steeringOutput.angular != 0) {
+//      body.applyTorque(steeringOutput.angular * delta, true);
+//      anyAccelerations = true;
+//    }
+//    else {
+//      Vector2 linVel = getLinearVelocity();
+//      if(!linVel.isZero()) {
+//        float newOrientation = vectorToAngle(linVel);
+//        body.setAngularVelocity((newOrientation - getAngularVelocity())*delta);
+//        body.setTransform(body.getPosition(), newOrientation);
+//      }
+//    }
 
 
 
@@ -206,4 +213,7 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
     return steeringOutput;
   }
 
+  public void setCustomBehaviour(CustomBehaviour customBehaviour) {
+    this.customBehaviour = customBehaviour;
+  }
 }

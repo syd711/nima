@@ -50,16 +50,10 @@ public enum AttackState implements State<NPC> {
   FACE() {
     @Override
     public void enter(NPC npc) {
-//      SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-//      Face<Vector2> face = new Face(steerableComponent, Player.getInstance().getComponent(SteerableComponent.class));
-//      face.setAlignTolerance(.3f);
-//      face.setDecelerationRadius(0.01f);
-//      face.setTimeToTarget(0.001f);
-//      steerableComponent.setBehavior(face);
-
       SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-      FaceBehaviour<Vector2> face = new FaceBehaviour(steerableComponent, Player.getInstance().getComponent(SteerableComponent.class), npc, Player.getInstance());
-      steerableComponent.setBehavior(face);
+      FaceBehaviour face = new FaceBehaviour(npc, Player.getInstance());
+      steerableComponent.setBehavior(null);
+      steerableComponent.setCustomBehaviour(face);
     }
 
     @Override
