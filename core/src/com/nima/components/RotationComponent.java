@@ -1,6 +1,7 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Pool;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Settings;
@@ -8,16 +9,20 @@ import com.nima.util.Settings;
 /**
  * Component for rotation
  */
-public class RotationComponent implements Component {
+public class RotationComponent implements Component, Pool.Poolable {
   private float targetAngle = 0;
   private boolean rotateLeft = false;
-  private Spine spine;
+  public Spine spine;
 
   private float mapTargetX = -1f;
   private float mapTargetY = -1f;
 
-  public RotationComponent(Spine spine) {
-    this.spine = spine;
+  @Override
+  public void reset() {
+    this.spine = null;
+    this.targetAngle = 0;
+    this.mapTargetX = -1f;
+    this.mapTargetY = -1f;
   }
 
   public void rotate(float angle, boolean rotateLeft) {
@@ -118,5 +123,4 @@ public class RotationComponent implements Component {
 //    System.out.println("Target Angle: " + targetAngle);
     return targetAngle;
   }
-
 }

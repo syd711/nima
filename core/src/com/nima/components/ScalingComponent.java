@@ -5,7 +5,7 @@ package com.nima.components;
  */
 public class ScalingComponent extends LimitingComponent {
 
-  public ScalingComponent(float scaling) {
-    super(scaling,  scaling, 1f,0.01f, 0.01f);
+  public void init(float scaling) {
+    init(scaling,  scaling, 1f,0.01f, 0.01f);
   }
 }

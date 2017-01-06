@@ -1,13 +1,14 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
  * Reusable component for a component that has upper and lower bounds
  * with an incrementing and decrementing value.
  * The lower bound is assumed to be always 0.
  */
-abstract public class LimitingComponent implements Component {
+abstract public class LimitingComponent implements Component, Poolable {
 
   private float targetValue;
   private float currentValue;
@@ -16,7 +17,7 @@ abstract public class LimitingComponent implements Component {
   private float decreaseBy;
   private float increaseBy;
 
-  public LimitingComponent(float targetValue, float currentValue, float maxValue, float decreaseBy, float increaseBy) {
+  public void init(float targetValue, float currentValue, float maxValue, float decreaseBy, float increaseBy) {
     this.currentValue = currentValue;
     this.targetValue = targetValue;
     this.maxValue = maxValue;
@@ -65,5 +66,15 @@ abstract public class LimitingComponent implements Component {
 
   public void setMaxValue() {
     this.targetValue = maxValue;
+  }
+
+  @Override
+  public void reset() {
+    this.currentValue = 0;
+    this.targetValue = 0;
+    this.maxValue = 0;
+
+    this.decreaseBy = 0;
+    this.increaseBy = 0;
   }
 }

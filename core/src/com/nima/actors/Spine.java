@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
-import com.nima.util.GraphicsUtil;
-import com.nima.util.Settings;
+import com.nima.managers.EntityManager;
 import com.nima.util.SpineUtil;
 
 /**
@@ -48,31 +47,13 @@ abstract public class Spine extends Entity implements Updateable {
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
 //    state.setAnimation(0, defaultAnimation, true);
 
-    scalingComponent = new ScalingComponent(1f);
-    add(scalingComponent);
-
-    positionComponent = new PositionComponent();
-    if(x == -1 || y == -1) {
-      Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
-      positionComponent.x = screenCenter.x;
-      positionComponent.y = screenCenter.y;
-    }
-    add(positionComponent);
-
-    spineComponent = new SpineComponent();
-    add(spineComponent);
-
-    speedComponent = new SpeedComponent(Settings.MAX_ACTOR_SPEED);
-    add(speedComponent);
-
-    rotationComponent = new RotationComponent(this);
-    add(rotationComponent);
-
-    movementComponent = new MovementComponent(this);
-    add(movementComponent);
-
-    bodyComponent = new BodyComponent(this);
-    add(bodyComponent);
+    scalingComponent = EntityManager.getInstance().addScalingComponent(this);
+    positionComponent = EntityManager.getInstance().addPositionComponent(this, x == -1 || y == -1, getHeight());
+    spineComponent = EntityManager.getInstance().addSpineComponent(this);
+    speedComponent = EntityManager.getInstance().addSpeedComponent(this);
+    rotationComponent = EntityManager.getInstance().addRotationComponent(this);
+    movementComponent = EntityManager.getInstance().addMovementComponent(this);
+    bodyComponent = EntityManager.getInstance().addBodyComponent(this);
 
     steerableComponent = new SteerableComponent(bodyComponent.body);
     add(steerableComponent);

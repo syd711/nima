@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SpeedComponent extends LimitingComponent {
 
-  public SpeedComponent(float maxSpeed) {
-    super(0, 0, maxSpeed, 0, 0);
+  public void init(float maxSpeed) {
+    super.init(0, 0, maxSpeed, 0, 0);
   }
 
   public void calculateTargetSpeed(Vector2 point1, Vector2 point2) {

@@ -3,6 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 import com.nima.actors.Location;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
@@ -10,20 +11,28 @@ import com.nima.util.GraphicsUtil;
 /**
  * Component responsible for handling the collision of entities
  */
-public class MovementComponent implements Component {
+public class MovementComponent implements Component, Pool.Poolable {
 
-  private RotationComponent rotationComponent;
+  private RotationComponent rotation;
   private PositionComponent position;
   private SpeedComponent speed;
 
-  public MovementComponent(Spine spine) {
-    this.rotationComponent = spine.getComponent(RotationComponent.class);
+  public void setSpine(Spine spine) {
+    this.rotation = spine.getComponent(RotationComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
   }
 
+
+  @Override
+  public void reset() {
+    this.rotation = null;
+    this.position = null;
+    this.speed = null;
+  }
+
   public void move() {
-    float currentAngle = rotationComponent.getRotation();
+    float currentAngle = rotation.getRotation();
     Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.getCurrentValue());
     float x = delta.x;
     float y = delta.y;
@@ -59,7 +68,7 @@ public class MovementComponent implements Component {
    * @param y screen y
    */
   public void moveTo(float x, float y) {
-    rotationComponent.setRotationTarget(x, y);
+    rotation.setRotationTarget(x, y);
   }
 
   /**

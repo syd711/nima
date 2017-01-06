@@ -8,9 +8,6 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.actors.Location;
-import com.nima.components.BodyComponent;
-import com.nima.components.LocationComponent;
-import com.nima.components.MapObjectComponent;
 import com.nima.managers.EntityManager;
 import com.nima.render.MapConstants;
 import com.nima.render.MapObjectConverter;
@@ -51,9 +48,8 @@ public class MapObject2StationEntityConverter extends MapObjectConverter {
 
   private void createStationEntity(MapObject mapObject) {
     Entity entity = new Location();
-    entity.add(new MapObjectComponent(mapObject));
-    entity.add(new BodyComponent(mapObject));
-    entity.add(new LocationComponent(mapObject));
+    EntityManager.getInstance().addMapObjectComponent(entity, mapObject);
+    EntityManager.getInstance().addBodyComponent(entity, mapObject);
 
     Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
     body.setUserData(entity);

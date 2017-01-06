@@ -29,7 +29,6 @@ public class Game extends ApplicationAdapter {
   private PositionComponent positionComponent;
 
   //Ashley
-  private PooledEngine engine = new PooledEngine();
   private EntityManager entityManager;
 
   //Box2d
@@ -66,7 +65,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
 
     //Ashley Entity Engine
-    entityManager = EntityManager.create(engine, tiledMapRenderer, camera, rayHandler);
+    entityManager = EntityManager.create(tiledMapRenderer, camera, rayHandler);
 
     //Create the multi map renderer + converters, keep order!
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
