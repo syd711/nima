@@ -6,8 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Player;
-import com.nima.components.RotationComponent;
-import com.nima.components.SpeedComponent;
 import com.nima.util.GraphicsUtil;
 
 /**
@@ -50,17 +48,15 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean keyUp(int keycode) {
-    if(!GameStateManager.getInstance().isInputBlocked()) {
-      if(keycode == Input.Keys.ESCAPE) {
-        System.exit(0);
-      }
-      else if(keycode == Input.Keys.SPACE) {
-        GameStateManager.getInstance().togglePause();
-        return true;
-      }
-      else if(keycode == Input.Keys.T) {
-        return true;
-      }
+    if(keycode == Input.Keys.ESCAPE) {
+      System.exit(0);
+    }
+    else if(keycode == Input.Keys.SPACE) {
+      GameStateManager.getInstance().togglePause();
+      return true;
+    }
+    else if(keycode == Input.Keys.T) {
+      return true;
     }
 
     return false;
@@ -78,16 +74,21 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    if(!GameStateManager.getInstance().isInputBlocked()) {
-      if (button == Input.Buttons.LEFT) {
-        if(GameStateManager.getInstance().isNavigating()) {
-          float targetX = screenX;
-          float targetY = Gdx.graphics.getHeight() - screenY;
+    if(GameStateManager.getInstance().isNavigating()) {
+      if(button == Input.Buttons.LEFT) {
+        float targetX = screenX;
+        float targetY = Gdx.graphics.getHeight() - screenY;
 
-          Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-          player.setTargetCoordinates(worldCoordinates);
-          return true;
-        }
+        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+        player.setTargetCoordinates(worldCoordinates);
+        return true;
+      }
+
+      if(button == Input.Buttons.RIGHT) {
+        float targetX = screenX;
+        float targetY = Gdx.graphics.getHeight() - screenY;
+        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+        player.fireAt(worldCoordinates);
       }
     }
     return false;

@@ -6,12 +6,14 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.nima.components.PositionComponent;
 import com.nima.components.SpriteComponent;
 
 public class SpriteRenderSystem extends SortedIteratingSystem {
   private Batch batch;
 
   private ComponentMapper<SpriteComponent> spriteMap = ComponentMapper.getFor(SpriteComponent.class);
+  private ComponentMapper<PositionComponent> positionMap = ComponentMapper.getFor(PositionComponent.class);
 
   public SpriteRenderSystem(Batch batch) {
     super(Family.all(SpriteComponent.class).get(), new ZComparator());

@@ -11,7 +11,6 @@ public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
   private boolean paused = false;
   private boolean navigating = true;
-  private boolean inputBlocked = false;
   private boolean stationMode = false;
 
   private GameStateManager() {
@@ -32,14 +31,6 @@ public class GameStateManager {
 
   public boolean isNavigating() {
     return navigating;
-  }
-
-  public boolean isInputBlocked() {
-    return inputBlocked;
-  }
-
-  public void setInputBlocked(boolean inputBlocked) {
-    this.inputBlocked = inputBlocked;
   }
 
   public void enterStationMode() {

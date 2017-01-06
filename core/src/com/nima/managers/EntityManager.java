@@ -1,26 +1,22 @@
 package com.nima.managers;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
 import com.nima.actors.*;
-import com.nima.components.*;
-import com.nima.render.MapConstants;
+import com.nima.components.ComponentFactory;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
-import com.nima.util.*;
+import com.nima.util.Box2dUtil;
+import com.nima.util.PolygonUtil;
+import com.nima.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +42,7 @@ public class EntityManager {
 
   private EntityManager() {
     this.engine = new PooledEngine();
+    ComponentFactory.engine = engine;
   }
 
   private void init(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
@@ -55,7 +52,7 @@ public class EntityManager {
     engine.addEntity(player);
 
     //create systems
-    SpinePositionSystem positionSystem = new SpinePositionSystem();
+    PositionSystem positionSystem = new PositionSystem();
     engine.addSystem(positionSystem);
 
     RotationSystem rotationSystem = new RotationSystem();
@@ -150,7 +147,7 @@ public class EntityManager {
    * @param pause
    */
   public void pauseSystems(boolean pause) {
-    SpinePositionSystem positionSystem = new SpinePositionSystem();
+    PositionSystem positionSystem = new PositionSystem();
     ImmutableArray<EntitySystem> systems = engine.getSystems();
     for(EntitySystem system : systems) {
       system.setProcessing(!pause);
@@ -235,103 +232,4 @@ public class EntityManager {
     return Box2dUtil.getEntityAt(Game.world, clickPoint);
   }
 
-  public <T extends Component> T createComponent (Class<T> componentType) {
-    return engine.createComponent(componentType);
-  }
-
-  public MapObjectComponent addMapObjectComponent(Entity entity, MapObject mapObject) {
-    MapObjectComponent component = createComponent(MapObjectComponent.class);
-    component.mapObject = mapObject;
-    entity.add(component);
-    return component;
-  }
-
-  public BodyComponent addBodyComponent(Entity entity, MapObject mapObject) {
-    BodyComponent component = createComponent(BodyComponent.class);
-    component.body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
-    entity.add(component);
-    return component;
-  }
-
-  public BodyComponent addBodyComponent(BodyEntity entity, PositionComponent positionComponent, Sprite sprite) {
-    BodyComponent component = createComponent(BodyComponent.class);
-    component.body = Box2dUtil.createSpriteBody(positionComponent, Game.world, sprite);
-    component.body.setUserData(entity);
-    entity.add(component);
-    return component;
-  }
-
-  public BodyComponent addBodyComponent(Spine spine) {
-    BodyComponent component = createComponent(BodyComponent.class);
-    Body body = Box2dUtil.createSpineBody(Game.world, spine);
-    component.body = body;
-    component.body.setUserData(spine);
-    spine.add(component);
-    return component;
-  }
-
-  public ScalingComponent addScalingComponent(Spine spine) {
-    ScalingComponent component = createComponent(ScalingComponent.class);
-    component.init(1f);
-    spine.add(component);
-    return component;
-  }
-
-  public SpeedComponent addSpeedComponent(Spine spine) {
-    SpeedComponent component = createComponent(SpeedComponent.class);
-    component.init(Settings.MAX_ACTOR_SPEED);
-    spine.add(component);
-    return component;
-  }
-
-  public LightComponent addLightComponent(Entity entity) {
-    LightComponent component = createComponent(LightComponent.class);
-    entity.add(component);
-    return component;
-  }
-
-  public SpineComponent addSpineComponent(Spine spine) {
-    SpineComponent component = createComponent(SpineComponent.class);
-    spine.add(component);
-    return component;
-  }
-
-  public RotationComponent addRotationComponent(Spine spine) {
-    RotationComponent component = createComponent(RotationComponent.class);
-    component.spine = spine;
-    spine.add(component);
-    return component;
-  }
-
-  public MovementComponent addMovementComponent(Spine spine) {
-    MovementComponent component = createComponent(MovementComponent.class);
-    component.setSpine(spine);
-    spine.add(component);
-    return component;
-  }
-
-  public PositionComponent addPositionComponent(Entity entity, boolean initCentered, float heightOffset) {
-    PositionComponent component = createComponent(PositionComponent.class);
-    if(initCentered) {
-      Vector2 screenCenter = GraphicsUtil.getScreenCenter(heightOffset);
-      component.x = screenCenter.x;
-      component.y = screenCenter.y;
-    }
-    entity.add(component);
-    return component;
-  }
-
-  public SpriteComponent addSpriteComponent(Entity entity, String resourceLocation) {
-    SpriteComponent component = createComponent(SpriteComponent.class);
-    component.setTextures(new Texture(resourceLocation));
-    entity.add(component);
-    return component;
-  }
-
-  public BulletDamageComponent addBulletDamageComponent(Entity entity, int damage) {
-    BulletDamageComponent component = createComponent(BulletDamageComponent.class);
-    component.damage = damage;
-    entity.add(component);
-    return component;
-  }
 }

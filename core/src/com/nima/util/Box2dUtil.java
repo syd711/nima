@@ -15,6 +15,10 @@ import static com.nima.util.Settings.MPP;
  */
 public class Box2dUtil {
 
+  public static Vector2 toBox2Vector(Vector2 vector) {
+    return new Vector2(vector.x*MPP, vector.y*MPP);
+  }
+
   public static Body createSpriteBody(PositionComponent positionComponent, World world, Sprite sprite) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;

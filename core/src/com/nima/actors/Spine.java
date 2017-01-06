@@ -44,13 +44,13 @@ abstract public class Spine extends BodyEntity implements Updateable {
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
 //    state.setAnimation(0, defaultAnimation, true);
 
-    scalingComponent = EntityManager.getInstance().addScalingComponent(this);
-    positionComponent = EntityManager.getInstance().addPositionComponent(this, x == -1 || y == -1, getHeight());
-    spineComponent = EntityManager.getInstance().addSpineComponent(this);
-    speedComponent = EntityManager.getInstance().addSpeedComponent(this);
-    rotationComponent = EntityManager.getInstance().addRotationComponent(this);
-    movementComponent = EntityManager.getInstance().addMovementComponent(this);
-    bodyComponent = EntityManager.getInstance().addBodyComponent(this);
+    scalingComponent = ComponentFactory.addScalingComponent(this);
+    positionComponent = ComponentFactory.addPositionComponent(this, x == -1 || y == -1, getHeight());
+    spineComponent = ComponentFactory.addSpineComponent(this);
+    speedComponent = ComponentFactory.addSpeedComponent(this);
+    rotationComponent = ComponentFactory.addRotationComponent(this);
+    movementComponent = ComponentFactory.addMovementComponent(this);
+    bodyComponent = ComponentFactory.addBodyComponent(this);
 
     steerableComponent = new SteerableComponent(bodyComponent.body);
     add(steerableComponent);

@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.components.ComponentFactory;
 import com.nima.components.LightComponent;
 import com.nima.managers.EntityManager;
 import com.nima.render.MapConstants;
@@ -58,10 +59,10 @@ public class MapObject2ConeLightConverter extends MapObjectConverter {
     float coneDegree = getProperty(mapObject, PROPERTY_CONE_DEGREE, DEFAULT_CONE_DEGREE);
 
     Entity entity = new Entity();
-    LightComponent component =  EntityManager.getInstance().addLightComponent(entity);
+    LightComponent component =  ComponentFactory.addLightComponent(entity);
     component.init(rayHandler, distance, centeredPosition.x, centeredPosition.y, degree, coneDegree, false);
 
-    EntityManager.getInstance().addMapObjectComponent(entity, mapObject);
+    ComponentFactory.addMapObjectComponent(entity, mapObject);
     EntityManager.getInstance().add(entity);
   }
 }

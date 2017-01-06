@@ -2,12 +2,17 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.nima.Game;
+import com.nima.components.ComponentFactory;
 import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
+import com.nima.components.ShootingComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
 import com.nima.systems.LightSystem;
+import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
@@ -21,6 +26,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
   private Entity targetEntity;
   private boolean dockingProcedure = false;
+  private ShootingComponent shootingComponent;
 
   private static Player instance = null;
 
@@ -36,6 +42,8 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
+
+    shootingComponent = ComponentFactory.addShootableComponent(this);
 
     instance = this;
   }
@@ -85,6 +93,30 @@ public class Player extends Spine implements Updateable, CollisionListener {
     speedComponent.calculateTargetSpeed(point1, point2);
   }
 
+  public void fireAt(Vector2 worldCoordinates) {
+    int bulletDelayMillis = 1350;
+    long lastBulletTime = shootingComponent.lastBulletTime;
+
+    if(Game.currentTimeMillis - lastBulletTime > bulletDelayMillis) {
+      Bullet bullet = Bullet.newBullet();
+
+      Vector2 toTarget = Box2dUtil.toBox2Vector(worldCoordinates);
+      float angle = (float) Math.atan2(-toTarget.x, toTarget.y);
+      angle = (float) Math.toDegrees(angle);
+
+      Body bulletBody = bullet.bodyComponent.body;
+      com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
+      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, (float) Math.toRadians(angle - 90f));
+      bulletBody.applyLinearImpulse(new Vector2(0.004f * (float) Math.sin(Math.toRadians(-angle)),
+          0.004f * (float) Math.cos(Math.toRadians(angle))), bulletBody.getPosition(), true);
+      sprite.setRotation((float) Math.toDegrees(bulletBody.getAngle()));
+
+      shootingComponent.lastBulletTime = Game.currentTimeMillis;
+
+      EntityManager.getInstance().add(bullet);
+    }
+  }
+
   //------------------ Collision Listener --------------------------------
 
   @Override
@@ -129,4 +161,6 @@ public class Player extends Spine implements Updateable, CollisionListener {
     targetEntity = null;
     rotationComponent.setRotationTarget(positionComponent.x + 100, positionComponent.y);
   }
+
+
 }
