@@ -15,6 +15,7 @@ import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.Box2dUtil;
 import com.nima.util.PolygonUtil;
+import com.nima.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class EntityManager {
     updateables.add(player);
 
     //TODO
-    Hunter m = new Hunter(player, 300, 300);
+    NPC m = new NPC(player, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.2f, 300, 300);
     engine.addEntity(m);
     updateables.add(m);
   }

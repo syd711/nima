@@ -27,14 +27,12 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
 
   public SteerableComponent(Body body) {
     this.body = body;
-
-    this.body = body;
     this.boundingRadius = 200;
 
     this.maxLinearSpeed = 500;
     this.maxLinearAcceleration = 500;
-    this.maxAngularSpeed = 30;
-    this.maxAngularAcceleration = 10;
+    this.maxAngularSpeed = 3000;
+    this.maxAngularAcceleration = 300;
     this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());

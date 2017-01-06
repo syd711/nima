@@ -32,6 +32,7 @@ public class SpineUtil {
     FixtureDef fdef = new FixtureDef();
     fdef.isSensor = true;
     fdef.density = 1;
+    fdef.restitution = 0.9f;
     fdef.shape = shape;
     b.createFixture(fdef);
     shape.dispose();

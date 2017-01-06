@@ -22,6 +22,12 @@ public class Player extends Spine implements Updateable, CollisionListener {
   private Entity targetEntity;
   private boolean dockingProcedure = false;
 
+  private static Player instance = null;
+
+  public static Player getInstance() {
+    return instance;
+  }
+
   public Player() {
     super(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
 
@@ -30,6 +36,8 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
+
+    instance = this;
   }
 
   @Override
