@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.nima.actors.Spine;
-import com.nima.components.PositionComponent;
 
 import static com.nima.util.Settings.MPP;
 
@@ -15,14 +14,24 @@ import static com.nima.util.Settings.MPP;
  */
 public class Box2dUtil {
 
+  /**
+   * Both parameters are in box2d format
+   * @param from
+   * @param to
+   * @return
+   */
+  public static float getBox2dAngle(Vector2 from, Vector2 to) {
+    return (float) Math.atan2(from.y - to.y, from.x - to.x);
+  }
+
   public static Vector2 toBox2Vector(Vector2 vector) {
     return new Vector2(vector.x*MPP, vector.y*MPP);
   }
 
-  public static Body createSpriteBody(PositionComponent positionComponent, World world, Sprite sprite) {
+  public static Body createSpriteBody(Vector2 position, World world, Sprite sprite) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(positionComponent.x * MPP, positionComponent.y * MPP);
+    bdef.position.set(position.x * MPP, position.y * MPP);
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();

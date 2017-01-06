@@ -94,22 +94,33 @@ public class Player extends Spine implements Updateable, CollisionListener {
   }
 
   public void fireAt(Vector2 worldCoordinates) {
-    int bulletDelayMillis = 1350;
+    int bulletDelayMillis = 350;
     long lastBulletTime = shootingComponent.lastBulletTime;
 
     if(Game.currentTimeMillis - lastBulletTime > bulletDelayMillis) {
-      Bullet bullet = Bullet.newBullet();
+      Bullet bullet = Bullet.newBullet(positionComponent.getPosition());
 
-      Vector2 toTarget = Box2dUtil.toBox2Vector(worldCoordinates);
-      float angle = (float) Math.atan2(-toTarget.x, toTarget.y);
-      angle = (float) Math.toDegrees(angle);
+      Vector2 from = Box2dUtil.toBox2Vector(positionComponent.getPosition());
+      Vector2 to = Box2dUtil.toBox2Vector(worldCoordinates);
+      float radianAngle =  Box2dUtil.getBox2dAngle(from ,to);
+      System.out.println();
+      float angle = (float) Math.toDegrees(radianAngle);
 
       Body bulletBody = bullet.bodyComponent.body;
       com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
-      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, (float) Math.toRadians(angle - 90f));
-      bulletBody.applyLinearImpulse(new Vector2(0.004f * (float) Math.sin(Math.toRadians(-angle)),
-          0.004f * (float) Math.cos(Math.toRadians(angle))), bulletBody.getPosition(), true);
-      sprite.setRotation((float) Math.toDegrees(bulletBody.getAngle()));
+      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, angle);
+
+      float mXDir= -(float) Math.cos(angle*Math.PI/180);
+      float mYDir= -(float) Math.sin(angle*Math.PI/180);
+
+      Vector2 impulse = new Vector2(mXDir / Settings.PPM, mYDir / Settings.PPM);
+//      impulse.mul(2);
+
+//      float xImpulse = (float) -Math.toRadians(Math.toDegrees(angle)+90);
+//      Vector2 impulse = new Vector2(0.004f * (float) Math.sin(xImpulse),
+//          0.004f * (float) Math.cos(angle));
+      bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
+      sprite.setRotation((float) Math.toDegrees(radianAngle));
 
       shootingComponent.lastBulletTime = Game.currentTimeMillis;
 

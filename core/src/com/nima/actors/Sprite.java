@@ -1,5 +1,6 @@
 package com.nima.actors;
 
+import com.badlogic.gdx.math.Vector2;
 import com.nima.components.ComponentFactory;
 import com.nima.components.SpriteComponent;
 
@@ -9,10 +10,11 @@ import com.nima.components.SpriteComponent;
 public class Sprite extends BodyEntity {
   public SpriteComponent spriteComponent;
 
-  public Sprite(String resourceLocation) {
+  public Sprite(String resourceLocation, Vector2 defaultPosition) {
     spriteComponent = ComponentFactory.addSpriteComponent(this, resourceLocation);
-    positionComponent = ComponentFactory.addPositionComponent(this, true, spriteComponent.sprite.getHeight());
+    positionComponent = ComponentFactory.addPositionComponent(this);
+    positionComponent.setPosition(defaultPosition);
     positionComponent.z = 900;
-    bodyComponent = ComponentFactory.addBodyComponent(this, positionComponent, spriteComponent.sprite);
+    bodyComponent = ComponentFactory.addBodyComponent(this, defaultPosition, spriteComponent.sprite);
   }
 }

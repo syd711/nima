@@ -40,9 +40,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(BodyEntity entity, PositionComponent positionComponent, Sprite sprite) {
+  public static BodyComponent addBodyComponent(BodyEntity entity, Vector2 position, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = Box2dUtil.createSpriteBody(positionComponent, Game.world, sprite);
+    component.body = Box2dUtil.createSpriteBody(position, Game.world, sprite);
     component.body.setUserData(entity);
     entity.add(component);
     return component;
