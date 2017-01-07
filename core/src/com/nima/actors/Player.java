@@ -2,8 +2,6 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.nima.Game;
 import com.nima.components.ComponentFactory;
 import com.nima.components.MapObjectComponent;
 import com.nima.components.ScreenPositionComponent;
@@ -11,8 +9,8 @@ import com.nima.components.ShootingComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
+import com.nima.profiles.WeapenProfileFactory;
 import com.nima.systems.LightSystem;
-import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 import com.nima.util.Settings;
@@ -44,6 +42,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
 
     shootingComponent = ComponentFactory.addShootableComponent(this);
+    shootingComponent.weaponProfile = WeapenProfileFactory.createProfile("laser");
 
     instance = this;
   }
@@ -94,31 +93,8 @@ public class Player extends Spine implements Updateable, CollisionListener {
   }
 
   public void fireAt(Vector2 worldCoordinates) {
-    int bulletDelayMillis = 350;
-    long lastBulletTime = shootingComponent.lastBulletTime;
-
-    if(Game.currentTimeMillis - lastBulletTime > bulletDelayMillis) {
-      Bullet bullet = Bullet.newBullet(positionComponent.getPosition());
-
-      Vector2 from = Box2dUtil.toBox2Vector(positionComponent.getPosition());
-      Vector2 to = Box2dUtil.toBox2Vector(worldCoordinates);
-      float radianAngle = Box2dUtil.getBox2dAngle(from, to);
-
-      Body bulletBody = bullet.bodyComponent.body;
-      com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
-      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
-
-      float mXDir = -(float) Math.cos(radianAngle);
-      float mYDir = -(float) Math.sin(radianAngle);
-
-      float speedFactor = 0.04f;
-      Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
-      bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
-      sprite.setRotation((float) Math.toDegrees(radianAngle));
-
-      shootingComponent.lastBulletTime = Game.currentTimeMillis;
-
-      EntityManager.getInstance().add(bullet);
+    if(shootingComponent.isCharged()) {
+      Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);
     }
   }
 

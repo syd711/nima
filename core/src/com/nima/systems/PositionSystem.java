@@ -48,7 +48,6 @@ public class PositionSystem extends AbstractIteratingSystem {
       positionComponent.x = bodyComponent.body.getPosition().x * PPM - spriteComponent.sprite.getWidth() / 2;
       positionComponent.y = bodyComponent.body.getPosition().y * PPM - spriteComponent.sprite.getHeight() / 2;
 
-
       spriteComponent.sprite.setX(positionComponent.x);
       spriteComponent.sprite.setY(positionComponent.y);
     }

@@ -21,7 +21,7 @@ import com.nima.util.*;
 public class ComponentFactory {
   public static PooledEngine engine;
 
-  public static <T extends Component> T createComponent (Class<T> componentType) {
+  private static <T extends Component> T createComponent (Class<T> componentType) {
     return engine.createComponent(componentType);
   }
 
@@ -50,8 +50,7 @@ public class ComponentFactory {
 
   public static BodyComponent addBodyComponent(Spine spine) {
     BodyComponent component = createComponent(BodyComponent.class);
-    Body body = Box2dUtil.createSpineBody(Game.world, spine);
-    component.body = body;
+    component.body = Box2dUtil.createSpineBody(Game.world, spine);
     component.body.setUserData(spine);
     spine.add(component);
     return component;
