@@ -8,6 +8,8 @@ import com.nima.components.PositionComponent;
 import com.nima.components.SpriteComponent;
 import com.nima.managers.EntityManager;
 
+import static com.nima.util.Settings.BULLET_AUTO_DESTROY_DISTANCE;
+
 /**
  * Used during fighting
  */
@@ -21,7 +23,7 @@ public class AutoDestroySystem extends IteratingSystem {
     if(entity instanceof Bullet) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
       float distance = positionComponent.distanceToPlayer();
-      if(distance > 2000) {
+      if(distance > BULLET_AUTO_DESTROY_DISTANCE) {
         EntityManager.getInstance().destroy(entity);
       }
     }

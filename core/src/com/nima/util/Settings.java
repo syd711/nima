@@ -41,4 +41,9 @@ public class Settings {
   public final static short ENEMY_BITS = 0x0002;
   public final static short LEVEL_BITS = 0x0004;
   public final static short NEUTRAL_BITS = 0x0008;
+
+  /**
+   * Bullets
+   */
+  public final static float BULLET_AUTO_DESTROY_DISTANCE = 4000;//px
 }
