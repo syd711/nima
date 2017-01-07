@@ -44,7 +44,6 @@ public class LightSystem extends EntitySystem {
 
   private void updateAmbientLight() {
     if(currentBrightness != brightness) {
-      System.out.println("Brightness: " + currentBrightness);
       if(brightness < currentBrightness) {
         currentBrightness = currentBrightness - Settings.FADE_OUT_OFFSET;
       }
@@ -58,6 +57,12 @@ public class LightSystem extends EntitySystem {
 
   private void process(Entity entity) {
     LightComponent light = lightsMap.get(entity);
+    if(brightness == 0) {
+      light.setTargetValue(0f);
+    }
+    else {
+      light.setMaxValue();
+    }
     light.updateValue();
     if(light.isMoveable()) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);

@@ -16,7 +16,7 @@ public class LightComponent extends LimitingComponent {
   private boolean moveable;
 
   public void init(RayHandler rayHandler, float distance, float x, float y, boolean moveable) {
-    super.init(1, 1, 1, Settings.FADE_IN_OFFSET, Settings.FADE_OUT_OFFSET);
+    super.init(1, 1, 1, Settings.FADE_IN_OFFSET+0.01f, Settings.FADE_OUT_OFFSET+0.01f);
     pointLight = new PointLight(rayHandler, MAX_RAYS);
     pointLight.setDistance(distance);
     pointLight.setColor(getTargetValue(), getTargetValue(), getTargetValue(), getTargetValue());
@@ -26,10 +26,18 @@ public class LightComponent extends LimitingComponent {
   }
 
   public void init(RayHandler rayHandler, float distance, float x, float y, float degree, float coneDegree, boolean moveable) {
-    super.init(1, 1, 1, Settings.FADE_IN_OFFSET, Settings.FADE_OUT_OFFSET);
+    super.init(1, 1, 1, Settings.FADE_IN_OFFSET+0.01f, Settings.FADE_OUT_OFFSET+0.01f);
     pointLight = new ConeLight(rayHandler, MAX_RAYS, Color.WHITE, distance, x, y, degree, coneDegree);
     pointLight.setColor(getTargetValue(), getTargetValue(), getTargetValue(), getTargetValue());
     this.moveable = moveable;
+  }
+
+  @Override
+  public void updateValue() {
+    super.updateValue();
+    if(getCurrentValue() != getTargetValue()) {
+      pointLight.setColor(getCurrentValue(), getCurrentValue(), getCurrentValue(), getCurrentValue());
+    }
   }
 
   public void setPosition(float x, float y) {
