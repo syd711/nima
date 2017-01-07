@@ -1,4 +1,4 @@
-package com.nima.profiles;
+package com.nima.data;
 
 /**
  * Contains all data of a weapon

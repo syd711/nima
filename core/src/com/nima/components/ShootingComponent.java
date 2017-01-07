@@ -3,7 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.nima.Game;
-import com.nima.profiles.WeaponProfile;
+import com.nima.data.WeaponProfile;
 
 public class ShootingComponent implements Component, Poolable {
   public WeaponProfile weaponProfile;

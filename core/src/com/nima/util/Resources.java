@@ -8,6 +8,7 @@ public class Resources {
   public static final String SPRITE_TEXTURES = "sprites/";
   public static final String SPRITE_BODIES = "bodies/";
 
+  public static final String ROUTE_PROFILES = "profiles/routes/";
   public static final String WEAPON_PROFILES = "profiles/weapons/";
   public static final String SHIP_PROFILES = "profiles/ships/";
 

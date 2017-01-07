@@ -19,8 +19,10 @@ public class MapFragmentLoader extends Thread {
   private int frameX = -1;
   private int frameY = -1;
   private boolean gdlThread = false;
+  private boolean loadNeighbours = true;
 
   public MapFragmentLoader(MapCache mapCache, int frameX, int frameY) {
+    super("MapFragmentLoader for frame {" + frameX + "/" + frameY + "}  ");
     this.mapCache = mapCache;
     this.frameX = frameX;
     this.frameY = frameY;
@@ -66,7 +68,9 @@ public class MapFragmentLoader extends Thread {
 
   private void doCache(TmxCacheMapLoader loader) {
     TiledMapFragment cachedMap = new TiledMapFragment(loader);
-    mapCache.cacheMap.put(loader.getFilename(), cachedMap);
+    if(mapCache != null) {
+      mapCache.cacheMap.put(loader.getFilename(), cachedMap);
+    }
   }
 
   /**
@@ -78,22 +82,33 @@ public class MapFragmentLoader extends Thread {
 
     int CACHE_SIZE = 3;
 
-    for(int x = startX; x < (startX + CACHE_SIZE); x++) {
-      if(x >= 0 && x < Settings.WORLD_WIDTH) {
-        for(int y = startY; y < (startY + CACHE_SIZE); y++) {
-          if(y >= 0 && y < Settings.WORLD_HEIGHT) {
-            String filename = MapCache.getInstance().keyFor(x, y);
-            if(!mapCache.cacheMap.containsKey(filename)) {
-              TmxCacheMapLoader loader = new TmxCacheMapLoader(filename, x, y);
-              mapQueue.offer(loader);
+    if(loadNeighbours) {
+      for(int x = startX; x < (startX + CACHE_SIZE); x++) {
+        if(x >= 0 && x < Settings.WORLD_WIDTH) {
+          for(int y = startY; y < (startY + CACHE_SIZE); y++) {
+            if(y >= 0 && y < Settings.WORLD_HEIGHT) {
+              String filename = MapCache.getInstance().keyFor(x, y);
+              if(!mapCache.cacheMap.containsKey(filename)) {
+                TmxCacheMapLoader loader = new TmxCacheMapLoader(filename, x, y);
+                mapQueue.offer(loader);
+              }
             }
           }
         }
       }
     }
+    else {
+      String filename = MapCache.getInstance().keyFor(frameX, frameY);
+      TmxCacheMapLoader loader = new TmxCacheMapLoader(filename, frameX, frameY);
+      mapQueue.offer(loader);
+    }
   }
 
   public void setGdlThread(boolean gdlThread) {
     this.gdlThread = gdlThread;
+  }
+
+  public void setLoadNeighbours(boolean loadNeighbours) {
+    this.loadNeighbours = loadNeighbours;
   }
 }

@@ -24,9 +24,14 @@ public class MapCache {
     return INSTANCE;
   }
 
-  //force singleton
   private MapCache() {
-    //nothing
+
+  }
+
+  //force singleton
+  protected MapCache(String folder, String filePrefix) {
+    this.folder = folder;
+    this.prefix = filePrefix;
   }
 
   public TiledMapFragment initCache(String folder, String filePrefix) {

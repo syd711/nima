@@ -9,7 +9,7 @@ import com.nima.components.ShootingComponent;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
-import com.nima.profiles.WeapenProfileFactory;
+import com.nima.data.WeapenProfileFactory;
 import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;

@@ -39,8 +39,14 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
   private List<MapObjectConverter> objectConverters = new ArrayList<>();
 
+  private String mapFolder;
+  private String mapPrefix;
+
   public TiledMultiMapRenderer(String mapFolder, String mapPrefix, SpriteBatch batch) {
     super(null, batch);
+    this.mapFolder = mapFolder;
+    this.mapPrefix = mapPrefix;
+
     TiledMapFragment tiledMapFragment = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(tiledMapFragment.getMap());
 
@@ -49,6 +55,32 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
     this.frameTilesY = groundLayer.getHeight();
+  }
+
+  public void fullScan(int maxX, int maxY) {
+    Gdx.app.log(this.toString(), "Executing full map scan");
+    for(int x=0; x<maxX; x++) {
+      for(int y=0; y<maxY; y++) {
+        MapCache mapCache = new MapCache(mapFolder, mapPrefix);
+        MapFragmentLoader mapFragmentLoader = new MapFragmentLoader(mapCache, x, y);
+        mapFragmentLoader.setLoadNeighbours(false);
+        mapFragmentLoader.setGdlThread(true);
+        mapFragmentLoader.run();
+        TiledMapFragment tiledMapFragment = mapCache.get(x, y);
+
+        for(MapObjectConverter objectConverter : objectConverters) {
+          List<MapObject> mapObjects = tiledMapFragment.getMapObjects();
+          for(MapObject mapObject : mapObjects) {
+            objectConverter.convertMapObject(tiledMapFragment, mapObject);
+          }
+        }
+      }
+    }
+  }
+
+
+  public void removeAllObjectConverters() {
+    this.objectConverters.clear();
   }
 
   public void addMapObjectConverter(MapObjectConverter mapObjectConverter) {
@@ -323,4 +355,5 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
       batch.draw(region.getTexture(), vertices, 0, NUM_VERTICES);
     }
   }
+
 }

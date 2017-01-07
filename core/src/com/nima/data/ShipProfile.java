@@ -1,4 +1,4 @@
-package com.nima.profiles;
+package com.nima.data;
 
 /**
  * Contains all attributes a ship can have.

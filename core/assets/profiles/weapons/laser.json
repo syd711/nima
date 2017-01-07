@@ -1,5 +1,5 @@
 {
-  damage : 10,
-  speed : 0.4,
-  rechargeTimeMillis : 350
+  "damage" : 10,
+  "speed" : 0.4,
+  "rechargeTimeMillis" : 350
 }

@@ -1,4 +1,4 @@
-package com.nima.profiles;
+package com.nima.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
