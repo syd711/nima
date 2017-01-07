@@ -3,6 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.nima.actors.Player;
 
 /**
  *
@@ -15,6 +16,10 @@ public class PositionComponent implements Component, Pool.Poolable {
   public void setPosition(float x, float y) {
     this.x = x;
     this.y = y;
+  }
+
+  public float distanceToPlayer() {
+    return getPosition().dst(Player.getInstance().getCenter());
   }
 
   public void setPosition(Vector2 position) {

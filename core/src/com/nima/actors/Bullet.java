@@ -34,7 +34,7 @@ public class Bullet extends Sprite {
     float mXDir = -(float) Math.cos(radianAngle);
     float mYDir = -(float) Math.sin(radianAngle);
 
-    float speedFactor = 0.04f;
+    float speedFactor = shootingComponent.weaponProfile.speed;
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
     sprite.setRotation((float) Math.toDegrees(radianAngle));

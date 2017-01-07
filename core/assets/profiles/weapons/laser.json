@@ -1,4 +1,5 @@
 {
   damage : 10,
+  speed : 0.4,
   rechargeTimeMillis : 350
 }

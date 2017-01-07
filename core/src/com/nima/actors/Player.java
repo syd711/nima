@@ -92,6 +92,10 @@ public class Player extends Spine implements Updateable, CollisionListener {
     speedComponent.calculateTargetSpeed(point1, point2);
   }
 
+  /**
+   * Fires a bullet using the active weapon profile
+   * @param worldCoordinates the target to shoot to
+   */
   public void fireAt(Vector2 worldCoordinates) {
     if(shootingComponent.isCharged()) {
       Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);

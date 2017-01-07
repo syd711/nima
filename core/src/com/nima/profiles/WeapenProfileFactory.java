@@ -13,6 +13,7 @@ import static com.nima.util.Resources.WEAPON_PROFILES;
 public class WeapenProfileFactory {
   private static final String RECHARGE_TIME_MILLIS = "rechargeTimeMillis";
   private static final String DAMAGE = "damage";
+  private static final String SPEED = "speed";
 
   public static WeaponProfile createProfile(String name) {
     FileHandle file = Gdx.files.internal(WEAPON_PROFILES + name + ".json");
@@ -21,11 +22,13 @@ public class WeapenProfileFactory {
     JsonValue root = jsonReader.parse(rawJson);
 
     float rechargeTimeMillis = root.getFloat(RECHARGE_TIME_MILLIS);
-    int damage = root.getInt(DAMAGE);
+    float damage = root.getFloat(DAMAGE);
+    float speed = root.getFloat(SPEED);
 
     WeaponProfile profile = new WeaponProfile();
     profile.rechargeTime = rechargeTimeMillis;
     profile.damage = damage;
+    profile.speed = speed;
     return profile;
   }
 }

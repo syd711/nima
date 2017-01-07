@@ -70,8 +70,8 @@ public class EntityManager {
     SpineRenderSystem renderSystem = new SpineRenderSystem(renderer);
     engine.addSystem(renderSystem);
 
-    ShootingSystem shootingSystem = new ShootingSystem();
-    engine.addSystem(shootingSystem);
+    AutoDestroySystem autoDestroySystem = new AutoDestroySystem();
+    engine.addSystem(autoDestroySystem);
 
     SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
     engine.addSystem(spriteRenderSystem);
@@ -129,6 +129,15 @@ public class EntityManager {
   }
 
   /**
+   * Registers entities to be destroyed
+   * for the next render interval.
+   * @param toDestroy the list of entities to be destroyed
+   */
+  public void destroy(Entity toDestroy) {
+    destroyEntities.add(toDestroy);
+  }
+
+  /**
    * Pauses all ashley systems
    */
   public void pauseSystems(boolean pause) {
@@ -157,6 +166,7 @@ public class EntityManager {
     if(!destroyEntities.isEmpty()) {
       for (Entity entity : destroyEntities) {
         engine.removeEntity(entity);
+        Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
       destroyEntities.clear();
 
