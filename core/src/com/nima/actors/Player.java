@@ -108,12 +108,13 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
       Body bulletBody = bullet.bodyComponent.body;
       com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
-      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, angle);
+      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
 
       float mXDir= -(float) Math.cos(angle*Math.PI/180);
       float mYDir= -(float) Math.sin(angle*Math.PI/180);
 
-      Vector2 impulse = new Vector2(mXDir / Settings.PPM, mYDir / Settings.PPM);
+      float speedFactor = 15f;
+      Vector2 impulse = new Vector2(speedFactor*mXDir / Settings.PPM, speedFactor*mYDir / Settings.PPM);
 //      impulse.mul(2);
 
 //      float xImpulse = (float) -Math.toRadians(Math.toDegrees(angle)+90);

@@ -1,13 +1,13 @@
 package com.nima.render;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.LinkedHashMap;
-import java.util.logging.Logger;
 
 /**
  * Used to cache a loaded map.
  */
 public class MapCache {
-  private static final Logger LOG = Logger.getLogger(MapCache.class.getName());
   private static MapCache INSTANCE = new MapCache();
 
   protected LinkedHashMap<String, TiledMapFragment> cacheMap = new LinkedHashMap<>();
@@ -61,7 +61,7 @@ public class MapCache {
    */
   public void evict(TiledMapFragment map) {
     cacheMap.remove(map.getFilename());
-    LOG.info("Evicted " + map.getFilename());
+    Gdx.app.log(this.toString(),"Evicted " + map.getFilename());
   }
 
   /**

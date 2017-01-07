@@ -5,7 +5,6 @@ import com.nima.util.Settings;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Logger;
 
 /**
  * The CachedMapLoader thread checks if frames that are possible
@@ -14,8 +13,6 @@ import java.util.logging.Logger;
  * Otherwise the corresponding frames will be loaded asynchronously.
  */
 public class MapFragmentLoader extends Thread {
-  private final static Logger LOG = Logger.getLogger(MapFragmentLoader.class.getName());
-
   private Queue<TmxCacheMapLoader> mapQueue = new ConcurrentLinkedQueue<>();
 
   private MapCache mapCache;
@@ -54,7 +51,7 @@ public class MapFragmentLoader extends Thread {
       }
     }
     else {
-      LOG.info("Loading cached map " + loader.getFilename());
+      Gdx.app.log(this.toString(),"Loading cached map " + loader.getFilename());
       doCache(loader);
     }
   }

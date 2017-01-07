@@ -16,12 +16,10 @@ import com.nima.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
-  private final static Logger LOG = Logger.getLogger(TiledMultiMapRenderer.class.getName());
   public static TiledDebugRenderer debugRenderer;
 
   public int actorFrameX = 0;
@@ -142,7 +140,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
       if(!actualMaps.contains(cachedMap)) {
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
           mapChangeListener.mapRemoved(cachedMap);
-          LOG.info("Removed map " + cachedMap.getFilename());
+          Gdx.app.log(this.toString(),"Removed map " + cachedMap.getFilename());
         }
 
         //destroy all map objects after notifying listeners
@@ -170,7 +168,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
           mapChangeListener.mapAdded(cachedMap);
-          LOG.info("Added map " + cachedMap.getFilename());
+          Gdx.app.log(this.toString(),"Added map " + cachedMap.getFilename());
         }
       }
     }

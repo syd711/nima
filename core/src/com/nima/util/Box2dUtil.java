@@ -31,8 +31,8 @@ public class Box2dUtil {
   public static Body createSpriteBody(Vector2 position, World world, Sprite sprite) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(position.x * MPP, position.y * MPP);
-    Body b = world.createBody(bdef);
+    bdef.position.set((position.x+sprite.getWidth()/2) * MPP, (position.y+sprite.getHeight()/2) * MPP);
+    Body body = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(sprite.getWidth()/2 * MPP, sprite.getHeight()/2 * MPP);
@@ -42,10 +42,10 @@ public class Box2dUtil {
     fdef.density = 1;
     fdef.restitution = 0.9f;
     fdef.shape = shape;
-    b.createFixture(fdef);
+    body.createFixture(fdef);
     shape.dispose();
 
-    return b;
+    return body;
   }
 
   /**

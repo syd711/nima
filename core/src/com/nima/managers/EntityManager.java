@@ -20,14 +20,11 @@ import com.nima.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Central Ashley initialization of entity systems.
  */
 public class EntityManager {
-  private static final Logger LOG = Logger.getLogger(EntityManager.class.getName());
-
   private PooledEngine engine;
   private Player player;
   private List<Updateable> updateables = new ArrayList<>();
@@ -111,7 +108,6 @@ public class EntityManager {
 
   /**
    * Registers an entity click listener
-   * @param entityClickListener
    */
   public void addEntityClickListener(EntityClickListener entityClickListener) {
     this.entityClickListeners.add(entityClickListener);
@@ -119,7 +115,6 @@ public class EntityManager {
 
   /**
    * Registers a collision listener
-   * @param listener
    */
   public void addCollisionListener(CollisionListener listener) {
     this.collisionListeners.add(listener);
@@ -134,20 +129,9 @@ public class EntityManager {
   }
 
   /**
-   * Registers entities to be destroyed
-   * for the next render interval.
-   * @param toDestroy the list of entities to be destroyed
-   */
-  protected void destroy(List<Entity> toDestroy) {
-    destroyEntities.addAll(toDestroy);
-  }
-
-  /**
    * Pauses all ashley systems
-   * @param pause
    */
   public void pauseSystems(boolean pause) {
-    PositionSystem positionSystem = new PositionSystem();
     ImmutableArray<EntitySystem> systems = engine.getSystems();
     for(EntitySystem system : systems) {
       system.setProcessing(!pause);
@@ -176,31 +160,9 @@ public class EntityManager {
       }
       destroyEntities.clear();
 
-      LOG.info("Ashley engine has " + engine.getEntities().size() + " entities");
+      Gdx.app.log(this.toString(),"Ashley engine has " + engine.getEntities().size() + " entities");
     }
   }
-
-  //-------------------- Map Caching -------------------------------------------------------
-
-//  @Override
-//  public void mapAdded(TiledMap map, List<MapObject> mapObjects) {
-//    for(MapObject mapObject : mapObjects) {
-//      Entity entity = EntityFactory.createEntity(map, mapObject, rayHandler);
-//      if(entity != null) {
-//        engine.addEntity(entity);
-//      }
-//    }
-//    LOG.info("Added " + mapObjects.size() + " ashley entities.");
-//  }
-//
-//  @Override
-//  public void mapRemoved(TiledMap map, List<MapObject> mapObjects) {
-//    ImmutableArray<Entity> entitiesFor = engine.getEntitiesFor(Family.all(MapObjectComponent.class).get());
-//    ArrayList<Entity> entities = Lists.newArrayList(entitiesFor);
-//    destroy(entities);
-//  }
-
-  //-------------------- /Map Caching ------------------------------------------------------
 
   public void notifyCollisionStart(Entity entity, Entity mapObjectEntity) {
     for(CollisionListener collisionListener : collisionListeners) {

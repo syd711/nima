@@ -1,5 +1,6 @@
 package com.nima.render;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.ImageResolver;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * The TmxCacheMapLoader loads the tiles itself and
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  * and only if they are not already cached.
  */
 public class TmxCacheMapLoader extends TmxMapLoader {
-  private final static Logger LOG = Logger.getLogger(TmxCacheMapLoader.class.getName());
   private static ObjectMap<String, Texture> cachedTextures = new ObjectMap<>();
 
   private Array<FileHandle> textureFiles;
@@ -60,7 +59,7 @@ public class TmxCacheMapLoader extends TmxMapLoader {
    * textures for the given tmx map loader
    */
   protected void loadUncached() {
-    LOG.info("Loading uncached map " + getFilename());
+    Gdx.app.log(this.toString(),"Loading uncached map " + getFilename());
 
     TmxMapLoader.Parameters parameters = this.parameters;
 
@@ -68,7 +67,7 @@ public class TmxCacheMapLoader extends TmxMapLoader {
       //recheck if the file has not been loaded by GDL thread meanwhile
       String key = textureFile.path();
       if(!cachedTextures.containsKey(key)) {
-        LOG.info("Loading Texture file " + textureFile.file().getAbsolutePath());
+        Gdx.app.log(this.toString(),"Loading Texture file " + textureFile.file().getAbsolutePath());
         Texture texture = new Texture(textureFile, parameters.generateMipMaps);
         texture.setFilter(parameters.textureMinFilter, parameters.textureMagFilter);
         cachedTextures.put(textureFile.path(), texture);
