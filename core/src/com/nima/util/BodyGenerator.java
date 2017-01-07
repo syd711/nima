@@ -34,11 +34,6 @@ public class BodyGenerator {
 
   private static World world = Game.world;
 
-//    public static Body generateBody(Entity owner, Vector2 position, BitmapFont image, CharSequence msg, FileHandle handle, short filterCategory) {
-//        glyphLayout.setText(image, msg);
-//        return bodyHelper(owner, position, new Vector2(glyphLayout.width, glyphLayout.height), handle, filterCategory);
-//    }
-
   public static Body generateBody(Entity owner, Sprite image, FileHandle handle, short filterCategory) {
     return bodyHelper(owner, new Vector2(image.getX(), image.getY()), new Vector2(image.getWidth(), image.getHeight()), handle, filterCategory);
   }

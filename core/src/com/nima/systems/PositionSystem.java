@@ -43,9 +43,12 @@ public class PositionSystem extends AbstractIteratingSystem {
     }
     else if(entity instanceof Sprite) {
       SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
-      //TODO duplicate code
-      Vector2 position = bodyComponent.getWorldPosition();
-      positionComponent.setPosition(position);
+
+      // Position priority: Body => PositionComponent => Sprites  (highest to lowest)
+      positionComponent.x = bodyComponent.body.getPosition().x * PPM - spriteComponent.sprite.getWidth() / 2;
+      positionComponent.y = bodyComponent.body.getPosition().y * PPM - spriteComponent.sprite.getHeight() / 2;
+
+
       spriteComponent.sprite.setX(positionComponent.x);
       spriteComponent.sprite.setY(positionComponent.y);
     }
