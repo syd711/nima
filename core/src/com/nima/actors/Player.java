@@ -102,24 +102,17 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
       Vector2 from = Box2dUtil.toBox2Vector(positionComponent.getPosition());
       Vector2 to = Box2dUtil.toBox2Vector(worldCoordinates);
-      float radianAngle =  Box2dUtil.getBox2dAngle(from ,to);
-      System.out.println();
-      float angle = (float) Math.toDegrees(radianAngle);
+      float radianAngle = Box2dUtil.getBox2dAngle(from, to);
 
       Body bulletBody = bullet.bodyComponent.body;
       com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
       bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
 
-      float mXDir= -(float) Math.cos(angle*Math.PI/180);
-      float mYDir= -(float) Math.sin(angle*Math.PI/180);
+      float mXDir = -(float) Math.cos(radianAngle);
+      float mYDir = -(float) Math.sin(radianAngle);
 
-      float speedFactor = 15f;
-      Vector2 impulse = new Vector2(speedFactor*mXDir / Settings.PPM, speedFactor*mYDir / Settings.PPM);
-//      impulse.mul(2);
-
-//      float xImpulse = (float) -Math.toRadians(Math.toDegrees(angle)+90);
-//      Vector2 impulse = new Vector2(0.004f * (float) Math.sin(xImpulse),
-//          0.004f * (float) Math.cos(angle));
+      float speedFactor = 0.04f;
+      Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
       bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
       sprite.setRotation((float) Math.toDegrees(radianAngle));
 

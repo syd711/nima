@@ -3,6 +3,7 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
@@ -12,9 +13,7 @@ import com.nima.Game;
 import com.nima.actors.BodyEntity;
 import com.nima.actors.Spine;
 import com.nima.render.MapConstants;
-import com.nima.util.Box2dUtil;
-import com.nima.util.GraphicsUtil;
-import com.nima.util.Settings;
+import com.nima.util.*;
 
 /**
  * All component creations should be here.
@@ -40,9 +39,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(BodyEntity entity, Vector2 position, Sprite sprite) {
+  public static BodyComponent addBodyComponent(BodyEntity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = Box2dUtil.createSpriteBody(position, Game.world, sprite);
+    component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
+    component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
     entity.add(component);
     return component;
@@ -115,7 +115,7 @@ public class ComponentFactory {
 
   public static SpriteComponent addSpriteComponent(Entity entity, String resourceLocation) {
     SpriteComponent component = createComponent(SpriteComponent.class);
-    component.setTextures(new Texture(resourceLocation));
+    component.setTextures(new Texture(Resources.SPRITE_TEXTURES + resourceLocation + ".png"));
     entity.add(component);
     return component;
   }

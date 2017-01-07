@@ -16,7 +16,6 @@ public class GameContactListener implements ContactListener {
     Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-    System.out.println(userDataA + "/" + userDataB);
     EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);
   }
 

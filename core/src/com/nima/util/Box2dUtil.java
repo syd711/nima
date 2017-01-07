@@ -28,26 +28,6 @@ public class Box2dUtil {
     return new Vector2(vector.x*MPP, vector.y*MPP);
   }
 
-  public static Body createSpriteBody(Vector2 position, World world, Sprite sprite) {
-    BodyDef bdef = new BodyDef();
-    bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set((position.x+sprite.getWidth()/2) * MPP, (position.y+sprite.getHeight()/2) * MPP);
-    Body body = world.createBody(bdef);
-
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(sprite.getWidth()/2 * MPP, sprite.getHeight()/2 * MPP);
-
-    FixtureDef fdef = new FixtureDef();
-    fdef.isSensor = true;
-    fdef.density = 1;
-    fdef.restitution = 0.9f;
-    fdef.shape = shape;
-    body.createFixture(fdef);
-    shape.dispose();
-
-    return body;
-  }
-
   /**
    * Creates the Box2d body for the given spine
    */
