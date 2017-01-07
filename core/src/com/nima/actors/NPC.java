@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.RoutingComponent;
 import com.nima.components.ShootingComponent;
+import com.nima.data.RouteProfile;
 import com.nima.systems.states.AttackState;
 import com.nima.util.GraphicsUtil;
 
@@ -39,19 +40,15 @@ public class NPC extends Spine {
     this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
   }
 
-  public NPC(String path, String defaultAnimation, float jsonScaling, float x, float y) {
+  public NPC(RouteProfile route, String path, String defaultAnimation, float jsonScaling, float x, float y) {
     super(path, defaultAnimation, jsonScaling, x, y);
+    Vector2 target = route.coordinates.values().iterator().next();
 
-    Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
-    positionComponent.x = screenCenter.x + 360;
-    positionComponent.y = screenCenter.y + 60;
-
-    bodyComponent.body.setTransform(positionComponent.x * MPP, positionComponent.y * MPP, 0);
+    bodyComponent.body.setTransform(target.x * MPP, target.y * MPP, 0);
     bodyComponent.body.setLinearDamping(4f);
 
     speedComponent.setIncreaseBy(0.2f);
     speedComponent.setDecreaseBy(0.2f);
-
 
     add(new ShootingComponent());
     add(new RoutingComponent());
