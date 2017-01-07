@@ -10,10 +10,28 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.nima.Game;
 
+import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.*;
 import static com.nima.util.Settings.MPP;
 
 
 public class BodyGenerator {
+  private static final String TYPE_ATTRIBUTE = "type";
+  private static final String HEIGHT_ATTRIBUTE = "height";
+  private static final String WIDTH_ATTRIBUTE = "width";
+  private static final String X_ATTRIBUTE = "x";
+  private static final String Y_ATTRIBUTE = "y";
+  private static final String RADIUS_ATTRIBUTE = "radius";
+  private static final String SENSOR_ATTRIBUTE = "isSensor";
+  private static final String DENSITY_ATTRIBUTE = "density";
+  private static final String BIT_SHIFTS_ATTRIBUTE = "bitShifts";
+  private static final String FRICTION_ATTRIBUTE = "friction";
+  private static final String BULLET_ATTRIBUTE = "bullet";
+  private static final String FIXED_ROTATION_ATTRIBUTE = "fixedRotation";
+  private static final String GRAVITY_SCALE_ATTRIBUTE = "gravityScale";
+
+  private static final String BODY_DEF = "BodyDef";
+  private static final String FIXTURES = "Fixtures";
+
   private static World world = Game.world;
 
 //    public static Body generateBody(Entity owner, Vector2 position, BitmapFont image, CharSequence msg, FileHandle handle, short filterCategory) {
@@ -25,7 +43,7 @@ public class BodyGenerator {
     return bodyHelper(owner, new Vector2(image.getX(), image.getY()), new Vector2(image.getWidth(), image.getHeight()), handle, filterCategory);
   }
 
-  public static Body bodyHelper(Entity owner, Vector2 position, Vector2 dimensions, FileHandle handle, short filterCategory) {
+  private static Body bodyHelper(Entity owner, Vector2 position, Vector2 dimensions, FileHandle handle, short filterCategory) {
     Body body;
 
     String rawJson = handle.readString();
@@ -36,64 +54,65 @@ public class BodyGenerator {
 
     BodyDef bodyDef = new BodyDef();
 
-    String bodyType = root.get("BodyDef").getString("type");
-    if(bodyType.equalsIgnoreCase("DynamicBody"))
-      bodyDef.type = BodyDef.BodyType.DynamicBody;
-    else if(bodyType.equalsIgnoreCase("KinematicBody"))
-      bodyDef.type = BodyDef.BodyType.KinematicBody;
-    else if(bodyType.equalsIgnoreCase("StaticBody"))
-      bodyDef.type = BodyDef.BodyType.StaticBody;
-    else
+    String bodyType = root.get(BODY_DEF).getString(TYPE_ATTRIBUTE);
+    if(bodyType.equalsIgnoreCase(DynamicBody.toString())) {
+      bodyDef.type = DynamicBody;
+    }
+    else if(bodyType.equalsIgnoreCase(KinematicBody.toString())) {
+      bodyDef.type = KinematicBody;
+    }
+    else if(bodyType.equalsIgnoreCase(StaticBody.toString())) {
+      bodyDef.type = StaticBody;
+    }
+    else {
       Gdx.app.log("WARNING", "Entity Box2D body type undefined - " + filterCategory);
+    }
 
-    JsonValue jsonBody = root.get("BodyDef");
+    JsonValue jsonBody = root.get(BODY_DEF);
 
-    bodyDef.bullet = jsonBody.getBoolean("bullet");
-    bodyDef.fixedRotation = jsonBody.getBoolean("fixedRotation");
-    bodyDef.gravityScale = jsonBody.getFloat("gravityScale");
-
-    bodyDef.position.set((position.x + dimensions.x / 2) * MPP,
-        (position.y + dimensions.y / 2) * MPP);
+    bodyDef.bullet = jsonBody.getBoolean(BULLET_ATTRIBUTE);
+    bodyDef.fixedRotation = jsonBody.getBoolean(FIXED_ROTATION_ATTRIBUTE);
+    bodyDef.gravityScale = jsonBody.getFloat(GRAVITY_SCALE_ATTRIBUTE);
+    bodyDef.position.set((position.x + dimensions.x / 2) * MPP, (position.y + dimensions.y / 2) * MPP);
 
     body = world.createBody(bodyDef);
 
-    JsonValue fixtures = root.get("Fixtures");
+    JsonValue fixtures = root.get(FIXTURES);
     for(JsonValue fixture : fixtures) {
-
-      String fixtureType = fixture.getString("type");
+      String fixtureType = fixture.getString(TYPE_ATTRIBUTE);
       Shape shape;
 
-      if(fixtureType.equalsIgnoreCase("PolygonShape")) {
+      if(fixtureType.equalsIgnoreCase(PolygonShape.class.getSimpleName())) {
         shape = new PolygonShape();
-        ((PolygonShape) shape).setAsBox(fixture.getFloat("width") * MPP,
-            fixture.getFloat("height") * MPP,
-            new Vector2((body.getLocalCenter().x + fixture.getFloat("x")) * MPP,
-                (body.getLocalCenter().y + fixture.getFloat("y")) * MPP), 0f);
+        ((PolygonShape) shape).setAsBox(fixture.getFloat(WIDTH_ATTRIBUTE) * MPP,
+            fixture.getFloat(HEIGHT_ATTRIBUTE) * MPP,
+            new Vector2((body.getLocalCenter().x + fixture.getFloat(X_ATTRIBUTE)) * MPP,
+                (body.getLocalCenter().y + fixture.getFloat(Y_ATTRIBUTE)) * MPP), 0f);
 
       }
-      else if(fixtureType.equalsIgnoreCase("CircleShape")) {
+      else if(fixtureType.equalsIgnoreCase(CircleShape.class.getSimpleName())) {
         shape = new CircleShape();
-        shape.setRadius(fixture.getFloat("radius") * MPP);
-        ((CircleShape) shape).setPosition(new Vector2((body.getLocalCenter().x + fixture.getFloat("x")) * MPP,
-            (body.getLocalCenter().y + fixture.getFloat("y")) * MPP));
+        shape.setRadius(fixture.getFloat(RADIUS_ATTRIBUTE) * MPP);
+        ((CircleShape) shape).setPosition(new Vector2((body.getLocalCenter().x + fixture.getFloat(X_ATTRIBUTE)) * MPP,
+            (body.getLocalCenter().y + fixture.getFloat(Y_ATTRIBUTE)) * MPP));
       }
       else {
         Gdx.app.log("WARNING", "Generated body shape was invalid");
         continue;
       }
 
-      boolean isSensor = fixture.getBoolean("isSensor");
+      boolean isSensor = fixture.getBoolean(SENSOR_ATTRIBUTE);
 
       FixtureDef fixtureDef = new FixtureDef();
       fixtureDef.shape = shape;
       fixtureDef.isSensor = isSensor;
-      fixtureDef.density = fixture.getFloat("density");
+      fixtureDef.density = fixture.getFloat(DENSITY_ATTRIBUTE);
       if(isSensor) {
-        fixtureDef.filter.categoryBits = (short) (filterCategory << fixture.getShort("bitShifts"));
+        fixtureDef.filter.categoryBits = (short) (filterCategory << fixture.getShort(BIT_SHIFTS_ATTRIBUTE));
         fixtureDef.filter.maskBits = Settings.LEVEL_BITS;
       }
       else {
-        fixtureDef.friction = fixture.getFloat("friction");
+        fixtureDef.friction = fixture.getFloat(FRICTION_ATTRIBUTE);
         fixtureDef.filter.categoryBits = filterCategory;
         fixtureDef.filter.maskBits = maskingBits;
       }
