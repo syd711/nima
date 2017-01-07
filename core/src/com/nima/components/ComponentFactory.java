@@ -11,7 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
 import com.nima.actors.BodyEntity;
+import com.nima.actors.Route;
 import com.nima.actors.Spine;
+import com.nima.data.RouteProfiles;
 import com.nima.render.MapConstants;
 import com.nima.util.*;
 
@@ -129,6 +131,13 @@ public class ComponentFactory {
   public static ShootingComponent addShootableComponent(Entity entity) {
     ShootingComponent component = createComponent(ShootingComponent.class);
     entity.add(component);
+    return component;
+  }
+
+  public static RouteComponent addRouteComponent(Route route, String name) {
+    RouteComponent component = createComponent(RouteComponent.class);
+    component.route = RouteProfiles.getRoute(name);
+    route.add(component);
     return component;
   }
 }

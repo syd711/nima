@@ -7,7 +7,9 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.nima.util.Resources.ROUTE_PROFILES;
 
@@ -19,7 +21,7 @@ public class RouteProfiles {
   private static final String STATIONS = "stations";
   private static final String CIRCULATING = "circulating";
 
-  private static List<RouteProfile> routes = new ArrayList<>();
+  private static Map<String, RouteProfile> routes = new HashMap<>();
 
   public static void loadRoutes() {
     int index = 0;
@@ -28,7 +30,7 @@ public class RouteProfiles {
       String name = "route_" + index;
       RouteProfile profile = createProfile(name);
       if(profile != null) {
-        routes.add(profile);
+        routes.put(name, profile);
       }
       else {
         break;
@@ -48,23 +50,37 @@ public class RouteProfiles {
     JsonValue root = jsonReader.parse(rawJson);
     boolean circulating = root.getBoolean(CIRCULATING);
 
-    RouteProfile route = new RouteProfile(name);
-    route.circulating = circulating;
+    RouteProfile routeProfile = new RouteProfile(name);
+    routeProfile.circulating = circulating;
     JsonValue stations = root.get(STATIONS);
     for(JsonValue fixture : stations) {
-      route.stations.add(fixture.toString());
+      routeProfile.stations.add(fixture.toString());
     }
 
-    return route;
+    return routeProfile;
+  }
+
+  public static RouteProfile getRoute(String name) {
+    return routes.get(name);
   }
 
   public static void setCoordinates(String name, Vector2 centeredPosition) {
-    for(RouteProfile route : routes) {
-      if(route.stations.contains(name)) {
-        route.coordinates.put(name, centeredPosition);
+    for(RouteProfile routeProfile : routes.values()) {
+      if(routeProfile.stations.contains(name)) {
+        routeProfile.coordinates.put(name, centeredPosition);
         Gdx.app.log("Route Profiles", "Applied coordinates "
-            + centeredPosition + " for location '" + name + "' on route '" + route.name + "'");
+            + centeredPosition + " for location '" + name + "' on route '" + routeProfile.name + "'");
       }
     }
+  }
+
+  public static List<RouteProfile> getRoutesForLocation(String name) {
+    List<RouteProfile> result = new ArrayList<>();
+    for(RouteProfile routeProfile : routes.values()) {
+      if(routeProfile.coordinates.containsKey(name)) {
+        result.add(routeProfile);
+      }
+    }
+    return result;
   }
 }

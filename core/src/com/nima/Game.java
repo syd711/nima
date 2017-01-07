@@ -90,6 +90,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2ConeLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
+    tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter());
 
     //init player
     Player player = entityManager.getPlayer();

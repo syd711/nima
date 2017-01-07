@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
 import com.nima.actors.*;
 import com.nima.components.ComponentFactory;
+import com.nima.data.RouteProfile;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.Box2dUtil;
@@ -204,4 +205,16 @@ public class EntityManager {
     return Box2dUtil.getEntityAt(Game.world, clickPoint);
   }
 
+  public boolean isRouteActive(RouteProfile routeProfile) {
+    ImmutableArray<Entity> entities = engine.getEntities();
+    for(Entity entity : entities) {
+      if(entity instanceof Route) {
+        Route route = (Route) entity;
+        if(route.routeComponent.route.equals(routeProfile)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
