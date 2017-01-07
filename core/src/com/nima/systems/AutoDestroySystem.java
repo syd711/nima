@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.nima.actors.Bullet;
+import com.nima.actors.NPC;
+import com.nima.actors.Route;
 import com.nima.components.PositionComponent;
 import com.nima.components.SpriteComponent;
 import com.nima.managers.EntityManager;
@@ -26,6 +28,12 @@ public class AutoDestroySystem extends IteratingSystem {
       if(distance > BULLET_AUTO_DESTROY_DISTANCE) {
         EntityManager.getInstance().destroy(entity);
       }
+    }
+    else if(entity instanceof Route) {
+      //TODO
+    }
+    else if(entity instanceof NPC) {
+      //TODO
     }
   }
 }

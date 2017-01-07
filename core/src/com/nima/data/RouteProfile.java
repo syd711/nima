@@ -14,6 +14,7 @@ public class RouteProfile {
   public String name;
   public List<String> stations = new ArrayList<>();
   public boolean circulating = false;
+  public int shipCount;
 
   public Map<String,Vector2> coordinates = new HashMap<>();
 

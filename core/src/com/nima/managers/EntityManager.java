@@ -77,6 +77,9 @@ public class EntityManager {
     SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
     engine.addSystem(spriteRenderSystem);
 
+    RouteSystem routeSystem = new RouteSystem();
+    engine.addSystem(routeSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 

@@ -1,7 +1,9 @@
 {
   "circulating": true,
+  "shipCount": 1,
   "stations": [
     "ISS",
+    "Deep Space Nine",
     "Pandora"
   ]
 }

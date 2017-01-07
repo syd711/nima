@@ -20,6 +20,7 @@ public class RouteProfiles {
 
   private static final String STATIONS = "stations";
   private static final String CIRCULATING = "circulating";
+  public static final String SHIP_COUNT = "shipCount";
 
   private static Map<String, RouteProfile> routes = new HashMap<>();
 
@@ -36,7 +37,7 @@ public class RouteProfiles {
         break;
       }
     }
-    Gdx.app.log(RouteProfiles.class.toString(), "Loaded "  + routes.size() + " routes.");
+    Gdx.app.log(RouteProfiles.class.toString(), "Loaded " + routes.size() + " routes.");
   }
 
   public static RouteProfile createProfile(String name) {
@@ -49,9 +50,11 @@ public class RouteProfiles {
     JsonReader jsonReader = new JsonReader();
     JsonValue root = jsonReader.parse(rawJson);
     boolean circulating = root.getBoolean(CIRCULATING);
+    int shipCount = root.getInt(SHIP_COUNT);
 
     RouteProfile routeProfile = new RouteProfile(name);
     routeProfile.circulating = circulating;
+    routeProfile.shipCount = shipCount;
     JsonValue stations = root.get(STATIONS);
     for(JsonValue fixture : stations) {
       routeProfile.stations.add(fixture.toString());
