@@ -1,6 +1,8 @@
 {
   "circulating": true,
   "shipCount": 1,
+  "minSpawnDelay": 4000,
+  "spawnDelayOffset" : 3000,
   "stations": [
     "ISS",
     "Deep Space Nine",

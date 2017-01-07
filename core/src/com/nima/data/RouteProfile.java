@@ -15,6 +15,8 @@ public class RouteProfile {
   public List<String> stations = new ArrayList<>();
   public boolean circulating = false;
   public int shipCount;
+  public long minSpawnDelay;
+  public long spawnDelayOffset;
 
   public Map<String,Vector2> coordinates = new HashMap<>();
 

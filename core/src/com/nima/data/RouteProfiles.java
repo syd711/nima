@@ -21,6 +21,8 @@ public class RouteProfiles {
   private static final String STATIONS = "stations";
   private static final String CIRCULATING = "circulating";
   public static final String SHIP_COUNT = "shipCount";
+  public static final String SPAWN_DELAY_OFFSET = "spawnDelayOffset";
+  public static final String MIN_SPAWN_DELAY = "minSpawnDelay";
 
   private static Map<String, RouteProfile> routes = new HashMap<>();
 
@@ -49,12 +51,12 @@ public class RouteProfiles {
     String rawJson = file.readString();
     JsonReader jsonReader = new JsonReader();
     JsonValue root = jsonReader.parse(rawJson);
-    boolean circulating = root.getBoolean(CIRCULATING);
-    int shipCount = root.getInt(SHIP_COUNT);
 
     RouteProfile routeProfile = new RouteProfile(name);
-    routeProfile.circulating = circulating;
-    routeProfile.shipCount = shipCount;
+    routeProfile.circulating =  root.getBoolean(CIRCULATING);
+    routeProfile.shipCount = root.getInt(SHIP_COUNT);
+    routeProfile.spawnDelayOffset = root.getInt(SPAWN_DELAY_OFFSET);
+    routeProfile.minSpawnDelay= root.getInt(MIN_SPAWN_DELAY);
     JsonValue stations = root.get(STATIONS);
     for(JsonValue fixture : stations) {
       routeProfile.stations.add(fixture.toString());

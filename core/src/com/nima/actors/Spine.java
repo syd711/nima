@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.nima.components.*;
-import com.nima.managers.EntityManager;
 import com.nima.util.SpineUtil;
 
 /**
@@ -49,8 +48,8 @@ abstract public class Spine extends BodyEntity implements Updateable {
     spineComponent = ComponentFactory.addSpineComponent(this);
     speedComponent = ComponentFactory.addSpeedComponent(this);
     rotationComponent = ComponentFactory.addRotationComponent(this);
-    movementComponent = ComponentFactory.addMovementComponent(this);
     bodyComponent = ComponentFactory.addBodyComponent(this);
+    movementComponent = ComponentFactory.addMovementComponent(this);
 
     steerableComponent = new SteerableComponent(bodyComponent.body);
     add(steerableComponent);

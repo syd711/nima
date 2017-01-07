@@ -16,11 +16,13 @@ public class MovementComponent implements Component, Pool.Poolable {
   private RotationComponent rotation;
   private PositionComponent position;
   private SpeedComponent speed;
+  private BodyComponent bodyComponent;
 
   public void setSpine(Spine spine) {
     this.rotation = spine.getComponent(RotationComponent.class);
     this.position = spine.getComponent(PositionComponent.class);
     this.speed = spine.getComponent(SpeedComponent.class);
+    this.bodyComponent = spine.getComponent(BodyComponent.class);
   }
 
 
@@ -53,6 +55,8 @@ public class MovementComponent implements Component, Pool.Poolable {
       position.x = position.x - x;
       position.y = position.y - y;
     }
+
+//    bodyComponent.setWorldPosition(position.getPosition());
   }
 
   public void stop() {
