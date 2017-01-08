@@ -19,7 +19,10 @@ public class RouteSystem extends AbstractIteratingSystem {
     Route route = (Route) entity;
     RouteComponent routeComponent = route.getComponent(RouteComponent.class);
     if(route.getShips().size() < routeComponent.route.shipCount) {
-      route.spawnShip();
+      if(routeComponent.isValidSpawnInterval()) {
+        route.spawnShip();
+        routeComponent.refreshSpawnOffset();
+      }
     }
   }
 }

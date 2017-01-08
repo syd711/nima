@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 /**
  * Common math function to be used.
  */
@@ -11,6 +13,11 @@ public class GraphicsUtil {
 
   public static float getAngle(float sourceX, float sourceY, float targetX, float targetY) {
     return (float) Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
+  }
+
+  public static float random(float start, float end) {
+    Random r = new Random();
+    return r.nextInt((int) (end-start)) + start;
   }
 
   public static float vectorToAngle(Vector2 vector2) {

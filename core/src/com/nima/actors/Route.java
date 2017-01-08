@@ -1,7 +1,7 @@
 package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
-import com.nima.Game;
+import com.badlogic.gdx.Gdx;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RouteComponent;
 import com.nima.managers.EntityManager;
@@ -20,6 +20,7 @@ public class Route extends Entity {
 
   public Route(String name) {
     routeComponent = ComponentFactory.addRouteComponent(this, name);
+    routeComponent.refreshSpawnOffset();
   }
 
   public List<NPC> getShips() {
@@ -28,11 +29,11 @@ public class Route extends Entity {
 
   public void spawnShip() {
     NPC m = new NPC(routeComponent.route, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.2f, 300, 300);
+    m.scalingComponent.setCurrentValue(0.2f);
+    m.scalingComponent.setTargetValue(1f);
     ships.add(m);
     EntityManager.getInstance().add(m);
-    routeComponent.lastSpawnTime = Game.currentTimeMillis;
-    //TODO
-    //routeComponent.spawnOffset = Math.routeComponent.route.spawnDelayOffset;
+    Gdx.app.log(getClass().getName(), "Route '" + routeComponent.route.name + "': spawned ship " + ships.size());
   }
 
 }

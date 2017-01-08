@@ -56,7 +56,7 @@ public class EntityManager {
     RotationSystem rotationSystem = new RotationSystem();
     engine.addSystem(rotationSystem);
 
-    SpineMovementSystem movementSystem = new SpineMovementSystem();
+    PlayerMovementSystem movementSystem = new PlayerMovementSystem();
     engine.addSystem(movementSystem);
 
     ScalingSystem scalingSystem = new ScalingSystem();
@@ -79,6 +79,9 @@ public class EntityManager {
 
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
+
+    RoutingSystem routingSystem = new RoutingSystem();
+    engine.addSystem(routingSystem);
 
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);

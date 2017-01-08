@@ -40,8 +40,10 @@ public class NPC extends Spine {
     this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
   }
 
+  //routing npc
   public NPC(RouteProfile route, String path, String defaultAnimation, float jsonScaling, float x, float y) {
     super(path, defaultAnimation, jsonScaling, x, y);
+    //TODO ranomize route
     Vector2 target = route.coordinates.values().iterator().next();
 
     bodyComponent.body.setTransform(target.x * MPP, target.y * MPP, 0);
@@ -51,7 +53,10 @@ public class NPC extends Spine {
     speedComponent.setDecreaseBy(0.2f);
 
     add(new ShootingComponent());
-    add(new RoutingComponent());
+
+    routingComponent = new RoutingComponent();
+    routingComponent.applyRoute(route);
+    add(routingComponent);
   }
 
   @Override

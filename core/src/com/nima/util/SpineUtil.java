@@ -1,21 +1,16 @@
 package com.nima.util;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.attachments.Attachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.nima.actors.Spine;
 
-import static com.nima.util.Settings.MPP;
-
 /**
  * Utilities for handling spines.
  */
 public class SpineUtil {
-
-
 
   /**
    * Returns the center of the spine by search for

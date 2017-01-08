@@ -13,7 +13,7 @@ import com.nima.util.SpineUtil;
 abstract public class Spine extends BodyEntity implements Updateable {
   protected SteerableComponent steerableComponent;
   protected SpineComponent spineComponent;
-  protected MovementComponent movementComponent;
+
   protected SpeedComponent speedComponent;
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
@@ -49,7 +49,6 @@ abstract public class Spine extends BodyEntity implements Updateable {
     speedComponent = ComponentFactory.addSpeedComponent(this);
     rotationComponent = ComponentFactory.addRotationComponent(this);
     bodyComponent = ComponentFactory.addBodyComponent(this);
-    movementComponent = ComponentFactory.addMovementComponent(this);
 
     steerableComponent = new SteerableComponent(bodyComponent.body);
     add(steerableComponent);

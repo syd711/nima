@@ -26,6 +26,10 @@ abstract public class LimitingComponent implements Component, Poolable {
     this.increaseBy = increaseBy;
   }
 
+  public void setCurrentValue(float currentValue) {
+    this.currentValue = currentValue;
+  }
+
   public void updateValue() {
     if(currentValue != targetValue) {
       if(currentValue < targetValue) {

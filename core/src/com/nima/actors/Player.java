@@ -2,10 +2,7 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.nima.components.ComponentFactory;
-import com.nima.components.MapObjectComponent;
-import com.nima.components.ScreenPositionComponent;
-import com.nima.components.ShootingComponent;
+import com.nima.components.*;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
@@ -24,7 +21,9 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
   private Entity targetEntity;
   private boolean dockingProcedure = false;
+
   private ShootingComponent shootingComponent;
+  protected MovementComponent movementComponent;
 
   private static Player instance = null;
 
@@ -43,6 +42,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
     shootingComponent = ComponentFactory.addShootableComponent(this);
     shootingComponent.weaponProfile = WeapenProfileFactory.createProfile("laser");
+    movementComponent = ComponentFactory.addMovementComponent(this);
 
     instance = this;
   }
@@ -84,8 +84,9 @@ public class Player extends Spine implements Updateable, CollisionListener {
     moveTo(targetX, targetY);
   }
 
-  private void moveTo(float x, float y) {
+  public void moveTo(float x, float y) {
     movementComponent.moveTo(x, y);
+
     //...then the speed to travel with
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
     Vector2 point2 = new Vector2(x, y);
