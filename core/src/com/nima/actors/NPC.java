@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.components.RoutingComponent;
 import com.nima.components.ShootingComponent;
 import com.nima.data.RouteProfile;
+import com.nima.managers.EntityManager;
 import com.nima.systems.states.AttackState;
 import com.nima.util.GraphicsUtil;
 
@@ -57,6 +58,8 @@ public class NPC extends Spine {
     routingComponent = new RoutingComponent();
     routingComponent.applyRoute(route);
     add(routingComponent);
+
+    EntityManager.getInstance().addUpdateable(this);
   }
 
   @Override
@@ -64,6 +67,14 @@ public class NPC extends Spine {
     super.update();
     if(this.attackStateMachine != null) {
       this.attackStateMachine.update();
+    }
+
+    if(routingComponent != null) {
+      float angle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
+      rotationComponent.setRotationTarget(angle);
+//      Vector2 updatedCoordinates = GraphicsUtil.getUpdatedCoordinates(angle, 4f);
+//      float box2dAngle = Box2dUtil.getBox2dAngle(positionComponent.getPosition(), routingComponent.target);
+//      bodyComponent.body.setTransform(updatedCoordinates.x, updatedCoordinates.y, box2dAngle);
     }
   }
 }

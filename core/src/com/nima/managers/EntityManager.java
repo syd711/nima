@@ -154,6 +154,10 @@ public class EntityManager {
     }
   }
 
+  public void addUpdateable(Updateable entity) {
+    this.updateables.add(entity);
+  }
+
   /**
    * Uses the Ashley engine to update
    * all classes implementing the Updateable interface.

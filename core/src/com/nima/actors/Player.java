@@ -85,7 +85,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
   }
 
   public void moveTo(float x, float y) {
-    movementComponent.moveTo(x, y);
+    rotationComponent.setRotationTarget(x, y);
 
     //...then the speed to travel with
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);

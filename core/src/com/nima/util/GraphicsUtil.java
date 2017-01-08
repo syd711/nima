@@ -15,9 +15,13 @@ public class GraphicsUtil {
     return (float) Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
   }
 
+  public static float getAngle(Vector2 source, Vector2 target) {
+    return getAngle(source.x, source.y, target.x, target.y);
+  }
+
   public static float random(float start, float end) {
     Random r = new Random();
-    return r.nextInt((int) (end-start)) + start;
+    return r.nextInt((int) (end - start)) + start;
   }
 
   public static float vectorToAngle(Vector2 vector2) {

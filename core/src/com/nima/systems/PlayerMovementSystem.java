@@ -11,6 +11,7 @@ public class PlayerMovementSystem extends AbstractIteratingSystem {
     super(Family.all(SpineComponent.class).get());
   }
 
+  //TODO system required?
   public void process(Entity entity, float deltaTime) {
     if(entity instanceof Player) {
       MovementComponent movementComponent = entity.getComponent(MovementComponent.class);
