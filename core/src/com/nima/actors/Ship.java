@@ -1,5 +1,6 @@
 package com.nima.actors;
 
+import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
 import com.nima.data.ShipProfile;
 import com.nima.util.Resources;
@@ -10,10 +11,10 @@ import com.nima.util.Resources;
 public class Ship extends Spine {
   protected SteerableComponent steerableComponent;
   protected SpineComponent spineComponent;
-
   protected SpeedComponent speedComponent;
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
+  protected ShootingComponent shootingComponent;
 
   public Ship(ShipProfile profile) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
@@ -28,5 +29,16 @@ public class Ship extends Spine {
     rotationComponent = ComponentFactory.addRotationComponent(this);
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);
+    shootingComponent = ComponentFactory.addShootableComponent(this);
+  }
+
+  /**
+   * Fires a bullet using the active weapon profile
+   * @param worldCoordinates the target to shoot to
+   */
+  public void fireAt(Vector2 worldCoordinates) {
+    if(shootingComponent.isCharged()) {
+      Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);
+    }
   }
 }

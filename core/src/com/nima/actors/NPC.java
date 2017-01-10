@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.RoutingComponent;
-import com.nima.components.ShootingComponent;
 import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
@@ -33,8 +32,6 @@ public class NPC extends Ship implements Updateable {
 
     bodyComponent.body.setTransform(positionComponent.x * MPP, positionComponent.y * MPP, 0);
     bodyComponent.body.setLinearDamping(4f);
-
-    add(new ShootingComponent());
 
     this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
   }

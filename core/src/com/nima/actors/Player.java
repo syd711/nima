@@ -2,7 +2,10 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.nima.components.*;
+import com.nima.components.ComponentFactory;
+import com.nima.components.MapObjectComponent;
+import com.nima.components.MovementComponent;
+import com.nima.components.ScreenPositionComponent;
 import com.nima.data.DataEntities;
 import com.nima.data.ShipProfile;
 import com.nima.managers.CollisionListener;
@@ -18,8 +21,6 @@ import com.nima.util.Settings;
 public class Player extends Ship implements Updateable, CollisionListener {
   private Entity targetEntity;
   private boolean dockingProcedure = false;
-
-  private ShootingComponent shootingComponent;
   protected MovementComponent movementComponent;
 
   private static Player instance = null;
@@ -41,7 +42,7 @@ public class Player extends Ship implements Updateable, CollisionListener {
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
     positionComponent.setPosition(screenCenter);
 
-    shootingComponent = ComponentFactory.addShootableComponent(this);
+
     shootingComponent.weaponProfile = DataEntities.getWeapon(DataEntities.WEAPON_LASER);
     movementComponent = ComponentFactory.addMovementComponent(this);
   }
@@ -67,37 +68,23 @@ public class Player extends Ship implements Updateable, CollisionListener {
     }
 
     //first update the target to move to...
-    float targetX = worldCoordinates.x;
-    float targetY = worldCoordinates.y;
+    float x = worldCoordinates.x;
+    float y = worldCoordinates.y;
 
     targetEntity = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(targetEntity != null) {
       MapObjectComponent mapObjectComponent = targetEntity.getComponent(MapObjectComponent.class);
       Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
-      targetX = centeredPosition.x;
-      targetY = centeredPosition.y;
+      x = centeredPosition.x;
+      y = centeredPosition.y;
     }
 
-    moveTo(targetX, targetY);
-  }
-
-  public void moveTo(float x, float y) {
     rotationComponent.setRotationTarget(x, y);
 
     //...then the speed to travel with
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
     Vector2 point2 = new Vector2(x, y);
     speedComponent.applyTargetSpeed(point1, point2);
-  }
-
-  /**
-   * Fires a bullet using the active weapon profile
-   * @param worldCoordinates the target to shoot to
-   */
-  public void fireAt(Vector2 worldCoordinates) {
-    if(shootingComponent.isCharged()) {
-      Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);
-    }
   }
 
   //------------------ Collision Listener --------------------------------
