@@ -11,13 +11,11 @@ public class Camera implements Updateable {
 
   private float worldWidth;
   private float worldHeight;
-  private Player player;
   private PositionComponent positionComponent;
   private ScreenPositionComponent screenPositionComponent;
 
   public Camera(OrthographicCamera camera, Player player) {
     this.camera = camera;
-    this.player = player;
 
     this.screenPositionComponent = player.getComponent(ScreenPositionComponent.class);
     this.positionComponent = player.getComponent(PositionComponent.class);
