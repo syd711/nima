@@ -1,0 +1,13 @@
+{
+  "spine" : "",
+  "scale" : 0,
+  "maxSpeed" : 0,
+  "rotationSpeed" : 0,
+  "increaseSpeed" : 0,
+  "decreaseSpeed" : 0,
+  "boundingRadius" : 0,
+  "maxLinearSpeed" : 0,
+  "maxLinearAcceleration" : 0,
+  "maxAngularSpeed" : 0,
+  "maxAngularAcceleration" : 0
+}

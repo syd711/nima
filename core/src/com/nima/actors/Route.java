@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RouteComponent;
+import com.nima.data.RouteProfile;
 import com.nima.managers.EntityManager;
 import com.nima.util.Resources;
 
@@ -18,8 +19,8 @@ public class Route extends Entity {
   public RouteComponent routeComponent;
   private List<NPC> ships = new ArrayList<>();
 
-  public Route(String name) {
-    routeComponent = ComponentFactory.addRouteComponent(this, name);
+  public Route(RouteProfile routeProfile) {
+    routeComponent = ComponentFactory.addRouteComponent(this, routeProfile);
     routeComponent.refreshSpawnOffset();
   }
 

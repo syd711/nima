@@ -2,7 +2,6 @@ package com.nima.data;
 
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,15 +11,22 @@ import java.util.Map;
  */
 public class RouteProfile {
   public String name;
-  public List<String> stations = new ArrayList<>();
-  public boolean circulating = false;
+  public List<String> stations;
+  public boolean circulating;
   public int shipCount;
   public long minSpawnDelay;
   public long spawnDelayOffset;
 
-  public Map<String,Vector2> coordinates = new HashMap<>();
+  public Map<String,Vector2> coordinates;
 
   public RouteProfile(String name) {
     this.name = name;
+  }
+
+  public void setCoordinates(String name, Vector2 centeredPosition) {
+    if(coordinates == null) {
+      coordinates = new HashMap<>();
+    }
+    coordinates.put(name, centeredPosition);
   }
 }

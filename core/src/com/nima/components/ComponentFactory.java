@@ -13,7 +13,7 @@ import com.nima.Game;
 import com.nima.actors.BodyEntity;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
-import com.nima.data.RouteProfiles;
+import com.nima.data.RouteProfile;
 import com.nima.render.MapConstants;
 import com.nima.util.*;
 
@@ -134,9 +134,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static RouteComponent addRouteComponent(Route route, String name) {
+  public static RouteComponent addRouteComponent(Route route, RouteProfile routeProfile) {
     RouteComponent component = createComponent(RouteComponent.class);
-    component.route = RouteProfiles.getRoute(name);
+    component.route = routeProfile;
     route.add(component);
     return component;
   }

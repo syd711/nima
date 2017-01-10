@@ -3,10 +3,10 @@ package com.nima.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
+import com.nima.data.DataEntities;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
-import com.nima.data.WeapenProfileFactory;
 import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
@@ -41,7 +41,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
 
     shootingComponent = ComponentFactory.addShootableComponent(this);
-    shootingComponent.weaponProfile = WeapenProfileFactory.createProfile("laser");
+    shootingComponent.weaponProfile = DataEntities.getWeapon(DataEntities.WEAPON_LASER);
     movementComponent = ComponentFactory.addMovementComponent(this);
 
     instance = this;

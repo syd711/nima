@@ -15,7 +15,6 @@ import com.nima.components.PositionComponent;
 import com.nima.hud.Hud;
 import com.nima.managers.EntityManager;
 import com.nima.managers.InputManager;
-import com.nima.data.RouteProfiles;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.render.converters.*;
 import com.nima.util.Resources;
@@ -68,9 +67,6 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
     //Ashley Entity Engine
     entityManager = EntityManager.create(tiledMapRenderer, camera, rayHandler);
-
-    //load routes to initalize them with coordinates
-    RouteProfiles.loadRoutes();
 
     //Initializing the game by a full map scan
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
