@@ -9,7 +9,6 @@ import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
 import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
-import com.nima.util.Resources;
 import com.nima.util.Settings;
 
 /**

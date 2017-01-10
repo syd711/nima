@@ -6,9 +6,9 @@
   "rotationSpeed" : 0,
   "increaseSpeed" : 0,
   "decreaseSpeed" : 0,
-  "boundingRadius" : 0,
-  "maxLinearSpeed" : 0,
-  "maxLinearAcceleration" : 0,
-  "maxAngularSpeed" : 0,
-  "maxAngularAcceleration" : 0
+  "boundingRadius" : 200,
+  "maxLinearSpeed" : 500,
+  "maxLinearAcceleration" : 500,
+  "maxAngularSpeed" : 3000,
+  "maxAngularAcceleration" : 300
 }

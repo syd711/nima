@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.nima.data.ShipProfile;
 import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;
 
@@ -27,14 +28,14 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
 
   private Body body;
 
-  public SteerableComponent(Body body) {
+  public SteerableComponent(Body body, ShipProfile profile) {
     this.body = body;
-    this.boundingRadius = 200;
+    this.boundingRadius = profile.boundingRadius;
 
-    this.maxLinearSpeed = 500;
-    this.maxLinearAcceleration = 500;
-    this.maxAngularSpeed = 3000;
-    this.maxAngularAcceleration = 300;
+    this.maxLinearSpeed = profile.maxLinearSpeed;
+    this.maxLinearAcceleration = profile.maxLinearAcceleration;
+    this.maxAngularSpeed = profile.maxAngularSpeed;
+    this.maxAngularAcceleration = profile.maxAngularAcceleration;
     this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());

@@ -55,7 +55,7 @@ abstract public class Spine extends BodyEntity implements Updateable {
     rotationComponent = ComponentFactory.addRotationComponent(this);
     bodyComponent = ComponentFactory.addBodyComponent(this);
 
-    steerableComponent = new SteerableComponent(bodyComponent.body);
+    steerableComponent = new SteerableComponent(bodyComponent.body, shipProfile);
     add(steerableComponent);
   }
 
