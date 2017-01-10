@@ -66,9 +66,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpeedComponent addSpeedComponent(Spine spine) {
+  public static SpeedComponent addSpeedComponent(Spine spine, ShipProfile profile) {
     SpeedComponent component = createComponent(SpeedComponent.class);
-    component.init(Settings.MAX_ACTOR_SPEED);
+    component.init(0, 0, profile.maxSpeed, profile.increaseSpeed, profile.decreaseSpeed);
     spine.add(component);
     return component;
   }

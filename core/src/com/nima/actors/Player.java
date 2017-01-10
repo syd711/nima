@@ -36,8 +36,6 @@ public class Player extends Ship implements Updateable, CollisionListener {
   @Override
   protected void createComponents(ShipProfile profile) {
     super.createComponents(profile);
-    speedComponent.setIncreaseBy(profile.increaseSpeed);
-    speedComponent.setDecreaseBy(profile.decreaseSpeed);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));

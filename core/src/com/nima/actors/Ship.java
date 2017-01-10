@@ -24,7 +24,7 @@ public class Ship extends Spine {
     scalingComponent = ComponentFactory.addScalingComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    speedComponent = ComponentFactory.addSpeedComponent(this);
+    speedComponent = ComponentFactory.addSpeedComponent(this, profile);
     rotationComponent = ComponentFactory.addRotationComponent(this);
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);

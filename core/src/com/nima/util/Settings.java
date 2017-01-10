@@ -6,7 +6,6 @@ package com.nima.util;
 public class Settings {
 
   public static final boolean DEBUG = true;
-  public static final float MAX_ACTOR_SPEED = 3f;
   public static final float ACTOR_ROTATION_SPEED = 2;
   public static final float DOCKING_TARGET_SCALE = 0.4f;
 
