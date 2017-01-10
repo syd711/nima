@@ -85,9 +85,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static RotationComponent addRotationComponent(Spine spine) {
+  public static RotationComponent addRotationComponent(Spine spine, ShipProfile profile) {
     RotationComponent component = createComponent(RotationComponent.class);
     component.spine = spine;
+    component.rotationSpeed = profile.rotationSpeed;
     spine.add(component);
     return component;
   }

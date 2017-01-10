@@ -3,7 +3,7 @@
   "defaultAnimation" : null,
   "scale" : 0.3,
   "maxSpeed" : 3,
-  "rotationSpeed" : 0,
+  "rotationSpeed" : 2,
   "increaseSpeed" : 0.03,
   "decreaseSpeed" : 0.03,
   "boundingRadius" : 200,

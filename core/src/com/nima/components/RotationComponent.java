@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
 import com.nima.actors.Spine;
 import com.nima.util.GraphicsUtil;
-import com.nima.util.Settings;
 
 /**
  * Component for rotation
@@ -12,10 +11,11 @@ import com.nima.util.Settings;
 public class RotationComponent implements Component, Pool.Poolable {
   private float targetAngle = 0;
   private boolean rotateLeft = false;
-  public Spine spine;
-
   private float mapTargetX = -1f;
   private float mapTargetY = -1f;
+
+  public Spine spine;
+  public float rotationSpeed = -1f;
 
   @Override
   public void reset() {
@@ -23,6 +23,7 @@ public class RotationComponent implements Component, Pool.Poolable {
     this.targetAngle = 0;
     this.mapTargetX = -1f;
     this.mapTargetY = -1f;
+    this.rotationSpeed = -1f;
   }
 
   public void rotate(float angle, boolean rotateLeft) {
@@ -82,7 +83,7 @@ public class RotationComponent implements Component, Pool.Poolable {
 
     if(isRotating()) {
       if(rotateLeft) {
-        float newAngle = currentAngle - Settings.ACTOR_ROTATION_SPEED;
+        float newAngle = currentAngle - rotationSpeed;
         if(newAngle < -180) {
           newAngle = 180 - (newAngle % 180);
         }
@@ -90,7 +91,7 @@ public class RotationComponent implements Component, Pool.Poolable {
 
       }
       else {
-        float newAngle = currentAngle + Settings.ACTOR_ROTATION_SPEED;
+        float newAngle = currentAngle + rotationSpeed;
         if(newAngle > 180) {
           newAngle = -180 + (newAngle % 180);
         }
@@ -114,13 +115,12 @@ public class RotationComponent implements Component, Pool.Poolable {
     float x = spine.getCenter().x;
     float y = spine.getCenter().y;
     float angle = GraphicsUtil.getAngle(x, y, mapTargetX, mapTargetY) * -1;
-    float modulo = Math.round(angle * -1) % Settings.ACTOR_ROTATION_SPEED;
+    float modulo = Math.round(angle * -1) % rotationSpeed;
     float targetAngle = (float) Math.round((angle - modulo) * -1);
     //avoid spinning
     if(targetAngle == -180) {
       targetAngle = -178;
     }
-//    System.out.println("Target Angle: " + targetAngle);
     return targetAngle;
   }
 }

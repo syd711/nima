@@ -3,7 +3,7 @@
   "defaultAnimation" : "walk",
   "scale" : 0.2,
   "maxSpeed" : 2,
-  "rotationSpeed" : 0,
+  "rotationSpeed" : 2,
   "increaseSpeed" : 0.2,
   "decreaseSpeed" : 0.2,
   "boundingRadius" : 200,
