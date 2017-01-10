@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Pool;
 import com.nima.data.ShipProfile;
 import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;
@@ -14,7 +15,7 @@ import com.nima.util.GraphicsUtil;
 /**
  * AI steerable implementation for box2d bodies.
  */
-public class SteerableComponent implements Component, Steerable<Vector2> {
+public class SteerableComponent implements Component, Steerable<Vector2>, Pool.Poolable {
   private boolean tagged;
   private float boundingRadius;
   private float maxLinearSpeed;
@@ -28,7 +29,7 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
 
   private Body body;
 
-  public SteerableComponent(Body body, ShipProfile profile) {
+  public void init(Body body, ShipProfile profile) {
     this.body = body;
     this.boundingRadius = profile.boundingRadius;
 
@@ -40,6 +41,21 @@ public class SteerableComponent implements Component, Steerable<Vector2> {
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
+
+  @Override
+  public void reset() {
+    this.body = null;
+    this.boundingRadius = -1;
+
+    this.maxLinearSpeed = -1;
+    this.maxLinearAcceleration = -1;
+    this.maxAngularSpeed = -1;
+    this.maxAngularAcceleration = -1;
+    this.tagged = false;
+
+    this.steeringOutput = new SteeringAcceleration<>(new Vector2());
+  }
+
 
   public void update(float delta) {
     if(behavior != null) {

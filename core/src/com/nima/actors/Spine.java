@@ -4,54 +4,30 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
-import com.nima.components.*;
-import com.nima.data.ShipProfile;
-import com.nima.util.Resources;
+import com.nima.data.DataEntities;
 import com.nima.util.SpineUtil;
 
 /**
  * Superclass for spine entities
  */
-abstract public class Spine extends BodyEntity implements Updateable {
-  protected SteerableComponent steerableComponent;
-  protected SpineComponent spineComponent;
-
-  protected SpeedComponent speedComponent;
-  protected ScalingComponent scalingComponent;
-  protected RotationComponent rotationComponent;
+abstract public class Spine extends BodyEntity {
 
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
   public Skeleton skeleton;
   public float jsonScaling;
 
-  public Spine(ShipProfile shipProfile) {
-    this(shipProfile, -1f, -1f);
-  }
-
-  public Spine(ShipProfile shipProfile, float x, float y) {
-    createSpine(shipProfile);
-
-    scalingComponent = ComponentFactory.addScalingComponent(this);
-    positionComponent = ComponentFactory.addPositionComponent(this, x == -1 || y == -1, getHeight());
-    spineComponent = ComponentFactory.addSpineComponent(this);
-    speedComponent = ComponentFactory.addSpeedComponent(this);
-    rotationComponent = ComponentFactory.addRotationComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this);
-
-    steerableComponent = new SteerableComponent(bodyComponent.body, shipProfile);
-    add(steerableComponent);
+  public Spine(String path, String defaultAnimation, float scaling) {
+    createSpine(path, defaultAnimation, scaling);
   }
 
   /**
    * The plain spine creation
-   * @param shipProfile the spine file information
    */
-  private void createSpine(ShipProfile shipProfile) {
-    this.jsonScaling = shipProfile.scale;
+  private void createSpine(String path, String defaultAnimation, float scaling) {
+    this.jsonScaling = scaling;
     this.skeletonRenderer = new SkeletonRenderer();
 
-    String path = Resources.SPINES + shipProfile.spine + "/" + shipProfile.spine;
     TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
     // This loads skeleton JSON data, which is stateless.
     SkeletonJson json = new SkeletonJson(atlas);
@@ -62,20 +38,16 @@ abstract public class Spine extends BodyEntity implements Updateable {
 
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
-    if(shipProfile.defaultAnimation != null) {
-      state.setAnimation(0, shipProfile.defaultAnimation, true);
+    if(defaultAnimation != null) {
+      state.setAnimation(0, defaultAnimation, true);
     }
   }
 
-  @Override
-  public void update() {
-  }
-
   protected float getHeight() {
-    return skeleton.getData().getHeight() * scalingComponent.getCurrentValue();
+    return skeleton.getData().getHeight() * jsonScaling;
   }
 
   public Vector2 getCenter() {
-    return SpineUtil.getSpineCenter(this, "torso");
+    return SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME);
   }
 }

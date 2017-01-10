@@ -15,7 +15,7 @@ import com.nima.util.Settings;
 /**
  * The player with all ashley components.
  */
-public class Player extends Spine implements Updateable, CollisionListener {
+public class Player extends Ship implements Updateable, CollisionListener {
   private Entity targetEntity;
   private boolean dockingProcedure = false;
 
@@ -30,24 +30,26 @@ public class Player extends Spine implements Updateable, CollisionListener {
 
   public Player(ShipProfile profile) {
     super(profile);
+    instance = this;
+  }
 
+  @Override
+  protected void createComponents(ShipProfile profile) {
+    super.createComponents(profile);
     speedComponent.setIncreaseBy(profile.increaseSpeed);
     speedComponent.setDecreaseBy(profile.decreaseSpeed);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
+    positionComponent.setPosition(screenCenter);
 
     shootingComponent = ComponentFactory.addShootableComponent(this);
     shootingComponent.weaponProfile = DataEntities.getWeapon(DataEntities.WEAPON_LASER);
     movementComponent = ComponentFactory.addMovementComponent(this);
-
-    instance = this;
   }
 
   @Override
   public void update() {
-    super.update();
-
     if(dockingProcedure) {
       LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
       if(lightSystem.isOutFaded()) {

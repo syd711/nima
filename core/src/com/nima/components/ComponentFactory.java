@@ -14,6 +14,7 @@ import com.nima.actors.BodyEntity;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
 import com.nima.data.RouteProfile;
+import com.nima.data.ShipProfile;
 import com.nima.render.MapConstants;
 import com.nima.util.*;
 
@@ -138,6 +139,13 @@ public class ComponentFactory {
     RouteComponent component = createComponent(RouteComponent.class);
     component.route = routeProfile;
     route.add(component);
+    return component;
+  }
+
+  public static SteerableComponent addSteerableComponent(Entity entity, Body body, ShipProfile profile) {
+    SteerableComponent component = createComponent(SteerableComponent.class);
+    component.init(body, profile);
+    entity.add(component);
     return component;
   }
 }

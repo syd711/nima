@@ -18,14 +18,14 @@ import static com.nima.util.Settings.MPP;
  * Common superclass for all NPC.
  * We assume that they are instances of Spine.
  */
-public class NPC extends Spine {
+public class NPC extends Ship implements Updateable {
 
   public StateMachine<NPC, AttackState> attackStateMachine;
 
   public RoutingComponent routingComponent;
 
-  public NPC(ShipProfile shipProfile, float x, float y) {
-    super(shipProfile, x, y);
+  public NPC(ShipProfile shipProfile) {
+    super(shipProfile);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     positionComponent.x = screenCenter.x + 360;
@@ -45,7 +45,7 @@ public class NPC extends Spine {
 
   //routing npc
   public NPC(RouteProfile route, ShipProfile shipProfile, float x, float y) {
-    super(shipProfile, x, y);
+    super(shipProfile);
 
     routingComponent = new RoutingComponent();
     Vector2 startPoint = routingComponent.applyRoute(route);
@@ -65,7 +65,6 @@ public class NPC extends Spine {
 
   @Override
   public void update() {
-    super.update();
     if(this.attackStateMachine != null) {
       this.attackStateMachine.update();
     }

@@ -90,7 +90,7 @@ public class EntityManager {
     updateables.add(player);
 
     //TODO
-    NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_MERCHANT), 300, 300);
+    NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_MERCHANT));
     engine.addEntity(m);
     updateables.add(m);
   }

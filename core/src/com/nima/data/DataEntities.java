@@ -8,11 +8,14 @@ import java.util.*;
  * Access all data models stored in json format.
  */
 public class DataEntities {
-  public static String WEAPON_LASER = "laser";
+  /******** Entity Constants *******************************************/
+  public static final String SPINE_CENTER_SLOT_NAME = "torso";
+  public static final String WEAPON_LASER = "laser";
 
-  public static String SHIP_PLAYER = "player";
-  public static String SHIP_MERCHANT = "merchant";
+  public static final String SHIP_PLAYER = "player";
+  public static final String SHIP_MERCHANT = "merchant";
 
+  /******** Entity Map *************************************************/
   private static Map<String, RouteProfile> routes = new HashMap<>();
   private static Map<String, ShipProfile> ships = new HashMap<>();
   private static Map<String, WeaponProfile> weapons = new HashMap<>();
