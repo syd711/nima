@@ -34,10 +34,6 @@ public class NPC extends Ship implements Updateable {
     bodyComponent.body.setTransform(positionComponent.x * MPP, positionComponent.y * MPP, 0);
     bodyComponent.body.setLinearDamping(4f);
 
-    speedComponent.setIncreaseBy(0.2f);
-    speedComponent.setDecreaseBy(0.2f);
-
-
     add(new ShootingComponent());
 
     this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
@@ -56,9 +52,6 @@ public class NPC extends Ship implements Updateable {
 
     bodyComponent.body.setTransform(startPoint.x * MPP, startPoint.y * MPP, (float) Math.toRadians(angle));
 //    bodyComponent.body.setLinearDamping(4f);
-
-    speedComponent.setIncreaseBy(0.2f);
-    speedComponent.setDecreaseBy(0.2f);
 
     EntityManager.getInstance().addUpdateable(this);
   }
