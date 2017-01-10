@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.components.RoutingComponent;
 import com.nima.components.ShootingComponent;
 import com.nima.data.RouteProfile;
+import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
 import com.nima.systems.states.AttackState;
 import com.nima.util.Box2dUtil;
@@ -23,8 +24,8 @@ public class NPC extends Spine {
 
   public RoutingComponent routingComponent;
 
-  public NPC(Player player, String path, String defaultAnimation, float jsonScaling, float x, float y) {
-    super(path, defaultAnimation, jsonScaling, x, y);
+  public NPC(ShipProfile shipProfile, float x, float y) {
+    super(shipProfile, x, y);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     positionComponent.x = screenCenter.x + 360;
@@ -43,8 +44,8 @@ public class NPC extends Spine {
   }
 
   //routing npc
-  public NPC(RouteProfile route, String path, String defaultAnimation, float jsonScaling, float x, float y) {
-    super(path, defaultAnimation, jsonScaling, x, y);
+  public NPC(RouteProfile route, ShipProfile shipProfile, float x, float y) {
+    super(shipProfile, x, y);
 
     routingComponent = new RoutingComponent();
     Vector2 startPoint = routingComponent.applyRoute(route);

@@ -32,7 +32,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
   }
 
   public Player() {
-    super(Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.3f);
+    super(DataEntities.getShip(DataEntities.SHIP_PLAYER));
 
     speedComponent.setIncreaseBy(velocityUp);
     speedComponent.setDecreaseBy(velocityDown);

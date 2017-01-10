@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RouteComponent;
+import com.nima.data.DataEntities;
 import com.nima.data.RouteProfile;
 import com.nima.managers.EntityManager;
-import com.nima.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Route extends Entity {
   }
 
   public void spawnShip() {
-    NPC m = new NPC(routeComponent.route, Resources.ACTOR_SPINE, Resources.ACTOR_DEFAULT_ANIMATION, 0.2f, 300, 300);
+    NPC m = new NPC(routeComponent.route, DataEntities.getShip(DataEntities.SHIP_MERCHANT), 300, 300);
     m.scalingComponent.setCurrentValue(0.2f);
     m.scalingComponent.setTargetValue(1f);
     ships.add(m);

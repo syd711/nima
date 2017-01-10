@@ -6,6 +6,7 @@ package com.nima.data;
 public class ShipProfile {
   public String spine;
   public float scale;
+  public String defaultAnimation;
 
   //Speed
   public float maxSpeed;

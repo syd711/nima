@@ -5,10 +5,13 @@ import com.nima.util.Resources;
 import java.util.*;
 
 /**
- * Created by Matthias on 10.01.2017.
+ * Access all data models stored in json format.
  */
 public class DataEntities {
   public static String WEAPON_LASER = "laser";
+
+  public static String SHIP_PLAYER = "player";
+  public static String SHIP_MERCHANT = "merchant";
 
   private static Map<String, RouteProfile> routes = new HashMap<>();
   private static Map<String, ShipProfile> ships = new HashMap<>();
@@ -40,5 +43,9 @@ public class DataEntities {
 
   public static WeaponProfile getWeapon(String weapon) {
     return weapons.get(weapon);
+  }
+
+  public static ShipProfile getShip(String profile) {
+    return ships.get(profile);
   }
 }

@@ -1,7 +1,7 @@
 {
   "spine" : "spineboy",
-  "defaultAnimation" : null,
-  "scale" : 0.3,
+  "defaultAnimation" : "walk",
+  "scale" : 0.2,
   "maxSpeed" : 0,
   "rotationSpeed" : 0,
   "increaseSpeed" : 0,
