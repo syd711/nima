@@ -20,16 +20,34 @@ abstract public class Spine extends BodyEntity implements Updateable {
   protected ScalingComponent scalingComponent;
   protected RotationComponent rotationComponent;
 
-  public final AnimationState state;
+  public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
-  public final Skeleton skeleton;
-  public final float jsonScaling;
+  public Skeleton skeleton;
+  public float jsonScaling;
 
   public Spine(ShipProfile shipProfile) {
     this(shipProfile, -1f, -1f);
   }
 
   public Spine(ShipProfile shipProfile, float x, float y) {
+    createSpine(shipProfile);
+
+    scalingComponent = ComponentFactory.addScalingComponent(this);
+    positionComponent = ComponentFactory.addPositionComponent(this, x == -1 || y == -1, getHeight());
+    spineComponent = ComponentFactory.addSpineComponent(this);
+    speedComponent = ComponentFactory.addSpeedComponent(this);
+    rotationComponent = ComponentFactory.addRotationComponent(this);
+    bodyComponent = ComponentFactory.addBodyComponent(this);
+
+    steerableComponent = new SteerableComponent(bodyComponent.body, shipProfile);
+    add(steerableComponent);
+  }
+
+  /**
+   * The plain spine creation
+   * @param shipProfile the spine file information
+   */
+  private void createSpine(ShipProfile shipProfile) {
     this.jsonScaling = shipProfile.scale;
     this.skeletonRenderer = new SkeletonRenderer();
 
@@ -47,16 +65,6 @@ abstract public class Spine extends BodyEntity implements Updateable {
     if(shipProfile.defaultAnimation != null) {
       state.setAnimation(0, shipProfile.defaultAnimation, true);
     }
-
-    scalingComponent = ComponentFactory.addScalingComponent(this);
-    positionComponent = ComponentFactory.addPositionComponent(this, x == -1 || y == -1, getHeight());
-    spineComponent = ComponentFactory.addSpineComponent(this);
-    speedComponent = ComponentFactory.addSpeedComponent(this);
-    rotationComponent = ComponentFactory.addRotationComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this);
-
-    steerableComponent = new SteerableComponent(bodyComponent.body, shipProfile);
-    add(steerableComponent);
   }
 
   @Override

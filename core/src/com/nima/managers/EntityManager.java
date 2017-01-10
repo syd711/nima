@@ -45,7 +45,7 @@ public class EntityManager {
 
   private void init(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
     //create player
-    player = new Player();
+    player = new Player(DataEntities.getShip(DataEntities.SHIP_PLAYER));
     addCollisionListener(player);
     engine.addEntity(player);
 

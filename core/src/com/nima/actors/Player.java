@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
 import com.nima.data.DataEntities;
+import com.nima.data.ShipProfile;
 import com.nima.managers.CollisionListener;
 import com.nima.managers.EntityManager;
 import com.nima.managers.GameStateManager;
@@ -15,9 +16,6 @@ import com.nima.util.Settings;
  * The player with all ashley components.
  */
 public class Player extends Spine implements Updateable, CollisionListener {
-  public float velocityUp = 0.03f;
-  public float velocityDown = 0.03f;
-
   private Entity targetEntity;
   private boolean dockingProcedure = false;
 
@@ -30,11 +28,11 @@ public class Player extends Spine implements Updateable, CollisionListener {
     return instance;
   }
 
-  public Player() {
-    super(DataEntities.getShip(DataEntities.SHIP_PLAYER));
+  public Player(ShipProfile profile) {
+    super(profile);
 
-    speedComponent.setIncreaseBy(velocityUp);
-    speedComponent.setDecreaseBy(velocityDown);
+    speedComponent.setIncreaseBy(profile.increaseSpeed);
+    speedComponent.setDecreaseBy(profile.decreaseSpeed);
 
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
