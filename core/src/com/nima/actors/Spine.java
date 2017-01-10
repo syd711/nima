@@ -41,7 +41,7 @@ abstract public class Spine extends BodyEntity implements Updateable {
 
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
-//    state.setAnimation(0, defaultAnimation, true);
+    state.setAnimation(0, defaultAnimation, true);
 
     scalingComponent = ComponentFactory.addScalingComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, x == -1 || y == -1, getHeight());

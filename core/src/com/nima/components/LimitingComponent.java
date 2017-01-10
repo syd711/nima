@@ -43,6 +43,10 @@ abstract public class LimitingComponent implements Component, Poolable {
     }
   }
 
+  public boolean isChanging() {
+    return currentValue != targetValue;
+  }
+
   public void setDecreaseBy(float value) {
     this.decreaseBy = value;
   }

@@ -1,11 +1,11 @@
 {
   "circulating": true,
   "shipCount": 1,
-  "minSpawnDelay": 4000,
-  "spawnDelayOffset" : 3000,
+  "minSpawnDelay": 1000,
+  "spawnDelayOffset" : 1000,
   "stations": [
     "ISS",
-    "Deep Space Nine",
+    "Alpha Centauri",
     "Pandora"
   ]
 }

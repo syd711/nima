@@ -31,7 +31,7 @@ public class MovementComponent implements Component, Pool.Poolable {
 
   public void move() {
     float currentAngle = rotation.getRotation();
-    Vector2 delta = GraphicsUtil.getUpdatedCoordinates(currentAngle, speed.getCurrentValue());
+    Vector2 delta = GraphicsUtil.getDelta(currentAngle, speed.getCurrentValue());
     float x = delta.x;
     float y = delta.y;
 

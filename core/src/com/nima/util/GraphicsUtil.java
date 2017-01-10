@@ -43,7 +43,7 @@ public class GraphicsUtil {
     return new Vector2(targetX, targetY);
   }
 
-  public static Vector2 getUpdatedCoordinates(float angle, float speed) {
+  public static Vector2 getDelta(float angle, float speed) {
     float absAngle = Math.abs(angle);
     float baseX = (float) (Math.cos(Math.toRadians(absAngle)) * speed);
     float baseY = (float) (Math.sin(Math.toRadians(absAngle)) * speed);

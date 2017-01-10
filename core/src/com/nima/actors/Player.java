@@ -90,7 +90,7 @@ public class Player extends Spine implements Updateable, CollisionListener {
     //...then the speed to travel with
     Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
     Vector2 point2 = new Vector2(x, y);
-    speedComponent.calculateTargetSpeed(point1, point2);
+    speedComponent.applyTargetSpeed(point1, point2);
   }
 
   /**

@@ -29,7 +29,6 @@ public class FaceToPlayerBehaviour implements FaceBehaviour {
     float change = (float) (1 * Math.toDegrees(1)); //allow 1 degree rotation per time step
     float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
 
-//    System.out.println(Math.toDegrees(newAngle));
     bodyComponent.body.setTransform(bodyComponent.body.getPosition(), newAngle);
   }
 }

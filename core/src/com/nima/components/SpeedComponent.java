@@ -12,7 +12,7 @@ public class SpeedComponent extends LimitingComponent {
     super.init(0, 0, maxSpeed, 0, 0);
   }
 
-  public void calculateTargetSpeed(Vector2 point1, Vector2 point2) {
+  public void applyTargetSpeed(Vector2 point1, Vector2 point2) {
     float distance = point1.dst(point2);
     float percentage = 0;
     if(distance > 0) {

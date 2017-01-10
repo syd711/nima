@@ -8,6 +8,7 @@ import com.nima.components.ShootingComponent;
 import com.nima.data.RouteProfile;
 import com.nima.managers.EntityManager;
 import com.nima.systems.states.AttackState;
+import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 
 import static com.nima.util.Settings.MPP;
@@ -44,20 +45,19 @@ public class NPC extends Spine {
   //routing npc
   public NPC(RouteProfile route, String path, String defaultAnimation, float jsonScaling, float x, float y) {
     super(path, defaultAnimation, jsonScaling, x, y);
-    //TODO ranomize route
-    Vector2 target = route.coordinates.values().iterator().next();
 
-    bodyComponent.body.setTransform(target.x * MPP, target.y * MPP, 0);
-    bodyComponent.body.setLinearDamping(4f);
+    routingComponent = new RoutingComponent();
+    Vector2 startPoint = routingComponent.applyRoute(route);
+    add(routingComponent);
+
+    float angle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
+    rotationComponent.setRotationTarget(angle);
+
+    bodyComponent.body.setTransform(startPoint.x * MPP, startPoint.y * MPP, (float) Math.toRadians(angle));
+//    bodyComponent.body.setLinearDamping(4f);
 
     speedComponent.setIncreaseBy(0.2f);
     speedComponent.setDecreaseBy(0.2f);
-
-    add(new ShootingComponent());
-
-    routingComponent = new RoutingComponent();
-    routingComponent.applyRoute(route);
-    add(routingComponent);
 
     EntityManager.getInstance().addUpdateable(this);
   }
@@ -70,11 +70,36 @@ public class NPC extends Spine {
     }
 
     if(routingComponent != null) {
-      float angle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
-      rotationComponent.setRotationTarget(angle);
-//      Vector2 updatedCoordinates = GraphicsUtil.getUpdatedCoordinates(angle, 4f);
-//      float box2dAngle = Box2dUtil.getBox2dAngle(positionComponent.getPosition(), routingComponent.target);
-//      bodyComponent.body.setTransform(updatedCoordinates.x, updatedCoordinates.y, box2dAngle);
+
+      if(scalingComponent.isChanging()) {
+        return;
+      }
+      //TODO build state machine
+      float currentAngle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
+      Vector2 delta = GraphicsUtil.getDelta(currentAngle, 2f);
+      Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);
+      float x = box2dDelta.x;
+      float y = box2dDelta.y;
+      Vector2 position = bodyComponent.body.getPosition();
+
+      if(currentAngle >= 0 && currentAngle <= 90) {
+        position.x = position.x + x;
+        position.y = position.y + y;
+      }
+      else if(currentAngle > 90 && currentAngle <= 180) {
+        position.x = position.x - x;
+        position.y = position.y + y;
+      }
+      else if(currentAngle < 0 && currentAngle >= -90) {
+        position.x = position.x + x;
+        position.y = position.y - y;
+      }
+      else if(currentAngle < -90 && currentAngle >= -180) {
+        position.x = position.x - x;
+        position.y = position.y - y;
+      }
+
+      bodyComponent.body.setTransform(position, bodyComponent.body.getAngle());
     }
   }
 }

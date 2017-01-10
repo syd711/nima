@@ -19,7 +19,7 @@ public class RoutingSystem extends AbstractIteratingSystem {
     if(component.target == null) {
       Iterator<Vector2> iterator = component.targets.iterator();
       Vector2 target = iterator.next();
-      component.target = target;
+//      component.target = target;
 //      npc.moveTo(target.x, target.y, 4f);
     }
   }
