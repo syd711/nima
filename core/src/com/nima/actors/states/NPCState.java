@@ -14,7 +14,7 @@ import com.nima.systems.behaviours.FaceToPlayerBehaviour;
 /**
  * The different states of an attack.
  */
-public enum AttackState implements State<NPC> {
+public enum NPCState implements State<NPC> {
 
   SLEEP() {
     @Override
@@ -89,20 +89,20 @@ public enum AttackState implements State<NPC> {
 
   // ------------------- Helper -----------------------------------
   private static void updateState(NPC npc) {
-    AttackState newState = null;
+    NPCState newState = null;
     float distance = getDistanceToPlayer(npc);
     if(distance < 250) {
-      newState = AttackState.EVADE;
+      newState = NPCState.EVADE;
     }
     else if(distance > 250 && distance < 350){
-      newState = AttackState.FACE;
+      newState = NPCState.FACE;
     }
     else {
-      newState = AttackState.PURSUE;
+      newState = NPCState.PURSUE;
     }
 
-    if(npc.attackStateMachine.getCurrentState() != newState) {
-      npc.attackStateMachine.changeState(newState);
+    if(npc.getStateMachine().getCurrentState() != newState) {
+      npc.getStateMachine().changeState(newState);
     }
   }
 

@@ -44,7 +44,4 @@ public class Player extends Ship {
     statefulComponent.stateMachine = new DefaultStateMachine<>(this, PlayerState.IDLE);
   }
 
-  public DefaultStateMachine<Player,PlayerState> getStateMachine() {
-    return statefulComponent.stateMachine;
-  }
 }

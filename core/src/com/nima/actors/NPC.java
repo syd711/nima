@@ -1,13 +1,12 @@
 package com.nima.actors;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.states.NPCState;
 import com.nima.components.RoutingComponent;
 import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
-import com.nima.actors.states.AttackState;
 import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 
@@ -18,9 +17,6 @@ import static com.nima.util.Settings.MPP;
  * We assume that they are instances of Spine.
  */
 public class NPC extends Ship implements Updateable {
-
-  public StateMachine<NPC, AttackState> attackStateMachine;
-
   public RoutingComponent routingComponent;
 
   public NPC(ShipProfile shipProfile) {
@@ -33,7 +29,7 @@ public class NPC extends Ship implements Updateable {
     bodyComponent.body.setTransform(positionComponent.x * MPP, positionComponent.y * MPP, 0);
     bodyComponent.body.setLinearDamping(4f);
 
-    this.attackStateMachine = new DefaultStateMachine<>(this, AttackState.SLEEP);
+    statefulComponent.stateMachine = new DefaultStateMachine<>(this, NPCState.SLEEP);
   }
 
   //routing npc
@@ -55,16 +51,12 @@ public class NPC extends Ship implements Updateable {
 
   @Override
   public void update() {
-    if(this.attackStateMachine != null) {
-      this.attackStateMachine.update();
-    }
-
     if(routingComponent != null) {
 
       if(scalingComponent.isChanging()) {
         return;
       }
-      //TODO build state machine
+      //TODO build state machine and move to routing component
       float currentAngle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
       Vector2 delta = GraphicsUtil.getDelta(currentAngle, 2f);
       Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);

@@ -56,7 +56,7 @@ public enum PlayerState implements State<Player> {
   DOCK_TO_STATION() {
     @Override
     public void enter(Player player) {
-      PlayerState previousState = player.getStateMachine().getPreviousState();
+      PlayerState previousState = (PlayerState) player.getStateMachine().getPreviousState();
       if(previousState.equals(MOVE_TO_STATION)) {
         player.speedComponent.setTargetValue(1.5f);
         player.scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);

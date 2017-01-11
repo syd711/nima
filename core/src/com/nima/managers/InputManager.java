@@ -81,7 +81,7 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    PlayerState currentState = player.getStateMachine().getCurrentState();
+    PlayerState currentState = (PlayerState) player.getStateMachine().getCurrentState();
     if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
       if(button == Input.Buttons.LEFT) {
         float targetX = screenX;

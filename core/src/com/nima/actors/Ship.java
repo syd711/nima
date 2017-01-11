@@ -1,5 +1,6 @@
 package com.nima.actors;
 
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
 import com.nima.data.DataEntities;
@@ -46,5 +47,9 @@ public class Ship extends Spine {
     if(shootingComponent.isCharged()) {
       Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);
     }
+  }
+
+  public DefaultStateMachine getStateMachine() {
+    return statefulComponent.stateMachine;
   }
 }
