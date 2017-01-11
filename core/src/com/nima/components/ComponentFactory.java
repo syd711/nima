@@ -15,7 +15,10 @@ import com.nima.actors.Spine;
 import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
 import com.nima.render.MapConstants;
-import com.nima.util.*;
+import com.nima.util.BodyGenerator;
+import com.nima.util.Box2dUtil;
+import com.nima.util.GraphicsUtil;
+import com.nima.util.Resources;
 
 /**
  * All component creations should be here.
@@ -145,6 +148,12 @@ public class ComponentFactory {
   public static SteerableComponent addSteerableComponent(Entity entity, Body body, ShipProfile profile) {
     SteerableComponent component = createComponent(SteerableComponent.class);
     component.init(body, profile);
+    entity.add(component);
+    return component;
+  }
+
+  public static StatefulComponent addStatefulComponent(Entity entity) {
+    StatefulComponent component = createComponent(StatefulComponent.class);
     entity.add(component);
     return component;
   }

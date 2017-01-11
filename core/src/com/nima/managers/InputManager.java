@@ -4,9 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Player;
+import com.nima.actors.states.PlayerState;
+import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.GraphicsUtil;
+import com.nima.util.PolygonUtil;
+
+import static com.nima.actors.states.PlayerState.IDLE;
+import static com.nima.actors.states.PlayerState.MOVE_TO_STATION;
 
 /**
  * Handles all kind of user input.
@@ -70,7 +77,8 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    if(GameStateManager.getInstance().isNavigating()) {
+    PlayerState currentState = player.getStateMachine().getCurrentState();
+    if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
       if(button == Input.Buttons.LEFT) {
         float targetX = screenX;
         float targetY = Gdx.graphics.getHeight() - screenY;
@@ -79,6 +87,8 @@ public class InputManager implements InputProcessor {
         //first update the target to move to...
         float x = worldCoordinates.x;
         float y = worldCoordinates.y;
+        Polygon clickPolygon = PolygonUtil.clickPolygon(worldCoordinates);
+        TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
 
         player.rotationComponent.setRotationTarget(x, y);
 

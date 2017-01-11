@@ -20,7 +20,8 @@ public enum PlayerState implements State<Player> {
   IDLE() {
     @Override
     public void enter(Player player) {
-      //TODO play idle spine animation
+      player.rotationComponent.mapTargetX = -1;
+      player.rotationComponent.mapTargetY = -1;
     }
 
     @Override
@@ -30,7 +31,11 @@ public enum PlayerState implements State<Player> {
       if(x > 0 && y > 0) {
         Entity targetEntity = EntityManager.getInstance().getEntityAt(x, y);
         if(targetEntity != null) {
-          player.stateMachine.changeState(PlayerState.MOVE_TO_STATION);
+          player.setTarget(targetEntity);
+          player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
+        }
+        else {
+          player.setTarget(null);
         }
       }
     }
@@ -38,14 +43,10 @@ public enum PlayerState implements State<Player> {
   MOVE_TO_STATION() {
     @Override
     public void enter(Player player) {
-      float x = player.rotationComponent.mapTargetX;
-      float y = player.rotationComponent.mapTargetY;
-      Entity targetEntity = EntityManager.getInstance().getEntityAt(x, y);
+      Entity targetEntity = player.getTarget();
       MapObjectComponent mapObjectComponent = targetEntity.getComponent(MapObjectComponent.class);
       Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
-      x = centeredPosition.x;
-      y = centeredPosition.y;
-      player.rotationComponent.setRotationTarget(x, y);
+      player.rotationComponent.setRotationTarget(centeredPosition.x, centeredPosition.y);
     }
 
     @Override
@@ -56,7 +57,7 @@ public enum PlayerState implements State<Player> {
   DOCK_TO_STATION() {
     @Override
     public void enter(Player player) {
-      PlayerState previousState = player.stateMachine.getPreviousState();
+      PlayerState previousState = player.getStateMachine().getPreviousState();
       if(previousState.equals(MOVE_TO_STATION)) {
         player.speedComponent.setTargetValue(1.5f);
         player.scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
@@ -69,13 +70,14 @@ public enum PlayerState implements State<Player> {
     public void update(Player player) {
       LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
       if(lightSystem.isOutFaded()) {
-        player.stateMachine.changeState(DOCKED);
+        player.getStateMachine().changeState(DOCKED);
       }
     }
   },
   DOCKED() {
     @Override
     public void enter(Player player) {
+      player.setTarget(null);
       EntityManager.getInstance().pauseSystems(true);
     }
 
@@ -95,6 +97,7 @@ public enum PlayerState implements State<Player> {
 
       Gdx.input.setInputProcessor(Game.inputManager);
       EntityManager.getInstance().pauseSystems(false);
+      player.getStateMachine().changeState(IDLE);
     }
 
     @Override

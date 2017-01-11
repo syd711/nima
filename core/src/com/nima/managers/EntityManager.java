@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
 import com.nima.actors.*;
@@ -17,7 +16,6 @@ import com.nima.data.RouteProfile;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.Box2dUtil;
-import com.nima.util.PolygonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +82,10 @@ public class EntityManager {
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 
+    StateMachineSystem stateMachineSystem = new StateMachineSystem();
+    engine.addSystem(stateMachineSystem);
+
     updateables.add(new Camera(camera, player));
-    updateables.add(player);
 
     //TODO
     NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_MERCHANT));
@@ -174,9 +174,6 @@ public class EntityManager {
 
   public Entity getEntityAt(float x, float y) {
     Vector2 clickPoint = new Vector2(x, y);
-    Polygon clickPolygon = PolygonUtil.clickPolygon(clickPoint);
-    TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
-
     return Box2dUtil.getEntityAt(Game.world, clickPoint);
   }
 

@@ -19,7 +19,9 @@ public class GameContactListener implements ContactListener {
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
     if(userDataA instanceof Player && userDataB instanceof Location) {
-      Player.getInstance().stateMachine.changeState(PlayerState.DOCK_TO_STATION);
+      if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(userDataB)) {
+        Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
+      }
     }
 
 //    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);

@@ -10,6 +10,7 @@ import com.nima.util.Resources;
  * The general ship entity which is always a spine.
  */
 public class Ship extends Spine {
+  public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public SpineComponent spineComponent;
   public SpeedComponent speedComponent;
@@ -26,6 +27,7 @@ public class Ship extends Spine {
 
   protected void createComponents(ShipProfile profile) {
     scalingComponent = ComponentFactory.addScalingComponent(this);
+    statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
     speedComponent = ComponentFactory.addSpeedComponent(this, profile);

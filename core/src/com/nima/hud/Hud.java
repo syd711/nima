@@ -51,7 +51,7 @@ public class Hud {
     dockButton.addListener(new ChangeListener() {
       @Override
       public void changed (ChangeEvent event, Actor actor) {
-        Player.getInstance().stateMachine.changeState(PlayerState.UNDOCK_FROM_STATION);
+        Player.getInstance().getStateMachine().changeState(PlayerState.UNDOCK_FROM_STATION);
       }
     });
     table.add(dockButton).expandX().align(Align.right);
@@ -67,7 +67,7 @@ public class Hud {
   public void render() {
     stage.act();
 
-    if(Player.getInstance().stateMachine.getCurrentState().equals(PlayerState.DOCKED)) {
+    if(Player.getInstance().getStateMachine().getCurrentState().equals(PlayerState.DOCKED)) {
       dockButton.setVisible(true);
       stage.getBatch().begin();
       stage.getBatch().draw(bground, 0, 0, 1050, 1050);

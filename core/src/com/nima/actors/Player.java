@@ -1,7 +1,7 @@
 package com.nima.actors;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.states.PlayerState;
 import com.nima.components.ComponentFactory;
@@ -13,11 +13,11 @@ import com.nima.util.GraphicsUtil;
 /**
  * The player with all ashley components.
  */
-public class Player extends Ship implements Updateable {
+public class Player extends Ship {
   protected MovementComponent movementComponent;
 
   private static Player instance = null;
-  public StateMachine<Player, PlayerState> stateMachine;
+  private Entity target;
 
   public static Player getInstance() {
     return instance;
@@ -41,11 +41,18 @@ public class Player extends Ship implements Updateable {
     movementComponent = ComponentFactory.addMovementComponent(this);
 
     //state machine for the player
-    stateMachine = new DefaultStateMachine<>(this, PlayerState.IDLE);
+    statefulComponent.stateMachine = new DefaultStateMachine<>(this, PlayerState.IDLE);
   }
 
-  @Override
-  public void update() {
-    stateMachine.update();
+  public DefaultStateMachine<Player,PlayerState> getStateMachine() {
+    return statefulComponent.stateMachine;
+  }
+
+  public Entity getTarget() {
+    return target;
+  }
+
+  public void setTarget(Entity target) {
+    this.target = target;
   }
 }
