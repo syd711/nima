@@ -31,11 +31,11 @@ public enum PlayerState implements State<Player> {
       if(x > 0 && y > 0) {
         Entity targetEntity = EntityManager.getInstance().getEntityAt(x, y);
         if(targetEntity != null) {
-          player.setTarget(targetEntity);
+          player.target = targetEntity;
           player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
         }
         else {
-          player.setTarget(null);
+          player.target = null;
         }
       }
     }
@@ -43,8 +43,7 @@ public enum PlayerState implements State<Player> {
   MOVE_TO_STATION() {
     @Override
     public void enter(Player player) {
-      Entity targetEntity = player.getTarget();
-      MapObjectComponent mapObjectComponent = targetEntity.getComponent(MapObjectComponent.class);
+      MapObjectComponent mapObjectComponent = player.target.getComponent(MapObjectComponent.class);
       Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
       player.rotationComponent.setRotationTarget(centeredPosition.x, centeredPosition.y);
     }
@@ -69,7 +68,7 @@ public enum PlayerState implements State<Player> {
     @Override
     public void update(Player player) {
       LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-      if(lightSystem.isOutFaded()) {
+      if(lightSystem.isOutFaded() && !player.scalingComponent.isChanging()) {
         player.getStateMachine().changeState(DOCKED);
       }
     }
@@ -77,7 +76,7 @@ public enum PlayerState implements State<Player> {
   DOCKED() {
     @Override
     public void enter(Player player) {
-      player.setTarget(null);
+      player.target = null;
       EntityManager.getInstance().pauseSystems(true);
     }
 

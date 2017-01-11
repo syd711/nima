@@ -17,7 +17,7 @@ public class Player extends Ship {
   protected MovementComponent movementComponent;
 
   private static Player instance = null;
-  private Entity target;
+  public Entity target;
 
   public static Player getInstance() {
     return instance;
@@ -46,13 +46,5 @@ public class Player extends Ship {
 
   public DefaultStateMachine<Player,PlayerState> getStateMachine() {
     return statefulComponent.stateMachine;
-  }
-
-  public Entity getTarget() {
-    return target;
-  }
-
-  public void setTarget(Entity target) {
-    this.target = target;
   }
 }

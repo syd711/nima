@@ -61,6 +61,10 @@ public class InputManager implements InputProcessor {
     else if(keycode == Input.Keys.T) {
       return true;
     }
+    else if(keycode == Input.Keys.S) {
+      System.out.println(Player.getInstance().getStateMachine().getCurrentState());
+      return true;
+    }
 
     return false;
   }

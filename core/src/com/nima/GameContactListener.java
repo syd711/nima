@@ -19,7 +19,7 @@ public class GameContactListener implements ContactListener {
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
     if(userDataA instanceof Player && userDataB instanceof Location) {
-      if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(userDataB)) {
+      if(Player.getInstance().target != null && Player.getInstance().target.equals(userDataB)) {
         Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
       }
     }
