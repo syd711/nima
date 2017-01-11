@@ -5,7 +5,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.nima.managers.EntityManager;
+import com.nima.actors.Location;
+import com.nima.actors.Player;
+import com.nima.actors.states.PlayerState;
 
 /**
  * The Box2d world contact listener
@@ -16,7 +18,11 @@ public class GameContactListener implements ContactListener {
     Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);
+    if(userDataA instanceof Player && userDataB instanceof Location) {
+      Player.getInstance().stateMachine.changeState(PlayerState.DOCK_TO_STATION);
+    }
+
+//    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);
   }
 
   @Override
@@ -24,7 +30,7 @@ public class GameContactListener implements ContactListener {
     Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-    EntityManager.getInstance().notifyCollisionEnd(userDataA, userDataB);
+//    EntityManager.getInstance().notifyCollisionEnd(userDataA, userDataB);
   }
 
   @Override

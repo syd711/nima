@@ -1,29 +1,23 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.states.PlayerState;
 import com.nima.components.ComponentFactory;
-import com.nima.components.MapObjectComponent;
 import com.nima.components.MovementComponent;
 import com.nima.components.ScreenPositionComponent;
-import com.nima.data.DataEntities;
 import com.nima.data.ShipProfile;
-import com.nima.managers.CollisionListener;
-import com.nima.managers.EntityManager;
-import com.nima.managers.GameStateManager;
-import com.nima.systems.LightSystem;
 import com.nima.util.GraphicsUtil;
-import com.nima.util.Settings;
 
 /**
  * The player with all ashley components.
  */
-public class Player extends Ship implements Updateable, CollisionListener {
-  private Entity targetEntity;
-  private boolean dockingProcedure = false;
+public class Player extends Ship implements Updateable {
   protected MovementComponent movementComponent;
 
   private static Player instance = null;
+  public StateMachine<Player, PlayerState> stateMachine;
 
   public static Player getInstance() {
     return instance;
@@ -38,99 +32,20 @@ public class Player extends Ship implements Updateable, CollisionListener {
   protected void createComponents(ShipProfile profile) {
     super.createComponents(profile);
 
+    //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
     positionComponent.setPosition(screenCenter);
 
-
-    shootingComponent.weaponProfile = DataEntities.getWeapon(DataEntities.WEAPON_LASER);
+    //special player movement
     movementComponent = ComponentFactory.addMovementComponent(this);
+
+    //state machine for the player
+    stateMachine = new DefaultStateMachine<>(this, PlayerState.IDLE);
   }
 
   @Override
   public void update() {
-    if(dockingProcedure) {
-      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-      if(lightSystem.isOutFaded()) {
-        GameStateManager.getInstance().enterStationMode();
-      }
-    }
+    stateMachine.update();
   }
-
-  /**
-   * Applying the input the user has inputted.
-   *
-   * @param worldCoordinates
-   */
-  public void setTargetCoordinates(Vector2 worldCoordinates) {
-    if(dockingProcedure) {
-      return;
-    }
-
-    //first update the target to move to...
-    float x = worldCoordinates.x;
-    float y = worldCoordinates.y;
-
-    targetEntity = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
-    if(targetEntity != null) {
-      MapObjectComponent mapObjectComponent = targetEntity.getComponent(MapObjectComponent.class);
-      Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
-      x = centeredPosition.x;
-      y = centeredPosition.y;
-    }
-
-    rotationComponent.setRotationTarget(x, y);
-
-    //...then the speed to travel with
-    Vector2 point1 = new Vector2(positionComponent.x, positionComponent.y);
-    Vector2 point2 = new Vector2(x, y);
-    speedComponent.applyTargetSpeed(point1, point2);
-  }
-
-  //------------------ Collision Listener --------------------------------
-
-  @Override
-  public void collisionStart(Player player, Entity mapObjectEntity) {
-    if(targetEntity != null && targetEntity.equals(mapObjectEntity)) {
-      enterStation();
-    }
-  }
-
-  @Override
-  public void collisionEnd(Player player, Entity mapObjectEntity) {
-
-  }
-
-  @Override
-  public void collisionStart(Spine spine, Entity mapObjectEntity) {
-
-  }
-
-  @Override
-  public void collisionEnd(Spine spine, Entity mapObjectEntity) {
-
-  }
-
-  //--------------- Event execution-----------------------------
-
-  private void enterStation() {
-    dockingProcedure = true;
-    speedComponent.setTargetValue(1.5f);
-    scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
-
-    LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-    lightSystem.fadeOut(true);
-  }
-
-  public void leaveStation() {
-    scalingComponent.setTargetValue(1f);
-    LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-    lightSystem.fadeOut(false);
-    speedComponent.setTargetValue(0f);
-    dockingProcedure = false;
-    targetEntity = null;
-    rotationComponent.setRotationTarget(positionComponent.x + 100, positionComponent.y);
-  }
-
-
 }

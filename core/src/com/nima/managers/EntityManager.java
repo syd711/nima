@@ -32,7 +32,6 @@ public class EntityManager {
   private List<Entity> destroyEntities = new ArrayList<>();
 
   private List<EntityClickListener> entityClickListeners = new ArrayList<>();
-  private List<CollisionListener> collisionListeners = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 
@@ -46,7 +45,6 @@ public class EntityManager {
   private void init(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
     //create player
     player = new Player(DataEntities.getShip(DataEntities.SHIP_PLAYER));
-    addCollisionListener(player);
     engine.addEntity(player);
 
     //create systems
@@ -121,13 +119,6 @@ public class EntityManager {
   }
 
   /**
-   * Registers a collision listener
-   */
-  public void addCollisionListener(CollisionListener listener) {
-    this.collisionListeners.add(listener);
-  }
-
-  /**
    * Adds the given entity to the Ashley engine.
    * @param entity the entity to add
    */
@@ -166,10 +157,6 @@ public class EntityManager {
   public void update() {
     engine.update(Gdx.graphics.getDeltaTime());
 
-    if(GameStateManager.getInstance().isPaused()) {
-      return;
-    }
-
     for (Updateable updateable : updateables) {
       updateable.update();
     }
@@ -182,28 +169,6 @@ public class EntityManager {
       destroyEntities.clear();
 
       Gdx.app.log(this.toString(),"Ashley engine has " + engine.getEntities().size() + " entities");
-    }
-  }
-
-  public void notifyCollisionStart(Entity entity, Entity mapObjectEntity) {
-    for(CollisionListener collisionListener : collisionListeners) {
-      if(entity instanceof Player) {
-        collisionListener.collisionStart((Player)entity, mapObjectEntity);
-      }
-      else if(entity instanceof Spine) {
-        collisionListener.collisionStart((Spine)entity, mapObjectEntity);
-      }
-    }
-  }
-
-  public void notifyCollisionEnd(Entity entity, Entity mapObjectEntity) {
-    for(CollisionListener collisionListener : collisionListeners) {
-      if(entity instanceof Player) {
-        collisionListener.collisionEnd((Player)entity, mapObjectEntity);
-      }
-      else if(entity instanceof Spine) {
-        collisionListener.collisionEnd((Spine)entity, mapObjectEntity);
-      }
     }
   }
 

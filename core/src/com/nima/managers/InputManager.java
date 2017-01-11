@@ -51,10 +51,6 @@ public class InputManager implements InputProcessor {
     if(keycode == Input.Keys.ESCAPE) {
       System.exit(0);
     }
-    else if(keycode == Input.Keys.SPACE) {
-      GameStateManager.getInstance().togglePause();
-      return true;
-    }
     else if(keycode == Input.Keys.T) {
       return true;
     }
@@ -80,7 +76,16 @@ public class InputManager implements InputProcessor {
         float targetY = Gdx.graphics.getHeight() - screenY;
 
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        player.setTargetCoordinates(worldCoordinates);
+        //first update the target to move to...
+        float x = worldCoordinates.x;
+        float y = worldCoordinates.y;
+
+        player.rotationComponent.setRotationTarget(x, y);
+
+        //...then the speed to travel with
+        Vector2 point1 = new Vector2(player.positionComponent.x, player.positionComponent.y);
+        Vector2 point2 = new Vector2(x, y);
+        player.speedComponent.applyTargetSpeed(point1, point2);
         return true;
       }
 

@@ -1,4 +1,4 @@
-package com.nima.systems.states;
+package com.nima.actors.states;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;

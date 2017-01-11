@@ -11,8 +11,8 @@ import com.nima.util.GraphicsUtil;
 public class RotationComponent implements Component, Pool.Poolable {
   private float targetAngle = 0;
   private boolean rotateLeft = false;
-  private float mapTargetX = -1f;
-  private float mapTargetY = -1f;
+  public float mapTargetX = -1f;
+  public float mapTargetY = -1f;
 
   public Spine spine;
   public float rotationSpeed = -1f;

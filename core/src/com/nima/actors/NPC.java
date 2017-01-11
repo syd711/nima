@@ -7,7 +7,7 @@ import com.nima.components.RoutingComponent;
 import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
-import com.nima.systems.states.AttackState;
+import com.nima.actors.states.AttackState;
 import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 

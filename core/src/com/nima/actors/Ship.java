@@ -2,6 +2,7 @@ package com.nima.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
+import com.nima.data.DataEntities;
 import com.nima.data.ShipProfile;
 import com.nima.util.Resources;
 
@@ -32,6 +33,7 @@ public class Ship extends Spine {
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);
     shootingComponent = ComponentFactory.addShootableComponent(this);
+    shootingComponent.weaponProfile = DataEntities.getWeapon(DataEntities.WEAPON_LASER);
   }
 
   /**
