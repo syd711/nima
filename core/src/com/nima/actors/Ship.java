@@ -9,12 +9,14 @@ import com.nima.util.Resources;
  * The general ship entity which is always a spine.
  */
 public class Ship extends Spine {
-  protected SteerableComponent steerableComponent;
-  protected SpineComponent spineComponent;
-  protected SpeedComponent speedComponent;
-  protected ScalingComponent scalingComponent;
-  protected RotationComponent rotationComponent;
-  protected ShootingComponent shootingComponent;
+  public SteerableComponent steerableComponent;
+  public SpineComponent spineComponent;
+  public SpeedComponent speedComponent;
+  public ScalingComponent scalingComponent;
+  public RotationComponent rotationComponent;
+  public ShootingComponent shootingComponent;
+  public PositionComponent positionComponent;
+  public BodyComponent bodyComponent;
 
   public Ship(ShipProfile profile) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);

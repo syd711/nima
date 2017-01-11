@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
-import com.nima.actors.BodyEntity;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
 import com.nima.data.RouteProfile;
@@ -42,7 +41,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(BodyEntity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
+  public static BodyComponent addBodyComponent(Entity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
