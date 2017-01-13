@@ -8,6 +8,7 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
+import com.nima.data.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;
@@ -16,7 +17,7 @@ import com.nima.util.GraphicsUtil;
  * AI steerable implementation for box2d bodies.
  */
 public class SteerableComponent implements Component, Steerable<Vector2>, Pool.Poolable {
-  private boolean tagged;
+  private boolean tagged = false;
   private float boundingRadius;
   private float maxLinearSpeed;
   private float maxLinearAcceleration;
@@ -29,15 +30,26 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   private Body body;
 
+  public void init(Body body, RoutePoint point) {
+    this.body = body;
+
+    this.boundingRadius = point.boundingRadius;
+    this.maxLinearSpeed = point.maxLinearSpeed;
+    this.maxLinearAcceleration = point.maxLinearAcceleration;
+    this.maxAngularSpeed = point.maxAngularSpeed;
+    this.maxAngularAcceleration = point.maxAngularAcceleration;
+
+    this.steeringOutput = new SteeringAcceleration<>(new Vector2());
+  }
+
   public void init(Body body, ShipProfile profile) {
     this.body = body;
-    this.boundingRadius = profile.boundingRadius;
 
+    this.boundingRadius = profile.boundingRadius;
     this.maxLinearSpeed = profile.maxLinearSpeed;
     this.maxLinearAcceleration = profile.maxLinearAcceleration;
     this.maxAngularSpeed = profile.maxAngularSpeed;
     this.maxAngularAcceleration = profile.maxAngularAcceleration;
-    this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }

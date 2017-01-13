@@ -7,10 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
-import com.nima.actors.*;
+import com.nima.actors.Camera;
+import com.nima.actors.NPC;
+import com.nima.actors.Player;
+import com.nima.actors.Updateable;
 import com.nima.components.ComponentFactory;
 import com.nima.data.DataEntities;
-import com.nima.data.RouteProfile;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.systems.*;
 import com.nima.util.Box2dUtil;
@@ -88,7 +90,6 @@ public class EntityManager {
     //TODO
     NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_PIRATE));
     engine.addEntity(m);
-    updateables.add(m);
   }
 
   public static EntityManager create(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
@@ -177,5 +178,9 @@ public class EntityManager {
 
   public ImmutableArray<Entity> getEntitiesFor(Class<? extends Component> componentClass) {
     return engine.getEntitiesFor(Family.all(componentClass).get());
+  }
+
+  public <T extends Component> T createComponent (Class<T> componentType) {
+    return engine.createComponent(componentType);
   }
 }

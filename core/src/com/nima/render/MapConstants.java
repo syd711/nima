@@ -7,6 +7,8 @@ public class MapConstants {
 
   public static final String PROPERTY_OBJECT_TYPE = "type";
   public static final String PROPERTY_SHIP_PROFILE = "shipProfile";
+  public static final String PROPERTY_DOCKABLE = "dockable";
+  public static final String PROPERTY_DOCK_TIME = "dockTime";
   public static final String PROPERTY_POSITION = "position";
   public static final String PROPERTY_CENTERED_POSITION = "centeredPosition";
   public static final String PROPERTY_LIGHT_DISTANCE = "lightDistance";

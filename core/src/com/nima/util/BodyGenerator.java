@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.nima.Game;
+import com.nima.data.RoutePoint;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.*;
 import static com.nima.util.Settings.MPP;
@@ -33,6 +34,26 @@ public class BodyGenerator {
   private static final String FIXTURES = "Fixtures";
 
   private static World world = Game.world;
+
+  public static Body generateRoutePointBody(RoutePoint point) {
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(point.position.x * MPP, point.position.y * MPP);
+    Body b = world.createBody(bdef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(10 * MPP, 10 * MPP);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.isSensor = true;
+    fdef.density = 1;
+    fdef.restitution = 0.9f;
+    fdef.shape = shape;
+    b.createFixture(fdef);
+    shape.dispose();
+
+    return b;
+  }
 
   public static Body generateBody(Entity owner, Sprite image, FileHandle handle, short filterCategory) {
     return bodyHelper(owner, new Vector2(image.getX(), image.getY()), new Vector2(image.getWidth(), image.getHeight()), handle, filterCategory);

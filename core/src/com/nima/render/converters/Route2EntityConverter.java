@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Route;
 import com.nima.components.RouteComponent;
 import com.nima.data.DataEntities;
+import com.nima.data.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
 import com.nima.render.MapConstants;
@@ -31,19 +32,29 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
+    Integer dockTime = (Integer) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
+    Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
 
     //apply additional route tracking point
     Route route = getOrCreateRoute(name);
-    route.routeComponent.routeCoordinates.add(centeredPosition);
+
+    RoutePoint routePoint = new RoutePoint();
+    routePoint.position = centeredPosition;
+    routePoint.dockable = dockable != null && dockable;
+    routePoint.dockTime = dockTime;
+    route.routeComponent.routeCoordinates.add(routePoint);
 
     //check if the point contains the ship type and therefore the start point
     if(shipProfile != null) {
       ShipProfile ship = DataEntities.getShip(shipProfile);
       route.routeComponent.shipProfile = ship;
-      route.routeComponent.spawnPoint = centeredPosition;
+      route.routeComponent.spawnPoint = routePoint;
     }
   }
 
+  /**
+   * Checks if a route entity exists for the given name or creates a new one
+   */
   private Route getOrCreateRoute(String name) {
     ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(RouteComponent.class);
     for(Entity entity : entitiesFor) {

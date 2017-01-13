@@ -39,6 +39,7 @@ public class ComponentFactory {
   public static BodyComponent addBodyComponent(Entity entity, MapObject mapObject) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
+    component.body.setLinearDamping(4f);
     entity.add(component);
     return component;
   }
@@ -48,6 +49,7 @@ public class ComponentFactory {
     component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
+    component.body.setLinearDamping(4f);
     entity.add(component);
     return component;
   }
@@ -55,6 +57,7 @@ public class ComponentFactory {
   public static BodyComponent addBodyComponent(Spine spine) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = Box2dUtil.createSpineBody(Game.world, spine);
+    component.body.setLinearDamping(4f);
     component.body.setUserData(spine);
     spine.add(component);
     return component;
@@ -153,6 +156,14 @@ public class ComponentFactory {
 
   public static StatefulComponent addStatefulComponent(Entity entity) {
     StatefulComponent component = createComponent(StatefulComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static RoutingComponent addRoutingComponent(Entity entity, Route route) {
+    RoutingComponent component = createComponent(RoutingComponent.class);
+    component.target = route.routeComponent.spawnPoint;
+    component.targets = route.routeComponent.routeCoordinates;
     entity.add(component);
     return component;
   }

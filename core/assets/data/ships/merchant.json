@@ -1,7 +1,7 @@
 {
   "spine" : "merchant",
   "defaultAnimation" : "walk",
-  "scale" : 0.1,
+  "scale" : 0.21,
   "maxSpeed" : 2,
   "rotationSpeed" : 2,
   "increaseSpeed" : 0.2,

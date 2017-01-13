@@ -20,4 +20,9 @@ public class ShipProfile {
   public float maxLinearAcceleration;
   public float maxAngularSpeed;
   public float maxAngularAcceleration;
+
+  @Override
+  public String toString() {
+    return "Ship Profile '" + spine + "'";
+  }
 }
