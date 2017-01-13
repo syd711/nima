@@ -71,7 +71,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = tiledMapFragment.getMapObjects();
           for(MapObject mapObject : mapObjects) {
-            objectConverter.convertMapObject(tiledMapFragment, mapObject);
+            if(objectConverter.isApplicable(tiledMapFragment, mapObject)) {
+              objectConverter.convertMapObject(tiledMapFragment, mapObject);
+            }
           }
         }
       }
@@ -194,7 +196,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = cachedMap.getMapObjects();
           for(MapObject mapObject : mapObjects) {
-            objectConverter.convertMapObject(cachedMap, mapObject);
+            if(objectConverter.isApplicable(cachedMap, mapObject)) {
+              objectConverter.convertMapObject(cachedMap, mapObject);
+            }
           }
         }
 

@@ -22,6 +22,11 @@ import static com.nima.render.MapConstants.PROPERTY_OBJECT_TYPE;
 public class MapObject2StationEntityConverter extends MapObjectConverter {
 
   @Override
+  public void init(TiledMapFragment map) {
+
+  }
+
+  @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
     return type != null && (type.equals(MapConstants.TYPE_PLANET) || type.equals(MapConstants.TYPE_STATION));

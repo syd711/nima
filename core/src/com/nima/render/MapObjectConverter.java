@@ -18,10 +18,6 @@ abstract public class MapObjectConverter {
    * @param mapObject the map object to convert
    */
   public void convertMapObject(TiledMapFragment mapFragment, MapObject mapObject) {
-    if(!isApplicable(mapFragment, mapObject)) {
-      return;
-    }
-
     if(mapObject instanceof RectangleMapObject) {
       convertRectangle(mapFragment, (RectangleMapObject) mapObject);
     }
@@ -35,6 +31,11 @@ abstract public class MapObjectConverter {
       convertEllipse(mapFragment, (EllipseMapObject) mapObject);
     }
   }
+
+  /**
+   * Invoked once after the map fragment has been loaded.
+   */
+  public abstract  void init(TiledMapFragment map);
 
   /**
    * Returns true if the given map object is applicable for this converter

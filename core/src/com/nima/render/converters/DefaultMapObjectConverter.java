@@ -8,9 +8,15 @@ import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
 
 /**
- * Created by Matthias on 07.01.2017.
+ * Default implementation of the abstract methods.
  */
 public class DefaultMapObjectConverter extends MapObjectConverter {
+
+  @Override
+  public void init(TiledMapFragment map) {
+
+  }
+
   @Override
   public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
 

@@ -6,7 +6,6 @@ import com.nima.actors.states.NPCState;
 import com.nima.components.RoutingComponent;
 import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
-import com.nima.managers.EntityManager;
 import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 
@@ -36,17 +35,18 @@ public class NPC extends Ship implements Updateable {
   public NPC(RouteProfile route, ShipProfile shipProfile, float x, float y) {
     super(shipProfile);
 
-    routingComponent = new RoutingComponent();
-    Vector2 startPoint = routingComponent.applyRoute(route);
-    add(routingComponent);
-
-    float angle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
-    rotationComponent.setRotationTarget(angle);
-
-    bodyComponent.body.setTransform(startPoint.x * MPP, startPoint.y * MPP, (float) Math.toRadians(angle));
+//    routingComponent = new RoutingComponent();
+//    Vector2 startPoint = routingComponent.applyRoute(route);
+//    add(routingComponent);
+//
+//    float angle = GraphicsUtil.getAngle(getCenter(), routingComponent.target);
+//    System.out.println(angle);
+//    rotationComponent.setRotationTarget(angle);
+//    scalingComponent.setCurrentValue(DOCKING_TARGET_SCALE);
+//    bodyComponent.body.setTransform(startPoint.x * MPP, startPoint.y * MPP, (float) Math.toRadians(angle));
 //    bodyComponent.body.setLinearDamping(4f);
-
-    EntityManager.getInstance().addUpdateable(this);
+//
+//    EntityManager.getInstance().addUpdateable(this);
   }
 
   @Override

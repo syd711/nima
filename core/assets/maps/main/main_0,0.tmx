@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="36">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="43">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -47,7 +47,7 @@
 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11
 </data>
  </layer>
- <layer name="layer_1" width="60" height="40">
+ <layer name="entities" width="60" height="40">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -99,25 +99,46 @@
    <ellipse/>
   </object>
   <object id="22" name="Pandora" type="Planet" x="601" y="133" width="206" height="232"/>
-  <object id="28" name="Cone Light Sample" type="ConeLight" x="37" y="1098" width="169" height="169">
+  <object id="28" name="Cone Light Sample" type="ConeLight" x="77" y="1136" width="89" height="93">
    <properties>
     <property name="coneDegree" value="60"/>
     <property name="lightDegree" value="30"/>
-    <property name="lightDistance" value="400"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="29" x="3" y="1068" width="85" height="81"/>
   <object id="33" name="ISS" type="Station" x="240" y="244" width="126" height="126">
    <ellipse/>
   </object>
   <object id="34" name="Deep Space Nine" type="Station" x="249" y="559" width="104" height="134"/>
  </objectgroup>
- <objectgroup name="lights" visible="0">
+ <objectgroup name="lights">
   <object id="25" type="PointLight" x="216" y="231" width="168" height="168">
    <properties>
     <property name="lightDistance" value="300"/>
    </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="data">
+  <object id="36" name="Route 1" type="Route" x="61" y="30" width="43" height="43">
+   <ellipse/>
+  </object>
+  <object id="38" name="Route 1" type="Route" x="95.5" y="922.5" width="43" height="43">
+   <properties>
+    <property name="shipProfile" value="merchant"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="39" name="Route 1" type="Route" x="702.5" y="1108.5" width="43" height="43">
+   <ellipse/>
+  </object>
+  <object id="40" name="Route 1" type="Route" x="1271.5" y="825.5" width="43" height="43">
+   <ellipse/>
+  </object>
+  <object id="41" name="Route 1" type="Route" x="1257.5" y="233.5" width="43" height="43">
+   <ellipse/>
+  </object>
+  <object id="42" name="Route 1" type="Route" x="809.5" y="41.5" width="43" height="43">
    <ellipse/>
   </object>
  </objectgroup>

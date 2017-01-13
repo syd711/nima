@@ -1,32 +1,22 @@
 package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.utils.Pool;
-import com.nima.data.RouteProfile;
+import com.badlogic.gdx.math.Vector2;
+import com.nima.data.ShipProfile;
 import com.nima.util.GraphicsUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains the path finding status
  */
-public class RouteComponent implements Component, Pool.Poolable {
+public class RouteComponent implements Component {
 
-  public RouteProfile route;
+  public String name;
+  public ShipProfile shipProfile;
+  public List<Vector2> routeCoordinates = new ArrayList<>();
+  public Vector2 spawnPoint;
+
   public long lastSpawnTime;
-  public long spawnOffset;
-
-  @Override
-  public void reset() {
-    this.route = null;
-    this.lastSpawnTime = 0;
-    this.spawnOffset = 0;
-  }
-
-  public void refreshSpawnOffset() {
-    lastSpawnTime = System.currentTimeMillis();
-    spawnOffset = (long) GraphicsUtil.random(route.minSpawnDelay, route.minSpawnDelay+route.spawnDelayOffset);
-  }
-
-  public boolean isValidSpawnInterval() {
-    return lastSpawnTime + spawnOffset < System.currentTimeMillis();
-  }
 }

@@ -4,15 +4,12 @@ import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.PolylineMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.ComponentFactory;
 import com.nima.components.LightComponent;
 import com.nima.managers.EntityManager;
 import com.nima.render.MapConstants;
-import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
 
 import static com.nima.render.MapConstants.*;
@@ -20,8 +17,7 @@ import static com.nima.render.MapConstants.*;
 /**
  * Store the updated position
  */
-public class MapObject2ConeLightConverter extends MapObjectConverter {
-  private static final float DEFAULT_LIGHT_DISTANCE = 300;
+public class MapObject2ConeLightConverter extends DefaultMapObjectConverter {
   private static final float DEFAULT_LIGHT_DEGREE = 45;
   private static final float DEFAULT_CONE_DEGREE = 45;
 
@@ -38,23 +34,11 @@ public class MapObject2ConeLightConverter extends MapObjectConverter {
   }
 
   @Override
-  public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
-  }
-
-  @Override
-  public void convertPolygon(TiledMapFragment mapFragment, PolygonMapObject mapObject) {
-  }
-
-  @Override
-  public void convertPolyline(TiledMapFragment mapFragment, PolylineMapObject mapObject) {
-
-  }
-
-  @Override
   public void convertEllipse(TiledMapFragment mapFragment, EllipseMapObject mapObject) {
+    Ellipse ellipse = mapObject.getEllipse();
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
 
-    float distance = getProperty(mapObject, PROPERTY_LIGHT_DISTANCE, DEFAULT_LIGHT_DISTANCE);
+    float distance = getProperty(mapObject, PROPERTY_LIGHT_DISTANCE, ellipse.width);
     float degree = getProperty(mapObject, PROPERTY_LIGHT_DEGREE, DEFAULT_LIGHT_DEGREE);
     float coneDegree = getProperty(mapObject, PROPERTY_CONE_DEGREE, DEFAULT_CONE_DEGREE);
 

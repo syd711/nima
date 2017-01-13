@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 import com.nima.util.Settings;
 
 import java.util.ArrayList;
@@ -64,5 +65,9 @@ public class TiledMapFragment {
   @Override
   public boolean equals(Object obj) {
     return getFilename().equals(((TiledMapFragment)obj).getFilename());
+  }
+
+  public void containsCoordinates(List<Vector2> routeCoordinates) {
+
   }
 }

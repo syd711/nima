@@ -16,6 +16,9 @@ import com.nima.util.PolygonUtil;
  * Stores the centered position of the map object.
  */
 public class MapObjectCenteredPositionConverter extends MapObjectConverter {
+  @Override
+  public void init(TiledMapFragment map) {
+  }
 
   @Override
   public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {

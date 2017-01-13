@@ -16,6 +16,10 @@ import com.nima.render.TiledMapFragment;
 public class MapObjectPositionUpdateConverter extends MapObjectConverter {
 
   @Override
+  public void init(TiledMapFragment map) {
+  }
+
+  @Override
   public void convertRectangle(TiledMapFragment mapFragment, RectangleMapObject mapObject) {
     Rectangle r = mapObject.getRectangle();
     r.setPosition(mapFragment.getXOffset() + r.getX(), mapFragment.getYOffset() + r.getY());

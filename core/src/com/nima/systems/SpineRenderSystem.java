@@ -1,6 +1,5 @@
 package com.nima.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
@@ -9,8 +8,6 @@ import com.nima.actors.Spine;
 import com.nima.components.SpineComponent;
 
 public class SpineRenderSystem extends AbstractIteratingSystem {
-  private ComponentMapper<SpineComponent> spineMap = ComponentMapper.getFor(SpineComponent.class);
-
   private BatchTiledMapRenderer renderer;
 
   public SpineRenderSystem(BatchTiledMapRenderer renderer) {
@@ -19,6 +16,7 @@ public class SpineRenderSystem extends AbstractIteratingSystem {
   }
 
   public void process(Entity entity, float deltaTime) {
+    //TODO only render active spines
     Spine spine = (Spine) entity;
     //spine rendering
     spine.state.update(Gdx.graphics.getDeltaTime()); // Update the animation time.

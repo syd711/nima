@@ -1,9 +1,7 @@
 package com.nima.managers;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -88,7 +86,7 @@ public class EntityManager {
     updateables.add(new Camera(camera, player));
 
     //TODO
-    NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_MERCHANT));
+    NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_PIRATE));
     engine.addEntity(m);
     updateables.add(m);
   }
@@ -177,16 +175,7 @@ public class EntityManager {
     return Box2dUtil.getEntityAt(Game.world, clickPoint);
   }
 
-  public boolean isRouteActive(RouteProfile routeProfile) {
-    ImmutableArray<Entity> entities = engine.getEntities();
-    for(Entity entity : entities) {
-      if(entity instanceof Route) {
-        Route route = (Route) entity;
-        if(route.routeComponent.route.equals(routeProfile)) {
-          return true;
-        }
-      }
-    }
-    return false;
+  public ImmutableArray<Entity> getEntitiesFor(Class<? extends Component> componentClass) {
+    return engine.getEntitiesFor(Family.all(componentClass).get());
   }
 }

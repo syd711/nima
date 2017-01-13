@@ -6,6 +6,7 @@ package com.nima.render;
 public class MapConstants {
 
   public static final String PROPERTY_OBJECT_TYPE = "type";
+  public static final String PROPERTY_SHIP_PROFILE = "shipProfile";
   public static final String PROPERTY_POSITION = "position";
   public static final String PROPERTY_CENTERED_POSITION = "centeredPosition";
   public static final String PROPERTY_LIGHT_DISTANCE = "lightDistance";
@@ -18,5 +19,6 @@ public class MapConstants {
   public static final String TYPE_POINT_LIGHT = "PointLight";
   public static final String TYPE_PLANET = "Planet";
   public static final String TYPE_STATION = "Station";
+  public static final String TYPE_ROUTE_POINT = "Route";
 
 }

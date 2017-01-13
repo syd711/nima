@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
-import com.nima.data.RouteProfile;
 import com.nima.data.ShipProfile;
 import com.nima.render.MapConstants;
 import com.nima.util.BodyGenerator;
@@ -138,9 +137,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static RouteComponent addRouteComponent(Route route, RouteProfile routeProfile) {
+  public static RouteComponent addRouteComponent(Route route, String name) {
     RouteComponent component = createComponent(RouteComponent.class);
-    component.route = routeProfile;
+    component.name = name;
     route.add(component);
     return component;
   }

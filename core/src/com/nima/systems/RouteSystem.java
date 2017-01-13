@@ -2,7 +2,6 @@ package com.nima.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.nima.actors.Route;
 import com.nima.components.RouteComponent;
 
 /**
@@ -16,13 +15,13 @@ public class RouteSystem extends AbstractIteratingSystem {
   }
 
   public void process(Entity entity, float deltaTime) {
-    Route route = (Route) entity;
-    RouteComponent routeComponent = route.getComponent(RouteComponent.class);
-    if(route.getShips().size() < routeComponent.route.shipCount) {
-      if(routeComponent.isValidSpawnInterval()) {
-        route.spawnShip();
-        routeComponent.refreshSpawnOffset();
-      }
-    }
+//    NPC npc = (NPC) entity;
+//    RouteComponent routeComponent = route.getComponent(RouteComponent.class);
+//    if(route.getShips().size() < routeComponent.route.shipCount) {
+//      if(routeComponent.isValidSpawnInterval()) {
+//        route.spawnShip();
+//        routeComponent.refreshSpawnOffset();
+//      }
+//    }
   }
 }

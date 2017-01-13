@@ -1,5 +1,5 @@
 {
-  "spine" : "spineboy",
+  "spine" : "player",
   "defaultAnimation" : null,
   "scale" : 0.3,
   "maxSpeed" : 3,
