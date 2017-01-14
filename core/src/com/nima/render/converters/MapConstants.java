@@ -11,6 +11,10 @@ public class MapConstants {
   public static final String PROPERTY_DOCKABLE = "dockable";
   public static final String PROPERTY_DOCK_TIME = "dockTime";
 
+  public static final String PROPERTY_BEHAVIOUR = "behaviour";
+  public static final String BEHAVIOUR_AGGRESSIVE = "aggressive";
+  public static final String BEHAVIOUR_PEACEFUL = "peaceful";
+
   public static final String PROPERTY_POSITION = "position";
   public static final String PROPERTY_CENTERED_POSITION = "centeredPosition";
 

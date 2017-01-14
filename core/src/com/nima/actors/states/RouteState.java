@@ -9,6 +9,7 @@ import com.nima.actors.Route;
 import com.nima.components.RouteComponent;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
+import com.nima.render.converters.MapConstants;
 
 /**
  * The different states of an attack.
@@ -34,7 +35,15 @@ public enum RouteState implements State<Route> {
       EntityManager.getInstance().add(npc);
       Vector2 spawnPoint = routeComponent.spawnPoint.position;
       Gdx.app.log(getClass().getName(), "Route '" + routeComponent.name + "': spawned ship " + routeComponent.shipProfile + " at " + spawnPoint);
-      npc.getStateMachine().changeState(NPCState.ROUTE);
+
+      //TODO behaviour to enum
+      if(routeComponent.behaviour.equals(MapConstants.BEHAVIOUR_AGGRESSIVE)) {
+        npc.getStateMachine().changeState(NPCState.ROUTE_AGGRESSIVE);
+      }
+      else {
+        npc.getStateMachine().changeState(NPCState.ROUTE);
+      }
+
     }
 
     @Override

@@ -50,20 +50,32 @@ public enum NPCState implements State<NPC> {
   ROUTE_POINT_ARRIVED() {
     @Override
     public void update(NPC npc) {
-      npc.getStateMachine().changeState(ROUTE);
+      State previousState = npc.getStateMachine().getPreviousState();
+      npc.getStateMachine().changeState(previousState);
     }
   },
-  SLEEP() {
+  ROUTE_AGGRESSIVE() {
     @Override
     public void enter(NPC npc) {
-      SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-      steerableComponent.setBehavior(null);
-      steerableComponent.setFaceBehaviour(null);
+      SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+      RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
+
+      RoutePoint point = routingComponent.nextTarget();
+      System.out.println(npc + " is pursueing " + point);
+      SteerableComponent targetSteering = routingComponent.getSteeringComponent(point);
+
+      Arrive<Vector2> behaviour = new Arrive<>(sourceSteering, targetSteering);
+      behaviour.setArrivalTolerance(0.10f);
+      behaviour.setDecelerationRadius(1f);
+      sourceSteering.setBehavior(behaviour);
+      sourceSteering.setFaceBehaviour(null);
     }
 
     @Override
-    public void update(NPC entity) {
-      updateState(entity);
+    public void update(NPC npc) {
+      if(shouldAttack(npc)) {
+        npc.getStateMachine().changeState(PURSUE);
+      }
     }
   },
   PURSUE() {
@@ -134,13 +146,21 @@ public enum NPCState implements State<NPC> {
     else if(distance > 250 && distance < 350){
       newState = NPCState.FACE;
     }
-    else {
+    else if(distance > 350 && distance < 500) {
       newState = NPCState.PURSUE;
+    }
+    else {
+      newState = NPCState.ROUTE_AGGRESSIVE;
     }
 
     if(npc.getStateMachine().getCurrentState() != newState) {
       npc.getStateMachine().changeState(newState);
     }
+  }
+
+  private static boolean shouldAttack(NPC npc) {
+    float distance = getDistanceToPlayer(npc);
+    return distance < 200;
   }
 
   private static float getDistanceToPlayer(NPC npc) {

@@ -33,6 +33,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
     Float dockTime = (Float) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
     Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
+    String behaviour = (String) mapObject.getProperties().get(MapConstants.PROPERTY_BEHAVIOUR);
 
     //apply additional route tracking point
     Route route = getOrCreateRoute(name);
@@ -48,6 +49,9 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
       ShipProfile ship = DataEntities.getShip(shipProfile);
       route.routeComponent.shipProfile = ship;
       route.routeComponent.spawnPoint = routePoint;
+    }
+    if(behaviour != null) {
+      route.routeComponent.behaviour = behaviour;
     }
   }
 

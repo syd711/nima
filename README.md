@@ -30,3 +30,6 @@ data        type:Route          Defines a point of a route          The route th
                                 Valid ship types are:
                                 - merchant
                                 - pirate
+            behaviour:<STRING>  Steering Behaviours:
+                                - aggressive
+                                - peaceful (default)
