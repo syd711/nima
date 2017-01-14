@@ -1,6 +1,7 @@
 package com.nima.actors;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.*;
 import com.nima.data.DataEntities;
@@ -21,14 +22,14 @@ public class Ship extends Spine {
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;
 
-  public Ship(ShipProfile profile) {
+  public Ship(ShipProfile profile, State state) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
-    createComponents(profile);
+    createComponents(profile, state);
   }
 
-  protected void createComponents(ShipProfile profile) {
+  protected void createComponents(ShipProfile profile, State state) {
     scalingComponent = ComponentFactory.addScalingComponent(this);
-    statefulComponent = ComponentFactory.addStatefulComponent(this);
+    statefulComponent = ComponentFactory.addStatefulComponent(this, state);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
     speedComponent = ComponentFactory.addSpeedComponent(this, profile);

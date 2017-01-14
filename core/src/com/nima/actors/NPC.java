@@ -1,6 +1,5 @@
 package com.nima.actors;
 
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.nima.actors.states.NPCState;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RoutingComponent;
@@ -28,11 +27,9 @@ public class NPC extends Ship {
 //  }
 
 
-  public NPC(ShipProfile shipProfile, Route route) {
-    super(shipProfile);
+  public NPC(ShipProfile shipProfile, Route route, NPCState state) {
+    super(shipProfile, state);
     routingComponent = ComponentFactory.addRoutingComponent(this, route);
     bodyComponent.body.setTransform(routingComponent.target.position.x * MPP, routingComponent.target.position.y * MPP, 0);
-    statefulComponent.stateMachine = new DefaultStateMachine<>(this, NPCState.IDLE);
-    statefulComponent.stateMachine.changeState(NPCState.ROUTE);
   }
 }

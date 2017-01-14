@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
@@ -149,6 +151,13 @@ public class ComponentFactory {
   public static SteerableComponent addSteerableComponent(Entity entity, Body body, ShipProfile profile) {
     SteerableComponent component = createComponent(SteerableComponent.class);
     component.init(body, profile);
+    entity.add(component);
+    return component;
+  }
+
+  public static StatefulComponent addStatefulComponent(Entity entity, State state) {
+    StatefulComponent component = createComponent(StatefulComponent.class);
+    component.stateMachine = new DefaultStateMachine<>(entity, state);
     entity.add(component);
     return component;
   }

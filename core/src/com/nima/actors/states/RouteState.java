@@ -30,10 +30,11 @@ public enum RouteState implements State<Route> {
     public void enter(Route route) {
       RouteComponent routeComponent = route.routeComponent;
       ShipProfile shipProfile = routeComponent.shipProfile;
-      NPC m = new NPC(shipProfile, route);
-      EntityManager.getInstance().add(m);
+      NPC npc = new NPC(shipProfile, route, NPCState.IDLE);
+      EntityManager.getInstance().add(npc);
       Vector2 spawnPoint = routeComponent.spawnPoint.position;
       Gdx.app.log(getClass().getName(), "Route '" + routeComponent.name + "': spawned ship " + routeComponent.shipProfile + " at " + spawnPoint);
+      npc.getStateMachine().changeState(NPCState.ROUTE);
     }
 
     @Override

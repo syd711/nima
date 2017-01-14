@@ -1,7 +1,7 @@
 package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.states.PlayerState;
 import com.nima.components.ComponentFactory;
@@ -24,13 +24,13 @@ public class Player extends Ship {
   }
 
   public Player(ShipProfile profile) {
-    super(profile);
+    super(profile, PlayerState.IDLE);
     instance = this;
   }
 
   @Override
-  protected void createComponents(ShipProfile profile) {
-    super.createComponents(profile);
+  protected void createComponents(ShipProfile profile, State state) {
+    super.createComponents(profile, state);
 
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
@@ -39,9 +39,6 @@ public class Player extends Ship {
 
     //special player movement
     movementComponent = ComponentFactory.addMovementComponent(this);
-
-    //state machine for the player
-    statefulComponent.stateMachine = new DefaultStateMachine<>(this, PlayerState.IDLE);
   }
 
 }
