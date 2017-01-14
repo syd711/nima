@@ -56,7 +56,7 @@ public class MapObject2StationEntityConverter extends MapObjectConverter {
     ComponentFactory.addMapObjectComponent(entity, mapObject);
     ComponentFactory.addBodyComponent(entity, mapObject);
 
-    Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
+    Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
     body.setUserData(entity);
 
     EntityManager.getInstance().add(entity);

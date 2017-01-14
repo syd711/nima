@@ -58,7 +58,7 @@ public class MapObjectBox2dConverter extends MapObjectConverter {
 
   @Override
   public void destroy(TiledMapFragment mapFragment, MapObject mapObject) {
-    Object body = mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
+    Object body = mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
     if(body != null) {
       world.destroyBody((Body) body);
     }
@@ -81,7 +81,7 @@ public class MapObjectBox2dConverter extends MapObjectConverter {
     fixtureDef.isSensor = true;
     shape.dispose();
 
-    mapObject.getProperties().put(MapConstants.PROPERTY_COLLISION_COMPONENT, body);
+    mapObject.getProperties().put(MapConstants.PROPERTY_BOX2D_BODY, body);
   }
 
   // -------------------- Box2d Conversion ----------------------------------

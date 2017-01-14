@@ -6,15 +6,19 @@ package com.nima.render.converters;
 public class MapConstants {
 
   public static final String PROPERTY_OBJECT_TYPE = "type";
+
   public static final String PROPERTY_SHIP_PROFILE = "shipProfile";
   public static final String PROPERTY_DOCKABLE = "dockable";
   public static final String PROPERTY_DOCK_TIME = "dockTime";
+
   public static final String PROPERTY_POSITION = "position";
   public static final String PROPERTY_CENTERED_POSITION = "centeredPosition";
+
   public static final String PROPERTY_LIGHT_DISTANCE = "lightDistance";
   public static final String PROPERTY_LIGHT_DEGREE = "lightDegree";
   public static final String PROPERTY_CONE_DEGREE = "coneDegree";
-  public static final String PROPERTY_COLLISION_COMPONENT = "collisionComponent";
+
+  public static final String PROPERTY_BOX2D_BODY = "body";
 
   // PointLight, DirectionalLight, PositionalLight, ConeLight
   public static final String TYPE_CONE_LIGHT = "ConeLight";

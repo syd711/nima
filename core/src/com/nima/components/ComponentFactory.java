@@ -42,7 +42,7 @@ public class ComponentFactory {
 
   public static BodyComponent addBodyComponent(Entity entity, MapObject mapObject) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_COLLISION_COMPONENT);
+    component.body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
     component.body.setLinearDamping(4f);
     entity.add(component);
     return component;
