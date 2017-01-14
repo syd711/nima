@@ -1,7 +1,6 @@
 package com.nima.util;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -72,4 +71,44 @@ public class Box2dUtil {
     }
     return null;
   }
+
+
+
+
+
+//  @Override
+//  public void update() {
+//    if(routingComponent != null) {
+//
+//      if(scalingComponent.isChanging()) {
+//        return;
+//      }
+//      //TODO build state machine and move to routing component
+//      float currentAngle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
+//      Vector2 delta = GraphicsUtil.getDelta(currentAngle, 2f);
+//      Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);
+//      float x = box2dDelta.x;
+//      float y = box2dDelta.y;
+//      Vector2 position = bodyComponent.body.getPosition();
+//
+//      if(currentAngle >= 0 && currentAngle <= 90) {
+//        position.x = position.x + x;
+//        position.y = position.y + y;
+//      }
+//      else if(currentAngle > 90 && currentAngle <= 180) {
+//        position.x = position.x - x;
+//        position.y = position.y + y;
+//      }
+//      else if(currentAngle < 0 && currentAngle >= -90) {
+//        position.x = position.x + x;
+//        position.y = position.y - y;
+//      }
+//      else if(currentAngle < -90 && currentAngle >= -180) {
+//        position.x = position.x - x;
+//        position.y = position.y - y;
+//      }
+//
+//      bodyComponent.body.setTransform(position, bodyComponent.body.getAngle());
+//    }
+//  }
 }

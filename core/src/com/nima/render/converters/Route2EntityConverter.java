@@ -32,7 +32,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
-    Integer dockTime = (Integer) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
+    Float dockTime = (Float) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
     Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
 
     //apply additional route tracking point
