@@ -10,10 +10,9 @@ import com.nima.data.DataEntities;
 import com.nima.data.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
-import com.nima.render.MapConstants;
 import com.nima.render.TiledMapFragment;
 
-import static com.nima.render.MapConstants.PROPERTY_OBJECT_TYPE;
+import static com.nima.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
 
 /**
  * Initializes the map positions of route stations.

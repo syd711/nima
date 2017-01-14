@@ -1,4 +1,4 @@
-package com.nima.render;
+package com.nima.render.converters;
 
 /**
  * Constants used in the Tiled Map Editor

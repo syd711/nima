@@ -15,7 +15,7 @@ import com.nima.Game;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
 import com.nima.data.ShipProfile;
-import com.nima.render.MapConstants;
+import com.nima.render.converters.MapConstants;
 import com.nima.util.BodyGenerator;
 import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;

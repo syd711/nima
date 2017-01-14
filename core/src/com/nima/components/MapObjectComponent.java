@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.nima.render.MapConstants;
+import com.nima.render.converters.MapConstants;
 
 /**
  * Component implementation for map objects

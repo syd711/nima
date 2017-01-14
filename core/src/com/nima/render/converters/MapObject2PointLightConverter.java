@@ -9,11 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.components.ComponentFactory;
 import com.nima.components.LightComponent;
 import com.nima.managers.EntityManager;
-import com.nima.render.MapConstants;
 import com.nima.render.TiledMapFragment;
 
-import static com.nima.render.MapConstants.PROPERTY_LIGHT_DISTANCE;
-import static com.nima.render.MapConstants.PROPERTY_OBJECT_TYPE;
+import static com.nima.render.converters.MapConstants.PROPERTY_LIGHT_DISTANCE;
+import static com.nima.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
 
 /**
  * Store the updated position

@@ -10,11 +10,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.actors.Location;
 import com.nima.components.ComponentFactory;
 import com.nima.managers.EntityManager;
-import com.nima.render.MapConstants;
 import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
 
-import static com.nima.render.MapConstants.PROPERTY_OBJECT_TYPE;
+import static com.nima.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
 
 /**
  * Store the updated position

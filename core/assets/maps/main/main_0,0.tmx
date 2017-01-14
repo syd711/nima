@@ -149,13 +149,14 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="46" name="Pirate 1" type="Route" x="214" y="792" width="32" height="32">
+  <object id="46" name="Pirate 1" type="Route" x="368" y="1161" width="32" height="32">
    <properties>
+    <property name="behaviour" value="aggressive"/>
     <property name="shipProfile" value="pirate"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="48" name="Pirate 1" type="Route" x="587" y="789" width="32" height="32">
+  <object id="48" name="Pirate 1" type="Route" x="967" y="1147" width="32" height="32">
    <ellipse/>
   </object>
  </objectgroup>

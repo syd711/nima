@@ -9,12 +9,11 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.nima.render.MapConstants;
 import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
 import com.nima.util.Settings;
 
-import static com.nima.render.MapConstants.PROPERTY_OBJECT_TYPE;
+import static com.nima.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
 
 /**
  * Creates Box2d bodies from map objects depending on the map object type.
