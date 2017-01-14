@@ -16,7 +16,7 @@ public class RoutePoint {
   public Vector2 position;
   public boolean dockable;
   public boolean spawnPoint;
-  public Integer dockTime;
+  public Float dockTime;
 
   @Override
   public String toString() {

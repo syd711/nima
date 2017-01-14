@@ -25,7 +25,7 @@ lights      type:PointLight     Defines a point light               - ignored - 
             lightDistance:<INT> Size of the light, if undefined the width of the circle will be used
 data        type:Route          Defines a point of a route          The route the point belongs to  Circle
             dockable:<BOOLEAN>  true/false to play docking animation, used for locations
-            dockTime:<INT>      Milliseconds to stack docked (hidden)
+            dockTime:<FLOAT>    Milliseconds to stack docked (hidden)
             shipProfile:<STRING>Type of the ship that is on this route, only defined for 1x point.
                                 Valid ship types are:
                                 - merchant

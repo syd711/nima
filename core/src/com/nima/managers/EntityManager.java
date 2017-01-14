@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
 import com.nima.actors.Camera;
-import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.actors.Updateable;
 import com.nima.components.ComponentFactory;
@@ -86,10 +85,6 @@ public class EntityManager {
     engine.addSystem(stateMachineSystem);
 
     updateables.add(new Camera(camera, player));
-
-    //TODO
-    NPC m = new NPC(DataEntities.getShip(DataEntities.SHIP_PIRATE));
-    engine.addEntity(m);
   }
 
   public static EntityManager create(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
