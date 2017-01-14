@@ -21,6 +21,8 @@ import com.nima.util.Box2dUtil;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.Resources;
 
+import static com.nima.util.Settings.MPP;
+
 /**
  * All component creations should be here.
  */
@@ -173,6 +175,11 @@ public class ComponentFactory {
     component.target = route.routeComponent.spawnPoint;
     component.targets = route.routeComponent.routeCoordinates;
     entity.add(component);
+
+    //apply body position to route too
+    BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
+    bodyComponent.body.setTransform(component.target.position.x * MPP, component.target.position.y * MPP, 0);
+
     return component;
   }
 }
