@@ -23,7 +23,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && type.equals(MapConstants.TYPE_ROUTE_POINT);
+    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_ROUTE_POINT);
   }
 
   @Override

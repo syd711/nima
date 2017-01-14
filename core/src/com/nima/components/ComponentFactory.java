@@ -49,7 +49,6 @@ public class ComponentFactory {
     component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
-    component.body.setLinearDamping(4f);
     entity.add(component);
     return component;
   }

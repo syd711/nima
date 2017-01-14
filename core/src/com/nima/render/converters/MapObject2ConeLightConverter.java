@@ -30,7 +30,7 @@ public class MapObject2ConeLightConverter extends DefaultMapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && type.equals(MapConstants.TYPE_CONE_LIGHT);
+    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_CONE_LIGHT);
   }
 
   @Override

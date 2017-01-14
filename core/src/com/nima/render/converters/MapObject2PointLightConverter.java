@@ -28,7 +28,7 @@ public class MapObject2PointLightConverter extends DefaultMapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && type.equals(MapConstants.TYPE_POINT_LIGHT);
+    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_POINT_LIGHT);
   }
 
   @Override

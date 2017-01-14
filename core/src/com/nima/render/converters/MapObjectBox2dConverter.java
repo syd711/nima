@@ -34,7 +34,7 @@ public class MapObjectBox2dConverter extends MapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && (type.equals(MapConstants.TYPE_PLANET) || type.equals(MapConstants.TYPE_STATION));
+    return type != null && (type.equalsIgnoreCase(MapConstants.TYPE_PLANET) || type.equalsIgnoreCase(MapConstants.TYPE_STATION));
   }
 
   @Override
