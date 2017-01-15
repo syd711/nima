@@ -6,9 +6,7 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.actors.Location;
-import com.nima.components.ComponentFactory;
 import com.nima.managers.EntityManager;
 import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
@@ -52,13 +50,7 @@ public class MapObject2StationEntityConverter extends MapObjectConverter {
   }
 
   private void createStationEntity(MapObject mapObject) {
-    Entity entity = new Location();
-    ComponentFactory.addMapObjectComponent(entity, mapObject);
-    ComponentFactory.addBodyComponent(entity, mapObject);
-
-    Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
-    body.setUserData(entity);
-
+    Entity entity = new Location(mapObject);
     EntityManager.getInstance().add(entity);
   }
 }

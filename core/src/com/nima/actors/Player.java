@@ -32,6 +32,8 @@ public class Player extends Ship {
   protected void createComponents(ShipProfile profile, State state) {
     super.createComponents(profile, state);
 
+    ComponentFactory.addPlayerCollisionComponent(this);
+
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));

@@ -18,6 +18,7 @@ public class NPC extends Ship {
     super(shipProfile, state);
     this.route = route;
     routingComponent = ComponentFactory.addRoutingComponent(this, route);
+    ComponentFactory.addNPCCollisionComponent(this);
   }
 
   public float distanceToPlayer() {

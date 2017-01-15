@@ -3,7 +3,6 @@ package com.nima.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +13,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
+import com.nima.components.collision.BulletCollisionComponent;
+import com.nima.components.collision.LocationCollisionComponent;
+import com.nima.components.collision.NPCCollisionComponent;
+import com.nima.components.collision.PlayerCollisionComponent;
 import com.nima.data.ShipProfile;
 import com.nima.render.converters.MapConstants;
 import com.nima.util.BodyGenerator;
@@ -50,7 +53,8 @@ public class ComponentFactory {
 
   public static BodyComponent addBodyComponent(Entity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
+//    component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
+    component.body = BodyGenerator.createBulletBody(position);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
     entity.add(component);
@@ -180,6 +184,30 @@ public class ComponentFactory {
     BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
     bodyComponent.body.setTransform(component.target.position.x * MPP, component.target.position.y * MPP, 0);
 
+    return component;
+  }
+
+  public static LocationCollisionComponent addLocationCollisionComponent(Entity entity) {
+    LocationCollisionComponent component = createComponent(LocationCollisionComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static BulletCollisionComponent addBulletCollisionComponent(Entity entity) {
+    BulletCollisionComponent component = createComponent(BulletCollisionComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static NPCCollisionComponent addNPCCollisionComponent(Entity entity) {
+    NPCCollisionComponent component = createComponent(NPCCollisionComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static PlayerCollisionComponent addPlayerCollisionComponent(Entity entity) {
+    PlayerCollisionComponent component = createComponent(PlayerCollisionComponent.class);
+    entity.add(component);
     return component;
   }
 }

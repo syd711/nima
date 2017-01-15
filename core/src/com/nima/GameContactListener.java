@@ -1,5 +1,6 @@
 package com.nima;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -17,8 +18,8 @@ import com.nima.data.RoutePoint;
 public class GameContactListener implements ContactListener {
   @Override
   public void beginContact(Contact contact) {
-    Object userDataA = contact.getFixtureA().getBody().getUserData();
-    Object userDataB = contact.getFixtureB().getBody().getUserData();
+    Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
     System.out.println(userDataA + " contacted " + userDataB);
 
@@ -32,16 +33,12 @@ public class GameContactListener implements ContactListener {
       NPC npc = (NPC) userDataA;
       npc.getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
-
-//    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);
   }
 
   @Override
   public void endContact(Contact contact) {
-    Object userDataA = contact.getFixtureA().getBody().getUserData();
-    Object userDataB = contact.getFixtureB().getBody().getUserData();
-
-//    EntityManager.getInstance().notifyCollisionEnd(userDataA, userDataB);
+    Entity userDataA = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
   }
 
   @Override

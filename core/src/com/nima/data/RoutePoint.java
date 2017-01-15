@@ -1,11 +1,13 @@
 package com.nima.data;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Model for a tracking point of a route
+ * Model for a tracking point of a route.
+ * This model is an entity although it is never added to Ashley.
  */
-public class RoutePoint {
+public class RoutePoint extends Entity {
   //steering defaults
   public float boundingRadius = 200;
   public float maxLinearSpeed = 500;

@@ -53,6 +53,26 @@ public class BodyGenerator {
     return body;
   }
 
+  public static Body createBulletBody(Vector2 position) {
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(position.x * MPP, position.y * MPP);
+    Body b = world.createBody(bdef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(10 * MPP, 2.5f * MPP);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.isSensor = true;
+    fdef.density = 0.02f;
+    fdef.restitution = 0.9f;
+    fdef.shape = shape;
+    b.createFixture(fdef);
+    shape.dispose();
+
+    return b;
+  }
+
   public static Body generateRoutePointBody(RoutePoint point) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
