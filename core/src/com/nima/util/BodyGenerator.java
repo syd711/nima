@@ -35,6 +35,26 @@ public class BodyGenerator {
 
   private static World world = Game.world;
 
+
+
+  public static Body createMapObjectBody(Shape shape) {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.awake = false;
+    bodyDef.type = BodyDef.BodyType.StaticBody;
+
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+
+    Body body = world.createBody(bodyDef);
+    body.setActive(true);
+    body.createFixture(fixtureDef);
+    fixtureDef.shape = null;
+    fixtureDef.isSensor = true;
+    shape.dispose();
+
+    return body;
+  }
+
   public static Body generateRoutePointBody(RoutePoint point) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;

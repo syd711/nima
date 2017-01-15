@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.nima.render.MapObjectConverter;
 import com.nima.render.TiledMapFragment;
+import com.nima.util.BodyGenerator;
 import com.nima.util.Settings;
 
 import static com.nima.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
@@ -67,20 +68,7 @@ public class MapObjectBox2dConverter extends MapObjectConverter {
   //------------------- Helper ---------------------------------
 
   private void createBody(MapObject mapObject, Shape shape) {
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.awake = false;
-    bodyDef.type = BodyDef.BodyType.StaticBody;
-
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-
-    Body body = world.createBody(bodyDef);
-    body.setActive(true);
-    body.createFixture(fixtureDef);
-    fixtureDef.shape = null;
-    fixtureDef.isSensor = true;
-    shape.dispose();
-
+    Body body = BodyGenerator.createMapObjectBody(shape);
     mapObject.getProperties().put(MapConstants.PROPERTY_BOX2D_BODY, body);
   }
 
