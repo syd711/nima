@@ -5,9 +5,12 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.NPC;
+import com.nima.actors.states.NPCStates;
 import com.nima.components.RoutingComponent;
 import com.nima.components.SteerableComponent;
 import com.nima.data.RoutePoint;
+
+import static com.nima.render.converters.MapConstants.BEHAVIOUR_AGGRESSIVE;
 
 /**
  * Let the give npc follow its route.
@@ -30,7 +33,16 @@ public class RouteState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-      //return distance < 200;
+    String behaviour = npc.getBehaviour();
+    if(behaviour.equals(BEHAVIOUR_AGGRESSIVE)) {
+      float distanceToPlayer = npc.distanceToPlayer();
+      if(distanceToPlayer < npc.shipProfile.attackDistance) {
+        npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
+      }
+    }
+    else {
+
+    }
   }
 
   @Override
