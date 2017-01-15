@@ -23,9 +23,6 @@ public class SpawnShipState implements State<Route> {
     EntityManager.getInstance().add(npc);
     Vector2 spawnPoint = routeComponent.spawnPoint.position;
     Gdx.app.log(getClass().getName(), "Route '" + routeComponent.name + "': spawned ship " + routeComponent.shipProfile + " at " + spawnPoint);
-
-    //TODO behaviour to enum
-    //if(routeComponent.behaviour.equals(MapConstants.BEHAVIOUR_AGGRESSIVE)) {
     npc.getStateMachine().changeState(NPCStates.ROUTE);
   }
 
