@@ -35,8 +35,6 @@ public class BodyGenerator {
 
   private static World world = Game.world;
 
-
-
   public static Body createMapObjectBody(Shape shape) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.awake = false;
