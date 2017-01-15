@@ -8,6 +8,9 @@ public class ShipProfile {
   public float scale;
   public String defaultAnimation;
 
+  //Behaviour attributes
+  public float attackDistance;
+
   //Speed
   public float maxSpeed;
   public float rotationSpeed;

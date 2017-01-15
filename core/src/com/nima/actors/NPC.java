@@ -1,6 +1,6 @@
 package com.nima.actors;
 
-import com.nima.actors.states.NPCState;
+import com.badlogic.gdx.ai.fsm.State;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RoutingComponent;
 import com.nima.data.ShipProfile;
@@ -12,7 +12,7 @@ import com.nima.data.ShipProfile;
 public class NPC extends Ship {
   public RoutingComponent routingComponent;
 
-  public NPC(ShipProfile shipProfile, Route route, NPCState state) {
+  public NPC(ShipProfile shipProfile, Route route, State state) {
     super(shipProfile, state);
     routingComponent = ComponentFactory.addRoutingComponent(this, route);
   }

@@ -21,9 +21,11 @@ public class Ship extends Spine {
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;
+  public ShipProfile profile;
 
   public Ship(ShipProfile profile, State state) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
+    this.profile = profile;
     createComponents(profile, state);
   }
 
