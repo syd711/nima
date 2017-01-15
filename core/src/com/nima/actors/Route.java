@@ -2,7 +2,7 @@ package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.nima.actors.states.RouteState;
+import com.nima.actors.states.RouteStates;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RouteComponent;
 import com.nima.components.StatefulComponent;
@@ -17,6 +17,6 @@ public class Route extends Entity {
   public Route(String name) {
     routeComponent = ComponentFactory.addRouteComponent(this, name);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
-    statefulComponent.stateMachine = new DefaultStateMachine<>(this, RouteState.IDLE);
+    statefulComponent.stateMachine = new DefaultStateMachine<>(this, RouteStates.IDLE);
   }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.nima.actors.Location;
 import com.nima.actors.NPC;
 import com.nima.actors.Player;
-import com.nima.actors.states.MerchantStates;
+import com.nima.actors.states.NPCStates;
 import com.nima.actors.states.PlayerState;
 import com.nima.data.RoutePoint;
 
@@ -30,7 +30,7 @@ public class GameContactListener implements ContactListener {
 
     if(userDataA instanceof NPC && userDataB instanceof RoutePoint) {
       NPC npc = (NPC) userDataA;
-      npc.getStateMachine().changeState(MerchantStates.ROUTE_POINT_ARRIVED);
+      npc.getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
 
 //    EntityManager.getInstance().notifyCollisionStart(userDataA, userDataB);

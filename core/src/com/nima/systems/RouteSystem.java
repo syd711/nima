@@ -3,7 +3,7 @@ package com.nima.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.nima.actors.Route;
-import com.nima.actors.states.RouteState;
+import com.nima.actors.states.RouteStates;
 import com.nima.components.RouteComponent;
 
 /**
@@ -18,8 +18,8 @@ public class RouteSystem extends AbstractIteratingSystem {
 
   public void process(Entity entity, float deltaTime) {
     Route route = (Route) entity;
-    if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteState.IDLE)) {
-      route.statefulComponent.stateMachine.changeState(RouteState.SPAWN_SHIP);
+    if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteStates.IDLE)) {
+      route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIP);
     }
   }
 }
