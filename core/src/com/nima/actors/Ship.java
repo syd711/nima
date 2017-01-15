@@ -21,11 +21,11 @@ public class Ship extends Spine {
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;
-  public ShipProfile profile;
+  public ShipProfile shipProfile;
 
   public Ship(ShipProfile profile, State state) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
-    this.profile = profile;
+    this.shipProfile = profile;
     createComponents(profile, state);
   }
 
@@ -48,7 +48,7 @@ public class Ship extends Spine {
    */
   public void fireAt(Vector2 worldCoordinates) {
     if(shootingComponent.isCharged()) {
-      Bullet.fireBullet(shootingComponent, positionComponent.getPosition(), worldCoordinates);
+      Bullet.fireBullet(shootingComponent, getCenter(), worldCoordinates);
     }
   }
 
