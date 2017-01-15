@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.NPC;
 import com.nima.actors.Player;
+import com.nima.actors.states.NPCStates;
 import com.nima.components.SteerableComponent;
 import com.nima.systems.behaviours.FaceToPlayerBehaviour;
 
@@ -24,7 +25,10 @@ public class PursuePlayerState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-
+    float distanceToPlayer = npc.distanceToPlayer();
+    if(distanceToPlayer > npc.shipProfile.attackDistance) {
+      npc.getStateMachine().changeState(NPCStates.ROUTE);
+    }
   }
 
   @Override
