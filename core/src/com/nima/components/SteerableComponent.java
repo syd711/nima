@@ -8,7 +8,7 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;

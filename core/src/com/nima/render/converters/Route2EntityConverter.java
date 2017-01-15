@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.Route;
 import com.nima.components.RouteComponent;
 import com.nima.data.DataEntities;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.managers.EntityManager;
 import com.nima.render.TiledMapFragment;

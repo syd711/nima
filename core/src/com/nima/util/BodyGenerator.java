@@ -9,7 +9,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.nima.Game;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
+import com.nima.actors.Spine;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.*;
 import static com.nima.util.Settings.MPP;
@@ -33,7 +34,40 @@ public class BodyGenerator {
   private static final String BODY_DEF = "BodyDef";
   private static final String FIXTURES = "Fixtures";
 
+  private static final short FILTER_CATEGORY_ENTITY = -1;
+  private static final short FILTER_CATEGORY_WORLD = -2;
+
   private static World world = Game.world;
+
+  /**
+   * Creates the Box2d body for the given spine
+   */
+  public static Body createSpineBody(World world, Spine spine) {
+    Vector2 center = spine.getCenter();
+
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(center.x * MPP, center.y * MPP);
+    Body b = world.createBody(bdef);
+
+    PolygonShape shape = new PolygonShape();
+    float scaling = spine.jsonScaling;
+    shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.isSensor = true;
+    fdef.density = 1;
+    fdef.restitution = 0.9f;
+    fdef.shape = shape;
+    fdef.filter.groupIndex = FILTER_CATEGORY_WORLD;
+//    if(spine instanceof Player) {
+//      fdef.filter.groupIndex = FILTER_CATEGORY_ENTITY;
+//    }
+    b.createFixture(fdef);
+    shape.dispose();
+
+    return b;
+  }
 
   public static Body createMapObjectBody(Shape shape) {
     BodyDef bodyDef = new BodyDef();
@@ -44,10 +78,10 @@ public class BodyGenerator {
     fixtureDef.shape = shape;
 
     Body body = world.createBody(bodyDef);
-    body.setActive(true);
     body.createFixture(fixtureDef);
     fixtureDef.shape = null;
     fixtureDef.isSensor = true;
+    fixtureDef.filter.groupIndex = FILTER_CATEGORY_WORLD;
     shape.dispose();
 
     return body;

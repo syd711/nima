@@ -3,9 +3,11 @@ package com.nima.actors;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.nima.components.*;
 import com.nima.data.DataEntities;
 import com.nima.data.ShipProfile;
+import com.nima.managers.SoundManager;
 import com.nima.util.Resources;
 
 /**
@@ -49,6 +51,7 @@ public class Ship extends Spine {
   public void fireAt(Vector2 worldCoordinates) {
     if(shootingComponent.isCharged()) {
       Bullet.fireBullet(shootingComponent, getCenter(), worldCoordinates);
+      SoundManager.playSoundAtPosition("sounds/laser.wav", 0.5f, new Vector3(positionComponent.x, positionComponent.y, 0));
     }
   }
 

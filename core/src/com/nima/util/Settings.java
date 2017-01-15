@@ -6,6 +6,7 @@ package com.nima.util;
 public class Settings {
 
   public static final boolean DEBUG = true;
+  public static final boolean SOUND_ENABLED = false;
   public static final float DOCKING_TARGET_SCALE = 0.4f;
 
   /**

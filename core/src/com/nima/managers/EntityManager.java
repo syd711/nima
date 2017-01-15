@@ -10,6 +10,7 @@ import com.nima.Game;
 import com.nima.actors.Camera;
 import com.nima.actors.Player;
 import com.nima.actors.Updateable;
+import com.nima.components.BodyComponent;
 import com.nima.components.ComponentFactory;
 import com.nima.data.DataEntities;
 import com.nima.render.TiledMultiMapRenderer;
@@ -154,6 +155,10 @@ public class EntityManager {
 
     if(!destroyEntities.isEmpty()) {
       for (Entity entity : destroyEntities) {
+        BodyComponent component = entity.getComponent(BodyComponent.class);
+        if(component != null) {
+          component.destroy();
+        }
         engine.removeEntity(entity);
         Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
@@ -175,4 +180,5 @@ public class EntityManager {
   public <T extends Component> T createComponent (Class<T> componentType) {
     return engine.createComponent(componentType);
   }
+
 }

@@ -8,7 +8,7 @@ import com.nima.actors.NPC;
 import com.nima.actors.states.NPCStates;
 import com.nima.components.RoutingComponent;
 import com.nima.components.SteerableComponent;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
 
 import static com.nima.render.converters.MapConstants.BEHAVIOUR_AGGRESSIVE;
 

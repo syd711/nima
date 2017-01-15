@@ -13,10 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.Game;
 import com.nima.actors.Route;
 import com.nima.actors.Spine;
-import com.nima.components.collision.BulletCollisionComponent;
-import com.nima.components.collision.LocationCollisionComponent;
-import com.nima.components.collision.NPCCollisionComponent;
-import com.nima.components.collision.PlayerCollisionComponent;
+import com.nima.components.collision.*;
 import com.nima.data.ShipProfile;
 import com.nima.render.converters.MapConstants;
 import com.nima.util.BodyGenerator;
@@ -53,7 +50,6 @@ public class ComponentFactory {
 
   public static BodyComponent addBodyComponent(Entity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
     BodyComponent component = createComponent(BodyComponent.class);
-//    component.body = BodyGenerator.generateBody(entity, sprite, Gdx.files.internal(Resources.SPRITE_BODIES + name + ".json"), filterCategory);
     component.body = BodyGenerator.createBulletBody(position);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
@@ -63,7 +59,7 @@ public class ComponentFactory {
 
   public static BodyComponent addBodyComponent(Spine spine) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = Box2dUtil.createSpineBody(Game.world, spine);
+    component.body = BodyGenerator.createSpineBody(Game.world, spine);
     component.body.setLinearDamping(4f);
     component.body.setUserData(spine);
     spine.add(component);
@@ -207,6 +203,12 @@ public class ComponentFactory {
 
   public static PlayerCollisionComponent addPlayerCollisionComponent(Entity entity) {
     PlayerCollisionComponent component = createComponent(PlayerCollisionComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static RoutePointCollisionComponent addRoutePointCollisionComponent(Entity entity) {
+    RoutePointCollisionComponent component = createComponent(RoutePointCollisionComponent.class);
     entity.add(component);
     return component;
   }

@@ -1,6 +1,5 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.components.BodyComponent;
 import com.nima.components.ComponentFactory;
@@ -10,7 +9,7 @@ import com.nima.components.SpriteComponent;
 /**
  * Common superclass for Sprite entities
  */
-public class Sprite extends Entity {
+public class Sprite extends AshleyEntity {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;

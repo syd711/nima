@@ -2,7 +2,7 @@ package com.nima.components;
 
 import com.badlogic.ashley.core.Component;
 import com.nima.actors.NPC;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.render.converters.MapConstants;
 

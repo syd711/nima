@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
+import com.nima.Game;
 import com.nima.util.Box2dUtil;
 
 import static com.nima.util.Settings.PPM;
@@ -14,7 +15,6 @@ import static com.nima.util.Settings.PPM;
 public class BodyComponent implements Component, Pool.Poolable {
 
   public Body body;
-  private Vector2 worldPosition;
 
   @Override
   public void reset() {
@@ -29,5 +29,11 @@ public class BodyComponent implements Component, Pool.Poolable {
   public void setWorldPosition(Vector2 worldPosition) {
     Vector2 pos = Box2dUtil.toBox2Vector(worldPosition);
     body.setTransform(pos.x, pos.y, body.getAngle());
+  }
+
+  public void destroy() {
+    if(body != null) {
+      Game.world.destroyBody(body);
+    }
   }
 }

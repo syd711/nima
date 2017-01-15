@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.nima.Game;
-import com.nima.data.RoutePoint;
+import com.nima.actors.RoutePoint;
 import com.nima.managers.EntityManager;
 import com.nima.util.BodyGenerator;
 

@@ -1,6 +1,5 @@
 package com.nima.actors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,7 @@ import com.nima.util.SpineUtil;
 /**
  * Superclass for spine entities
  */
-abstract public class Spine extends Entity {
+abstract public class Spine extends AshleyEntity {
 
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
