@@ -37,7 +37,7 @@ public class RouteState implements State<NPC> {
     if(behaviour.equals(BEHAVIOUR_AGGRESSIVE)) {
       float distanceToPlayer = npc.distanceToPlayer();
       if(distanceToPlayer < npc.shipProfile.attackDistance) {
-        npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
+        npc.getStateMachine().changeState(NPCStates.PURSUE_AND_SHOOT_PLAYER);
       }
     }
     else {

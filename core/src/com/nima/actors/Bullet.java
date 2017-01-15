@@ -1,12 +1,14 @@
 package com.nima.actors;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nima.Game;
 import com.nima.components.BulletDamageComponent;
 import com.nima.components.ComponentFactory;
 import com.nima.components.ShootingComponent;
+import com.nima.data.WeaponProfile;
 import com.nima.managers.EntityManager;
+import com.nima.managers.SoundManager;
 import com.nima.util.Box2dUtil;
 import com.nima.util.Settings;
 
@@ -21,7 +23,9 @@ public class Bullet extends Sprite {
 
   public static void fireBullet(ShootingComponent shootingComponent, Vector2 fromWorld, Vector2 toWorld) {
     Bullet bullet = new Bullet(NAME, fromWorld);
-    bullet.damage = shootingComponent.weaponProfile.damage;
+    WeaponProfile weaponProfile = shootingComponent.getActiveWeaponProfile();
+
+    bullet.damage = weaponProfile.damage;
 
     Vector2 from = Box2dUtil.toBox2Vector(fromWorld);
     Vector2 to = Box2dUtil.toBox2Vector(toWorld);
@@ -34,14 +38,16 @@ public class Bullet extends Sprite {
     float mXDir = -(float) Math.cos(radianAngle);
     float mYDir = -(float) Math.sin(radianAngle);
 
-    float speedFactor = shootingComponent.weaponProfile.speed;
+    float speedFactor = weaponProfile.speed;
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
     sprite.setRotation((float) Math.toDegrees(radianAngle));
 
-    shootingComponent.weaponProfile.lastBulletTime = Game.currentTimeMillis;
+    shootingComponent.updateLastBulletTime();
 
     EntityManager.getInstance().add(bullet);
+
+    SoundManager.playSoundAtPosition("sounds/laser.wav", 0.5f, new Vector3(fromWorld.x, fromWorld.y, 0));
   }
 
   private Bullet(String name, Vector2 position) {

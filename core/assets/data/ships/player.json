@@ -10,5 +10,6 @@
   "maxLinearSpeed" : 500,
   "maxLinearAcceleration" : 500,
   "maxAngularSpeed" : 3000,
-  "maxAngularAcceleration" : 300
+  "maxAngularAcceleration" : 300,
+  "weapons" : ["laser"]
 }

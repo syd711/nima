@@ -1,5 +1,8 @@
 package com.nima.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains all attributes a ship can have.
  */
@@ -10,6 +13,10 @@ public class ShipProfile {
 
   //Behaviour attributes
   public float attackDistance;
+
+  //weapons
+  public List<String> weapons;
+  public List<WeaponProfile> weaponProfiles;
 
   //Speed
   public float maxSpeed;
@@ -23,6 +30,13 @@ public class ShipProfile {
   public float maxLinearAcceleration;
   public float maxAngularSpeed;
   public float maxAngularAcceleration;
+
+  public void addWeaponProfile(WeaponProfile profile) {
+    if(weaponProfiles == null) {
+      weaponProfiles = new ArrayList<>();
+    }
+    weaponProfiles.add(profile);
+  }
 
   @Override
   public String toString() {

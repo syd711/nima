@@ -5,15 +5,48 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import com.nima.Game;
 import com.nima.data.WeaponProfile;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ShootingComponent implements Component, Poolable {
-  public WeaponProfile weaponProfile;
+  private List<WeaponProfile> weaponProfiles = new ArrayList<>();
+  private WeaponProfile activeWeaponProfile;
+  private Map<WeaponProfile,Long> lastBulletTimes = new HashMap<>();
 
   @Override
   public void reset() {
-    weaponProfile = null;
+    activeWeaponProfile = null;
+    lastBulletTimes.clear();
+    weaponProfiles.clear();
+  }
+
+  public void setWeaponProfiles(List<WeaponProfile> weaponProfiles) {
+    this.weaponProfiles = weaponProfiles;
+  }
+
+  public void setActiveWeaponProfile(WeaponProfile profile) {
+    this.activeWeaponProfile = profile;
   }
 
   public boolean isCharged() {
-    return Game.currentTimeMillis - weaponProfile.lastBulletTime > weaponProfile.rechargeTime;
+    WeaponProfile weaponProfile = getActiveWeaponProfile();
+    long lastBulletTime = 0;
+    if(lastBulletTimes.containsKey(weaponProfile)) {
+      lastBulletTime = lastBulletTimes.get(weaponProfile);
+    }
+    return Game.currentTimeMillis - lastBulletTime > weaponProfile.rechargeTimeMillis;
+  }
+
+  public WeaponProfile getActiveWeaponProfile() {
+    if(activeWeaponProfile == null) {
+      activeWeaponProfile = weaponProfiles.get(0);
+    }
+    return activeWeaponProfile;
+  }
+
+  public void updateLastBulletTime() {
+     lastBulletTimes.put(activeWeaponProfile, Game.currentTimeMillis);
   }
 }

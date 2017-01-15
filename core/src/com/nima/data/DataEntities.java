@@ -23,6 +23,13 @@ public class DataEntities {
   static {
     ships = JsonDataFactory.createDataEntities(Resources.SHIP_PROFILES, ShipProfile.class);
     weapons = JsonDataFactory.createDataEntities(Resources.WEAPON_PROFILES, WeaponProfile.class);
+
+    for(ShipProfile shipProfile : ships.values()) {
+      for(String weapon : shipProfile.weapons) {
+        WeaponProfile weaponProfile = weapons.get(weapon);
+        shipProfile.addWeaponProfile(weaponProfile);
+      }
+    }
   }
 
   public static WeaponProfile getWeapon(String weapon) {

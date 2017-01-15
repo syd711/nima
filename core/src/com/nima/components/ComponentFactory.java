@@ -137,8 +137,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShootingComponent addShootableComponent(Entity entity) {
+  public static ShootingComponent addShootableComponent(Entity entity, ShipProfile profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
+    component.setWeaponProfiles(profile.weaponProfiles);
     entity.add(component);
     return component;
   }
