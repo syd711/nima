@@ -12,12 +12,19 @@ import com.nima.data.ShipProfile;
 public class NPC extends Ship {
   public RoutingComponent routingComponent;
 
+  private Route route;
+
   public NPC(ShipProfile shipProfile, Route route, State state) {
     super(shipProfile, state);
+    this.route = route;
     routingComponent = ComponentFactory.addRoutingComponent(this, route);
   }
 
   public float distanceToPlayer() {
     return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
+  }
+
+  public String getBehaviour() {
+    return route.routeComponent.behaviour;
   }
 }
