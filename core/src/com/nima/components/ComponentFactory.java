@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -48,7 +47,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Entity entity, String name, short filterCategory, Vector2 position, Sprite sprite) {
+  public static BodyComponent addBodyComponent(Entity entity, Vector2 position) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createBulletBody(position);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());

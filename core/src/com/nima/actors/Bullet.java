@@ -53,7 +53,7 @@ public class Bullet extends Sprite {
   private Bullet(String name, Vector2 position) {
     super(name, position);
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
-    bodyComponent = ComponentFactory.addBodyComponent(this, name, (short) (Settings.FRIENDLY_BITS | Settings.NEUTRAL_BITS), position, spriteComponent.sprite);
+    bodyComponent = ComponentFactory.addBodyComponent(this, position);
     ComponentFactory.addBulletCollisionComponent(this);
   }
 

@@ -36,11 +36,6 @@ public class Settings {
   public final static float MPP = 0.01f;
   public final static int PPM = 100;
 
-  public final static short FRIENDLY_BITS = 0x0001;
-  public final static short ENEMY_BITS = 0x0002;
-  public final static short LEVEL_BITS = 0x0004;
-  public final static short NEUTRAL_BITS = 0x0008;
-
   /**
    * Bullets
    */
