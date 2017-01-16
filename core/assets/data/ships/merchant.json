@@ -3,6 +3,7 @@
   "defaultAnimation" : "walk",
   "scale" : 0.21,
   "maxSpeed" : 2,
+  "health" : 100,
   "attackDistance" : 300,
   "rotationSpeed" : 2,
   "increaseSpeed" : 0.2,

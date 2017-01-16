@@ -212,4 +212,11 @@ public class ComponentFactory {
     entity.add(component);
     return component;
   }
+
+  public static DamageComponent addDamageComponent(Entity entity, ShipProfile profile) {
+    DamageComponent component = createComponent(DamageComponent.class);
+    component.health = profile.health;
+    entity.add(component);
+    return component;
+  }
 }

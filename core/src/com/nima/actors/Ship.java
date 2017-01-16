@@ -19,6 +19,7 @@ public class Ship extends Spine {
   public RotationComponent rotationComponent;
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
+  public DamageComponent damageComponent;
   public BodyComponent bodyComponent;
   public ShipProfile shipProfile;
 
@@ -38,6 +39,7 @@ public class Ship extends Spine {
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
+    damageComponent = ComponentFactory.addDamageComponent(this, profile);
   }
 
   /**

@@ -15,6 +15,8 @@ public class ShipProfile {
   public float attackDistance;
   public float shootDistance;
 
+  public float health;
+
   //weapons
   public List<String> weapons;
   public List<WeaponProfile> weaponProfiles;

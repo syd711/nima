@@ -58,4 +58,8 @@ public class Bullet extends Sprite {
     bodyComponent = ComponentFactory.addBodyComponent(this, position);
     ComponentFactory.addBulletCollisionComponent(this);
   }
+
+  public boolean isOwner(Entity entity) {
+    return owner.equals(entity);
+  }
 }

@@ -19,7 +19,10 @@ public class NPCCollisionComponent implements Collidable, Pool.Poolable {
       ((NPC) collider).getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
     if(collidee instanceof Bullet) {
-      EntityManager.getInstance().destroy(collidee);
+      Bullet bullet = (Bullet) collidee;
+      if(!bullet.isOwner(collider)) {
+        EntityManager.getInstance().destroy(collidee);
+      }
     }
   }
 
