@@ -36,7 +36,8 @@ public class ShootingComponent implements Component, Poolable {
     if(lastBulletTimes.containsKey(weaponProfile)) {
       lastBulletTime = lastBulletTimes.get(weaponProfile);
     }
-    return Game.currentTimeMillis - lastBulletTime > weaponProfile.rechargeTimeMillis;
+    float current = Game.currentTimeMillis - lastBulletTime;
+    return current > weaponProfile.rechargeTimeMillis;
   }
 
   public WeaponProfile getActiveWeaponProfile() {

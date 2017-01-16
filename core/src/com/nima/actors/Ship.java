@@ -46,9 +46,18 @@ public class Ship extends Spine {
    */
   public void fireAt(Vector2 worldCoordinates) {
     if(shootingComponent.isCharged()) {
-      Bullet.fireBullet(shootingComponent, getCenter(), worldCoordinates);
+      Bullet.fireBullet(this, getCenter(), worldCoordinates);
     }
   }
+
+  public float distanceToPlayer() {
+    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
+  }
+
+  public boolean isInShootingRange() {
+    return distanceToPlayer() < shipProfile.shootDistance;
+  }
+
 
   public DefaultStateMachine getStateMachine() {
     return statefulComponent.stateMachine;

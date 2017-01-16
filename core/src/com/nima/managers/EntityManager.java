@@ -76,6 +76,9 @@ public class EntityManager {
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
 
+    ShootingSystem shootingSystem = new ShootingSystem();
+    engine.addSystem(shootingSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 

@@ -13,6 +13,7 @@ public class ShipProfile {
 
   //Behaviour attributes
   public float attackDistance;
+  public float shootDistance;
 
   //weapons
   public List<String> weapons;

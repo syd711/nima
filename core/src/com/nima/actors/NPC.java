@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.nima.components.ComponentFactory;
 import com.nima.components.RoutingComponent;
 import com.nima.data.ShipProfile;
+import com.nima.render.converters.MapConstants;
 
 /**
  * Common superclass for all NPC.
@@ -21,8 +22,8 @@ public class NPC extends Ship {
     ComponentFactory.addNPCCollisionComponent(this);
   }
 
-  public float distanceToPlayer() {
-    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
+  public boolean isAggressive() {
+    return getBehaviour() != null && getBehaviour().equalsIgnoreCase(MapConstants.BEHAVIOUR_AGGRESSIVE);
   }
 
   public String getBehaviour() {

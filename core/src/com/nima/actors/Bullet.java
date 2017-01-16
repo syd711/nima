@@ -1,11 +1,11 @@
 package com.nima.actors;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.nima.components.BulletDamageComponent;
 import com.nima.components.ComponentFactory;
-import com.nima.components.ShootingComponent;
 import com.nima.data.WeaponProfile;
 import com.nima.managers.EntityManager;
 import com.nima.managers.SoundManager;
@@ -20,10 +20,11 @@ public class Bullet extends Sprite {
 
   public final BulletDamageComponent bulletDamageComponent;
   public float damage;
+  public Entity owner;
 
-  public static void fireBullet(ShootingComponent shootingComponent, Vector2 fromWorld, Vector2 toWorld) {
-    Bullet bullet = new Bullet(NAME, fromWorld);
-    WeaponProfile weaponProfile = shootingComponent.getActiveWeaponProfile();
+  public static void fireBullet(Ship owner, Vector2 fromWorld, Vector2 toWorld) {
+    Bullet bullet = new Bullet(NAME, owner, fromWorld);
+    WeaponProfile weaponProfile = owner.shootingComponent.getActiveWeaponProfile();
 
     bullet.damage = weaponProfile.damage;
 
@@ -43,19 +44,18 @@ public class Bullet extends Sprite {
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
     sprite.setRotation((float) Math.toDegrees(radianAngle));
 
-    shootingComponent.updateLastBulletTime();
+    owner.shootingComponent.updateLastBulletTime();
 
     EntityManager.getInstance().add(bullet);
 
     SoundManager.playSoundAtPosition("sounds/laser.wav", 0.5f, new Vector3(fromWorld.x, fromWorld.y, 0));
   }
 
-  private Bullet(String name, Vector2 position) {
+  private Bullet(String name, Ship owner, Vector2 position) {
     super(name, position);
+    this.owner = owner;
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
     bodyComponent = ComponentFactory.addBodyComponent(this, position);
     ComponentFactory.addBulletCollisionComponent(this);
   }
-
-
 }
