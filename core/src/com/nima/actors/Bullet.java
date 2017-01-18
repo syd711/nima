@@ -16,15 +16,13 @@ import com.nima.util.Settings;
  * Entity for bullets
  */
 public class Bullet extends Sprite {
-  private final static String NAME = "laser";
-
   public final BulletDamageComponent bulletDamageComponent;
   public float damage;
   public Entity owner;
 
   public static void fireBullet(Ship owner, Vector2 fromWorld, Vector2 toWorld) {
-    Bullet bullet = new Bullet(NAME, owner, fromWorld);
     WeaponProfile weaponProfile = owner.shootingComponent.getActiveWeaponProfile();
+    Bullet bullet = new Bullet(weaponProfile, owner, fromWorld);
 
     bullet.damage = weaponProfile.damage;
 
@@ -51,8 +49,8 @@ public class Bullet extends Sprite {
     SoundManager.playSoundAtPosition("sounds/laser.wav", 0.5f, new Vector3(fromWorld.x, fromWorld.y, 0));
   }
 
-  private Bullet(String name, Ship owner, Vector2 position) {
-    super(name, position);
+  private Bullet(WeaponProfile weaponProfile, Ship owner, Vector2 position) {
+    super(weaponProfile.name, position);
     this.owner = owner;
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
     bodyComponent = ComponentFactory.addBodyComponent(this, position);

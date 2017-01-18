@@ -6,6 +6,7 @@
   "health" : 100,
   "attackDistance" : 400,
   "shootDistance" : 300,
+  "evadeDistance" : 200,
   "rotationSpeed" : 2,
   "increaseSpeed" : 0.2,
   "decreaseSpeed" : 0.2,

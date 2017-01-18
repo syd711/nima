@@ -26,6 +26,9 @@ public class FacePlayerState implements State<NPC> {
     if(distanceToPlayer > npc.shipProfile.shootDistance) {
       npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
     }
+    if(distanceToPlayer < npc.shipProfile.evadeDistance) {
+      npc.getStateMachine().changeState(NPCStates.EVADE_PLAYER);
+    }
   }
 
   @Override

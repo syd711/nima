@@ -64,4 +64,11 @@ public class Ship extends Spine {
   public DefaultStateMachine getStateMachine() {
     return statefulComponent.stateMachine;
   }
+
+  /**
+   * Weapon number starting from 1
+   */
+  public void switchWeapon(int weaponNumber) {
+    shootingComponent.setActiveWeaponProfile(weaponNumber);
+  }
 }

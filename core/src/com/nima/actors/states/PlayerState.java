@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.nima.Game;
+import com.nima.actors.Location;
 import com.nima.actors.Player;
 import com.nima.components.MapObjectComponent;
 import com.nima.managers.EntityManager;
@@ -30,7 +31,7 @@ public enum PlayerState implements State<Player> {
       float y = player.rotationComponent.mapTargetY;
       if(x > 0 && y > 0) {
         Entity targetEntity = EntityManager.getInstance().getEntityAt(x, y);
-        if(targetEntity != null) {
+        if(targetEntity != null && targetEntity instanceof Location) {
           player.target = targetEntity;
           player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
         }

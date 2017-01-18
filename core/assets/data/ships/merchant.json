@@ -5,6 +5,7 @@
   "maxSpeed" : 2,
   "health" : 100,
   "attackDistance" : 300,
+  "evadeDistance" : 400,
   "rotationSpeed" : 2,
   "increaseSpeed" : 0.2,
   "decreaseSpeed" : 0.2,

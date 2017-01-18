@@ -34,11 +34,15 @@ public class RouteState implements State<NPC> {
   @Override
   public void update(NPC npc) {
     String behaviour = npc.getBehaviour();
+    float distanceToPlayer = npc.distanceToPlayer();
+
     if(behaviour.equals(BEHAVIOUR_AGGRESSIVE)) {
-      float distanceToPlayer = npc.distanceToPlayer();
       if(distanceToPlayer < npc.shipProfile.attackDistance) {
         npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
       }
+    }
+    else if(distanceToPlayer < npc.shipProfile.evadeDistance) {
+      npc.getStateMachine().changeState(NPCStates.AVOID_PLAYER_COLLISION);
     }
   }
 
