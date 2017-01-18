@@ -76,8 +76,11 @@ public class EntityManager {
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
 
-    ShootingSystem shootingSystem = new ShootingSystem();
-    engine.addSystem(shootingSystem);
+    NPCSystem npcSystem = new NPCSystem();
+    engine.addSystem(npcSystem);
+
+    BulletSystem bulletSystem = new BulletSystem();
+    engine.addSystem(bulletSystem);
 
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);

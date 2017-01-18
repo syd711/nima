@@ -22,7 +22,7 @@ public class EvadePlayerState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    float distanceToPlayer = npc.distanceToPlayer();
+    float distanceToPlayer = npc.getDistanceToPlayer();
     if(distanceToPlayer > npc.shipProfile.evadeDistance) {
       npc.getStateMachine().changeState(NPCStates.FACE_PLAYER);
     }

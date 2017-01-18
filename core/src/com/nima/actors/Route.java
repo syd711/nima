@@ -9,7 +9,7 @@ import com.nima.components.StatefulComponent;
 /**
  * Represents a route
  */
-public class Route extends AshleyEntity {
+public class Route extends GameEntity {
   public RouteComponent routeComponent;
   public StatefulComponent statefulComponent;
 

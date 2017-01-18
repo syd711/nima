@@ -11,6 +11,7 @@ public class DataEntities {
   /******** Entity Constants *******************************************/
   public static final String SPINE_CENTER_SLOT_NAME = "torso";
   public static final String WEAPON_LASER = "laser";
+  public static final String WEAPON_MISSILE = "missile";
 
   public static final String SHIP_PLAYER = "player";
   public static final String SHIP_MERCHANT = "merchant";

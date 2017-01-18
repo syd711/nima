@@ -8,7 +8,10 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 /**
  * Improved Ashley entity.
  */
-public class AshleyEntity extends Entity {
+public class GameEntity extends Entity {
+
+  public GameEntity() {
+  }
 
   @SuppressWarnings("unchecked")
   @Override

@@ -9,7 +9,7 @@ import com.nima.components.SpriteComponent;
 /**
  * Common superclass for Sprite entities
  */
-public class Sprite extends AshleyEntity {
+public class Sprite extends GameEntity {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;

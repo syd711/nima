@@ -7,8 +7,8 @@ import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.components.ShootingComponent;
 
-public class ShootingSystem extends AbstractIteratingSystem {
-  public ShootingSystem() {
+public class NPCSystem extends AbstractIteratingSystem {
+  public NPCSystem() {
     super(Family.all(ShootingComponent.class).get());
   }
 

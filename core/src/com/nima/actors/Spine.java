@@ -10,7 +10,7 @@ import com.nima.util.SpineUtil;
 /**
  * Superclass for spine entities
  */
-abstract public class Spine extends AshleyEntity {
+abstract public class Spine extends GameEntity {
 
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;

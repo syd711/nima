@@ -1,6 +1,6 @@
 {
   "name" : "Missile",
   "damage" : 50,
-  "speed" : 0.1,
+  "speed" : 0.05,
   "rechargeTimeMillis" : 500
 }

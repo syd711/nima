@@ -52,12 +52,12 @@ public class Ship extends Spine {
     }
   }
 
-  public float distanceToPlayer() {
+  public float getDistanceToPlayer() {
     return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
   }
 
   public boolean isInShootingRange() {
-    return distanceToPlayer() < shipProfile.shootDistance;
+    return getDistanceToPlayer() < shipProfile.shootDistance;
   }
 
 

@@ -1,6 +1,7 @@
 package com.nima.actors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,14 +18,13 @@ import com.nima.util.Settings;
  */
 public class Bullet extends Sprite {
   public final BulletDamageComponent bulletDamageComponent;
-  public float damage;
+  public WeaponProfile weaponProfile;
   public Entity owner;
+  public Ship target;
 
   public static void fireBullet(Ship owner, Vector2 fromWorld, Vector2 toWorld) {
     WeaponProfile weaponProfile = owner.shootingComponent.getActiveWeaponProfile();
-    Bullet bullet = new Bullet(weaponProfile, owner, fromWorld);
-
-    bullet.damage = weaponProfile.damage;
+    Bullet bullet = new Bullet(weaponProfile, owner, fromWorld, toWorld);
 
     Vector2 from = Box2dUtil.toBox2Vector(fromWorld);
     Vector2 to = Box2dUtil.toBox2Vector(toWorld);
@@ -49,12 +49,25 @@ public class Bullet extends Sprite {
     SoundManager.playSoundAtPosition("sounds/laser.wav", 0.5f, new Vector3(fromWorld.x, fromWorld.y, 0));
   }
 
-  private Bullet(WeaponProfile weaponProfile, Ship owner, Vector2 position) {
-    super(weaponProfile.name, position);
+  private Bullet(WeaponProfile weaponProfile, Ship owner, Vector2 fromWorld, Vector2 toWorld) {
+    super(weaponProfile.name, fromWorld);
+    this.weaponProfile = weaponProfile;
     this.owner = owner;
+    this.target = (Ship) EntityManager.getInstance().getEntityAt(toWorld.x, toWorld.y);
+
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
-    bodyComponent = ComponentFactory.addBodyComponent(this, position);
+    bodyComponent = ComponentFactory.addBodyComponent(this, fromWorld);
+
     ComponentFactory.addBulletCollisionComponent(this);
+    Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);
+  }
+
+  public boolean is(String weaponType) {
+    return weaponProfile.name.equalsIgnoreCase(weaponType);
+  }
+
+  public float getDistanceToPlayer() {
+    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
   }
 
   public boolean isOwner(Entity entity) {

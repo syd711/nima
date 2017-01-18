@@ -8,7 +8,7 @@ import com.nima.render.converters.MapConstants;
 /**
  * Used for planets and stations, etc.
  */
-public class Location extends AshleyEntity {
+public class Location extends GameEntity {
   public Location(MapObject mapObject) {
     ComponentFactory.addMapObjectComponent(this, mapObject);
     ComponentFactory.addBodyComponent(this, mapObject);

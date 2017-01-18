@@ -7,7 +7,7 @@ import com.nima.components.ComponentFactory;
  * Model for a tracking point of a route.
  * This model is an entity although it is never added to Ashley.
  */
-public class RoutePoint extends AshleyEntity {
+public class RoutePoint extends GameEntity {
   //steering defaults
   public float boundingRadius = 200;
   public float maxLinearSpeed = 500;
