@@ -124,7 +124,7 @@ public class InputManager implements InputProcessor {
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
         Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
         if(clickTarget instanceof NPC) {
-          ((NPC)clickTarget).selectionComponent.toggleSelection();
+          ((NPC)clickTarget).toggleSelection();
         }
       }
     }

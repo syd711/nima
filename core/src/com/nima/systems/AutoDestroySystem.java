@@ -36,6 +36,5 @@ public class AutoDestroySystem extends IteratingSystem {
       NPC npc = (NPC) entity;
       //TODO destroy tracking point bodies!! npc.routingComponent;
     }
-
   }
 }

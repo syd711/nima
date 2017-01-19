@@ -1,6 +1,5 @@
 package com.nima.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
@@ -11,8 +10,6 @@ import com.nima.components.SpriteComponent;
 public class SpriteRenderSystem extends SortedIteratingSystem {
   private Batch batch;
 
-  private ComponentMapper<SpriteComponent> spriteMap = ComponentMapper.getFor(SpriteComponent.class);
-
   public SpriteRenderSystem(Batch batch) {
     super(Family.all(SpriteComponent.class).get(), new ZComparator());
     this.batch = batch;
@@ -20,8 +17,12 @@ public class SpriteRenderSystem extends SortedIteratingSystem {
 
   @Override
   protected void processEntity(Entity entity, float deltaTime) {
-    Sprite sprite = spriteMap.get(entity).sprite;
+    SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
     batch.setShader(null);
-    sprite.draw(batch);
+
+    if(spriteComponent != null) {
+      Sprite sprite = spriteComponent.sprite;
+      sprite.draw(batch);
+    }
   }
 }

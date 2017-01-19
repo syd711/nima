@@ -22,6 +22,8 @@ public class Ship extends Spine {
   public DamageComponent damageComponent;
   public BodyComponent bodyComponent;
   public SelectionComponent selectionComponent;
+  public SpriteComponent spriteComponent;
+
   public ShipProfile shipProfile;
 
   public Ship(ShipProfile profile, State state) {
@@ -41,6 +43,7 @@ public class Ship extends Spine {
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     damageComponent = ComponentFactory.addDamageComponent(this, profile);
+    selectionComponent = ComponentFactory.addSelectionComponent(this);
   }
 
   /**
@@ -71,5 +74,15 @@ public class Ship extends Spine {
    */
   public void switchWeapon(int weaponNumber) {
     shootingComponent.setActiveWeaponProfile(weaponNumber);
+  }
+
+  public void toggleSelection() {
+    boolean selected = selectionComponent.toggleSelection();
+    if(selected) {
+      spriteComponent = ComponentFactory.addSpriteComponent(this, "selection");
+    }
+    else {
+      this.remove(SpriteComponent.class);
+    }
   }
 }
