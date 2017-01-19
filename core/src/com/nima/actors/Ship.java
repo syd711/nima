@@ -21,6 +21,7 @@ public class Ship extends Spine {
   public PositionComponent positionComponent;
   public DamageComponent damageComponent;
   public BodyComponent bodyComponent;
+  public SelectionComponent selectionComponent;
   public ShipProfile shipProfile;
 
   public Ship(ShipProfile profile, State state) {

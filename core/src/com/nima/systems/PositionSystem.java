@@ -3,9 +3,9 @@ package com.nima.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.Bullet;
 import com.nima.actors.Player;
 import com.nima.actors.Spine;
-import com.nima.actors.Sprite;
 import com.nima.components.BodyComponent;
 import com.nima.components.PositionComponent;
 import com.nima.components.RotationComponent;
@@ -41,15 +41,8 @@ public class PositionSystem extends AbstractIteratingSystem {
       positionComponent.setPosition(position);
       spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
     }
-    else if(entity instanceof Sprite) {
-      SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
+    else if(entity instanceof Bullet) {
 
-      // Position priority: Body => PositionComponent => Sprites  (highest to lowest)
-      positionComponent.x = bodyComponent.body.getPosition().x * PPM - spriteComponent.sprite.getWidth() / 2;
-      positionComponent.y = bodyComponent.body.getPosition().y * PPM - spriteComponent.sprite.getHeight() / 2;
-
-      spriteComponent.sprite.setX(positionComponent.x);
-      spriteComponent.sprite.setY(positionComponent.y);
     }
   }
 }

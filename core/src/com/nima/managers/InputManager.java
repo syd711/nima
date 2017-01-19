@@ -1,11 +1,13 @@
 package com.nima.managers;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.actors.states.PlayerState;
 import com.nima.render.TiledMultiMapRenderer;
@@ -91,10 +93,11 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     PlayerState currentState = (PlayerState) player.getStateMachine().getCurrentState();
+    float targetX = screenX;
+    float targetY = Gdx.graphics.getHeight() - screenY;
+
     if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
       if(button == Input.Buttons.LEFT) {
-        float targetX = screenX;
-        float targetY = Gdx.graphics.getHeight() - screenY;
 
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
         //first update the target to move to...
@@ -112,11 +115,17 @@ public class InputManager implements InputProcessor {
         return true;
       }
 
-      if(button == Input.Buttons.RIGHT) {
-        float targetX = screenX;
-        float targetY = Gdx.graphics.getHeight() - screenY;
+      if(button == Input.Buttons.MIDDLE) {
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
         player.fireAt(worldCoordinates);
+      }
+
+      if(button == Input.Buttons.RIGHT) {
+        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+        Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
+        if(clickTarget instanceof NPC) {
+          ((NPC)clickTarget).selectionComponent.toggleSelection();
+        }
       }
     }
     return false;

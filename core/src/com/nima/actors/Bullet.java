@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nima.components.BulletDamageComponent;
-import com.nima.components.ComponentFactory;
+import com.nima.components.*;
 import com.nima.data.WeaponProfile;
 import com.nima.managers.EntityManager;
 import com.nima.managers.SoundManager;
@@ -16,8 +15,12 @@ import com.nima.util.Settings;
 /**
  * Entity for bullets
  */
-public class Bullet extends Sprite {
-  public final BulletDamageComponent bulletDamageComponent;
+public class Bullet extends GameEntity {
+  public SpriteComponent spriteComponent;
+  public PositionComponent positionComponent;
+  public BulletDamageComponent bulletDamageComponent;
+  public BodyComponent bodyComponent;
+
   public WeaponProfile weaponProfile;
   public Entity owner;
   public Ship target;
@@ -50,11 +53,14 @@ public class Bullet extends Sprite {
   }
 
   private Bullet(WeaponProfile weaponProfile, Ship owner, Vector2 fromWorld, Vector2 toWorld) {
-    super(weaponProfile.name, fromWorld);
     this.weaponProfile = weaponProfile;
     this.owner = owner;
     this.target = (Ship) EntityManager.getInstance().getEntityAt(toWorld.x, toWorld.y);
 
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.name);
+    positionComponent = ComponentFactory.addPositionComponent(this);
+    positionComponent.setPosition(fromWorld);
+    positionComponent.z = 900;
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
     bodyComponent = ComponentFactory.addBodyComponent(this, fromWorld);
 
@@ -64,10 +70,6 @@ public class Bullet extends Sprite {
 
   public boolean is(String weaponType) {
     return weaponProfile.name.equalsIgnoreCase(weaponType);
-  }
-
-  public float getDistanceToPlayer() {
-    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
   }
 
   public boolean isOwner(Entity entity) {
