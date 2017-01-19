@@ -219,4 +219,10 @@ public class ComponentFactory {
     entity.add(component);
     return component;
   }
+
+  public static SelectionComponent addSelectionComponent(Entity entity) {
+    SelectionComponent component = createComponent(SelectionComponent.class);
+    entity.add(component);
+    return component;
+  }
 }
