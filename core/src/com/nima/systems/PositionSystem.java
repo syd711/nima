@@ -3,8 +3,8 @@ package com.nima.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
+import com.nima.actors.NPC;
 import com.nima.actors.Player;
-import com.nima.actors.Ship;
 import com.nima.actors.Spine;
 import com.nima.components.BodyComponent;
 import com.nima.components.PositionComponent;
@@ -30,8 +30,8 @@ public class PositionSystem extends AbstractIteratingSystem {
       spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
       bodyComponent.body.setTransform(spine.getCenter().x*MPP, spine.getCenter().y*MPP, rotationComponent.getB2dAngle());
     }
-    else if(entity instanceof Ship){
-      Ship spine = (Ship) entity;
+    else if(entity instanceof NPC){
+      NPC spine = (NPC) entity;
       Vector2 position = bodyComponent.getWorldPosition();
       float bodyAngle = bodyComponent.body.getAngle();
       Vector2 targetVector = new Vector2();

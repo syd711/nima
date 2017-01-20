@@ -1,6 +1,7 @@
 package com.nima.managers;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.actors.states.PlayerState;
+import com.nima.components.SelectionComponent;
 import com.nima.render.TiledMultiMapRenderer;
 import com.nima.util.GraphicsUtil;
 import com.nima.util.PolygonUtil;
@@ -97,7 +99,7 @@ public class InputManager implements InputProcessor {
     float targetY = Gdx.graphics.getHeight() - screenY;
 
     if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
-      if(button == Input.Buttons.LEFT) {
+      if(button == Input.Buttons.RIGHT) {
 
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
         //first update the target to move to...
@@ -120,13 +122,29 @@ public class InputManager implements InputProcessor {
         player.fireAt(worldCoordinates);
       }
 
-      if(button == Input.Buttons.RIGHT) {
-        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
-        if(clickTarget instanceof NPC) {
-          ((NPC)clickTarget).toggleSelection();
+      if(button == Input.Buttons.LEFT) {
+        return selectEntity(targetX, targetY, true);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Selected on or more entities
+   * @param singleSelection true to disable all other selections.
+   */
+  private boolean selectEntity(float targetX, float targetY, boolean singleSelection) {
+    Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+    Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
+    if(clickTarget instanceof NPC) {
+      if(singleSelection) {
+        ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SelectionComponent.class);
+        for(Entity entity : entitiesFor) {
+          if(!entity.equals(clickTarget))
+            entity.getComponent(SelectionComponent.class).selected = false;
         }
       }
+      ((NPC)clickTarget).toggleSelection();
     }
     return false;
   }

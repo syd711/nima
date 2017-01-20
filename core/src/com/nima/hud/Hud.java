@@ -27,16 +27,9 @@ public class Hud {
     stage = new Stage();
 
     Table table = new Table();
+    table.setDebug(true);
     table.top();
     table.setFillParent(true);
-
-    Stack healthBarStack = new Stack();
-    Image healthBarBG = new Image(new Texture("hud/healthbg.png"));
-    Image healthBarFG = new Image(new Texture("hud/healthfg.png"));
-    healthBarStack.add(healthBarBG);
-    healthBarStack.add(healthBarFG);
-
-    table.add(healthBarStack).expandX().align(Align.left);
 
     stationLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     table.add(stationLabel).expandX().padTop(20);
