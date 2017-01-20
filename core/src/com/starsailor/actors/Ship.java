@@ -2,7 +2,6 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.util.Resources;
@@ -46,11 +45,11 @@ public class Ship extends Spine {
 
   /**
    * Fires a bullet using the active weapon profile
-   * @param worldCoordinates the target to shoot to
+   * @param target the target to shoot to
    */
-  public void fireAt(Vector2 worldCoordinates) {
+  public void fireAt(Ship target) {
     if(shootingComponent.isCharged()) {
-      Bullet.fireBullet(this, getCenter(), worldCoordinates);
+      Bullet.fireBullet(this, target);
     }
   }
 

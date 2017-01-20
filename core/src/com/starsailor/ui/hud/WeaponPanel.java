@@ -39,9 +39,8 @@ public class WeaponPanel extends Table {
       public void changed (ChangeEvent event, Actor actor) {
         GameEntity selection = SelectionManager.getInstance().getSelection();
         if(selection instanceof NPC) {
-          Vector2 target = ((NPC)selection).getCenter();
           Player.getInstance().switchWeapon(1);
-          Player.getInstance().fireAt(target);
+          Player.getInstance().fireAt((NPC)selection);
         }
       }
     });
@@ -53,9 +52,8 @@ public class WeaponPanel extends Table {
       public void changed (ChangeEvent event, Actor actor) {
         GameEntity selection = SelectionManager.getInstance().getSelection();
         if(selection instanceof NPC) {
-          Vector2 target = ((NPC)selection).getCenter();
           Player.getInstance().switchWeapon(2);
-          Player.getInstance().fireAt(target);
+          Player.getInstance().fireAt((NPC)selection);
         }
       }
     });

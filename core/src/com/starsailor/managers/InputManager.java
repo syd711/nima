@@ -103,11 +103,6 @@ public class InputManager implements InputProcessor {
         return true;
       }
 
-      if(button == Input.Buttons.MIDDLE) {
-        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        player.fireAt(worldCoordinates);
-      }
-
       if(button == Input.Buttons.LEFT) {
         return SelectionManager.getInstance().selectAt(targetX, targetY, true);
       }

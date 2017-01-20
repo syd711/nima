@@ -17,8 +17,7 @@ public class NPCSystem extends AbstractIteratingSystem {
       NPC npc = (NPC) entity;
       if(npc.isAggressive()) {
         if(npc.isInShootingRange() && npc.shootingComponent.isCharged()) {
-          Vector2 shootAt = Player.getInstance().getCenter();
-          npc.fireAt(shootAt);
+          npc.fireAt(Player.getInstance());
         }
       }
     }
