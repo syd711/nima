@@ -7,6 +7,7 @@ public class WeaponProfile {
   public float rechargeTimeMillis;
   public float damage;
   public float speed;
+  public float impactFactor;
   public String name;
 
   @Override

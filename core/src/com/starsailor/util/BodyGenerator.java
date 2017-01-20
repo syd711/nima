@@ -72,7 +72,7 @@ public class BodyGenerator {
     FixtureDef fdef = new FixtureDef();
     fdef.filter.groupIndex = 0;
     fdef.isSensor = false;
-    fdef.density = 0.2f;
+    fdef.density = 0.1f;
     fdef.friction = 1; //= no sliding along the object
     fdef.restitution = 0.9f;
     fdef.shape = shape;
