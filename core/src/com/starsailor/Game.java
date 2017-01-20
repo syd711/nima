@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
-import com.starsailor.hud.Hud;
+import com.starsailor.ui.Hud;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.InputManager;
 import com.starsailor.render.TiledMultiMapRenderer;

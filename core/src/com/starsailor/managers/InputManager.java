@@ -1,20 +1,13 @@
 package com.starsailor.managers;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.starsailor.Game;
-import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.PlayerState;
-import com.starsailor.components.SelectionComponent;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.PolygonUtil;
@@ -73,7 +66,6 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.NUM_1) {
-
       Player.getInstance().switchWeapon(1);
       return true;
     }
@@ -126,40 +118,7 @@ public class InputManager implements InputProcessor {
       }
 
       if(button == Input.Buttons.LEFT) {
-        return selectEntity(targetX, targetY, true);
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Selected on or more entities
-   * @param singleSelection true to disable all other selections.
-   */
-  private boolean selectEntity(float targetX, float targetY, boolean singleSelection) {
-    Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-    Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
-    if(clickTarget instanceof NPC) {
-      if(singleSelection) {
-        ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SelectionComponent.class);
-        for(Entity entity : entitiesFor) {
-          if(!entity.equals(clickTarget))
-            entity.getComponent(SelectionComponent.class).selected = false;
-        }
-      }
-      boolean selection = ((NPC)clickTarget).toggleSelection();
-      if(selection) {
-        Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
-        Dialog dialog = new Dialog("Warning", skin) {
-          public void result(Object obj) {
-            System.out.println("result "+obj);
-          }
-        };
-        dialog.text("Are you sure you want to quit?");
-        dialog.button("Yes", true); //sends "true" as the result
-        dialog.button("No", false);  //sends "false" as the result
-        dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-        dialog.show(Game.hud.stage);
+        return SelectionManager.getInstance().selectAt(targetX, targetY, true);
       }
     }
     return false;
