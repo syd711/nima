@@ -2,6 +2,7 @@ package com.starsailor.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
@@ -22,31 +23,21 @@ public class InputManager implements InputProcessor {
 
   private OrthographicCamera camera;
   private Player player;
+  private InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
   public InputManager(Player player, OrthographicCamera camera) {
     this.camera = camera;
     this.player = player;
   }
 
-  /**
-   * Listening for key events for moving the character, etc.
-   * Do not mix this with an InputProcessor which handles
-   * single key events, e.g. open the map overview.
-   */
-  public void handleKeyInput() {
-//    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-//      positionComponent.translate(-Settings.MAX_ACTOR_SPEED, 0);
-//    }
-//    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//      positionComponent.translate(Settings.MAX_ACTOR_SPEED, 0);
-//    }
-//    if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-//      positionComponent.translate(0, Settings.MAX_ACTOR_SPEED);
-//    }
-//    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-//      positionComponent.translate(0, -Settings.MAX_ACTOR_SPEED);
-//    }
+  public InputMultiplexer getInputMultiplexer() {
+    return inputMultiplexer;
   }
+
+  public void addInputProcessor(InputProcessor inputProcessor) {
+    inputMultiplexer.addProcessor(inputProcessor);
+  }
+
 
   @Override
   public boolean keyDown(int keycode) {

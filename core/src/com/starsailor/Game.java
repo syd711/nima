@@ -12,11 +12,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
-import com.starsailor.ui.Hud;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.InputManager;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.render.converters.*;
+import com.starsailor.ui.Hud;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
@@ -91,12 +91,15 @@ public class Game extends ApplicationAdapter {
     Player player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 
+    //input processing
+    inputManager = new InputManager(player, camera);
+
     //hud creation
     hud = new Hud();
 
-    //input processing
-    inputManager = new InputManager(player, camera);
-    Gdx.input.setInputProcessor(inputManager);
+    //add the inputmanager itself as input processor, but as last!
+    inputManager.getInputMultiplexer().addProcessor(inputManager);
+    Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
   }
 
   int debugRender = 0;
@@ -134,8 +137,6 @@ public class Game extends ApplicationAdapter {
     }
 
     tiledMapRenderer.getBatch().end();
-
-    inputManager.handleKeyInput();
     updateActorFrame();
 
     rayHandler.setCombinedMatrix(camera);

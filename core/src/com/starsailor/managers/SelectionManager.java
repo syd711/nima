@@ -20,6 +20,7 @@ public class SelectionManager {
 
   public List<SelectionChangeListener> selectionChangeListeners = new ArrayList();
   private GameEntity lastSelection;
+  private GameEntity currentSelection;
 
 
   public static SelectionManager getInstance() {
@@ -39,6 +40,7 @@ public class SelectionManager {
     Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(Game.camera, targetX, targetY);
     GameEntity clickTarget = (GameEntity) EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(clickTarget instanceof NPC) {
+      currentSelection = clickTarget;
       if(singleSelection) {
         ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SelectionComponent.class);
         for(Entity entity : entitiesFor) {
@@ -47,18 +49,22 @@ public class SelectionManager {
         }
       }
 
-      this.lastSelection = clickTarget;
-
-      boolean selection = ((NPC)clickTarget).toggleSelection();
+      boolean selection = ((NPC)currentSelection).toggleSelection();
       if(!selection) {
-        clickTarget = null;
+        currentSelection = null;
       }
 
       for(SelectionChangeListener selectionChangeListener : selectionChangeListeners) {
-        selectionChangeListener.selectionChanged(lastSelection, clickTarget);
+        selectionChangeListener.selectionChanged(lastSelection, currentSelection);
       }
+
+      this.lastSelection = currentSelection;
     }
 
     return false;
+  }
+
+  public GameEntity getSelection() {
+    return currentSelection;
   }
 }

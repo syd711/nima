@@ -62,7 +62,7 @@ public class Bullet extends GameEntity {
     positionComponent.setPosition(fromWorld);
     positionComponent.z = 900;
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
-    bodyComponent = ComponentFactory.addBodyComponent(this, fromWorld);
+    bodyComponent = ComponentFactory.addBulletBodyComponent(this, fromWorld, owner instanceof Player);
 
     ComponentFactory.addBulletCollisionComponent(this);
     Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);

@@ -45,8 +45,8 @@ public class BulletSystem extends AbstractIteratingSystem {
 //        body.setMassData(data);
         Vector2 aimingVector = bullet.target.positionComponent.getBox2dPosition();
         float distance = body.getPosition().dst(aimingVector);
-        float forceValue = G / (distance * distance);
-//        float forceValue = 0.00004f;
+//        float forceValue = G / (distance * distance);
+        float forceValue = 0.00004f;
 
         Vector2 direction = aimingVector.sub(body.getPosition());
         body.applyForce(direction.scl(forceValue), body.getWorldCenter(), true);

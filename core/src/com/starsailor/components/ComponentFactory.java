@@ -47,9 +47,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Entity entity, Vector2 position) {
+  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, boolean friendly) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.createBulletBody(position);
+    component.body = BodyGenerator.createBulletBody(position, friendly);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
     entity.add(component);

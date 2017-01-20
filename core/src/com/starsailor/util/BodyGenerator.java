@@ -14,13 +14,13 @@ public class BodyGenerator {
   private final static short PLAYER_BITS = 0x0001;
   private final static short NPC_BITS = 0x0002;
   private final static short WORLD_BITS = 0x0004;
-//  public final static short BITS = 0x0008;
-//  public final static short BITS = 0x0016;
 //  public final static short BITS = 0x0032;
 
   private final static short MASK_PLAYER = NPC_BITS | WORLD_BITS;
   private final static short MASK_NPC = PLAYER_BITS | NPC_BITS;
   private final static short MASK_WORLD = PLAYER_BITS;
+  private final static short MASK_FRIENDLY_BULLET = NPC_BITS;
+  private final static short MASK_ENEMY_BULLET = PLAYER_BITS;
 
   private static World world = Game.world;
 
@@ -40,8 +40,8 @@ public class BodyGenerator {
     shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
 
     FixtureDef fdef = new FixtureDef();
-    fdef.density = 1;
-    fdef.restitution = 0.9f;
+    fdef.density = 0.01f;
+    fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;
     if(spine instanceof Player) {
@@ -54,7 +54,39 @@ public class BodyGenerator {
     }
 
     b.createFixture(fdef);
+
     shape.dispose();
+    return b;
+  }
+
+  public static Body createBulletBody(Vector2 position, boolean friendly) {
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(position.x * MPP, position.y * MPP);
+    Body b = world.createBody(bdef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(10 * MPP, 2.5f * MPP);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.filter.groupIndex = 0;
+    fdef.isSensor = false;
+    fdef.density = 0.1f;
+    fdef.friction = 1; //= no sliding along the object
+    fdef.restitution = 0.9f; //bouncyness
+    fdef.shape = shape;
+    if(friendly) {
+      fdef.filter.categoryBits = PLAYER_BITS;
+      fdef.filter.maskBits = MASK_FRIENDLY_BULLET;
+    }
+    else {
+      fdef.filter.categoryBits = NPC_BITS;
+      fdef.filter.maskBits = MASK_ENEMY_BULLET;
+    }
+
+    b.createFixture(fdef);
+    shape.dispose();
+
     return b;
   }
 
@@ -73,26 +105,6 @@ public class BodyGenerator {
 
     shape.dispose();
     return body;
-  }
-
-  public static Body createBulletBody(Vector2 position) {
-    BodyDef bdef = new BodyDef();
-    bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(position.x * MPP, position.y * MPP);
-    Body b = world.createBody(bdef);
-
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(10 * MPP, 2.5f * MPP);
-
-    FixtureDef fdef = new FixtureDef();
-    fdef.isSensor = true;
-    fdef.density = 0.02f;
-    fdef.restitution = 0.9f;
-    fdef.shape = shape;
-    b.createFixture(fdef);
-    shape.dispose();
-
-    return b;
   }
 
   public static Body generateRoutePointBody(RoutePoint point) {

@@ -3,9 +3,11 @@ package com.starsailor.ui.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.ui.Hud;
@@ -24,7 +26,10 @@ public class ActionPanel extends Table {
 
   private boolean activated = false;
 
-  public ActionPanel() {
+  private HudStage hudStage;
+
+  public ActionPanel(HudStage hudStage) {
+    this.hudStage = hudStage;
     bground = new Texture(Gdx.files.internal("stations/background/planet.jpg"));
     TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(bground));
 
@@ -34,11 +39,18 @@ public class ActionPanel extends Table {
 
     attackButton = new TextButton("Attack", Hud.skin);
     add(attackButton);
+    attackButton.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        deactivate();
+        hudStage.weaponPanel.activate(null);
+      }
+    });
 
     tradeButton = new TextButton("Trade", Hud.skin);
     add(tradeButton);
 
-    setPosition(Gdx.graphics.getWidth()/2, -(PANEL_HEIGHT/2));
+    setPosition(Gdx.graphics.getWidth() / 2, -(PANEL_HEIGHT / 2));
   }
 
   public void activate(GameEntity entity) {

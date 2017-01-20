@@ -48,7 +48,6 @@ public class Hud implements SelectionChangeListener {
 
   private Stage getActiveStage() {
     if(Player.getInstance().getStateMachine().getCurrentState().equals(PlayerState.DOCKED)) {
-      Gdx.input.setInputProcessor(locationStage);
       return locationStage;
     }
     return hudStage;

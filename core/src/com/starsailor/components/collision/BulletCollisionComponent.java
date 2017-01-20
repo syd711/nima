@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.Bullet;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Player;
 import com.starsailor.managers.EntityManager;
 
 /**

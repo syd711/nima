@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.PlayerState;
+import com.starsailor.ui.Hud;
 
 /**
  * The display on top of the screen
@@ -27,11 +28,7 @@ public class StatusTable extends Table {
     stationLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     add(stationLabel).expandX().padTop(20);
 
-
-    TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-    style.font = new BitmapFont();
-    style.fontColor = Color.RED;
-    dockButton = new TextButton("Leave Station", style);
+    dockButton = new TextButton("Leave Station", Hud.skin);
     dockButton.padTop(20);
     dockButton.padRight(20);
     dockButton.addListener(new ChangeListener() {

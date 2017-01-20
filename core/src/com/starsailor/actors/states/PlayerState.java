@@ -1,11 +1,9 @@
 package com.starsailor.actors.states;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.Game;
 import com.starsailor.actors.Location;
 import com.starsailor.actors.Player;
 import com.starsailor.components.MapObjectComponent;
@@ -39,6 +37,23 @@ public enum PlayerState implements State<Player> {
           player.target = null;
         }
       }
+    }
+  },
+  ATTACKED() {
+    @Override
+    public void enter(Player entity) {
+      super.enter(entity);
+    }
+
+    @Override
+    public void update(Player entity) {
+
+    }
+  },
+  ATTACK() {
+    @Override
+    public void update(Player entity) {
+
     }
   },
   MOVE_TO_STATION() {
@@ -95,7 +110,6 @@ public enum PlayerState implements State<Player> {
       player.speedComponent.setTargetValue(0f);
       player.rotationComponent.setRotationTarget(player.positionComponent.x + 100, player.positionComponent.y);
 
-      Gdx.input.setInputProcessor(Game.inputManager);
       EntityManager.getInstance().pauseSystems(false);
       player.getStateMachine().changeState(IDLE);
     }
