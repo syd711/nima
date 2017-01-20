@@ -40,7 +40,7 @@ public class BodyGenerator {
     shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
 
     FixtureDef fdef = new FixtureDef();
-    fdef.density = 0.01f;
+    fdef.density = 1;
     fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;
@@ -54,6 +54,7 @@ public class BodyGenerator {
     }
 
     b.createFixture(fdef);
+    b.resetMassData();
 
     shape.dispose();
     return b;
@@ -71,9 +72,9 @@ public class BodyGenerator {
     FixtureDef fdef = new FixtureDef();
     fdef.filter.groupIndex = 0;
     fdef.isSensor = false;
-    fdef.density = 0.1f;
+    fdef.density = 0.2f;
     fdef.friction = 1; //= no sliding along the object
-    fdef.restitution = 0.9f; //bouncyness
+    fdef.restitution = 0.9f;
     fdef.shape = shape;
     if(friendly) {
       fdef.filter.categoryBits = PLAYER_BITS;

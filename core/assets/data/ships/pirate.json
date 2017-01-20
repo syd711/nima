@@ -2,7 +2,6 @@
   "spine" : "pirate",
   "defaultAnimation" : "walk",
   "scale" : 0.2,
-  "maxSpeed" : 2,
   "health" : 100,
   "attackDistance" : 400,
   "shootDistance" : 300,
