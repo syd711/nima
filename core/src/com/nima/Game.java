@@ -37,7 +37,7 @@ public class Game extends ApplicationAdapter {
   private Box2DDebugRenderer box2DDebugRenderer;
 
   //Scene2d
-  private static Hud hud;
+  public static Hud hud;
 
   private SpriteBatch batch;
 

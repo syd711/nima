@@ -33,7 +33,7 @@ public class NPC extends Ship {
     return getBehaviour() != null && getBehaviour().equalsIgnoreCase(MapConstants.BEHAVIOUR_AGGRESSIVE);
   }
 
-  public void toggleSelection() {
+  public boolean toggleSelection() {
     boolean selected = selectionComponent.toggleSelection();
     if(selected) {
       spriteComponent = ComponentFactory.addSpriteComponent(this, "selection");
@@ -41,6 +41,7 @@ public class NPC extends Ship {
     else {
       this.remove(SpriteComponent.class);
     }
+    return selected;
   }
 
   public String getBehaviour() {

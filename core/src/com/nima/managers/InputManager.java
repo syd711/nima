@@ -8,6 +8,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.nima.Game;
 import com.nima.actors.NPC;
 import com.nima.actors.Player;
 import com.nima.actors.states.PlayerState;
@@ -144,7 +147,20 @@ public class InputManager implements InputProcessor {
             entity.getComponent(SelectionComponent.class).selected = false;
         }
       }
-      ((NPC)clickTarget).toggleSelection();
+      boolean selection = ((NPC)clickTarget).toggleSelection();
+      if(selection) {
+        Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
+        Dialog dialog = new Dialog("Warning", skin) {
+          public void result(Object obj) {
+            System.out.println("result "+obj);
+          }
+        };
+        dialog.text("Are you sure you want to quit?");
+        dialog.button("Yes", true); //sends "true" as the result
+        dialog.button("No", false);  //sends "false" as the result
+        dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
+        dialog.show(Game.hud.stage);
+      }
     }
     return false;
   }

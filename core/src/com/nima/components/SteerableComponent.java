@@ -12,6 +12,7 @@ import com.nima.actors.RoutePoint;
 import com.nima.data.ShipProfile;
 import com.nima.systems.behaviours.FaceBehaviour;
 import com.nima.util.GraphicsUtil;
+import com.nima.util.Settings;
 
 /**
  * AI steerable implementation for box2d bodies.
@@ -70,13 +71,15 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
 
   public void update(float delta) {
-    if(behavior != null) {
-      behavior.calculateSteering(steeringOutput);
-      applySteering(delta);
-    }
+    if(Settings.STEERING_ENABLED) {
+      if(behavior != null) {
+        behavior.calculateSteering(steeringOutput);
+        applySteering(delta);
+      }
 
-    if(faceBehaviour != null) {
-      faceBehaviour.update();
+      if(faceBehaviour != null) {
+        faceBehaviour.update();
+      }
     }
   }
 
