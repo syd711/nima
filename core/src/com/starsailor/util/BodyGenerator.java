@@ -34,6 +34,8 @@ public class BodyGenerator {
     shape.setAsBox(5*MPP, 5*MPP);
 
     FixtureDef fdef = new FixtureDef();
+    fdef.filter.categoryBits = WORLD_BITS;
+    fdef.filter.maskBits = MASK_WORLD;
     fdef.density = 1;
     fdef.restitution = 0.1f;
     fdef.shape = shape;

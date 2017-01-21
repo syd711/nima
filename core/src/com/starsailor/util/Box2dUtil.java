@@ -50,8 +50,13 @@ public class Box2dUtil {
     return null;
   }
 
-
-
+  public static float rotateDegrees(float degree, float box2dAngle, boolean left) {
+    double radians = Math.toRadians(degree);
+    if(left) {
+      return (float) (box2dAngle+radians);
+    }
+    return (float) (box2dAngle-radians);
+  }
 
 
 //  @Override

@@ -55,9 +55,10 @@ public class Player extends Ship {
     else {
       clickTarget.update(worldCoordinates);
     }
+    steerableComponent.setEnabled(true);
   }
 
-  class ClickTarget extends GameEntity {
+  public class ClickTarget extends GameEntity {
     BodyComponent bodyComponent;
     SteerableComponent steerableComponent;
 

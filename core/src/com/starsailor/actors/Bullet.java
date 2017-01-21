@@ -20,7 +20,7 @@ public class Bullet extends GameEntity {
   public BodyComponent bodyComponent;
 
   public WeaponProfile weaponProfile;
-  public Entity owner;
+  public Ship owner;
   public Ship target;
 
   public Bullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
@@ -37,7 +37,7 @@ public class Bullet extends GameEntity {
     if(weaponProfile.steeringData != null) {
       steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
       Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
-      behaviour.setMaxPredictionTime(0.7f);
+      behaviour.setMaxPredictionTime(0f);
       steerableComponent.setBehavior(behaviour);
       steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body));
       steerableComponent.setEnabled(false);

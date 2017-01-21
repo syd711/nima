@@ -10,6 +10,8 @@ import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.data.DataEntities;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.GraphicsUtil;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -35,23 +37,28 @@ public class BulletSystem extends AbstractIteratingSystem {
       spriteComponent.sprite.setX(positionComponent.x);
       spriteComponent.sprite.setY(positionComponent.y);
 
+      spriteComponent.sprite.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+
+      //TODO update rotation
+
       if(bullet.is(DataEntities.WEAPON_LASER)) {
         //nothing
       }
       else if(bullet.is(DataEntities.WEAPON_MISSILE) && bullet.target != null) {
         float distanceToPlayer = bullet.getDistanceToPlayer();
-        if(distanceToPlayer > weaponProfile.activationDistance) {
+        if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
           bullet.steerableComponent.setEnabled(true);
         }
         else {
           Body body = bullet.bodyComponent.body;
-          Vector2 aimingVector = bullet.target.positionComponent.getBox2dPosition();
-          float forceValue = 0.00004f;
+          float forceValue = 0.01f;
 
-          Vector2 direction = aimingVector.sub(body.getPosition());
-          body.applyForce(direction.scl(forceValue), body.getWorldCenter(), true);
+          Vector2 pos = bullet.owner.bodyComponent.body.getPosition();
+          //0 degree is in the east, but we want north as 0
+          Vector2 delta = GraphicsUtil.getDelta((float) Math.toDegrees(bullet.owner.bodyComponent.body.getAngle())-90, 1);
+          body.applyForceToCenter(delta.scl(forceValue), true);
 
-          body.setTransform(body.getPosition(), aimingVector.angleRad());
+          body.setTransform(body.getPosition(), Box2dUtil.rotateDegrees(-90, bullet.owner.bodyComponent.body.getAngle(), true));
         }
       }
     }

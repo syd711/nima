@@ -68,7 +68,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
 
   public void update(float delta) {
-    if(Settings.STEERING_ENABLED) {
+    if(Settings.STEERING_ENABLED && isEnabled()) {
       if(behavior != null) {
         behavior.calculateSteering(steeringOutput);
         applySteering(delta);
