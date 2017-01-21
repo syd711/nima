@@ -52,9 +52,6 @@ public class EntityManager {
     RotationSystem rotationSystem = new RotationSystem();
     engine.addSystem(rotationSystem);
 
-    PlayerMovementSystem movementSystem = new PlayerMovementSystem();
-    engine.addSystem(movementSystem);
-
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
 

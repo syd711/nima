@@ -24,6 +24,10 @@ public class Box2dUtil {
     return (float) Math.atan2(from.y - to.y, from.x - to.x);
   }
 
+  public static Body clickBody(Vector2 clickPoint) {
+    return BodyGenerator.createClickBody(clickPoint);
+  }
+
   public static Vector2 toBox2Vector(Vector2 vector) {
     return new Vector2(vector.x*MPP, vector.y*MPP);
   }

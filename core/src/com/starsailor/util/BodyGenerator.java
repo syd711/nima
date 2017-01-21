@@ -24,6 +24,25 @@ public class BodyGenerator {
 
   private static World world = Game.world;
 
+  public static Body createClickBody(Vector2 clickPoint) {
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(Box2dUtil.toBox2Vector(clickPoint));
+    Body b = world.createBody(bdef);
+
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(5*MPP, 5*MPP);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.density = 1;
+    fdef.restitution = 0.1f;
+    fdef.shape = shape;
+    b.createFixture(fdef);
+
+    shape.dispose();
+    return b;
+  }
+
   /**
    * Creates the Box2d body for the given spine
    */
@@ -34,6 +53,7 @@ public class BodyGenerator {
     bdef.type = BodyDef.BodyType.DynamicBody;
     bdef.position.set(center.x * MPP, center.y * MPP);
     Body b = world.createBody(bdef);
+    b.setLinearDamping(4f);
 
     PolygonShape shape = new PolygonShape();
     float scaling = spine.jsonScaling;
@@ -41,6 +61,7 @@ public class BodyGenerator {
 
     FixtureDef fdef = new FixtureDef();
     fdef.density = 1;
+    fdef.isSensor = true;
     fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;

@@ -5,13 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.PlayerState;
-import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.util.GraphicsUtil;
-import com.starsailor.util.PolygonUtil;
 
 import static com.starsailor.actors.states.PlayerState.IDLE;
 import static com.starsailor.actors.states.PlayerState.MOVE_TO_STATION;
@@ -86,20 +83,8 @@ public class InputManager implements InputProcessor {
 
     if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
       if(button == Input.Buttons.RIGHT) {
-
         Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        //first update the target to move to...
-        float x = worldCoordinates.x;
-        float y = worldCoordinates.y;
-        Polygon clickPolygon = PolygonUtil.clickPolygon(worldCoordinates);
-        TiledMultiMapRenderer.debugRenderer.render("click", clickPolygon);
-
-        player.rotationComponent.setRotationTarget(x, y);
-
-        //...then the speed to travel with
-        Vector2 point1 = new Vector2(player.positionComponent.x, player.positionComponent.y);
-        Vector2 point2 = new Vector2(x, y);
-        player.speedComponent.applyTargetSpeed(point1, point2);
+        Player.getInstance().moveTo(worldCoordinates);
         return true;
       }
 

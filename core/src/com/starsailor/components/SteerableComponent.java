@@ -244,4 +244,8 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   public void setFaceBehaviour(FaceBehaviour faceBehaviour) {
     this.faceBehaviour = faceBehaviour;
   }
+
+  public FaceBehaviour getFaceBehaviour() {
+    return faceBehaviour;
+  }
 }

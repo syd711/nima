@@ -18,13 +18,12 @@ public class FaceBehaviourImpl implements FaceBehaviour {
   }
 
   public void update() {
-    //in Step() function
     float bodyAngle = behaviourOwner.getAngle();
     Vector2 toTarget = behaviourTarget.getPosition().sub(behaviourOwner.getPosition());
     float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
 
     float totalRotation = desiredAngle - bodyAngle;
-    float change = (float) (1 * Math.toDegrees(1)); //allow 1 degree rotation per time step
+    float change = (float) (1 * Math.toRadians(1)); //allow 1 degree rotation per time step
     float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
 
     behaviourOwner.setTransform(behaviourOwner.getPosition(), newAngle);

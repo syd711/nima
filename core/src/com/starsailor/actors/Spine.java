@@ -11,7 +11,6 @@ import com.starsailor.util.SpineUtil;
  * Superclass for spine entities
  */
 abstract public class Spine extends GameEntity {
-
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
   public Skeleton skeleton;
@@ -50,4 +49,5 @@ abstract public class Spine extends GameEntity {
   public Vector2 getCenter() {
     return SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME);
   }
+
 }

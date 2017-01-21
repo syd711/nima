@@ -72,7 +72,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
-    tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter());
+    tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(Settings.NPCS_ENABLED));
     tiledMapRenderer.fullScan(Settings.WORLD_WIDTH, Settings.WORLD_HEIGHT);
     tiledMapRenderer.removeAllObjectConverters();
 

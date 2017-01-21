@@ -19,6 +19,12 @@ import static com.starsailor.render.converters.MapConstants.PROPERTY_OBJECT_TYPE
  */
 public class Route2EntityConverter extends DefaultMapObjectConverter {
 
+  private boolean enabled;
+
+  public Route2EntityConverter(boolean enabled) {
+    this.enabled = enabled;
+  }
+
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
@@ -27,6 +33,10 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
 
   @Override
   public void convertMapObject(TiledMapFragment mapFragment, MapObject mapObject) {
+    if(!enabled) {
+      return;
+    }
+
     String name = mapObject.getName();
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);

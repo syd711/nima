@@ -29,7 +29,7 @@ import static com.starsailor.util.Settings.MPP;
 public class ComponentFactory {
   public static PooledEngine engine;
 
-  private static <T extends Component> T createComponent (Class<T> componentType) {
+  private static <T extends Component> T createComponent(Class<T> componentType) {
     return engine.createComponent(componentType);
   }
 
@@ -40,10 +40,18 @@ public class ComponentFactory {
     return component;
   }
 
+  public static BodyComponent addBodyComponent(Entity entity, Body body) {
+    BodyComponent component = createComponent(BodyComponent.class);
+    body.setUserData(entity);
+    component.body = body;
+    entity.add(component);
+    return component;
+  }
+
+
   public static BodyComponent addBodyComponent(Entity entity, MapObject mapObject) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
-    component.body.setLinearDamping(4f);
     entity.add(component);
     return component;
   }
@@ -60,7 +68,6 @@ public class ComponentFactory {
   public static BodyComponent addBodyComponent(Spine spine) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createSpineBody(Game.world, spine);
-    component.body.setLinearDamping(4f);
     component.body.setUserData(spine);
     spine.add(component);
     return component;
@@ -96,13 +103,6 @@ public class ComponentFactory {
     RotationComponent component = createComponent(RotationComponent.class);
     component.spine = spine;
     component.rotationSpeed = profile.rotationSpeed;
-    spine.add(component);
-    return component;
-  }
-
-  public static MovementComponent addMovementComponent(Spine spine) {
-    MovementComponent component = createComponent(MovementComponent.class);
-    component.setSpine(spine);
     spine.add(component);
     return component;
   }
@@ -226,4 +226,11 @@ public class ComponentFactory {
     entity.add(component);
     return component;
   }
+
+  public static PlayerTargetCollisionComponent addPlayerTargetCollisionComponent(Entity entity) {
+    PlayerTargetCollisionComponent component = createComponent(PlayerTargetCollisionComponent.class);
+    entity.add(component);
+    return component;
+  }
+
 }

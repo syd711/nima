@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.render.MapObjectConverter;
 import com.starsailor.render.TiledMapFragment;
-import com.starsailor.util.PolygonUtil;
 
 /**
  * Stores the centered position of the map object.
@@ -29,8 +28,7 @@ public class MapObjectCenteredPositionConverter extends MapObjectConverter {
 
   @Override
   public void convertPolygon(TiledMapFragment mapFragment, PolygonMapObject mapObject) {
-    Vector2 centeredPosition = PolygonUtil.getCenter(mapObject.getPolygon());
-    mapObject.getProperties().put(MapConstants.PROPERTY_CENTERED_POSITION, centeredPosition);
+
   }
 
   @Override
