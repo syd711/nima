@@ -3,9 +3,10 @@ package com.starsailor.actors.states.npc;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Player;
 import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.SteerableComponent;
-import com.starsailor.systems.behaviours.FaceToPlayerBehaviour;
+import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 
 /**
  *
@@ -14,7 +15,7 @@ public class FacePlayerState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-    FaceToPlayerBehaviour face = new FaceToPlayerBehaviour(npc);
+    FaceBehaviourImpl face = new FaceBehaviourImpl(npc.bodyComponent.body, Player.getInstance().bodyComponent.body);
     steerableComponent.setBehavior(null);
     steerableComponent.setFaceBehaviour(face);
   }

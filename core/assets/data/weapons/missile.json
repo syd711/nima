@@ -1,13 +1,13 @@
 {
   "name" : "Missile",
   "damage" : 50,
-  "speed" : 0.4,
   "impactFactor" : 80,
   "rechargeTimeMillis" : 500,
+  "activationDistance" : 250,
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 500,
-    "maxLinearAcceleration" : 500,
+    "maxLinearSpeed" : 5,
+    "maxLinearAcceleration" : 5,
     "maxAngularSpeed" : 3000,
     "maxAngularAcceleration" : 300
   }

@@ -40,6 +40,7 @@ public class PositionSystem extends AbstractIteratingSystem {
       positionComponent.setPosition(position);
       spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
 
+      //TODO
       if(spine.selectionComponent.selected) {
         Vector2 center = spine.getCenter();
         spine.spriteComponent.setSelectionMarkerAt(center);

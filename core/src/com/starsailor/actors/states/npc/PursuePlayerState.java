@@ -8,7 +8,7 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.SteerableComponent;
-import com.starsailor.systems.behaviours.FaceToPlayerBehaviour;
+import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 
 /**
  *
@@ -20,7 +20,7 @@ public class PursuePlayerState implements State<NPC> {
     Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, Player.getInstance().getComponent(SteerableComponent.class));
     behaviour.setMaxPredictionTime(0.7f);
     steerableComponent.setBehavior(behaviour);
-    steerableComponent.setFaceBehaviour(new FaceToPlayerBehaviour(npc));
+    steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(npc.bodyComponent.body, Player.getInstance().bodyComponent.body));
   }
 
   @Override

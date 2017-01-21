@@ -9,9 +9,11 @@ import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.data.DataEntities;
+import com.starsailor.data.WeaponProfile;
 
 import static com.starsailor.util.Settings.PPM;
 
+//TODO split into position system and spriterendersystem
 public class BulletSystem extends AbstractIteratingSystem {
   public BulletSystem() {
     super(Family.all(BodyComponent.class).get());
@@ -20,6 +22,7 @@ public class BulletSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     if(entity instanceof Bullet) {
       Bullet bullet = (Bullet) entity;
+      WeaponProfile weaponProfile = bullet.weaponProfile;
 
       SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
@@ -36,14 +39,20 @@ public class BulletSystem extends AbstractIteratingSystem {
         //nothing
       }
       else if(bullet.is(DataEntities.WEAPON_MISSILE) && bullet.target != null) {
-        Body body = bullet.bodyComponent.body;
-        Vector2 aimingVector = bullet.target.positionComponent.getBox2dPosition();
-        float forceValue = 0.00004f;
+        float distanceToPlayer = bullet.getDistanceToPlayer();
+        if(distanceToPlayer > weaponProfile.activationDistance) {
+          bullet.steerableComponent.setEnabled(true);
+        }
+        else {
+          Body body = bullet.bodyComponent.body;
+          Vector2 aimingVector = bullet.target.positionComponent.getBox2dPosition();
+          float forceValue = 0.00004f;
 
-        Vector2 direction = aimingVector.sub(body.getPosition());
-        body.applyForce(direction.scl(forceValue), body.getWorldCenter(), true);
+          Vector2 direction = aimingVector.sub(body.getPosition());
+          body.applyForce(direction.scl(forceValue), body.getWorldCenter(), true);
 
-        body.setTransform(body.getPosition(), aimingVector.angleRad());
+          body.setTransform(body.getPosition(), aimingVector.angleRad());
+        }
       }
     }
   }

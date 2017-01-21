@@ -8,7 +8,6 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
-import com.starsailor.actors.RoutePoint;
 import com.starsailor.data.SteeringData;
 import com.starsailor.systems.behaviours.FaceBehaviour;
 import com.starsailor.util.GraphicsUtil;
@@ -24,6 +23,8 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private float maxLinearAcceleration;
   private float maxAngularSpeed;
   private float maxAngularAcceleration;
+
+  public boolean enabled = true;
 
   private SteeringBehavior<Vector2> behavior;
   private FaceBehaviour faceBehaviour;
@@ -41,6 +42,14 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.maxAngularAcceleration = steeringData.maxAngularAcceleration;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   @Override

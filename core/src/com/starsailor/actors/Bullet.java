@@ -2,10 +2,12 @@ package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 
 /**
  * Entity for bullets
@@ -34,6 +36,11 @@ public class Bullet extends GameEntity {
 
     if(weaponProfile.steeringData != null) {
       steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
+      Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
+      behaviour.setMaxPredictionTime(0.7f);
+      steerableComponent.setBehavior(behaviour);
+      steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body));
+      steerableComponent.setEnabled(false);
     }
 
     ComponentFactory.addBulletCollisionComponent(this);
@@ -46,6 +53,10 @@ public class Bullet extends GameEntity {
 
   public boolean isOwner(Entity entity) {
     return owner.equals(entity);
+  }
+
+  public float getDistanceToPlayer() {
+    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
   }
 
   public void applyCollisionWith(Ship npc) {
