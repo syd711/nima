@@ -19,23 +19,17 @@ public enum PlayerState implements State<Player> {
   IDLE() {
     @Override
     public void enter(Player player) {
-      player.rotationComponent.mapTargetX = -1;
-      player.rotationComponent.mapTargetY = -1;
     }
 
     @Override
     public void update(Player player) {
-      float x = player.rotationComponent.mapTargetX;
-      float y = player.rotationComponent.mapTargetY;
-      if(x > 0 && y > 0) {
-        Entity targetEntity = EntityManager.getInstance().getEntityAt(x, y);
-        if(targetEntity != null && targetEntity instanceof Location) {
-          player.target = targetEntity;
-          player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
-        }
-        else {
-          player.target = null;
-        }
+      Entity targetEntity = EntityManager.getInstance().getEntityAt(player.getCenter());
+      if(targetEntity != null && targetEntity instanceof Location) {
+        player.target = targetEntity;
+        player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
+      }
+      else {
+        player.target = null;
       }
     }
   },
@@ -61,7 +55,7 @@ public enum PlayerState implements State<Player> {
     public void enter(Player player) {
       MapObjectComponent mapObjectComponent = player.target.getComponent(MapObjectComponent.class);
       Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
-      player.rotationComponent.setRotationTarget(centeredPosition.x, centeredPosition.y);
+      player.moveTo(centeredPosition);
     }
 
     @Override
@@ -108,7 +102,6 @@ public enum PlayerState implements State<Player> {
       LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
       lightSystem.fadeOut(false);
       player.speedComponent.setTargetValue(0f);
-      player.rotationComponent.setRotationTarget(player.positionComponent.x + 100, player.positionComponent.y);
 
       EntityManager.getInstance().pauseSystems(false);
       player.getStateMachine().changeState(IDLE);

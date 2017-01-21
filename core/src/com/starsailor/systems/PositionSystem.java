@@ -7,10 +7,7 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
-import com.starsailor.components.RotationComponent;
 import com.starsailor.util.GraphicsUtil;
-
-import static com.starsailor.util.Settings.PPM;
 
 public class PositionSystem extends AbstractIteratingSystem {
   public PositionSystem() {
@@ -20,7 +17,6 @@ public class PositionSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
     BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
-    RotationComponent rotationComponent = entity.getComponent(RotationComponent.class);
 
     if(entity instanceof Spine){
       Spine spine = (Spine) entity;
@@ -28,7 +24,6 @@ public class PositionSystem extends AbstractIteratingSystem {
       float bodyAngle = bodyComponent.body.getAngle();
       Vector2 targetVector = new Vector2();
       GraphicsUtil.angleToVector(targetVector, bodyAngle);
-      rotationComponent.setRotationTarget(targetVector.x*PPM, targetVector.y*PPM);
       positionComponent.setPosition(position);
       spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
 

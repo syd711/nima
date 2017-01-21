@@ -49,9 +49,6 @@ public class EntityManager {
     PositionSystem positionSystem = new PositionSystem();
     engine.addSystem(positionSystem);
 
-    RotationSystem rotationSystem = new RotationSystem();
-    engine.addSystem(rotationSystem);
-
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
 
@@ -174,6 +171,10 @@ public class EntityManager {
   public Entity getEntityAt(float x, float y) {
     Vector2 clickPoint = new Vector2(x, y);
     return Box2dUtil.getEntityAt(Game.world, clickPoint);
+  }
+
+  public Entity getEntityAt(Vector2 pos) {
+    return Box2dUtil.getEntityAt(Game.world, pos);
   }
 
   public ImmutableArray<Entity> getEntitiesFor(Class<? extends Component> componentClass) {
