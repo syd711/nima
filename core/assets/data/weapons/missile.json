@@ -3,5 +3,12 @@
   "damage" : 50,
   "speed" : 0.4,
   "impactFactor" : 80,
-  "rechargeTimeMillis" : 500
+  "rechargeTimeMillis" : 500,
+  "steeringData" : {
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 500,
+    "maxLinearAcceleration" : 500,
+    "maxAngularSpeed" : 3000,
+    "maxAngularAcceleration" : 300
+  }
 }

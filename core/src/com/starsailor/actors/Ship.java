@@ -38,7 +38,7 @@ public class Ship extends Spine {
     speedComponent = ComponentFactory.addSpeedComponent(this, profile);
     rotationComponent = ComponentFactory.addRotationComponent(this, profile);
     bodyComponent = ComponentFactory.addBodyComponent(this);
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     damageComponent = ComponentFactory.addDamageComponent(this, profile);
   }
@@ -49,7 +49,7 @@ public class Ship extends Spine {
    */
   public void fireAt(Ship target) {
     if(shootingComponent.isCharged()) {
-      Bullet.fireBullet(this, target);
+      BulletFactory.fireBullet(this, target);
     }
   }
 

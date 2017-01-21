@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.starsailor.actors.Bullet;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
@@ -37,15 +36,8 @@ public class BulletSystem extends AbstractIteratingSystem {
         //nothing
       }
       else if(bullet.is(DataEntities.WEAPON_MISSILE) && bullet.target != null) {
-        float G = 1f; //modifier of gravity value - you can make it bigger to have stronger gravity
-
         Body body = bullet.bodyComponent.body;
-        MassData data = new MassData();
-        data.mass = 10;
-//        body.setMassData(data);
         Vector2 aimingVector = bullet.target.positionComponent.getBox2dPosition();
-        float distance = body.getPosition().dst(aimingVector);
-//        float forceValue = G / (distance * distance);
         float forceValue = 0.00004f;
 
         Vector2 direction = aimingVector.sub(body.getPosition());

@@ -29,11 +29,7 @@ public class ShipProfile {
   public float decreaseSpeed;
 
   //Steering
-  public float boundingRadius;
-  public float maxLinearSpeed;
-  public float maxLinearAcceleration;
-  public float maxAngularSpeed;
-  public float maxAngularAcceleration;
+  public SteeringData steeringData;
 
   public void addWeaponProfile(WeaponProfile profile) {
     if(weaponProfiles == null) {

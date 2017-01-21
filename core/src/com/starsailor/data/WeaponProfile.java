@@ -9,6 +9,7 @@ public class WeaponProfile {
   public float speed;
   public float impactFactor;
   public String name;
+  public SteeringData steeringData;
 
   @Override
   public String toString() {

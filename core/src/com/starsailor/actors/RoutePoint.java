@@ -2,6 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.data.SteeringData;
 
 /**
  * Model for a tracking point of a route.
@@ -9,11 +10,7 @@ import com.starsailor.components.ComponentFactory;
  */
 public class RoutePoint extends GameEntity {
   //steering defaults
-  public float boundingRadius = 200;
-  public float maxLinearSpeed = 500;
-  public float maxLinearAcceleration = 500;
-  public float maxAngularSpeed = 3000;
-  public float maxAngularAcceleration = 300;
+  public SteeringData steeringData = new SteeringData();
   
   public Vector2 position;
   public boolean dockable;

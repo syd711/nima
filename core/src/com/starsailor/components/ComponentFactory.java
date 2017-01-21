@@ -14,6 +14,7 @@ import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
 import com.starsailor.data.ShipProfile;
+import com.starsailor.data.SteeringData;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
 import com.starsailor.util.Box2dUtil;
@@ -150,9 +151,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SteerableComponent addSteerableComponent(Entity entity, Body body, ShipProfile profile) {
+  public static SteerableComponent addSteerableComponent(Entity entity, Body body, SteeringData steeringData) {
     SteerableComponent component = createComponent(SteerableComponent.class);
-    component.init(body, profile);
+    component.init(body, steeringData);
     entity.add(component);
     return component;
   }

@@ -7,10 +7,12 @@
   "rotationSpeed" : 2,
   "increaseSpeed" : 0.03,
   "decreaseSpeed" : 0.03,
-  "boundingRadius" : 200,
-  "maxLinearSpeed" : 500,
-  "maxLinearAcceleration" : 500,
-  "maxAngularSpeed" : 3000,
-  "maxAngularAcceleration" : 300,
-  "weapons" : ["laser","missile"]
+  "weapons" : ["laser","missile"],
+  "steeringData" : {
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 500,
+    "maxLinearAcceleration" : 500,
+    "maxAngularSpeed" : 3000,
+    "maxAngularAcceleration" : 300
+  }
 }

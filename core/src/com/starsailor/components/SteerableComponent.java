@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.RoutePoint;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.SteeringData;
 import com.starsailor.systems.behaviours.FaceBehaviour;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
@@ -31,26 +31,14 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   private Body body;
 
-  public void init(Body body, RoutePoint point) {
+  public void init(Body body, SteeringData steeringData) {
     this.body = body;
 
-    this.boundingRadius = point.boundingRadius;
-    this.maxLinearSpeed = point.maxLinearSpeed;
-    this.maxLinearAcceleration = point.maxLinearAcceleration;
-    this.maxAngularSpeed = point.maxAngularSpeed;
-    this.maxAngularAcceleration = point.maxAngularAcceleration;
-
-    this.steeringOutput = new SteeringAcceleration<>(new Vector2());
-  }
-
-  public void init(Body body, ShipProfile profile) {
-    this.body = body;
-
-    this.boundingRadius = profile.boundingRadius;
-    this.maxLinearSpeed = profile.maxLinearSpeed;
-    this.maxLinearAcceleration = profile.maxLinearAcceleration;
-    this.maxAngularSpeed = profile.maxAngularSpeed;
-    this.maxAngularAcceleration = profile.maxAngularAcceleration;
+    this.boundingRadius = steeringData.boundingRadius;
+    this.maxLinearSpeed = steeringData.maxLinearSpeed;
+    this.maxLinearAcceleration = steeringData.maxLinearAcceleration;
+    this.maxAngularSpeed = steeringData.maxAngularSpeed;
+    this.maxAngularAcceleration = steeringData.maxAngularAcceleration;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
