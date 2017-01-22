@@ -47,8 +47,8 @@ public class SoundManager {
 
   public static void playSound(String filePath, float volume, float pitch, float pan) {
     if(sfx != null) {
-      sfx.stop();
-      sfx.dispose();
+//      sfx.stop();
+//      sfx.dispose();
     }
     sfx = Gdx.audio.newSound(Gdx.files.internal(filePath));
 

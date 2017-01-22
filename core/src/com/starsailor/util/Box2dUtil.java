@@ -24,6 +24,10 @@ public class Box2dUtil {
     return (float) Math.atan2(from.y - to.y, from.x - to.x);
   }
 
+  public static Vector2 toWorldPoint(Vector2 coordinates) {
+    return coordinates.scl(Settings.PPM);
+  }
+
   public static Body clickBody(Vector2 clickPoint) {
     return BodyGenerator.createClickBody(clickPoint);
   }

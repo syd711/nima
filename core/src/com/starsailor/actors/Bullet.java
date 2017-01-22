@@ -4,10 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.ParticleManager;
+import com.starsailor.managers.SoundManager;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
+import com.starsailor.util.Resources;
 
 /**
  * Entity for bullets
@@ -60,7 +64,7 @@ public class Bullet extends GameEntity {
     return positionComponent.getPosition().dst(origin);
   }
 
-  public void applyCollisionWith(Ship npc) {
+  public void applyCollisionWith(Ship npc, Vector2 position) {
     BodyComponent component = npc.getComponent(BodyComponent.class);
 
     //use my linear velocity
@@ -71,6 +75,9 @@ public class Bullet extends GameEntity {
     component.body.applyForceToCenter(force.x, force.y, true);
     if(!isOwner(npc)) {
       EntityManager.getInstance().destroy(this);
+      SoundManager.playSoundAtPosition(Resources.SOUND_EXPLOSION, 1f, new Vector3(position, 0));
+      ParticleManager.getInstance().queueEffect(Resources.PARTICLE_EXPLOSION, position);
     }
+
   }
 }

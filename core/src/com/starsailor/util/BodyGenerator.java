@@ -35,6 +35,7 @@ public class BodyGenerator {
     shape.setAsBox(5*MPP, 5*MPP);
 
     FixtureDef fdef = new FixtureDef();
+    fdef.isSensor = true;
     fdef.filter.categoryBits = WORLD_BITS;
     fdef.filter.maskBits = MASK_WORLD;
     fdef.density = 1;
@@ -64,7 +65,7 @@ public class BodyGenerator {
 
     FixtureDef fdef = new FixtureDef();
     fdef.density = 1;
-    fdef.isSensor = true;
+    fdef.isSensor = false;
     fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;

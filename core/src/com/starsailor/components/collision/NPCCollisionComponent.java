@@ -1,6 +1,7 @@
 package com.starsailor.components.collision;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.Bullet;
 import com.starsailor.actors.Collidable;
@@ -13,13 +14,13 @@ import com.starsailor.actors.states.NPCStates;
  */
 public class NPCCollisionComponent implements Collidable, Pool.Poolable {
   @Override
-  public void handleCollision(Entity collider, Entity collidee) {
+  public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
     if(collidee instanceof RoutePoint) {
       ((NPC) collider).getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
     if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;
-      bullet.applyCollisionWith((NPC) collider);
+      bullet.applyCollisionWith((NPC) collider, position);
     }
   }
 
