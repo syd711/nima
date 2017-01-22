@@ -14,9 +14,6 @@ public class PositionSystem extends AbstractIteratingSystem {
   }
 
   public void process(Entity entity, float deltaTime) {
-    PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-    BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
-
     //check all entities that have a body and update their position and rotation according to their body
     if(entity instanceof Spine){
 
