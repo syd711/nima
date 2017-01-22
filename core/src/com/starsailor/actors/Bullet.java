@@ -30,7 +30,7 @@ public class Bullet extends GameEntity {
     this.owner = owner;
     this.target = target;
 
-    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.type.name().toLowerCase());
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.type.name().toLowerCase(), 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
@@ -40,7 +40,7 @@ public class Bullet extends GameEntity {
       Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
       behaviour.setMaxPredictionTime(0f);
       steerableComponent.setBehavior(behaviour);
-      steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body));
+      steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body, 3f));
       steerableComponent.setEnabled(false);
     }
 

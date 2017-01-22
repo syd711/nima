@@ -36,7 +36,7 @@ public class NPC extends Ship {
   public boolean toggleSelection() {
     boolean selected = selectionComponent.toggleSelection();
     if(selected) {
-      spriteComponent = ComponentFactory.addSpriteComponent(this, "selection");
+      spriteComponent = ComponentFactory.addSpriteComponent(this, "selection", 0);
     }
     else {
       this.remove(SpriteComponent.class);

@@ -58,6 +58,10 @@ public class Box2dUtil {
     return (float) (box2dAngle-radians);
   }
 
+  public static float addDegree(float angle, int degree) {
+    return (float) (angle + Math.toRadians(degree));
+  }
+
 
 //  @Override
 //  public void update() {

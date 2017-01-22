@@ -35,7 +35,7 @@ public class BulletFactory {
       float mXDir = -(float) Math.cos(radianAngle);
       float mYDir = -(float) Math.sin(radianAngle);
 
-      float speedFactor = bullet.weaponProfile.speed;
+      float speedFactor = bullet.weaponProfile.forceFactor;
       Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
       bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
 
@@ -43,13 +43,18 @@ public class BulletFactory {
       SoundManager.playSoundAtPosition(Resources.SOUND_LASER, 0.5f, new Vector3(bullet.owner.getCenter().x, bullet.owner.getCenter().y, 0));
     }
     else if(bullet.weaponProfile.type.equals(WeaponProfile.Types.MISSILE)) {
-      Body body = bullet.bodyComponent.body;
+      Body bulletBody = bullet.bodyComponent.body;
+      Body ownerBody = bullet.owner.bodyComponent.body;
+      bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
+
+      float angle = ownerBody.getAngle();
+      angle = Box2dUtil.addDegree(angle, 90);
       Vector2 force = new Vector2();
-      force.x = (float) Math.cos(body.getAngle());
-      force.y = -(float) Math.sin(body.getAngle());
-      force = force.scl(0.3f);
-      body.setTransform(body.getPosition(), (float) (body.getAngle()-Math.toRadians(90f)));
-      body.applyForceToCenter(force, true);
+      force.x = (float) Math.cos(angle);
+      force.y = (float) Math.sin(angle);
+      force = force.scl(bullet.weaponProfile.forceFactor);
+
+      bulletBody.applyForceToCenter(force, true);
     }
   }
 }

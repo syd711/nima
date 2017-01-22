@@ -109,9 +109,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpriteComponent addSpriteComponent(Entity entity, String resourceLocation) {
+  public static SpriteComponent addSpriteComponent(Entity entity, String resourceLocation, float angle) {
     SpriteComponent component = createComponent(SpriteComponent.class);
     component.setTextures(new Texture(Resources.SPRITE_TEXTURES + resourceLocation + ".png"));
+    component.setAngle(angle);
     entity.add(component);
     return component;
   }

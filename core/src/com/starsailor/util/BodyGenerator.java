@@ -97,7 +97,6 @@ public class BodyGenerator {
     }
     else {
       shape.setAsBox(2.5f * MPP, 10f * MPP);
-
     }
 
 

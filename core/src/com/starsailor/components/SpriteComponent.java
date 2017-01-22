@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class SpriteComponent implements Component, Poolable {
   public Sprite sprite;
+  private float angle;
 
   public void setTextures(Texture texture) {
     sprite = new Sprite(texture);
@@ -21,5 +22,9 @@ public class SpriteComponent implements Component, Poolable {
 
   public void setSelectionMarkerAt(Vector2 pos) {
     sprite.setPosition(pos.x-sprite.getWidth()/2, pos.y-sprite.getHeight()/2);
+  }
+
+  public void setAngle(float angle) {
+    sprite.setRotation(angle);
   }
 }

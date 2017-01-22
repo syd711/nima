@@ -11,7 +11,7 @@ public class WeaponProfile {
   public Types type;
   public float rechargeTimeMillis;
   public float damage;
-  public float speed;
+  public float forceFactor;
   public float impactFactor;
   public String name;
 
