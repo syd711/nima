@@ -15,6 +15,7 @@ import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
+import com.starsailor.data.WeaponProfile;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
 import com.starsailor.util.Box2dUtil;
@@ -56,9 +57,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, boolean friendly) {
+  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, WeaponProfile weaponProfile, boolean friendly) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.createBulletBody(position, friendly);
+    component.body = BodyGenerator.createBulletBody(position, weaponProfile, friendly);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
     entity.add(component);

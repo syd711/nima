@@ -6,6 +6,7 @@ import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.RoutePoint;
 import com.starsailor.actors.Spine;
+import com.starsailor.data.WeaponProfile;
 
 import static com.starsailor.util.Settings.MPP;
 
@@ -83,14 +84,22 @@ public class BodyGenerator {
     return b;
   }
 
-  public static Body createBulletBody(Vector2 position, boolean friendly) {
+  public static Body createBulletBody(Vector2 position, WeaponProfile weaponProfile, boolean friendly) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
     bdef.position.set(position.x * MPP, position.y * MPP);
     Body b = world.createBody(bdef);
+    b.setLinearDamping(weaponProfile.linearDamping);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(10 * MPP, 2.5f * MPP);
+    if(weaponProfile.type.equals(WeaponProfile.Types.LASER)) {
+      shape.setAsBox(10 * MPP, 2.5f * MPP);
+    }
+    else {
+      shape.setAsBox(2.5f * MPP, 10f * MPP);
+
+    }
+
 
     FixtureDef fdef = new FixtureDef();
     fdef.filter.groupIndex = 0;

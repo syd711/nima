@@ -10,8 +10,6 @@ import java.util.*;
 public class DataEntities {
   /******** Entity Constants *******************************************/
   public static final String SPINE_CENTER_SLOT_NAME = "torso";
-  public static final String WEAPON_LASER = "laser";
-  public static final String WEAPON_MISSILE = "missile";
 
   public static final String SHIP_PLAYER = "player";
   public static final String SHIP_MERCHANT = "merchant";
@@ -28,13 +26,10 @@ public class DataEntities {
     for(ShipProfile shipProfile : ships.values()) {
       for(String weapon : shipProfile.weapons) {
         WeaponProfile weaponProfile = weapons.get(weapon);
+        weaponProfile.type = WeaponProfile.Types.valueOf(weapon.toUpperCase());
         shipProfile.addWeaponProfile(weaponProfile);
       }
     }
-  }
-
-  public static WeaponProfile getWeapon(String weapon) {
-    return weapons.get(weapon);
   }
 
   public static ShipProfile getShip(String profile) {

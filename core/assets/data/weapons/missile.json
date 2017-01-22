@@ -3,11 +3,12 @@
   "damage" : 50,
   "impactFactor" : 80,
   "rechargeTimeMillis" : 500,
-  "activationDistance" : 250,
+  "activationDistance" : 220,
+  "linearDamping" : 2.0,
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 5,
-    "maxLinearAcceleration" : 1.5,
+    "maxLinearAcceleration" : 1.8,
     "maxAngularSpeed" : 1,
     "maxAngularAcceleration" : 1
   }

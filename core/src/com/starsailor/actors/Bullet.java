@@ -22,15 +22,18 @@ public class Bullet extends GameEntity {
   public Ship owner;
   public Ship target;
 
+  private Vector2 origin;
+
   public Bullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
     this.weaponProfile = weaponProfile;
+    this.origin = owner.getCenter();
     this.owner = owner;
     this.target = target;
 
-    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.name);
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.type.name().toLowerCase());
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
-    bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), owner instanceof Player);
+    bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
 
     if(weaponProfile.steeringData != null) {
       steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
@@ -45,16 +48,16 @@ public class Bullet extends GameEntity {
     Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);
   }
 
-  public boolean is(String weaponType) {
-    return weaponProfile.name.equalsIgnoreCase(weaponType);
+  public boolean is(WeaponProfile.Types type) {
+    return weaponProfile.type.equals(type);
   }
 
   public boolean isOwner(Entity entity) {
     return owner.equals(entity);
   }
 
-  public float getDistanceToPlayer() {
-    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
+  public float getDistanceFromOrigin() {
+    return positionComponent.getPosition().dst(origin);
   }
 
   public void applyCollisionWith(Ship npc) {
