@@ -55,9 +55,6 @@ public class EntityManager {
     SteerableSystem steerableSystem = new SteerableSystem();
     engine.addSystem(steerableSystem);
 
-    SpeedSystem speedSystem = new SpeedSystem();
-    engine.addSystem(speedSystem);
-
     SpineRenderSystem renderSystem = new SpineRenderSystem(renderer);
     engine.addSystem(renderSystem);
 

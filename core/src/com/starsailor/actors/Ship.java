@@ -13,7 +13,6 @@ public class Ship extends Spine {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public SpineComponent spineComponent;
-  public SpeedComponent speedComponent;
   public ScalingComponent scalingComponent;
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
@@ -34,7 +33,6 @@ public class Ship extends Spine {
     statefulComponent = ComponentFactory.addStatefulComponent(this, state);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    speedComponent = ComponentFactory.addSpeedComponent(this, profile);
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);

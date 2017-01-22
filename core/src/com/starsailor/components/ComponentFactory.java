@@ -80,13 +80,6 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpeedComponent addSpeedComponent(Spine spine, ShipProfile profile) {
-    SpeedComponent component = createComponent(SpeedComponent.class);
-    component.init(0, 0, profile.maxSpeed, profile.increaseSpeed, profile.decreaseSpeed);
-    spine.add(component);
-    return component;
-  }
-
   public static LightComponent addLightComponent(Entity entity) {
     LightComponent component = createComponent(LightComponent.class);
     entity.add(component);
@@ -118,13 +111,6 @@ public class ComponentFactory {
   public static SpriteComponent addSpriteComponent(Entity entity, String resourceLocation) {
     SpriteComponent component = createComponent(SpriteComponent.class);
     component.setTextures(new Texture(Resources.SPRITE_TEXTURES + resourceLocation + ".png"));
-    entity.add(component);
-    return component;
-  }
-
-  public static BulletDamageComponent addBulletDamageComponent(Entity entity, int damage) {
-    BulletDamageComponent component = createComponent(BulletDamageComponent.class);
-    component.damage = damage;
     entity.add(component);
     return component;
   }

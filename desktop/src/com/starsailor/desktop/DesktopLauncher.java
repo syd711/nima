@@ -15,6 +15,7 @@ public class DesktopLauncher {
     config.resizable = false;
     config.backgroundFPS = 60;
     config.foregroundFPS = 60;
+    config.x = -1400;
 //		config.fullscreen = true;
     new LwjglApplication(new Game(), config);
 //    new LwjglApplication(new Box2dTestApplication(), config);

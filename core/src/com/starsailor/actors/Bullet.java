@@ -15,7 +15,6 @@ import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 public class Bullet extends GameEntity {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
-  public BulletDamageComponent bulletDamageComponent;
   public SteerableComponent steerableComponent;
   public BodyComponent bodyComponent;
 
@@ -31,7 +30,6 @@ public class Bullet extends GameEntity {
     spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.name);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
-    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, 10);
     bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), owner instanceof Player);
 
     if(weaponProfile.steeringData != null) {

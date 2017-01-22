@@ -24,7 +24,6 @@ public class BulletFactory {
     float radianAngle = Box2dUtil.getBox2dAngle(from, to);
 
     Body bulletBody = bullet.bodyComponent.body;
-    com.badlogic.gdx.graphics.g2d.Sprite sprite = bullet.spriteComponent.sprite;
     bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
 
     float mXDir = -(float) Math.cos(radianAngle);
