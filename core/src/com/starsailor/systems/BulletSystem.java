@@ -37,13 +37,15 @@ public class BulletSystem extends AbstractIteratingSystem {
         spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
       }
       else if(bullet.is(WeaponProfile.Types.MISSILE) && bullet.target != null) {
-        float distanceToPlayer = bullet.getDistanceFromOrigin();
-        //lazy init of the bullet's steering system
-        if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
-          bullet.steerableComponent.setEnabled(true);
-        }
-        else {
-          spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
+        if(!bullet.steerableComponent.isDestroyed()) {
+          float distanceToPlayer = bullet.getDistanceFromOrigin();
+          //lazy init of the bullet's steering system
+          if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
+            bullet.steerableComponent.setEnabled(true);
+          }
+          else {
+            spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
+          }
         }
       }
     }

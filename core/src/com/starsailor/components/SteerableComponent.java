@@ -31,6 +31,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private SteeringAcceleration<Vector2> steeringOutput;
 
   private Body body;
+  private boolean destroyed;
 
   public void init(Body body, SteeringData steeringData) {
     this.body = body;
@@ -52,6 +53,14 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.enabled = enabled;
   }
 
+  public boolean isDestroyed() {
+    return destroyed;
+  }
+
+  public void setDestroyed(boolean b) {
+    this.destroyed = b;
+  }
+
   @Override
   public void reset() {
     this.body = null;
@@ -68,7 +77,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
 
   public void update(float delta) {
-    if(Settings.getInstance().steering_enabled && isEnabled()) {
+    if(isUpdateable()) {
       if(behavior != null) {
         behavior.calculateSteering(steeringOutput);
         applySteering(delta);
@@ -78,6 +87,10 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
         faceBehaviour.update();
       }
     }
+  }
+
+  private boolean isUpdateable() {
+    return Settings.getInstance().steering_enabled && isEnabled() && !isDestroyed();
   }
 
   private void applySteering(float delta) {
@@ -100,8 +113,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 //        body.setTransform(body.getPosition(), newOrientation);
 //      }
 //    }
-
-
 
     if(anyAccelerations) {
       //Linear capping
@@ -248,4 +259,5 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   public FaceBehaviour getFaceBehaviour() {
     return faceBehaviour;
   }
+
 }

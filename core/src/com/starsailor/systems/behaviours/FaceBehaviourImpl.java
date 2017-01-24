@@ -36,4 +36,9 @@ public class FaceBehaviourImpl implements FaceBehaviour {
 
     behaviourOwner.setTransform(behaviourOwner.getPosition(), newAngle);
   }
+
+  @Override
+  public boolean isValid() {
+    return !behaviourTarget.isActive();
+  }
 }

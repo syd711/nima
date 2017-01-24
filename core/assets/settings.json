@@ -15,5 +15,5 @@
   "ambient_light_brightness": 0.8,
   "fade_out_offset": 0.01,
   "fade_in_offset": 0.01,
-  "bullet_auto_destroy_distance": 4000
+  "bullet_auto_destroy_distance": 2000
 }

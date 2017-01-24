@@ -1,20 +1,19 @@
 package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.*;
-import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Resources;
 
 /**
  * Entity for bullets
  */
-public class Bullet extends GameEntity {
+public class Bullet extends GameEntity implements EntityListener {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public SteerableComponent steerableComponent;
@@ -38,16 +37,6 @@ public class Bullet extends GameEntity {
     positionComponent.setPosition(owner.getCenter());
     bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
-
-
-    if(weaponProfile.steeringData != null) {
-      steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
-      Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
-      behaviour.setMaxPredictionTime(0f);
-      steerableComponent.setBehavior(behaviour);
-      steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body, 3f));
-      steerableComponent.setEnabled(false);
-    }
 
     ComponentFactory.addBulletCollisionComponent(this);
     Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);
@@ -89,6 +78,21 @@ public class Bullet extends GameEntity {
         ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(-10));
 
         SelectionManager.getInstance().setSelection(null);
+      }
+    }
+  }
+
+  @Override
+  public void entityAdded(Entity entity) {
+
+  }
+
+  @Override
+  public void entityRemoved(Entity entity) {
+    //check if the target is already destroyed
+    if(entity.equals(target)) {
+      if(steerableComponent != null) {
+        steerableComponent.setDestroyed(true);
       }
     }
   }

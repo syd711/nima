@@ -39,7 +39,5 @@ public class SpineRenderSystem extends AbstractIteratingSystem {
     spine.state.apply(spine.skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     spine.skeleton.updateWorldTransform();
     spine.skeletonRenderer.draw(renderer.getBatch(), spine.skeleton); // Draw the skeleton images.
-
-
   }
 }

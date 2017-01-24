@@ -6,4 +6,6 @@ package com.starsailor.systems.behaviours;
 public interface FaceBehaviour {
 
   void update();
+
+  boolean isValid();
 }

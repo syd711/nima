@@ -29,8 +29,6 @@ public class EntityManager {
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
 
-  private List<EntityClickListener> entityClickListeners = new ArrayList<>();
-
   private static EntityManager INSTANCE;
 
   private LightSystem lightSystem;
@@ -99,8 +97,8 @@ public class EntityManager {
   /**
    * Registers an entity click listener
    */
-  public void addEntityClickListener(EntityClickListener entityClickListener) {
-    this.entityClickListeners.add(entityClickListener);
+  public void addEntityListener(EntityListener listener) {
+    this.engine.addEntityListener(listener);
   }
 
   /**
@@ -152,6 +150,11 @@ public class EntityManager {
         if(component != null) {
           component.destroy();
         }
+
+        if(entity instanceof EntityListener) {
+          engine.removeEntityListener((EntityListener) entity);
+        }
+
         engine.removeEntity(entity);
         Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
