@@ -2,17 +2,13 @@
   "spine" : "player",
   "defaultAnimation" : null,
   "scale" : 0.3,
-  "maxSpeed" : 3,
   "health" : 100,
-  "rotationSpeed" : 2,
-  "increaseSpeed" : 0.03,
-  "decreaseSpeed" : 0.03,
   "weapons" : ["laser","missile"],
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 1000,
     "maxLinearAcceleration" : 1200,
-    "maxAngularSpeed" : 1,
-    "maxAngularAcceleration" : 1
+    "maxAngularSpeed" : 10,
+    "maxAngularAcceleration" : 10
   }
 }

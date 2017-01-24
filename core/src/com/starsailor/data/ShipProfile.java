@@ -22,12 +22,6 @@ public class ShipProfile {
   public List<String> weapons;
   public List<WeaponProfile> weaponProfiles;
 
-  //Speed
-  public float maxSpeed;
-  public float rotationSpeed;
-  public float increaseSpeed;
-  public float decreaseSpeed;
-
   //Steering
   public SteeringData steeringData;
 
