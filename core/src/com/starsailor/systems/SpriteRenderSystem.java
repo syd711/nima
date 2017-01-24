@@ -24,7 +24,9 @@ public class SpriteRenderSystem extends SortedIteratingSystem {
     if(spriteComponent != null) {
       Collection<SpriteComponent.SpriteItem> spriteItems = spriteComponent.getSpriteItems();
       for(SpriteComponent.SpriteItem spriteItem : spriteItems) {
-        spriteItem.sprite.draw(batch);
+        if(spriteItem.isPositioned()) {
+          spriteItem.sprite.draw(batch);
+        }
       }
     }
   }

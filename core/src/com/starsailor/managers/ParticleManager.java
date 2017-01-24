@@ -41,13 +41,24 @@ public class ParticleManager extends ResourceManager {
       ParticleEffectPool pool = new ParticleEffectPool(pe, 0, 5);
       effects.put(Particles.valueOf(particleName), pool);
     }
-
   }
 
   public void queueEffect(Particles particle, Vector2 position) {
+    queueEffect(particle, position, -1);
+  }
+
+  public void queueEffect(Particles particle, Vector2 position, float scaling) {
     ParticleEffectPool pool = effects.get(particle);
     ParticleEffectPool.PooledEffect pe = pool.obtain();
     pe.setPosition(position.x, position.y);
+
+    if(scaling > 0) {
+      pe.scaleEffect(scaling);
+    }
+    else {
+      pe.scaleEffect(1f);
+    }
+
 
     EffectKey effect = new EffectKey();
     effect.effect = pe;

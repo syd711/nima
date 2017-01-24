@@ -15,8 +15,7 @@ public class SelectionComponent implements Component, Pool.Poolable {
     this.selected = false;
   }
 
-  public boolean toggleSelection() {
-    this.selected = !this.selected;
-    return this.selected;
+  public void setSelected(boolean b) {
+    this.selected = b;
   }
 }

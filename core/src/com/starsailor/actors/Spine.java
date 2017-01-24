@@ -42,7 +42,11 @@ abstract public class Spine extends GameEntity {
     }
   }
 
-  protected float getHeight() {
+  public float getHeight() {
+    return skeleton.getData().getHeight() * jsonScaling;
+  }
+
+  public float getWidth() {
     return skeleton.getData().getHeight() * jsonScaling;
   }
 

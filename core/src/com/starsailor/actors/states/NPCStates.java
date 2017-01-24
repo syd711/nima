@@ -16,4 +16,6 @@ public class NPCStates {
   public static State ROUTE_POINT_ARRIVED = new RoutingPointArrivedState();
   public static State PURSUE_PLAYER = new PursuePlayerState();
   public static State AVOID_PLAYER_COLLISION= new AvoidCollisionState();
+  public static State SELECT= new SelectionState();
+  public static State DESELECT= new DeselectionState();
 }

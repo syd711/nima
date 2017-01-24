@@ -18,6 +18,7 @@ public class Bullet extends GameEntity {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public SteerableComponent steerableComponent;
+  public BulletDamageComponent bulletDamageComponent;
   public BodyComponent bodyComponent;
 
   public WeaponProfile weaponProfile;
@@ -36,6 +37,8 @@ public class Bullet extends GameEntity {
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
+    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
+
 
     if(weaponProfile.steeringData != null) {
       steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
@@ -71,11 +74,20 @@ public class Bullet extends GameEntity {
     Vector2 force = new Vector2(linearVelocity.x*impactFactor, linearVelocity.y*impactFactor);
     //to apply it on the target
     component.body.applyForceToCenter(force.x, force.y, true);
+
     if(!isOwner(npc)) {
       EntityManager.getInstance().destroy(this);
       SoundManager.playSoundAtPosition(Resources.SOUND_EXPLOSION, 1f, new Vector3(position, 0));
-      ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position);
-    }
+      ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position, 0.5f);
 
+      ShipDataComponent shipData = npc.shipDataComponent;
+      shipData.health = shipData.health-bulletDamageComponent.damage;
+      if(shipData.health <= 0 ) {
+        EntityManager.getInstance().destroy(npc);
+        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position);
+        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(10));
+        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(-10));
+      }
+    }
   }
 }

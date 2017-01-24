@@ -1,6 +1,6 @@
 {
   "name" : "Missile",
-  "damage" : 50,
+  "damage" : 30,
   "forceFactor" : 0.3,
   "impactFactor" : 30,
   "rechargeTimeMillis" : 500,

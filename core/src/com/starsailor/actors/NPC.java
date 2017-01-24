@@ -1,13 +1,12 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
+import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
-import com.starsailor.components.SpriteComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.data.ShipProfile;
-import com.starsailor.managers.Sprites;
 import com.starsailor.render.converters.MapConstants;
 
 /**
@@ -34,18 +33,17 @@ public class NPC extends Ship {
     return getBehaviour() != null && getBehaviour().equalsIgnoreCase(MapConstants.BEHAVIOUR_AGGRESSIVE);
   }
 
-  public boolean toggleSelection() {
-    boolean selected = selectionComponent.toggleSelection();
-    if(selected) {
-      spriteComponent = ComponentFactory.addSpriteComponent(this, Sprites.SELECTION, -1);
-    }
-    else {
-      this.remove(SpriteComponent.class);
-    }
-    return selected;
-  }
-
   public String getBehaviour() {
     return route.routeComponent.behaviour;
+  }
+
+  public boolean toggleSelection() {
+    if(selectionComponent.selected) {
+      getStateMachine().changeState(NPCStates.DESELECT);
+      return false;
+    }
+
+    getStateMachine().changeState(NPCStates.SELECT);
+    return true;
   }
 }

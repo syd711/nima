@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.Bullet;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
@@ -192,9 +193,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static DamageComponent addDamageComponent(Entity entity, ShipProfile profile) {
-    DamageComponent component = createComponent(DamageComponent.class);
+  public static ShipDataComponent addShipDataComponent(Entity entity, ShipProfile profile) {
+    ShipDataComponent component = createComponent(ShipDataComponent.class);
     component.health = profile.health;
+    component.maxHealth = profile.health;
     entity.add(component);
     return component;
   }
@@ -211,4 +213,10 @@ public class ComponentFactory {
     return component;
   }
 
+  public static BulletDamageComponent addBulletDamageComponent(Bullet entity, WeaponProfile weaponProfile) {
+    BulletDamageComponent component = createComponent(BulletDamageComponent.class);
+    component.damage = weaponProfile.damage;
+    entity.add(component);
+    return component;
+  }
 }

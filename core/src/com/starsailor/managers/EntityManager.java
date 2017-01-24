@@ -45,10 +45,6 @@ public class EntityManager {
     player = new Player(DataEntities.getShip(DataEntities.SHIP_PLAYER));
     engine.addEntity(player);
 
-    //create systems
-    PositionSystem positionSystem = new PositionSystem();
-    engine.addSystem(positionSystem);
-
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
 

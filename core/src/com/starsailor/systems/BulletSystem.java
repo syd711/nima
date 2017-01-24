@@ -31,10 +31,10 @@ public class BulletSystem extends AbstractIteratingSystem {
       positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
       positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
 
-      spriteItem.updatePosition(positionComponent.getPosition(), false);
+      spriteItem.setPosition(positionComponent.getPosition(), false);
 
       if(bullet.is(WeaponProfile.Types.LASER)) {
-        spriteItem.updateRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+        spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
       }
       else if(bullet.is(WeaponProfile.Types.MISSILE) && bullet.target != null) {
         float distanceToPlayer = bullet.getDistanceFromOrigin();
@@ -42,7 +42,7 @@ public class BulletSystem extends AbstractIteratingSystem {
           bullet.steerableComponent.setEnabled(true);
         }
         else {
-          spriteItem.updateRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
+          spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
         }
       }
     }
