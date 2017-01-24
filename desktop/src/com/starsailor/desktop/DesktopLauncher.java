@@ -7,17 +7,21 @@ import com.starsailor.util.Settings;
 
 public class DesktopLauncher {
   public static void main(String[] arg) {
+    Settings settings = Settings.getInstance();
+
     LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-    config.fullscreen = false;
-    config.title = "Starsailer (Version " + Settings.VERSION + ")";
-    config.width = 1280;
-    config.height = 900;
-    config.resizable = false;
-    config.backgroundFPS = 60;
-    config.foregroundFPS = 60;
-//    config.x = -1400;
-//		config.fullscreen = true;
+    config.fullscreen = settings.fullscreen;
+    config.title = "Starsailer (Version " + settings.version + ")";
+    config.width = settings.width;
+    config.height = settings.height;
+    config.resizable = settings.resizable;
+    config.backgroundFPS = settings.backgroundFPS;
+    config.foregroundFPS = settings.foregroundFPS;
+
+    if(settings.x != 0) {
+      config.x = settings.x;
+    }
+
     new LwjglApplication(new Game(), config);
-//    new LwjglApplication(new Box2dTestApplication(), config);
   }
 }

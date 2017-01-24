@@ -108,7 +108,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
   @Override
   public void render() {
-    if(Settings.DEBUG) {
+    if(Settings.getInstance().debug) {
       Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
@@ -147,7 +147,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
       }
     } //end layer rendering
 
-    if(Settings.DEBUG) {
+    if(Settings.getInstance().debug) {
       debugRenderer.render();
     }
 

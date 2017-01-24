@@ -68,7 +68,7 @@ public enum PlayerState implements State<Player> {
     public void enter(Player player) {
       PlayerState previousState = (PlayerState) player.getStateMachine().getPreviousState();
       if(previousState.equals(MOVE_TO_STATION)) {
-        player.scalingComponent.setTargetValue(Settings.DOCKING_TARGET_SCALE);
+        player.scalingComponent.setTargetValue(Settings.getInstance().docking_target_scale);
         LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
         lightSystem.fadeOut(true);
       }

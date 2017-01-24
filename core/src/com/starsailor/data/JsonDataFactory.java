@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * Loads json
  */
-abstract class JsonDataFactory {
+abstract public class JsonDataFactory {
 
   protected static <T> Map<String, T> createDataEntities(String filename, Class<T> entity) {
     Map<String, T> ts = new HashMap<String, T>();
@@ -30,10 +31,14 @@ abstract class JsonDataFactory {
     return name.substring(0, name.lastIndexOf("."));
   }
 
-  private static <T> T createDataEntity(FileHandle fileHandle, Class<T> entity) {
+  public static <T> T createDataEntity(FileHandle fileHandle, Class<T> entity) {
+    return createDataEntity(fileHandle.file(), entity);
+  }
+
+  public static <T> T createDataEntity(File file, Class<T> entity) {
     try {
       Gson gson = new Gson();
-      FileReader fileReader = new FileReader(fileHandle.file());
+      FileReader fileReader = new FileReader(file);
       JsonReader reader = new JsonReader(fileReader);
       return gson.fromJson(reader, entity);
     } catch (Exception e) {

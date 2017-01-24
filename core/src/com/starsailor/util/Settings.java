@@ -1,48 +1,79 @@
 package com.starsailor.util;
 
+import com.starsailor.data.JsonDataFactory;
+
+import java.io.File;
+
 /**
  * Some game settings constants
  */
 public class Settings {
-  public static final String VERSION = "0.1";
-  public static final boolean DEBUG = true;
-  public static final boolean STEERING_ENABLED = true;
-  public static final boolean NPCS_ENABLED = true;
-  public static final boolean SOUND_ENABLED = false;
 
+  private static Settings instance;
 
-  public static final float DOCKING_TARGET_SCALE = 0.4f;
+  private Settings() {
+  }
 
-  /**
-   * Light Settings
-   */
-  public static final float AMBIENT_LIGHT_BRIGHTNESS = 0.8f;
-  public static final float FADE_OUT_OFFSET = 0.01f;
-  public static final float FADE_IN_OFFSET = 0.01f;
-
-  /**
-   * Map Settings
-   */
-  public static final int FRAME_PIXELS_X = 1920;
-  public static final int FRAME_PIXELS_Y = 1280;
-
-  //starting from 1
-  public static final int WORLD_WIDTH = 2;
-  public static final int WORLD_HEIGHT = 2;
-
-  //starting from 0
-  public static final int START_FRAME_X = 0;
-  public static final int START_FRAME_Y = 0;
+  public static Settings getInstance() {
+    if(instance == null) {
+      File file = new File("settings.json");
+      instance = JsonDataFactory.createDataEntity(file, Settings.class);
+    }
+    return instance;
+  }
 
   /**
    * Box2d Settings
    */
-  public final static float MPP = 0.01f;
-  public final static int PPM = 100;
+  public static final float MPP = 0.01f;
+  public static final float PPM = 100f;
+
+  //starting from 1
+  public final static int WORLD_WIDTH = 2;
+  public final static int WORLD_HEIGHT = 2;
+
+  //starting from 0
+  public final static int START_FRAME_X = 0;
+  public final static int START_FRAME_Y = 0;
+
+
+  /**
+   * Map Settings
+   */
+  public final static int FRAME_PIXELS_X = 1920;
+  public final static int FRAME_PIXELS_Y = 1280;
+
+
+  public String version;
+
+  public boolean fullscreen;
+  public boolean resizable;
+  public int backgroundFPS;
+  public int foregroundFPS;
+  public int x;
+  public int width;
+  public int height;
+
+
+  public boolean debug;
+  public boolean steering_enabled;
+  public boolean npcs_enabled;
+  public boolean sound_enabled;
+
+
+  public float docking_target_scale;
+
+  /**
+   * Light Settings
+   */
+  public float ambient_light_brightness;
+  public float fade_out_offset;
+  public float fade_in_offset;
+
 
   /**
    * Bullets
    */
-  public final static float BULLET_AUTO_DESTROY_DISTANCE = 4000;//px
+  public float bullet_auto_destroy_distance;
 
 }

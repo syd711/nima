@@ -1,0 +1,19 @@
+{
+  "version": 0.1,
+  "fullscreen" : false,
+  "resizable" : false,
+  "backgroundFPS" : 60,
+  "foregroundFPS" : 60,
+  "width" : 1280,
+  "height" : 900,
+  "x" : -1400,
+  "debug": true,
+  "steering_enabled": true,
+  "npcs_enabled": true,
+  "sound_enabled": false,
+  "docking_target_scale": 0.4,
+  "ambient_light_brightness": 0.8,
+  "fade_out_offset": 0.01,
+  "fade_in_offset": 0.01,
+  "bullet_auto_destroy_distance": 4000
+}

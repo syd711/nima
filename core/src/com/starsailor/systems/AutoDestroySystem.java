@@ -9,8 +9,7 @@ import com.starsailor.actors.Route;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.managers.EntityManager;
-
-import static com.starsailor.util.Settings.BULLET_AUTO_DESTROY_DISTANCE;
+import com.starsailor.util.Settings;
 
 /**
  * Used during fighting
@@ -25,7 +24,7 @@ public class AutoDestroySystem extends IteratingSystem {
     if(entity instanceof Bullet) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
       float distance = positionComponent.distanceToPlayer();
-      if(distance > BULLET_AUTO_DESTROY_DISTANCE) {
+      if(distance > Settings.getInstance().bullet_auto_destroy_distance) {
         EntityManager.getInstance().destroy(entity);
       }
     }

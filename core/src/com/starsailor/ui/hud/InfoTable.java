@@ -17,7 +17,7 @@ public class InfoTable extends Table {
   private final TextButton dockButton;
 
   public InfoTable() {
-    setDebug(Settings.DEBUG);
+    setDebug(Settings.getInstance().debug);
     top();
     setFillParent(true);
 

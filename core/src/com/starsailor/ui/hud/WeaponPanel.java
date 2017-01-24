@@ -1,7 +1,6 @@
 package com.starsailor.ui.hud;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -30,7 +29,7 @@ public class WeaponPanel extends Table {
 
   public WeaponPanel(HudStage hudStage) {
     this.hudStage = hudStage;
-    setDebug(Settings.DEBUG);
+    setDebug(Settings.getInstance().debug);
 
     weapon1 = new TextButton("Laser", Hud.skin);
     add(weapon1);

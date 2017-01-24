@@ -5,8 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
-
-import static com.starsailor.util.Settings.SOUND_ENABLED;
+import com.starsailor.util.Settings;
 
 
 public class SoundManager {
@@ -52,7 +51,7 @@ public class SoundManager {
     }
     sfx = Gdx.audio.newSound(Gdx.files.internal(filePath));
 
-    if(SOUND_ENABLED) {
+    if(Settings.getInstance().sound_enabled) {
       sfx.play(volume, pitch, pan);
     }
   }

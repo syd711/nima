@@ -33,7 +33,7 @@ public class ActionPanel extends Table {
     bground = new Texture(Gdx.files.internal("stations/background/planet.jpg"));
     TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(bground));
 
-    setDebug(Settings.DEBUG);
+    setDebug(Settings.getInstance().debug);
     setBackground(textureRegionDrawable);
 
 

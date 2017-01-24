@@ -10,13 +10,11 @@ import com.starsailor.components.LightComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.util.Settings;
 
-import static com.starsailor.util.Settings.AMBIENT_LIGHT_BRIGHTNESS;
-
 public class LightSystem extends EntitySystem {
   private ComponentMapper<LightComponent> lightsMap = ComponentMapper.getFor(LightComponent.class);
   private RayHandler rayHandler;
-  private float brightness = AMBIENT_LIGHT_BRIGHTNESS;
-  private float currentBrightness = AMBIENT_LIGHT_BRIGHTNESS;
+  private float brightness = Settings.getInstance().ambient_light_brightness;
+  private float currentBrightness = Settings.getInstance().ambient_light_brightness;
 
   public LightSystem(RayHandler rayHandler) {
     this.rayHandler = rayHandler;
@@ -28,7 +26,7 @@ public class LightSystem extends EntitySystem {
       brightness = 0f;
     }
     else {
-      brightness = Settings.AMBIENT_LIGHT_BRIGHTNESS;
+      brightness = Settings.getInstance().ambient_light_brightness;
     }
   }
 
@@ -45,10 +43,10 @@ public class LightSystem extends EntitySystem {
   private void updateAmbientLight() {
     if(currentBrightness != brightness) {
       if(brightness < currentBrightness) {
-        currentBrightness = currentBrightness - Settings.FADE_OUT_OFFSET;
+        currentBrightness = currentBrightness - Settings.getInstance().fade_out_offset;
       }
       else {
-        currentBrightness = currentBrightness + Settings.FADE_IN_OFFSET;
+        currentBrightness = currentBrightness + Settings.getInstance().fade_in_offset;
       }
       currentBrightness = (float) (Math.round(currentBrightness * 100.0) / 100.0);
       rayHandler.setAmbientLight(currentBrightness, currentBrightness, currentBrightness, currentBrightness);
