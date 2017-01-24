@@ -19,7 +19,7 @@ public class TextureManager extends ResourceManager {
     return instance;
   }
 
-  private Map<Sprites, Texture> textures = new HashMap<>();
+  private Map<Textures, Texture> textures = new HashMap<>();
 
   private TextureManager() {
   }
@@ -31,14 +31,18 @@ public class TextureManager extends ResourceManager {
     for(FileHandle file : particleFiles) {
       Texture texture = new Texture(file);
       String name = getEnumName(file);
-      textures.put(Sprites.valueOf(name), texture);
+      textures.put(Textures.valueOf(name), texture);
 
       Gdx.app.log(this.getClass().getName(), "Loaded texture " + file.file().getName());
     }
   }
 
-  public Sprite createSprite(Sprites sprite) {
+  public Sprite createSprite(Textures sprite) {
     Texture texture = textures.get(sprite);
     return new Sprite(texture);
+  }
+
+  public Texture getTexture(Textures texture) {
+    return textures.get(texture);
   }
 }

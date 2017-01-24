@@ -19,6 +19,7 @@ import com.starsailor.managers.TextureManager;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.render.converters.*;
 import com.starsailor.ui.Hud;
+import com.starsailor.util.GameSettings;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
@@ -42,6 +43,8 @@ public class Game extends ApplicationAdapter {
   public static Hud hud;
 
   private SpriteBatch batch;
+
+  public static GameSettings gameSettings = GameSettings.load();
 
 
   @Override
@@ -108,6 +111,12 @@ public class Game extends ApplicationAdapter {
     //add the inputmanager itself as input processor, but as last!
     inputManager.getInputMultiplexer().addProcessor(inputManager);
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
+
+    Runtime.getRuntime().addShutdownHook( new Thread() {
+      @Override public void run() {
+        gameSettings.save();
+      }
+    } );
   }
 
   int debugRender = 0;

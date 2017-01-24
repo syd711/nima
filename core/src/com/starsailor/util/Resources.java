@@ -18,7 +18,7 @@ public class Resources {
   public static final String MAIN_MAP_FOLDER = "maps/main/";
   public static final String MAIN_MAP_PREFIX = "main_";
 
-  public static final String SCENE2D_SKIN = "skin/golden-ui-skin.json";
+  public static final String SCENE2D_SKIN = "skins/uiskin.json";
 
   public static final String SOUND_LASER = "sounds/laser.wav";
   public static final String SOUND_EXPLOSION = "sounds/explosion.mp3";

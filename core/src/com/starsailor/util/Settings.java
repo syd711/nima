@@ -17,7 +17,7 @@ public class Settings {
   public static Settings getInstance() {
     if(instance == null) {
       File file = new File("settings.json");
-      instance = JsonDataFactory.createDataEntity(file, Settings.class);
+      instance = JsonDataFactory.loadDataEntity(file, Settings.class);
     }
     return instance;
   }

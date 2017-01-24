@@ -16,7 +16,7 @@ import com.starsailor.components.collision.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.Sprites;
+import com.starsailor.managers.Textures;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
 import com.starsailor.util.Box2dUtil;
@@ -109,7 +109,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpriteComponent addSpriteComponent(Entity entity, Sprites sprite, float angle) {
+  public static SpriteComponent addSpriteComponent(Entity entity, Textures sprite, float angle) {
     SpriteComponent component = createComponent(SpriteComponent.class);
     component.addSprite(sprite, angle);
     entity.add(component);

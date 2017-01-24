@@ -16,6 +16,8 @@ import java.util.List;
 public class RouteComponent implements Component {
 
   public String name;
+
+  //the profile is needed here to respawn ships
   public ShipProfile shipProfile;
   public NPC npc;
   public String behaviour = MapConstants.BEHAVIOUR_PEACEFUL;

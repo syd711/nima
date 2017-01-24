@@ -21,5 +21,8 @@ public class RouteSystem extends AbstractIteratingSystem {
     if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteStates.IDLE)) {
       route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIP);
     }
+    else if(!route.isActive()) {
+      route.statefulComponent.stateMachine.changeState(RouteStates.INACTIVE);
+    }
   }
 }

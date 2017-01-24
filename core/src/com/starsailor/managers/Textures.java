@@ -3,7 +3,7 @@ package com.starsailor.managers;
 /**
  *
  */
-public enum Sprites {
+public enum Textures {
   LASER, MISSILE, //weapon sprites
   SELECTION,
   HEALTHBG, HEALTHFG

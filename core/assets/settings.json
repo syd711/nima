@@ -1,6 +1,6 @@
 {
   "version": 0.1,
-  "debug": false,
+  "debug": true,
   "fullscreen" : false,
   "resizable" : false,
   "backgroundFPS" : 60,

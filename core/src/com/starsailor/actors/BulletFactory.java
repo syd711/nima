@@ -45,7 +45,6 @@ public class BulletFactory {
       Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
       bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
 
-      bullet.owner.shootingComponent.updateLastBulletTime();
       SoundManager.playSoundAtPosition(Resources.SOUND_LASER, 0.5f, new Vector3(bullet.owner.getCenter().x, bullet.owner.getCenter().y, 0));
     }
     else if(weaponProfile.type.equals(WeaponProfile.Types.MISSILE)) {
@@ -74,5 +73,7 @@ public class BulletFactory {
 
       bulletBody.applyForceToCenter(force, true);
     }
+
+    bullet.owner.shootingComponent.updateLastBulletTime();
   }
 }

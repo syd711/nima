@@ -1,6 +1,8 @@
 package com.starsailor.ui.hud;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,6 +13,8 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
 import com.starsailor.managers.SelectionManager;
+import com.starsailor.managers.TextureManager;
+import com.starsailor.managers.Textures;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.Settings;
 
@@ -31,6 +35,13 @@ public class WeaponPanel extends Table {
   public WeaponPanel(HudStage hudStage) {
     this.hudStage = hudStage;
     setDebug(Settings.getInstance().debug);
+    add(new Actor() {
+      @Override
+      public void draw(Batch batch, float parentAlpha) {
+        Texture texture = TextureManager.getInstance().getTexture(Textures.HEALTHBG);
+        batch.draw(texture,getX(),getY()-50, 50, 12);
+      }
+    });
 
     weapon1 = new TextButton("Laser", Hud.skin);
     add(weapon1);
@@ -44,6 +55,15 @@ public class WeaponPanel extends Table {
         }
       }
     });
+    add(new Actor() {
+      @Override
+      public void draw(Batch batch, float parentAlpha) {
+        Texture texture = TextureManager.getInstance().getTexture(Textures.HEALTHBG);
+        batch.draw(texture,getX(),getY()-50, 50, 12);
+      }
+    });
+
+
 
     weapon2 = new TextButton("Rocket", Hud.skin);
     add(weapon2);

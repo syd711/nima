@@ -35,10 +35,6 @@ public class ShootingComponent implements Component, Poolable {
     this.weaponProfiles = weaponProfiles;
   }
 
-  public void setActiveWeaponProfile(WeaponProfile profile) {
-    this.activeWeaponProfile = profile;
-  }
-
   public boolean isCharged() {
     WeaponProfile weaponProfile = getActiveWeaponProfile();
     long lastBulletTime = 0;

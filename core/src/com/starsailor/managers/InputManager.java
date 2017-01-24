@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.PlayerState;
 import com.starsailor.util.GraphicsUtil;
@@ -51,6 +52,10 @@ public class InputManager implements InputProcessor {
     }
     else if(keycode == Input.Keys.S) {
       System.out.println(Player.getInstance().getStateMachine().getCurrentState());
+      return true;
+    }
+    else if(keycode == Input.Keys.Q) {
+      Game.gameSettings.save();
       return true;
     }
     else if(keycode == Input.Keys.NUM_1) {

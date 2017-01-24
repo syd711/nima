@@ -8,7 +8,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.components.ShipDataComponent;
 import com.starsailor.components.ShootingComponent;
 import com.starsailor.components.SpriteComponent;
-import com.starsailor.managers.Sprites;
+import com.starsailor.managers.Textures;
 
 public class NPCSystem extends AbstractIteratingSystem {
   public NPCSystem() {
@@ -31,14 +31,14 @@ public class NPCSystem extends AbstractIteratingSystem {
 
         if(spriteComponent != null) {
           Vector2 center = npc.getCenter();
-          spriteComponent.getSprite(Sprites.SELECTION).setPosition(center, true);
+          spriteComponent.getSprite(Textures.SELECTION).setPosition(center, true);
 
           Vector2 hbPos = new Vector2(center);
           hbPos.y+=120;
           hbPos.x-=npc.getWidth()/2-10;
-          spriteComponent.getSprite(Sprites.HEALTHBG).setPosition(hbPos, false);
+          spriteComponent.getSprite(Textures.HEALTHBG).setPosition(hbPos, false);
 
-          SpriteComponent.SpriteItem sprite = spriteComponent.getSprite(Sprites.HEALTHFG);
+          SpriteComponent.SpriteItem sprite = spriteComponent.getSprite(Textures.HEALTHFG);
           sprite.setPosition(hbPos, false);
 
           float healthPercentage = dataComponent.health*100/dataComponent.maxHealth;

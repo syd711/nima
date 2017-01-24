@@ -6,7 +6,7 @@
   "attackDistance" : 400,
   "shootDistance" : 300,
   "evadeDistance" : 200,
-  "weapons" : ["laser"],
+  "weapons" : ["laser", "missile"],
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 500,

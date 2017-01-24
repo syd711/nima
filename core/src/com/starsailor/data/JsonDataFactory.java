@@ -3,10 +3,12 @@ package com.starsailor.data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ abstract public class JsonDataFactory {
     FileHandle internal = Gdx.files.internal(filename);
     FileHandle[] list = internal.list();
     for(FileHandle fileHandle : list) {
-      T dataEntity = createDataEntity(fileHandle, entity);
+      T dataEntity = loadDataEntity(fileHandle, entity);
       ts.put(toName(fileHandle), dataEntity);
     }
     return ts;
@@ -31,11 +33,26 @@ abstract public class JsonDataFactory {
     return name.substring(0, name.lastIndexOf("."));
   }
 
-  public static <T> T createDataEntity(FileHandle fileHandle, Class<T> entity) {
-    return createDataEntity(fileHandle.file(), entity);
+  public static <T> T loadDataEntity(FileHandle fileHandle, Class<T> entity) {
+    return loadDataEntity(fileHandle.file(), entity);
   }
 
-  public static <T> T createDataEntity(File file, Class<T> entity) {
+  public static <T> T saveDataEntity(File file, Object entity) {
+    try {
+      Gson gson = new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+      String json = gson.toJson(entity);
+      FileWriter writer = new FileWriter(file);
+      writer.write(json);
+      writer.close();
+
+      Gdx.app.log(JsonDataFactory.class.getName(), "Written " + file.getAbsolutePath());
+    } catch (Exception e) {
+      Gdx.app.error(JsonDataFactory.class.getName(), "Error write json file", e);
+    }
+    return null;
+  }
+
+  public static <T> T loadDataEntity(File file, Class<T> entity) {
     try {
       Gson gson = new Gson();
       FileReader fileReader = new FileReader(file);

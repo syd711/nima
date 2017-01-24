@@ -9,5 +9,6 @@ import com.starsailor.actors.states.route.SpawnShipState;
  */
 public class RouteStates {
   public static State IDLE = new IdleState();
+  public static State INACTIVE = new IdleState();
   public static State SPAWN_SHIP = new SpawnShipState();
 }

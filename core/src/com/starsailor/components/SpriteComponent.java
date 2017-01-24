@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.starsailor.managers.Sprites;
+import com.starsailor.managers.Textures;
 import com.starsailor.managers.TextureManager;
 
 import java.util.Collection;
@@ -14,14 +14,14 @@ import java.util.Map;
 
 public class SpriteComponent implements Component, Poolable {
 
-  private Map<Sprites, SpriteItem> sprites = new LinkedHashMap<>();
+  private Map<Textures, SpriteItem> sprites = new LinkedHashMap<>();
 
   @Override
   public void reset() {
     sprites.clear();
   }
 
-  public void addSprite(Sprites sprite, float angle) {
+  public void addSprite(Textures sprite, float angle) {
     SpriteItem spriteItem = new SpriteItem(sprite);
     if(sprites.containsKey(sprite)) {
       throw new UnsupportedOperationException("Sprite already exists for this component");
@@ -33,7 +33,7 @@ public class SpriteComponent implements Component, Poolable {
     sprites.put(sprite, spriteItem);
   }
 
-  public SpriteItem getSprite(Sprites s) {
+  public SpriteItem getSprite(Textures s) {
     return sprites.get(s);
   }
 
@@ -49,7 +49,7 @@ public class SpriteComponent implements Component, Poolable {
     private String name;
     private float width;
 
-    public SpriteItem(Sprites spriteEnum) {
+    public SpriteItem(Textures spriteEnum) {
       name = spriteEnum.name();
       sprite = TextureManager.getInstance().createSprite(spriteEnum);
     }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SpriteComponent;
-import com.starsailor.managers.Sprites;
+import com.starsailor.managers.Textures;
 
 /**
  *
@@ -14,9 +14,9 @@ public class SelectionState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     npc.selectionComponent.setSelected(true);
-    SpriteComponent spriteComponent = ComponentFactory.addSpriteComponent(npc, Sprites.SELECTION, -1);
-    spriteComponent.addSprite(Sprites.HEALTHBG, -1);
-    spriteComponent.addSprite(Sprites.HEALTHFG, -1);
+    SpriteComponent spriteComponent = ComponentFactory.addSpriteComponent(npc, Textures.SELECTION, -1);
+    spriteComponent.addSprite(Textures.HEALTHBG, -1);
+    spriteComponent.addSprite(Textures.HEALTHFG, -1);
   }
 
   @Override

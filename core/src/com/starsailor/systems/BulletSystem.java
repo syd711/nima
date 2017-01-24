@@ -8,7 +8,7 @@ import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.Sprites;
+import com.starsailor.managers.Textures;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -26,7 +26,7 @@ public class BulletSystem extends AbstractIteratingSystem {
       BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
       SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
-      SpriteComponent.SpriteItem spriteItem = spriteComponent.getSprite(Sprites.valueOf(weaponProfile.name.toUpperCase()));
+      SpriteComponent.SpriteItem spriteItem = spriteComponent.getSprite(Textures.valueOf(weaponProfile.name.toUpperCase()));
       Sprite bulletSprite = spriteItem.sprite;
       positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
       positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;

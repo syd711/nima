@@ -32,7 +32,7 @@ public class Bullet extends GameEntity implements EntityListener {
     this.owner = owner;
     this.target = target;
 
-    spriteComponent = ComponentFactory.addSpriteComponent(this, Sprites.valueOf(weaponProfile.type.name().toUpperCase()), 90);
+    spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);

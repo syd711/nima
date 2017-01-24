@@ -45,13 +45,14 @@ public class SoundManager {
   }
 
   public static void playSound(String filePath, float volume, float pitch, float pan) {
-    if(sfx != null) {
+    if(Settings.getInstance().sound_enabled) {
+      if(sfx != null) {
 //      sfx.stop();
 //      sfx.dispose();
-    }
-    sfx = Gdx.audio.newSound(Gdx.files.internal(filePath));
+      }
+      sfx = Gdx.audio.newSound(Gdx.files.internal(filePath));
 
-    if(Settings.getInstance().sound_enabled) {
+
       sfx.play(volume, pitch, pan);
     }
   }

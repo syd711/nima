@@ -10,6 +10,7 @@ public class ShipDataComponent implements Component, Poolable {
   public float shield = 0;
   public float maxShield = 0;
 
+
   @Override
   public void reset() {
     money = 0;
