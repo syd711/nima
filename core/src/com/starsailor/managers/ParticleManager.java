@@ -13,10 +13,10 @@ import java.util.*;
 /**
  *
  */
-public class ParticleManager {
+public class ParticleManager extends ResourceManager {
 
   private static ParticleManager instance = new ParticleManager();
-  private Map<Particle, ParticleEffectPool> effects = new HashMap<>();
+  private Map<Particles, ParticleEffectPool> effects = new HashMap<>();
 
   public static ParticleManager getInstance() {
     return instance;
@@ -31,20 +31,20 @@ public class ParticleManager {
     FileHandle internal = Gdx.files.internal(Resources.PARTICLES);
     FileHandle[] particleFiles = internal.list((dir, name) -> name.endsWith(".p"));
 
-
     for(FileHandle particleFile : particleFiles) {
       ParticleEffect pe = new ParticleEffect();
       pe.load(particleFile, Gdx.files.internal(""));
-      String particleName = particleFile.name().toUpperCase().substring(0, particleFile.name().lastIndexOf("."));
+
       Gdx.app.log(this.getClass().getName(), "Loaded particle " + particleFile.file().getName());
 
+      String particleName = getEnumName(particleFile);
       ParticleEffectPool pool = new ParticleEffectPool(pe, 0, 5);
-      effects.put(Particle.valueOf(particleName), pool);
+      effects.put(Particles.valueOf(particleName), pool);
     }
 
   }
 
-  public void queueEffect(Particle particle, Vector2 position) {
+  public void queueEffect(Particles particle, Vector2 position) {
     ParticleEffectPool pool = effects.get(particle);
     ParticleEffectPool.PooledEffect pe = pool.obtain();
     pe.setPosition(position.x, position.y);
@@ -73,7 +73,7 @@ public class ParticleManager {
   }
 
   class EffectKey {
-    Particle particle;
+    Particles particle;
     ParticleEffectPool.PooledEffect effect;
   }
 }

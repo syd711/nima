@@ -7,6 +7,7 @@ import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.data.ShipProfile;
+import com.starsailor.managers.Sprites;
 import com.starsailor.render.converters.MapConstants;
 
 /**
@@ -36,7 +37,7 @@ public class NPC extends Ship {
   public boolean toggleSelection() {
     boolean selected = selectionComponent.toggleSelection();
     if(selected) {
-      spriteComponent = ComponentFactory.addSpriteComponent(this, "selection", 0);
+      spriteComponent = ComponentFactory.addSpriteComponent(this, Sprites.SELECTION, -1);
     }
     else {
       this.remove(SpriteComponent.class);

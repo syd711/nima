@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,11 +15,11 @@ import com.starsailor.components.collision.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.Sprites;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.GraphicsUtil;
-import com.starsailor.util.Resources;
 
 import static com.starsailor.util.Settings.MPP;
 
@@ -109,10 +108,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpriteComponent addSpriteComponent(Entity entity, String resourceLocation, float angle) {
+  public static SpriteComponent addSpriteComponent(Entity entity, Sprites sprite, float angle) {
     SpriteComponent component = createComponent(SpriteComponent.class);
-    component.setTextures(new Texture(Resources.SPRITE_TEXTURES + resourceLocation + ".png"));
-    component.setAngle(angle);
+    component.addSprite(sprite, angle);
     entity.add(component);
     return component;
   }

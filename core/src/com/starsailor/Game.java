@@ -15,6 +15,7 @@ import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.InputManager;
 import com.starsailor.managers.ParticleManager;
+import com.starsailor.managers.TextureManager;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.render.converters.*;
 import com.starsailor.ui.Hud;
@@ -90,6 +91,9 @@ public class Game extends ApplicationAdapter {
 
     //load particle effects
     ParticleManager.getInstance().loadParticles();
+
+    //load sprites
+    TextureManager.getInstance().loadSprites();
 
     //init player
     Player player = entityManager.getPlayer();

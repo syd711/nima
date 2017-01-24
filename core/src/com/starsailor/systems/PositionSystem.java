@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Spine;
-import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
+import com.starsailor.managers.Sprites;
 
 public class PositionSystem extends AbstractIteratingSystem {
   public PositionSystem() {
@@ -20,7 +20,7 @@ public class PositionSystem extends AbstractIteratingSystem {
       //TODO
       if(entity instanceof NPC && ((NPC)entity).selectionComponent.selected) {
         Vector2 center = ((NPC)entity).getCenter();
-        ((NPC)entity).spriteComponent.setSelectionMarkerAt(center);
+        ((NPC)entity).spriteComponent.getSprite(Sprites.SELECTION).updatePosition(center, true);
       }
     }
   }

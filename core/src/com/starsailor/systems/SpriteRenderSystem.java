@@ -4,8 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.starsailor.components.SpriteComponent;
+
+import java.util.Collection;
 
 public class SpriteRenderSystem extends SortedIteratingSystem {
   private Batch batch;
@@ -21,8 +22,10 @@ public class SpriteRenderSystem extends SortedIteratingSystem {
     batch.setShader(null);
 
     if(spriteComponent != null) {
-      Sprite sprite = spriteComponent.sprite;
-      sprite.draw(batch);
+      Collection<SpriteComponent.SpriteItem> spriteItems = spriteComponent.getSpriteItems();
+      for(SpriteComponent.SpriteItem spriteItem : spriteItems) {
+        spriteItem.sprite.draw(batch);
+      }
     }
   }
 }

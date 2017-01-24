@@ -5,7 +5,9 @@ package com.starsailor.util;
  */
 public class Resources {
 
-  public static final String SPRITE_TEXTURES = "sprites/";
+
+  public static final String TEXTURES = "textures/";
+  public static final String PARTICLES = "particles/";
 
   public static final String WEAPON_PROFILES = "data/weapons/";
   public static final String SHIP_PROFILES = "data/ships/";
@@ -21,5 +23,5 @@ public class Resources {
   public static final String SOUND_LASER = "sounds/laser.wav";
   public static final String SOUND_EXPLOSION = "sounds/explosion.mp3";
 
-  public static final String PARTICLES = "particles/";
+
 }

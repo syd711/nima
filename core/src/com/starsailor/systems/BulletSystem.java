@@ -2,11 +2,13 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.starsailor.actors.Bullet;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.Sprites;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -24,14 +26,15 @@ public class BulletSystem extends AbstractIteratingSystem {
       BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
       SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
-      positionComponent.x = bodyComponent.body.getPosition().x * PPM - spriteComponent.sprite.getWidth() / 2;
-      positionComponent.y = bodyComponent.body.getPosition().y * PPM - spriteComponent.sprite.getHeight() / 2;
+      SpriteComponent.SpriteItem spriteItem = spriteComponent.getSprite(Sprites.valueOf(weaponProfile.name.toUpperCase()));
+      Sprite bulletSprite = spriteItem.sprite;
+      positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
+      positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
 
-      spriteComponent.sprite.setX(positionComponent.x);
-      spriteComponent.sprite.setY(positionComponent.y);
+      spriteItem.updatePosition(positionComponent.getPosition(), false);
 
       if(bullet.is(WeaponProfile.Types.LASER)) {
-        spriteComponent.sprite.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+        spriteItem.updateRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
       }
       else if(bullet.is(WeaponProfile.Types.MISSILE) && bullet.target != null) {
         float distanceToPlayer = bullet.getDistanceFromOrigin();
@@ -39,7 +42,7 @@ public class BulletSystem extends AbstractIteratingSystem {
           bullet.steerableComponent.setEnabled(true);
         }
         else {
-          spriteComponent.sprite.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
+          spriteItem.updateRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
         }
       }
     }
