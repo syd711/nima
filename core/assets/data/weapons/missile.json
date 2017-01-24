@@ -2,7 +2,7 @@
   "name" : "Missile",
   "damage" : 50,
   "forceFactor" : 0.3,
-  "impactFactor" : 80,
+  "impactFactor" : 30,
   "rechargeTimeMillis" : 500,
   "activationDistance" : 200,
   "linearDamping" : 0.2,

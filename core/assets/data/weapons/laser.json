@@ -2,6 +2,6 @@
   "name" : "Laser",
   "damage" : 10,
   "forceFactor" : 0.9,
-  "impactFactor" : 50,
+  "impactFactor" : 4,
   "rechargeTimeMillis" : 350
 }
