@@ -21,5 +21,5 @@ public class Resources {
   public static final String SOUND_LASER = "sounds/laser.wav";
   public static final String SOUND_EXPLOSION = "sounds/explosion.mp3";
 
-  public static final String PARTICLE_EXPLOSION = "particles/explosion.p";
+  public static final String PARTICLES = "particles/";
 }

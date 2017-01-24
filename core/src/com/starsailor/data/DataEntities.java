@@ -12,8 +12,6 @@ public class DataEntities {
   public static final String SPINE_CENTER_SLOT_NAME = "torso";
 
   public static final String SHIP_PLAYER = "player";
-  public static final String SHIP_MERCHANT = "merchant";
-  public static final String SHIP_PIRATE = "pirate";
 
   /******** Entity Map *************************************************/
   private static Map<String, ShipProfile> ships = new HashMap<>();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.Particle;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.SoundManager;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
@@ -76,7 +77,7 @@ public class Bullet extends GameEntity {
     if(!isOwner(npc)) {
       EntityManager.getInstance().destroy(this);
       SoundManager.playSoundAtPosition(Resources.SOUND_EXPLOSION, 1f, new Vector3(position, 0));
-      ParticleManager.getInstance().queueEffect(Resources.PARTICLE_EXPLOSION, position);
+      ParticleManager.getInstance().queueEffect(Particle.EXPLOSION, position);
     }
 
   }

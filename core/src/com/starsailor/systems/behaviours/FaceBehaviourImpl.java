@@ -30,6 +30,9 @@ public class FaceBehaviourImpl implements FaceBehaviour {
     float totalRotation = desiredAngle - bodyAngle;
     float change = (float) (1 * Math.toRadians(degrees)); //allow 1 degree rotation per time step
     float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
+    if(Math.toDegrees(change) > 180) {
+      newAngle = bodyAngle - Math.min(change, Math.max(-change, totalRotation));
+    }
 
     behaviourOwner.setTransform(behaviourOwner.getPosition(), newAngle);
   }

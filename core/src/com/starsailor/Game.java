@@ -88,6 +88,9 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
 
+    //load particle effects
+    ParticleManager.getInstance().loadParticles();
+
     //init player
     Player player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
