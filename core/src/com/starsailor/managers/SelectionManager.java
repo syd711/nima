@@ -18,7 +18,6 @@ public class SelectionManager {
   private static SelectionManager INSTANCE = new SelectionManager();
 
   public List<SelectionChangeListener> selectionChangeListeners = new ArrayList();
-  private Selectable lastSelection;
   private Selectable currentSelection;
 
   public static SelectionManager getInstance() {
@@ -34,7 +33,7 @@ public class SelectionManager {
   }
 
   public void setSelection(Selectable selection) {
-    updateSelection(lastSelection, selection, true);
+    updateSelection(currentSelection, selection, true);
   }
 
   private void updateSelection(Selectable oldSelection, Selectable newSelection, boolean singleSelection) {
@@ -51,7 +50,6 @@ public class SelectionManager {
       }
     }
 
-    this.lastSelection = currentSelection;
     this.currentSelection = newSelection;
 
     for(SelectionChangeListener selectionChangeListener : selectionChangeListeners) {
@@ -69,7 +67,7 @@ public class SelectionManager {
     Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(Game.camera, targetX, targetY);
     Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(clickTarget instanceof Selectable) {
-      updateSelection(lastSelection, (Selectable) clickTarget, singleSelection);
+      updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
       return true;
     }
 

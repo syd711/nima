@@ -22,7 +22,8 @@ public class SpawnShipState implements State<Route> {
     routeComponent.npc = npc;
     EntityManager.getInstance().add(npc);
 
-    Gdx.app.log(getClass().getName(), "Route '" + routeComponent.name + "': spawned ship " + routeComponent.shipProfile + " at " + routeComponent.spawnPoint.position);
+    Gdx.app.log(getClass().getName(), "Route '" + routeComponent.name + "': spawned ship "
+        + routeComponent.shipProfile + " at " + routeComponent.spawnPoint.position);
     npc.getStateMachine().changeState(NPCStates.ROUTE);
   }
 
