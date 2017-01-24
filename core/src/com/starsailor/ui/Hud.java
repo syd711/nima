@@ -3,8 +3,8 @@ package com.starsailor.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.Selectable;
 import com.starsailor.actors.states.PlayerState;
 import com.starsailor.managers.SelectionChangeListener;
 import com.starsailor.managers.SelectionManager;
@@ -36,7 +36,7 @@ public class Hud implements SelectionChangeListener {
   }
 
   @Override
-  public void selectionChanged(GameEntity oldSelection, GameEntity newSelection) {
+  public void selectionChanged(Selectable oldSelection, Selectable newSelection) {
     if(newSelection != null) {
       hudStage.activateActionPanel(newSelection);
     }

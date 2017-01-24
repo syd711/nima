@@ -87,6 +87,8 @@ public class Bullet extends GameEntity {
         ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position);
         ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(10));
         ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(-10));
+
+        SelectionManager.getInstance().setSelection(null);
       }
     }
   }

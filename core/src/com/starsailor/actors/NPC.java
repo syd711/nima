@@ -13,7 +13,7 @@ import com.starsailor.render.converters.MapConstants;
  * Common superclass for all NPC.
  * We assume that they are instances of Spine.
  */
-public class NPC extends Ship {
+public class NPC extends Ship implements Selectable {
   public RoutingComponent routingComponent;
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
@@ -37,13 +37,19 @@ public class NPC extends Ship {
     return route.routeComponent.behaviour;
   }
 
-  public boolean toggleSelection() {
-    if(selectionComponent.selected) {
-      getStateMachine().changeState(NPCStates.DESELECT);
-      return false;
-    }
+  @Override
+  public SelectionComponent getSelectionComponent() {
+    return selectionComponent;
+  }
 
-    getStateMachine().changeState(NPCStates.SELECT);
-    return true;
+  @Override
+  public void setSelected(boolean b) {
+    selectionComponent.selected = b;
+    if(selectionComponent.selected) {
+      getStateMachine().changeState(NPCStates.SELECT);
+    }
+    else {
+      getStateMachine().changeState(NPCStates.DESELECT);
+    }
   }
 }

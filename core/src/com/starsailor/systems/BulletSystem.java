@@ -38,6 +38,7 @@ public class BulletSystem extends AbstractIteratingSystem {
       }
       else if(bullet.is(WeaponProfile.Types.MISSILE) && bullet.target != null) {
         float distanceToPlayer = bullet.getDistanceFromOrigin();
+        //lazy init of the bullet's steering system
         if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
           bullet.steerableComponent.setEnabled(true);
         }

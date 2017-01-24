@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.Selectable;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.Settings;
 
@@ -53,7 +53,7 @@ public class ActionPanel extends Table {
     setPosition(Gdx.graphics.getWidth() / 2, -(PANEL_HEIGHT / 2));
   }
 
-  public void activate(GameEntity entity) {
+  public void activate(Selectable entity) {
     if(!activated) {
       activated = true;
       addAction(Actions.moveBy(0, PANEL_HEIGHT, SHOW_DELAY));

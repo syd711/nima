@@ -1,11 +1,11 @@
 package com.starsailor.managers;
 
-import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.Selectable;
 
 /**
  * Interface to be implemented for components listening on change events.
  */
 public interface SelectionChangeListener {
 
-  void selectionChanged(GameEntity oldSelection, GameEntity newSelection);
+  void selectionChanged(Selectable oldSelection, Selectable newSelection);
 }

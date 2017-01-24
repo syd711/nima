@@ -2,7 +2,7 @@ package com.starsailor.ui.hud;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.starsailor.Game;
-import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.Selectable;
 
 /**
  *
@@ -23,11 +23,12 @@ public class HudStage extends Stage {
     Game.inputManager.addInputProcessor(this);
   }
 
-  public void activateActionPanel(GameEntity entity) {
+  public void activateActionPanel(Selectable entity) {
     actionPanel.activate(entity);
   }
 
   public void deactivateActionPanel() {
+    weaponPanel.deactivate();
     actionPanel.deactivate();
   }
 }
