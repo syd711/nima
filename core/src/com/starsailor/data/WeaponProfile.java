@@ -10,6 +10,7 @@ public class WeaponProfile {
 
   public Types type;
   public float rechargeTimeMillis;
+  public float durationMillis; //for constant shooting
   public float damage;
   public float forceFactor;
   public float impactFactor;

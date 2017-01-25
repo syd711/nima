@@ -20,7 +20,8 @@ public class NPCCollisionComponent implements Collidable, Pool.Poolable {
     }
     if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;
-      bullet.applyCollisionWith((NPC) collider, position);
+      BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
+      bulletCollisionComponent.applyCollisionWith(bullet, (NPC) collider, position);
     }
   }
 

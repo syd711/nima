@@ -74,7 +74,6 @@ public class BulletFactory {
     }
     else if(weaponProfile.type.equals(WeaponProfile.Types.PHASER)) {
       bullet.spriteComponent.getSprite(Textures.PHASER).setTexture(true);
-      ParticleManager.getInstance().playEffect(Particles.PHASER, bullet.target.positionComponent, 0.3f);
     }
 
     bullet.owner.shootingComponent.updateLastBulletTime();

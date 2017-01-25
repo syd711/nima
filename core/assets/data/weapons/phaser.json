@@ -1,6 +1,7 @@
 {
   "name" : "Phaser",
-  "damage" : 2,
+  "damage" : 1,
   "impactFactor" : 2,
-  "rechargeTimeMillis" : 3000
+  "durationMillis" : 3000,
+  "rechargeTimeMillis" : 6000
 }

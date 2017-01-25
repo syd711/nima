@@ -18,7 +18,8 @@ public class PlayerCollisionComponent implements Collidable {
     }
     else if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;
-      bullet.applyCollisionWith((Player) collider, position);
+      BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
+      bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
     }
     else if(collidee instanceof Player.ClickTarget) {
       Player.getInstance().steerableComponent.setEnabled(false);

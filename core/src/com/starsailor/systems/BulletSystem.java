@@ -9,6 +9,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
+import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.Textures;
 
@@ -23,6 +24,7 @@ public class BulletSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     if(entity instanceof Bullet) {
       Bullet bullet = (Bullet) entity;
+      Ship npc = bullet.target;
 
       WeaponProfile weaponProfile = bullet.weaponProfile;
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
@@ -30,41 +32,51 @@ public class BulletSystem extends AbstractIteratingSystem {
       SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
       SpriteComponent.SpriteItem spriteItem = spriteComponent.getSprite(Textures.valueOf(weaponProfile.name.toUpperCase()));
 
-      if(bullet.is(WeaponProfile.Types.LASER)) {
-        updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
-        spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
-      }
-      else if(bullet.is(WeaponProfile.Types.MISSILE) && bullet.target != null) {
-        updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
-
-        if(!bullet.steerableComponent.isDestroyed()) {
-          float distanceToPlayer = bullet.getDistanceFromOrigin();
-          //lazy init of the bullet's steering system
-          if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
-            bullet.steerableComponent.setEnabled(true);
-          }
-          else {
-            spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
-          }
+      WeaponProfile.Types type = bullet.weaponProfile.type;
+      switch(type) {
+        case LASER: {
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
+          spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+          break;
         }
-      }
-      else if(bullet.is(WeaponProfile.Types.PHASER)) {
-        Ship target = bullet.target;
-        Ship source = bullet.owner;
-        Vector2 sourcePos = source.positionComponent.getPosition();
-        Vector2 targetPos = target.positionComponent.getPosition();
+        case MISSILE: {
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
 
-        //calculate angle between two instances
-        Vector2 toTarget = new Vector2(targetPos).sub(sourcePos);
-        float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
-        spriteItem.setRotation((float) Math.toDegrees(desiredAngle)-90);
+          if(!bullet.steerableComponent.isDestroyed()) {
+            float distanceToPlayer = bullet.getDistanceFromOrigin();
+            //lazy init of the bullet's steering system
+            if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
+              bullet.steerableComponent.setEnabled(true);
+            }
+            else {
+              spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
+            }
+          }
+          break;
+        }
+        case PHASER: {
+          Ship target = bullet.target;
+          Ship source = bullet.owner;
+          Vector2 sourcePos = source.positionComponent.getPosition();
+          Vector2 targetPos = target.positionComponent.getPosition();
 
-        //calculate the center position between source and target as sprite position
-        spriteItem.setPosition(targetPos, false);
+          //calculate angle between two instances
+          Vector2 toTarget = new Vector2(targetPos).sub(sourcePos);
+          float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
+          spriteItem.setRotation((float) Math.toDegrees(desiredAngle)-90);
 
-        //scale the sprite to the desired width
-        float distance = sourcePos.dst(targetPos);
-        spriteItem.setWidth(distance);
+          //calculate the center position between source and target as sprite position
+          spriteItem.setPosition(targetPos, false);
+
+          //scale the sprite to the desired width
+          float distance = sourcePos.dst(targetPos);
+          spriteItem.setWidth(distance);
+
+          //apply permanent collision
+          BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
+          bulletCollisionComponent.applyCollisionWith(bullet, target, targetPos);
+          break;
+        }
       }
     }
   }

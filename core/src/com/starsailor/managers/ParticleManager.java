@@ -74,12 +74,12 @@ public class ParticleManager extends ResourceManager {
       pe.setPosition(positionComponent.x, positionComponent.y);
     }
 
-    if(scaling > 0) {
-      pe.scaleEffect(scaling);
-    }
-    else {
-      pe.scaleEffect(1f);
-    }
+//    if(scaling > 0) {
+//      pe.scaleEffect(scaling);
+//    }
+//    else {
+//      pe.scaleEffect(1f);
+//    }
 
     EffectKey effect = new EffectKey();
     effect.effect = pe;
