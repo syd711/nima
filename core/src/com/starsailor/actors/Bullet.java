@@ -71,15 +71,15 @@ public class Bullet extends GameEntity implements EntityListener {
     if(!isOwner(npc)) {
       EntityManager.getInstance().destroy(this);
       SoundManager.playSoundAtPosition(Resources.SOUND_EXPLOSION, 1f, new Vector3(position, 0));
-      ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position, 0.5f);
+      ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position, 0.5f);
 
       ShipDataComponent shipData = npc.shipDataComponent;
       shipData.health = shipData.health-bulletDamageComponent.damage;
       if(shipData.health <= 0 ) {
         EntityManager.getInstance().destroy(npc);
-        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position);
-        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(10));
-        ParticleManager.getInstance().queueEffect(Particles.EXPLOSION, position.scl(-10));
+        ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position);
+        ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position.scl(10));
+        ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position.scl(-10));
 
         SelectionManager.getInstance().setSelection(null);
       }

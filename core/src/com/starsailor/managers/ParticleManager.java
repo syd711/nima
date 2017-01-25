@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.components.PositionComponent;
 import com.starsailor.util.Resources;
 
 import java.util.*;
@@ -14,7 +15,6 @@ import java.util.*;
  *
  */
 public class ParticleManager extends ResourceManager {
-
   private static ParticleManager instance = new ParticleManager();
   private Map<Particles, ParticleEffectPool> effects = new HashMap<>();
 
@@ -43,14 +43,36 @@ public class ParticleManager extends ResourceManager {
     }
   }
 
-  public void queueEffect(Particles particle, Vector2 position) {
-    queueEffect(particle, position, -1);
+  public void playEffect(Particles particle, PositionComponent positionComponent, float scaling) {
+    playEffect(particle, null, positionComponent, scaling);
   }
 
-  public void queueEffect(Particles particle, Vector2 position, float scaling) {
+  public void playEffect(Particles particle, Vector2 position, float scaling) {
+    playEffect(particle, position, null, scaling);
+  }
+
+  public void playEffect(Particles particle, Vector2 position) {
+    playEffect(particle, position, null, -1);
+  }
+
+
+  /**
+   * Actual implementation of enqueing a particle effect for rendering.
+   *
+   * @param particle
+   * @param position
+   * @param positionComponent
+   * @param scaling
+   */
+  private void playEffect(Particles particle, Vector2 position, PositionComponent positionComponent, float scaling) {
     ParticleEffectPool pool = effects.get(particle);
     ParticleEffectPool.PooledEffect pe = pool.obtain();
-    pe.setPosition(position.x, position.y);
+    if(position != null) {
+      pe.setPosition(position.x, position.y);
+    }
+    else {
+      pe.setPosition(positionComponent.x, positionComponent.y);
+    }
 
     if(scaling > 0) {
       pe.scaleEffect(scaling);
@@ -59,10 +81,10 @@ public class ParticleManager extends ResourceManager {
       pe.scaleEffect(1f);
     }
 
-
     EffectKey effect = new EffectKey();
     effect.effect = pe;
     effect.particle = particle;
+    effect.positionComponent = positionComponent;
     activeEffects.add(effect);
   }
 
@@ -71,20 +93,24 @@ public class ParticleManager extends ResourceManager {
     while(iterator.hasNext()) {
       EffectKey key = iterator.next();
       ParticleEffectPool.PooledEffect pe = key.effect;
-      if(pe != null) {
-        if(pe.isComplete()) {
-          iterator.remove();
-
-          ParticleEffectPool pool = effects.get(key.particle);
-          pool.free(pe);
-        }
-        pe.draw(batch, deltaTime);
+      if(key.positionComponent != null) {
+        pe.setPosition(key.positionComponent.x, key.positionComponent.y);
       }
+
+      if(pe.isComplete() && key.positionComponent == null) {
+        iterator.remove();
+
+        ParticleEffectPool pool = effects.get(key.particle);
+        pool.free(pe);
+      }
+
+      pe.draw(batch, deltaTime);
     }
   }
 
   class EffectKey {
     Particles particle;
     ParticleEffectPool.PooledEffect effect;
+    PositionComponent positionComponent;
   }
 }
