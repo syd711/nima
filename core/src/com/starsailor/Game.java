@@ -96,7 +96,7 @@ public class Game extends ApplicationAdapter {
     ParticleManager.getInstance().loadParticles();
 
     //load sprites
-    TextureManager.getInstance().loadSprites();
+    TextureManager.getInstance().loadTextures();
 
     //init player
     Player player = entityManager.getPlayer();

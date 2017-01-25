@@ -42,7 +42,7 @@ public class NPCSystem extends AbstractIteratingSystem {
           sprite.setPosition(hbPos, false);
 
           float healthPercentage = dataComponent.health*100/dataComponent.maxHealth;
-          float healthWidth = sprite.sprite.getTexture().getWidth()*healthPercentage/100;
+          float healthWidth = sprite.getSprite().getTexture().getWidth()*healthPercentage/100;
           sprite.setWidth(healthWidth);
         }
       }

@@ -3,7 +3,7 @@
   "defaultAnimation" : null,
   "scale" : 0.3,
   "health" : 100,
-  "weapons" : ["laser","missile"],
+  "weapons" : ["laser","missile","phaser"],
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 1000,

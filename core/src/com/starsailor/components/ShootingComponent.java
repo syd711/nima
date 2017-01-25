@@ -1,7 +1,6 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.starsailor.Game;
 import com.starsailor.data.WeaponProfile;
@@ -23,12 +22,8 @@ public class ShootingComponent implements Component, Poolable {
     weaponProfiles.clear();
   }
 
-  public void setActiveWeaponProfile(int index) {
-    int position = (index-1);
-    if(weaponProfiles.size() >= index) {
-      activeWeaponProfile = weaponProfiles.get(position);
-      Gdx.app.log(getClass().getName(), "Switch to " + activeWeaponProfile);
-    }
+  public void setActiveWeaponProfile(WeaponProfile profile) {
+    activeWeaponProfile = profile;
   }
 
   public void setWeaponProfiles(List<WeaponProfile> weaponProfiles) {

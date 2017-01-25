@@ -5,7 +5,7 @@ package com.starsailor.data;
  */
 public class WeaponProfile {
   public enum Types {
-    LASER, MISSILE
+    LASER, MISSILE, PHASER
   }
 
   public Types type;
@@ -17,11 +17,12 @@ public class WeaponProfile {
 
   //custom fields depending on the weapon
   public float activationDistance;
-  public float linearDamping;
-
 
   //steering if available
   public SteeringData steeringData;
+
+  //box2d data
+  public BodyData bodyData;
 
   @Override
   public String toString() {

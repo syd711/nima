@@ -17,7 +17,7 @@ import java.util.List;
 public class SelectionManager {
   private static SelectionManager INSTANCE = new SelectionManager();
 
-  public List<SelectionChangeListener> selectionChangeListeners = new ArrayList();
+  public List<SelectionChangeListener> selectionChangeListeners = new ArrayList<>();
   private Selectable currentSelection;
 
   public static SelectionManager getInstance() {
@@ -36,6 +36,26 @@ public class SelectionManager {
     updateSelection(currentSelection, selection, true);
   }
 
+  /**
+   * Checks if there is a valid selection at the given coordinates.
+   *
+   * @param singleSelection true if this is a multi-selection
+   * @return true if a selection was found
+   */
+  protected boolean selectAt(float targetX, float targetY, boolean singleSelection) {
+    Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(Game.camera, targetX, targetY);
+    Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
+    if(clickTarget instanceof Selectable) {
+      updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Selection update with listener notification
+   */
   private void updateSelection(Selectable oldSelection, Selectable newSelection, boolean singleSelection) {
     if(singleSelection) {
       ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SelectionComponent.class);
@@ -55,22 +75,5 @@ public class SelectionManager {
     for(SelectionChangeListener selectionChangeListener : selectionChangeListeners) {
       selectionChangeListener.selectionChanged(oldSelection, newSelection);
     }
-  }
-
-  /**
-   * Checks if there is a valid selection at the given coordinates.
-   *
-   * @param singleSelection true if this is a multi-selection
-   * @return true if a selection was found
-   */
-  public boolean selectAt(float targetX, float targetY, boolean singleSelection) {
-    Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(Game.camera, targetX, targetY);
-    Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
-    if(clickTarget instanceof Selectable) {
-      updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
-      return true;
-    }
-
-    return false;
   }
 }

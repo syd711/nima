@@ -3,14 +3,19 @@
   "damage" : 30,
   "forceFactor" : 0.3,
   "impactFactor" : 30,
-  "rechargeTimeMillis" : 500,
+  "rechargeTimeMillis" : 700,
   "activationDistance" : 200,
-  "linearDamping" : 0.2,
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 5,
     "maxLinearAcceleration" : 1.0,
     "maxAngularSpeed" : 0.1,
-    "maxAngularAcceleration" : 0.1
+    "maxAngularAcceleration" : 10
+  },
+  "bodyData" : {
+    "density" : 0.05,
+    "linearDamping" : 0.2,
+    "width" : 3.5,
+    "height" : 25
   }
 }

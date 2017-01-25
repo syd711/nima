@@ -4,7 +4,10 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.components.*;
 import com.starsailor.data.ShipProfile;
+import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.Resources;
+
+import java.util.List;
 
 /**
  * The general ship entity which is always a spine.
@@ -38,6 +41,10 @@ public class Ship extends Spine {
     shipDataComponent = ComponentFactory.addShipDataComponent(this, profile);
   }
 
+  public List<WeaponProfile> getWeapons() {
+    return shipProfile.weaponProfiles;
+  }
+
   /**
    * Fires a bullet using the active weapon profile
    * @param target the target to shoot to
@@ -62,9 +69,9 @@ public class Ship extends Spine {
   }
 
   /**
-   * Weapon number starting from 1
+   *
    */
-  public void switchWeapon(int weaponNumber) {
-    shootingComponent.setActiveWeaponProfile(weaponNumber);
+  public void switchWeapon(WeaponProfile weaponProfile) {
+    shootingComponent.setActiveWeaponProfile(weaponProfile);
   }
 }

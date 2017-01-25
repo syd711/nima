@@ -35,8 +35,12 @@ public class Bullet extends GameEntity implements EntityListener {
     spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
-    bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
+
+    //not all bullets require a body
+    if(weaponProfile.bodyData != null) {
+      bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
+    }
 
     ComponentFactory.addBulletCollisionComponent(this);
     Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);

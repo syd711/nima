@@ -9,6 +9,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SoundManager;
+import com.starsailor.managers.Textures;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.Resources;
@@ -72,6 +73,9 @@ public class BulletFactory {
       force = force.scl(weaponProfile.forceFactor);
 
       bulletBody.applyForceToCenter(force, true);
+    }
+    else if(weaponProfile.type.equals(WeaponProfile.Types.PHASER)) {
+      bullet.spriteComponent.getSprite(Textures.PHASER).setTexture(true);
     }
 
     bullet.owner.shootingComponent.updateLastBulletTime();

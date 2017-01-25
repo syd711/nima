@@ -2,7 +2,7 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.BodyComponent;
@@ -11,11 +11,11 @@ import com.starsailor.components.SpineComponent;
 import com.starsailor.util.GraphicsUtil;
 
 public class SpineRenderSystem extends AbstractIteratingSystem {
-  private BatchTiledMapRenderer renderer;
+  private Batch batch;
 
-  public SpineRenderSystem(BatchTiledMapRenderer renderer) {
+  public SpineRenderSystem(Batch batch) {
     super(Family.all(SpineComponent.class).get());
-    this.renderer = renderer;
+    this.batch = batch;
   }
 
   public void process(Entity entity, float deltaTime) {
@@ -38,6 +38,6 @@ public class SpineRenderSystem extends AbstractIteratingSystem {
     spine.state.update(deltaTime); // Update the animation time.
     spine.state.apply(spine.skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     spine.skeleton.updateWorldTransform();
-    spine.skeletonRenderer.draw(renderer.getBatch(), spine.skeleton); // Draw the skeleton images.
+    spine.skeletonRenderer.draw(batch, spine.skeleton); // Draw the skeleton images.
   }
 }

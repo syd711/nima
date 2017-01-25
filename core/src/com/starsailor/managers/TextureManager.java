@@ -3,7 +3,6 @@ package com.starsailor.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.starsailor.util.Resources;
 
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class TextureManager extends ResourceManager {
   private TextureManager() {
   }
 
-  public void loadSprites() {
+  public void loadTextures() {
     FileHandle internal = Gdx.files.internal(Resources.TEXTURES);
     FileHandle[] particleFiles = internal.list((dir, name) -> name.endsWith(".png"));
 
@@ -35,11 +34,6 @@ public class TextureManager extends ResourceManager {
 
       Gdx.app.log(this.getClass().getName(), "Loaded texture " + file.file().getName());
     }
-  }
-
-  public Sprite createSprite(Textures sprite) {
-    Texture texture = textures.get(sprite);
-    return new Sprite(texture);
   }
 
   public Texture getTexture(Textures texture) {

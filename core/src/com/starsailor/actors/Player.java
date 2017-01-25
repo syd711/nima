@@ -11,9 +11,12 @@ import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
+import com.starsailor.data.WeaponProfile;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.GraphicsUtil;
+
+import java.util.List;
 
 /**
  * The player with all ashley components.

@@ -49,7 +49,7 @@ public class EntityManager {
     SteerableSystem steerableSystem = new SteerableSystem();
     engine.addSystem(steerableSystem);
 
-    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer);
+    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
     engine.addSystem(renderSystem);
 
     AutoDestroySystem autoDestroySystem = new AutoDestroySystem();

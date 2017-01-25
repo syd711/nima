@@ -58,14 +58,6 @@ public class InputManager implements InputProcessor {
       Game.gameSettings.save();
       return true;
     }
-    else if(keycode == Input.Keys.NUM_1) {
-      Player.getInstance().switchWeapon(1);
-      return true;
-    }
-    else if(keycode == Input.Keys.NUM_2) {
-      Player.getInstance().switchWeapon(2);
-      return true;
-    }
 
     return false;
   }
