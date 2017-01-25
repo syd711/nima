@@ -11,7 +11,11 @@ import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
+
+import java.util.Random;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -57,8 +61,14 @@ public class BulletSystem extends AbstractIteratingSystem {
         case PHASER: {
           Ship target = bullet.target;
           Ship source = bullet.owner;
-          Vector2 sourcePos = source.positionComponent.getPosition();
-          Vector2 targetPos = target.positionComponent.getPosition();
+          Vector2 sourcePos = source.getCenter();
+          Vector2 targetPos = target.getCenter();
+
+          //check if shooting must be stopped
+          if(bullet.isExhausted()) {
+            EntityManager.getInstance().destroy(bullet);
+            break;
+          }
 
           //calculate angle between two instances
           Vector2 toTarget = new Vector2(targetPos).sub(sourcePos);
@@ -72,9 +82,22 @@ public class BulletSystem extends AbstractIteratingSystem {
           float distance = sourcePos.dst(targetPos);
           spriteItem.setWidth(distance);
 
+          //TODO phaser animation
+          Random random = new Random();
+          int i = random.nextInt(3 - 1 + 1) + 1;
+          if(i == 1) {
+            spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER));
+          }
+          if(i == 2) {
+            spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_2));
+          }
+          if(i == 3) {
+            spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_1));
+          }
+
           //apply permanent collision
           BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
-          bulletCollisionComponent.applyCollisionWith(bullet, target, targetPos);
+          bulletCollisionComponent.applyCollisionWith(bullet, target, target.getCenter());
           break;
         }
       }

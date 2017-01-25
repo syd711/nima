@@ -18,8 +18,8 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 1500.0
-lowMax: 1500.0
+lowMin: 1200.0
+lowMax: 1200.0
 highMin: 900.0
 highMax: 900.0
 relative: false
@@ -58,8 +58,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 1.0
 lowMax: 1.0
-highMin: 20.0
-highMax: 30.0
+highMin: 10.0
+highMax: 20.0
 relative: false
 scalingCount: 3
 scaling0: 0.29411766
@@ -74,7 +74,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: 10.0
-highMax: 400.0
+highMax: 200.0
 relative: false
 scalingCount: 3
 scaling0: 0.4117647
@@ -138,9 +138,10 @@ timeline0: 0.0
 timeline1: 1.0
 - Options - 
 attached: false
-continuous: true
+continuous: false
 aligned: false
 additive: true
 behind: false
+premultipliedAlpha: false
 - Image Path -
 particle.png

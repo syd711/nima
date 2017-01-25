@@ -52,6 +52,12 @@ public class Game extends ApplicationAdapter {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
+    //load particle effects
+    ParticleManager.getInstance().loadParticles();
+
+    //load sprites
+    TextureManager.getInstance().loadTextures();
+
     //camera
     camera = new OrthographicCamera();
     camera.setToOrtho(false);
@@ -91,12 +97,6 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2ConeLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
-
-    //load particle effects
-    ParticleManager.getInstance().loadParticles();
-
-    //load sprites
-    TextureManager.getInstance().loadTextures();
 
     //init player
     Player player = entityManager.getPlayer();
@@ -152,8 +152,6 @@ public class Game extends ApplicationAdapter {
         box2DDebugRenderer.render(world, debugMatrix);
       }
     }
-
-    ParticleManager.getInstance().render(tiledMapRenderer.getBatch(), deltaTime);
 
     tiledMapRenderer.getBatch().end();
     updateActorFrame();

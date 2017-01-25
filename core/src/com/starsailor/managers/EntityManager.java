@@ -67,6 +67,9 @@ public class EntityManager {
     BulletSystem bulletSystem = new BulletSystem();
     engine.addSystem(bulletSystem);
 
+    ParticleSystem particleSystem = new ParticleSystem(renderer.getBatch());
+    engine.addSystem(particleSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 

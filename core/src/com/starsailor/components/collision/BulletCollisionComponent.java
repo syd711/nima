@@ -9,6 +9,7 @@ import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.BodyComponent;
+import com.starsailor.components.ParticleComponent;
 import com.starsailor.components.ShipDataComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.*;
@@ -36,17 +37,19 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
       switch(type) {
         case LASER: {
           hitAndDestroyBullet(bullet, position, Particles.EXPLOSION, Resources.SOUND_EXPLOSION);
+          updateDamage(bullet, npc);
           break;
         }
         case MISSILE: {
           hitAndDestroyBullet(bullet, position, Particles.EXPLOSION, Resources.SOUND_EXPLOSION);
+          updateDamage(bullet, npc);
           break;
         }
         case PHASER: {
+          updateDamage(bullet, npc);
           break;
         }
       }
-      updateDamage(bullet, npc);
     }
   }
 
@@ -58,13 +61,15 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
    */
   private void updateDamage(Bullet bullet, Ship npc) {
     ShipDataComponent shipData = npc.shipDataComponent;
-    Vector2 position = npc.positionComponent.getPosition();
     shipData.health = shipData.health-bullet.bulletDamageComponent.damage;
     if(shipData.health <= 0 ) {
       EntityManager.getInstance().destroy(npc);
-      ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position);
-      ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position.scl(10));
-      ParticleManager.getInstance().playEffect(Particles.EXPLOSION, position.scl(-10));
+      EntityManager.getInstance().destroy(bullet);
+
+      ParticleComponent particleComponent = npc.particleComponent;
+      if(particleComponent != null) {
+        particleComponent.enabled = true;
+      }
 
       SelectionManager.getInstance().setSelection(null);
     }
@@ -79,7 +84,7 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
   private void hitAndDestroyBullet(Bullet bullet, Vector2 position, Particles effect, String sound) {
     EntityManager.getInstance().destroy(bullet);
     SoundManager.playSoundAtPosition(sound, 1f, new Vector3(position, 0));
-    ParticleManager.getInstance().playEffect(effect, position, 0.5f);
+    bullet.particleComponent.enabled = true;
   }
 
   /**

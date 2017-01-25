@@ -73,6 +73,9 @@ public class BulletFactory {
       bulletBody.applyForceToCenter(force, true);
     }
     else if(weaponProfile.type.equals(WeaponProfile.Types.PHASER)) {
+      //the bullet is already at the target
+      bullet.positionComponent.setPosition(bullet.target.positionComponent.getPosition());
+      bullet.particleComponent.enabled = true;
       bullet.spriteComponent.getSprite(Textures.PHASER).setTexture(true);
     }
 

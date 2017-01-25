@@ -2,15 +2,15 @@ main
 - Delay -
 active: false
 - Duration - 
-lowMin: 1000.0
-lowMax: 1000.0
+lowMin: 300.0
+lowMax: 300.0
 - Count - 
 min: 6
-max: 100
+max: 200
 - Emission - 
 lowMin: 16.0
 lowMax: 16.0
-highMin: 86.0
+highMin: 80.0
 highMax: 120.0
 relative: false
 scalingCount: 1
@@ -18,8 +18,8 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 1600.0
-lowMax: 1600.0
+lowMin: 1200.0
+lowMax: 1200.0
 highMin: 900.0
 highMax: 900.0
 relative: false
@@ -59,7 +59,7 @@ timeline0: 0.0
 lowMin: 1.0
 lowMax: 1.0
 highMin: 10.0
-highMax: 30.0
+highMax: 20.0
 relative: false
 scalingCount: 3
 scaling0: 0.29411766
@@ -138,7 +138,7 @@ timeline0: 0.0
 timeline1: 1.0
 - Options - 
 attached: false
-continuous: false
+continuous: true
 aligned: false
 additive: true
 behind: false

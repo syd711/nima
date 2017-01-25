@@ -9,8 +9,8 @@ public class Resources {
   public static final String TEXTURES = "textures/";
   public static final String PARTICLES = "particles/";
 
-  public static final String WEAPON_PROFILES = "data/weapons/";
-  public static final String SHIP_PROFILES = "data/ships/";
+  public static final String WEAPON_PROFILES = "weapons/";
+  public static final String SHIP_PROFILES = "ships/";
 
   public static final String SPINES = "spines/";
   public static final String ACTOR_DEFAULT_ANIMATION = "walk";

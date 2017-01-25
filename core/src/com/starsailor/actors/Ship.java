@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.components.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.Particles;
 import com.starsailor.util.Resources;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class Ship extends Spine {
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;
   public ShipDataComponent shipDataComponent;
+  public ParticleComponent particleComponent;
 
   public ShipProfile shipProfile;
 
@@ -39,6 +41,7 @@ public class Ship extends Spine {
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     shipDataComponent = ComponentFactory.addShipDataComponent(this, profile);
+    particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
   }
 
   public List<WeaponProfile> getWeapons() {

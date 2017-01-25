@@ -9,13 +9,14 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.Bullet;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.ParticleManager;
+import com.starsailor.managers.Particles;
 import com.starsailor.managers.Textures;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
@@ -213,9 +214,17 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BulletDamageComponent addBulletDamageComponent(Bullet entity, WeaponProfile weaponProfile) {
+  public static BulletDamageComponent addBulletDamageComponent(Entity entity, WeaponProfile weaponProfile) {
     BulletDamageComponent component = createComponent(BulletDamageComponent.class);
     component.damage = weaponProfile.damage;
+    entity.add(component);
+    return component;
+  }
+
+  public static ParticleComponent addParticleComponent(Entity entity, Particles particles) {
+    ParticleComponent component = createComponent(ParticleComponent.class);
+    component.effect = ParticleManager.getInstance().getEffect(particles);
+    component.particle = particles;
     entity.add(component);
     return component;
   }
