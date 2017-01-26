@@ -3,7 +3,7 @@
   "defaultAnimation" : null,
   "scale" : 0.24,
   "health" : 100,
-  "weapons" : ["laser","missile","phaser"],
+  "weapons" : ["laser","missile","phaser","mine"],
   "shield" : "plasma",
   "steeringData" : {
     "boundingRadius" : 200,

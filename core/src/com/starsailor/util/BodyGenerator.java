@@ -106,11 +106,22 @@ public class BodyGenerator {
     bdef.position.set(position.x * MPP, position.y * MPP);
     Body b = world.createBody(bdef);
     b.setLinearDamping(bodyData.linearDamping);
-
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(bodyData.width * MPP, bodyData.height * MPP);
+    b.setAngularDamping(bodyData.angularDamping);
 
     FixtureDef fdef = new FixtureDef();
+
+    Shape shape;
+    if(bodyData.radius > 0) {
+      shape = new CircleShape();
+      shape.setRadius(bodyData.radius * MPP);
+      fdef.shape = shape;
+    }
+    else {
+      shape = new PolygonShape();
+      ((PolygonShape)shape).setAsBox(bodyData.width * MPP, bodyData.height * MPP);
+      fdef.shape = shape;
+    }
+
     fdef.filter.groupIndex = 0;
     fdef.isSensor = false;
     fdef.density = 0.05f;
@@ -120,7 +131,6 @@ public class BodyGenerator {
 
     fdef.friction = 1; //= no sliding along the object
     fdef.restitution = 0.9f;
-    fdef.shape = shape;
     if(friendly) {
       fdef.filter.categoryBits = PLAYER_BITS;
       fdef.filter.maskBits = MASK_FRIENDLY_BULLET;

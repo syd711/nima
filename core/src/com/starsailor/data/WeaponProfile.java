@@ -5,7 +5,7 @@ package com.starsailor.data;
  */
 public class WeaponProfile {
   public enum Types {
-    LASER, MISSILE, PHASER
+    LASER, MISSILE, PHASER, MINE, FLARES
   }
 
   public Types type;
@@ -13,6 +13,7 @@ public class WeaponProfile {
   public float durationMillis; //for constant shooting
   public float damage;
   public float forceFactor;
+  public float torque;
   public float impactFactor;
   public String name;
 

@@ -29,54 +29,94 @@ public class BulletFactory {
     WeaponProfile weaponProfile = bullet.weaponProfile;
     BodyComponent bodyComponent = bullet.bodyComponent;
 
-    if(weaponProfile.type.equals(WeaponProfile.Types.LASER)) {
-      Vector2 from = Box2dUtil.toBox2Vector(bullet.owner.getCenter());
-      Vector2 to = Box2dUtil.toBox2Vector(bullet.target.getCenter());
-      float radianAngle = Box2dUtil.getBox2dAngle(from, to);
+    WeaponProfile.Types type = weaponProfile.type;
+    switch(type) {
+      case LASER: {
+        Vector2 from = Box2dUtil.toBox2Vector(bullet.owner.getCenter());
+        Vector2 to = Box2dUtil.toBox2Vector(bullet.target.getCenter());
+        float radianAngle = Box2dUtil.getBox2dAngle(from, to);
 
-      Body bulletBody = bodyComponent.body;
-      bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
+        Body bulletBody = bodyComponent.body;
+        bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
 
-      float mXDir = -(float) Math.cos(radianAngle);
-      float mYDir = -(float) Math.sin(radianAngle);
+        float mXDir = -(float) Math.cos(radianAngle);
+        float mYDir = -(float) Math.sin(radianAngle);
 
-      float speedFactor = weaponProfile.forceFactor;
-      Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
-      bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
+        float speedFactor = weaponProfile.forceFactor;
+        Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
+        bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
 
-      SoundManager.playSoundAtPosition(Resources.SOUND_LASER, 0.5f, new Vector3(bullet.owner.getCenter().x, bullet.owner.getCenter().y, 0));
-    }
-    else if(weaponProfile.type.equals(WeaponProfile.Types.MISSILE)) {
-      //add dependency tracking for the target
-      EntityManager.getInstance().addEntityListener(bullet);
+        SoundManager.playSoundAtPosition(Resources.SOUND_LASER, 0.5f, new Vector3(bullet.owner.getCenter().x, bullet.owner.getCenter().y, 0));
+        break;
+      }
+      case MISSILE: {
+        //add dependency tracking for the target
+        EntityManager.getInstance().addEntityListener(bullet);
 
-      //configure steerable of the missile
-      bullet.steerableComponent = ComponentFactory.addSteerableComponent(bullet, bodyComponent.body, weaponProfile.steeringData);
-      Pursue<Vector2> behaviour = new Pursue<>(bullet.steerableComponent, bullet.target.steerableComponent);
-      behaviour.setMaxPredictionTime(0f);
-      bullet.steerableComponent.setBehavior(behaviour);
-      bullet.steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, bullet.target.bodyComponent.body, 3f));
-      bullet.steerableComponent.setEnabled(false);
+        //configure steerable of the missile
+        bullet.steerableComponent = ComponentFactory.addSteerableComponent(bullet, bodyComponent.body, weaponProfile.steeringData);
+        Pursue<Vector2> behaviour = new Pursue<>(bullet.steerableComponent, bullet.target.steerableComponent);
+        behaviour.setMaxPredictionTime(0f);
+        bullet.steerableComponent.setBehavior(behaviour);
+        bullet.steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, bullet.target.bodyComponent.body, 3f));
+        bullet.steerableComponent.setEnabled(false);
 
-      //apply initial force to the missile
-      Body bulletBody = bodyComponent.body;
-      Body ownerBody = bullet.owner.bodyComponent.body;
-      bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
+        //apply initial force to the missile
+        Body bulletBody = bodyComponent.body;
+        Body ownerBody = bullet.owner.bodyComponent.body;
+        bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
 
-      float angle = ownerBody.getAngle();
-      angle = Box2dUtil.addDegree(angle, 90);
-      Vector2 force = new Vector2();
-      force.x = (float) Math.cos(angle);
-      force.y = (float) Math.sin(angle);
-      force = force.scl(weaponProfile.forceFactor);
+        float angle = ownerBody.getAngle();
+        angle = Box2dUtil.addDegree(angle, 90);
+        Vector2 force = new Vector2();
+        force.x = (float) Math.cos(angle);
+        force.y = (float) Math.sin(angle);
+        force = force.scl(weaponProfile.forceFactor);
 
-      bulletBody.applyForceToCenter(force, true);
-    }
-    else if(weaponProfile.type.equals(WeaponProfile.Types.PHASER)) {
-      //the bullet is already at the target
-      bullet.positionComponent.setPosition(bullet.target.positionComponent.getPosition());
-      bullet.particleComponent.enabled = true;
-      bullet.spriteComponent.getSprite(Textures.PHASER).setTexture(true);
+        bulletBody.applyForceToCenter(force, true);
+        break;
+      }
+      case PHASER: {
+        //the bullet is already at the target
+        bullet.positionComponent.setPosition(bullet.target.positionComponent.getPosition());
+        bullet.particleComponent.enabled = true;
+        bullet.spriteComponent.getSprite(Textures.PHASER).setTexture(true);
+        break;
+      }
+      case MINE: {
+        //apply initial force to the missile
+        Body bulletBody = bodyComponent.body;
+        Body ownerBody = bullet.owner.bodyComponent.body;
+        bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
+
+        float angle = ownerBody.getAngle();
+        angle = Box2dUtil.addDegree(angle, -90);
+        Vector2 force = new Vector2();
+        force.x = (float) Math.cos(angle);
+        force.y = (float) Math.sin(angle);
+        force = force.scl(weaponProfile.forceFactor);
+
+        bulletBody.applyForceToCenter(force, true);
+        bulletBody.applyTorque(0.1f, true);
+        break;
+      }
+      case FLARES: {
+        //apply initial force to the missile
+        Body bulletBody = bodyComponent.body;
+        Body ownerBody = bullet.owner.bodyComponent.body;
+        bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
+
+        float angle = ownerBody.getAngle();
+        angle = Box2dUtil.addDegree(angle, -90);
+        Vector2 force = new Vector2();
+        force.x = (float) Math.cos(angle);
+        force.y = (float) Math.sin(angle);
+        force = force.scl(weaponProfile.forceFactor);
+
+        bulletBody.applyForceToCenter(force, true);
+        bulletBody.applyTorque(weaponProfile.torque, true);
+        break;
+      }
     }
 
     bullet.owner.shootingComponent.updateLastBulletTime();

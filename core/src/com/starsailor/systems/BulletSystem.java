@@ -38,12 +38,12 @@ public class BulletSystem extends AbstractIteratingSystem {
       WeaponProfile.Types type = bullet.weaponProfile.type;
       switch(type) {
         case LASER: {
-          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem, false);
           spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
           break;
         }
         case MISSILE: {
-          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem);
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem, false);
 
           if(!bullet.steerableComponent.isDestroyed()) {
             float distanceToPlayer = bullet.getDistanceFromOrigin();
@@ -103,6 +103,14 @@ public class BulletSystem extends AbstractIteratingSystem {
           bullet.particleComponent.effect.setPosition(bullet.positionComponent.x, bullet.positionComponent.y);
           break;
         }
+        case MINE: {
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem, true);
+          break;
+        }
+        case FLARES: {
+          updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem, true);
+          break;
+        }
       }
     }
   }
@@ -115,11 +123,15 @@ public class BulletSystem extends AbstractIteratingSystem {
    */
   private void updateSpritePositionForBody(PositionComponent positionComponent,
                                            BodyComponent bodyComponent,
-                                           SpriteComponent.SpriteItem spriteItem) {
+                                           SpriteComponent.SpriteItem spriteItem, boolean updateAngle) {
     Sprite bulletSprite = spriteItem.getSprite();
     positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
     positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
 
     spriteItem.setPosition(positionComponent.getPosition(), false);
+
+    if(updateAngle) {
+      spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+    }
   }
 }

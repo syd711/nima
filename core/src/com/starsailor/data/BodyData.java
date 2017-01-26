@@ -5,7 +5,9 @@ package com.starsailor.data;
  */
 public class BodyData {
   public float linearDamping;
+  public float angularDamping;
   public int width;
   public int height;
+  public int radius;
   public float density;
 }
