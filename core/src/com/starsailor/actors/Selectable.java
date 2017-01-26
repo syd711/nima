@@ -10,4 +10,6 @@ public interface Selectable {
   SelectionComponent getSelectionComponent();
 
   void setSelected(boolean b);
+
+  boolean isSelected();
 }

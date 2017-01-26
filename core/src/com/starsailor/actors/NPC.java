@@ -52,4 +52,9 @@ public class NPC extends Ship implements Selectable {
       getStateMachine().changeState(NPCStates.DESELECT);
     }
   }
+
+  @Override
+  public boolean isSelected() {
+    return selectionComponent.selected;
+  }
 }

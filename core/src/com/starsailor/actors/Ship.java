@@ -66,7 +66,6 @@ public class Ship extends Spine {
     return getDistanceToPlayer() < shipProfile.shootDistance;
   }
 
-
   public DefaultStateMachine getStateMachine() {
     return statefulComponent.stateMachine;
   }

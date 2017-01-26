@@ -62,7 +62,12 @@ public class SelectionManager {
       for(Entity entity : entitiesFor) {
         Selectable selectable = (Selectable) entity;
         if(selectable.equals(oldSelection)) {
-          selectable.setSelected(false);
+          if(selectable.isSelected()) {
+            selectable.setSelected(false);
+          }
+          else {
+            selectable.setSelected(true);
+          }
         }
         else if(newSelection != null && selectable.equals(newSelection)) {
           selectable.setSelected(true);

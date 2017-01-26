@@ -8,15 +8,15 @@ import com.starsailor.actors.Selectable;
  *
  */
 public class HudStage extends Stage {
-  public final InfoTable headerTable;
+  public final InfoTable infoTable;
   public final ActionPanel actionPanel;
   public final WeaponPanel weaponPanel;
 
   public HudStage() {
-    headerTable = new InfoTable();
+    infoTable = new InfoTable();
     actionPanel = new ActionPanel(this);
     weaponPanel = new WeaponPanel(this);
-    addActor(headerTable);
+    addActor(infoTable);
     addActor(actionPanel);
     addActor(weaponPanel);
 

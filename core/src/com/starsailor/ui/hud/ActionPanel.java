@@ -58,7 +58,6 @@ public class ActionPanel extends Table {
       activated = true;
       addAction(Actions.moveBy(0, PANEL_HEIGHT, SHOW_DELAY));
     }
-
   }
 
   public void deactivate() {
