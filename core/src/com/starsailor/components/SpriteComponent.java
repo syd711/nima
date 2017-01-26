@@ -22,6 +22,10 @@ public class SpriteComponent implements Component, Poolable {
     sprites.clear();
   }
 
+  public void addSprite(Textures sprite) {
+    addSprite(sprite, -1);
+  }
+
   public void addSprite(Textures sprite, float angle) {
     SpriteItem spriteItem = new SpriteItem(sprite);
     if(sprites.containsKey(sprite)) {
@@ -51,6 +55,7 @@ public class SpriteComponent implements Component, Poolable {
     private Texture texture;
     private boolean isTexture = false;
     private Vector2 texturePosition;
+    private boolean active = true;
 
 
     public SpriteItem(Textures spriteEnum) {
@@ -111,6 +116,14 @@ public class SpriteComponent implements Component, Poolable {
     @Override
     public String toString() {
       return "Sprite '" + name + "'";
+    }
+
+    public boolean isActive() {
+      return active;
+    }
+
+    public void setActive(boolean active) {
+      this.active = active;
     }
   }
 }

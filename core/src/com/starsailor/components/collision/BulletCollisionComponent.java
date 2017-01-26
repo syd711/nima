@@ -10,7 +10,6 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ParticleComponent;
-import com.starsailor.components.ShipDataComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.*;
 import com.starsailor.util.Resources;
@@ -58,9 +57,9 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
    * is resetted and an explosion animation is rendered.
    */
   private void updateDamage(Bullet bullet, Ship npc) {
-    ShipDataComponent shipData = npc.shipDataComponent;
-    shipData.health = shipData.health-bullet.bulletDamageComponent.damage;
-    if(shipData.health <= 0 ) {
+    npc.applyDamage(bullet.bulletDamageComponent.damage);
+
+    if(npc.health <= 0 ) {
       EntityManager.getInstance().destroy(npc);
       EntityManager.getInstance().destroy(bullet);
 

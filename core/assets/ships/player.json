@@ -4,6 +4,7 @@
   "scale" : 0.24,
   "health" : 100,
   "weapons" : ["laser","missile","phaser"],
+  "shield" : "plasma",
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 1000,

@@ -21,7 +21,7 @@ public class SpriteRenderSystem extends RenderingSystem {
     if(spriteComponent != null) {
       Collection<SpriteComponent.SpriteItem> spriteItems = spriteComponent.getSpriteItems();
       for(SpriteComponent.SpriteItem spriteItem : spriteItems) {
-        if(spriteItem.isPositioned()) {
+        if(spriteItem.isPositioned() && spriteItem.isActive()) {
           Sprite sprite = spriteItem.getSprite();
           sprite.draw(batch);
         }

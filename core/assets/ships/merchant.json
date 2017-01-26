@@ -6,6 +6,7 @@
   "attackDistance" : 300,
   "evadeDistance" : 400,
   "weapons" : ["laser"],
+  "shield" : "energie",
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 500,

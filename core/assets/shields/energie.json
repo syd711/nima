@@ -1,5 +1,6 @@
 {
   "name" : "Energie Shield",
   "health" : 100,
+  "damageAbsorptionFactor" : 3,
   "rechargeTimeMillis" : 60000
 }

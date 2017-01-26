@@ -22,11 +22,12 @@ public class Ship extends Spine {
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
   public BodyComponent bodyComponent;
-  public ShipDataComponent shipDataComponent;
   public ParticleComponent particleComponent;
   public ShieldComponent shieldComponent;
 
   public ShipProfile shipProfile;
+  public float health = 100;
+  public float maxHealth = 100;
 
   public Ship(ShipProfile profile, State state) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
@@ -42,7 +43,6 @@ public class Ship extends Spine {
     bodyComponent = ComponentFactory.addBodyComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
-    shipDataComponent = ComponentFactory.addShipDataComponent(this, profile);
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
     shieldComponent = ComponentFactory.addShieldComponent(this, profile.shieldProfile);
   }
@@ -53,6 +53,14 @@ public class Ship extends Spine {
 
   public List<WeaponProfile> getWeapons() {
     return shipProfile.weaponProfiles;
+  }
+
+  public void applyDamage(float damage) {
+    float damageOffset = damage; //the additional value to substract from health
+    if(shieldComponent != null && shieldComponent.isActive()) {
+      damageOffset = shieldComponent.applyDamage(damage);
+    }
+    health = health-damageOffset;
   }
 
   /**

@@ -1,5 +1,6 @@
 {
   "name" : "Plasma Shield",
   "health" : 200,
+  "damageAbsorptionFactor" : 0.5,
   "rechargeTimeMillis" : 40000
 }

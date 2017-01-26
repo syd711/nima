@@ -15,8 +15,11 @@ public class SelectionState implements State<NPC> {
   public void enter(NPC npc) {
     npc.selectionComponent.setSelected(true);
     SpriteComponent spriteComponent = ComponentFactory.addSpriteComponent(npc, Textures.SELECTION, -1);
-    spriteComponent.addSprite(Textures.HEALTHBG, -1);
-    spriteComponent.addSprite(Textures.HEALTHFG, -1);
+    spriteComponent.addSprite(Textures.HEALTHBG);
+    spriteComponent.addSprite(Textures.HEALTHFG);
+
+    spriteComponent.addSprite(Textures.SHIELDBG);
+    spriteComponent.addSprite(Textures.SHIELDFG);
   }
 
   @Override

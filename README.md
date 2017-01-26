@@ -1,4 +1,8 @@
-# nima
+# Starsailor
+
+# Offene Fragen
+- genauer Abschussort von Waffen
+- Spines für Schilde?
 
 
 # Map Objects

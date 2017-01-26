@@ -7,4 +7,5 @@ public class ShieldProfile {
   public String name;
   public float rechargeTimeMillis;
   public float health;
+  public float damageAbsorptionFactor;
 }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Route;
-import com.starsailor.actors.Ship;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
 import com.starsailor.data.ShieldProfile;
@@ -196,14 +195,6 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShipDataComponent addShipDataComponent(Entity entity, ShipProfile profile) {
-    ShipDataComponent component = createComponent(ShipDataComponent.class);
-    component.health = profile.health;
-    component.maxHealth = profile.health;
-    entity.add(component);
-    return component;
-  }
-
   public static SelectionComponent addSelectionComponent(Entity entity) {
     SelectionComponent component = createComponent(SelectionComponent.class);
     entity.add(component);
@@ -234,7 +225,10 @@ public class ComponentFactory {
   public static ShieldComponent addShieldComponent(Entity entity, ShieldProfile shieldProfile) {
     if(shieldProfile != null) {
       ShieldComponent component = createComponent(ShieldComponent.class);
-      component.shieldProfile = shieldProfile;
+      component.health = shieldProfile.health;
+      component.maxHealth = shieldProfile.health;
+      component.damageAbsorptionFactor = shieldProfile.damageAbsorptionFactor;
+      component.rechargeTimeMillis = shieldProfile.rechargeTimeMillis;
       entity.add(component);
       return component;
     }
