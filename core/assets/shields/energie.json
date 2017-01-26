@@ -1,0 +1,5 @@
+{
+  "name" : "Energie Shield",
+  "health" : 100,
+  "rechargeTimeMillis" : 60000
+}

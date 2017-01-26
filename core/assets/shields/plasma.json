@@ -1,0 +1,5 @@
+{
+  "name" : "Plasma Shield",
+  "health" : 200,
+  "rechargeTimeMillis" : 40000
+}

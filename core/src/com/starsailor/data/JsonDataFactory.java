@@ -34,7 +34,9 @@ abstract public class JsonDataFactory {
   }
 
   public static <T> T loadDataEntity(FileHandle fileHandle, Class<T> entity) {
-    return loadDataEntity(fileHandle.file(), entity);
+    T t = loadDataEntity(fileHandle.file(), entity);
+    Gdx.app.log(JsonDataFactory.class.getName(), "Loaded json data " + fileHandle.file().getParent() + "/" + fileHandle.file().getName());
+    return t;
   }
 
   public static <T> T saveDataEntity(File file, Object entity) {

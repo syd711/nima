@@ -22,6 +22,10 @@ public class ShipProfile {
   public List<String> weapons;
   public List<WeaponProfile> weaponProfiles;
 
+  //shield
+  public String shield;
+  public ShieldProfile shieldProfile;
+
   //Steering
   public SteeringData steeringData;
 

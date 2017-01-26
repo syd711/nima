@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Route;
+import com.starsailor.actors.Ship;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
+import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
 import com.starsailor.data.WeaponProfile;
@@ -227,5 +229,15 @@ public class ComponentFactory {
     component.particle = particles;
     entity.add(component);
     return component;
+  }
+
+  public static ShieldComponent addShieldComponent(Entity entity, ShieldProfile shieldProfile) {
+    if(shieldProfile != null) {
+      ShieldComponent component = createComponent(ShieldComponent.class);
+      component.shieldProfile = shieldProfile;
+      entity.add(component);
+      return component;
+    }
+    return null;
   }
 }

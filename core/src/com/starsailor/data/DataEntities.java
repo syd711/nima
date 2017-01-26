@@ -16,16 +16,23 @@ public class DataEntities {
   /******** Entity Map *************************************************/
   private static Map<String, ShipProfile> ships = new HashMap<>();
   private static Map<String, WeaponProfile> weapons = new HashMap<>();
+  private static Map<String, ShieldProfile> shields = new HashMap<>();
 
   static {
     ships = JsonDataFactory.createDataEntities(Resources.SHIP_PROFILES, ShipProfile.class);
     weapons = JsonDataFactory.createDataEntities(Resources.WEAPON_PROFILES, WeaponProfile.class);
+    shields = JsonDataFactory.createDataEntities(Resources.SHIELD_PROFILES, ShieldProfile.class);
 
     for(ShipProfile shipProfile : ships.values()) {
       for(String weapon : shipProfile.weapons) {
         WeaponProfile weaponProfile = weapons.get(weapon);
         weaponProfile.type = WeaponProfile.Types.valueOf(weapon.toUpperCase());
         shipProfile.addWeaponProfile(weaponProfile);
+      }
+
+      if(shipProfile.shield != null) {
+        ShieldProfile shieldProfile = shields.get(shipProfile.shield);
+        shipProfile.shieldProfile = shieldProfile;
       }
     }
   }

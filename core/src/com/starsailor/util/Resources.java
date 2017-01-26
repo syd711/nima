@@ -11,6 +11,7 @@ public class Resources {
 
   public static final String WEAPON_PROFILES = "weapons/";
   public static final String SHIP_PROFILES = "ships/";
+  public static final String SHIELD_PROFILES = "shields/";
 
   public static final String SPINES = "spines/";
   public static final String ACTOR_DEFAULT_ANIMATION = "walk";

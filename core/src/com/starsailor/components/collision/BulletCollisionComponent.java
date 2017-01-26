@@ -36,12 +36,12 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
       WeaponProfile.Types type = bullet.weaponProfile.type;
       switch(type) {
         case LASER: {
-          hitAndDestroyBullet(bullet, position, Particles.EXPLOSION, Resources.SOUND_EXPLOSION);
+          hitAndDestroyBullet(bullet, position, Resources.SOUND_EXPLOSION);
           updateDamage(bullet, npc);
           break;
         }
         case MISSILE: {
-          hitAndDestroyBullet(bullet, position, Particles.EXPLOSION, Resources.SOUND_EXPLOSION);
+          hitAndDestroyBullet(bullet, position, Resources.SOUND_EXPLOSION);
           updateDamage(bullet, npc);
           break;
         }
@@ -56,8 +56,6 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
   /**
    * Checks if the ship is destroyed so that the selection
    * is resetted and an explosion animation is rendered.
-   * @param bullet
-   * @param npc
    */
   private void updateDamage(Bullet bullet, Ship npc) {
     ShipDataComponent shipData = npc.shipDataComponent;
@@ -77,11 +75,8 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
 
   /**
    * Play sound, play effect and remove the entity from the system
-   * @param bullet
-   * @param effect
-   * @param sound
    */
-  private void hitAndDestroyBullet(Bullet bullet, Vector2 position, Particles effect, String sound) {
+  private void hitAndDestroyBullet(Bullet bullet, Vector2 position, String sound) {
     EntityManager.getInstance().destroy(bullet);
     SoundManager.playSoundAtPosition(sound, 1f, new Vector3(position, 0));
     bullet.particleComponent.enabled = true;
@@ -89,8 +84,6 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
 
   /**
    * Apply force to the box2d so that the impact is visible
-   * @param bullet
-   * @param ship
    */
   private void applyImpactForce(Bullet bullet, Ship ship, Vector2 position) {
     BodyComponent component = ship.getComponent(BodyComponent.class);

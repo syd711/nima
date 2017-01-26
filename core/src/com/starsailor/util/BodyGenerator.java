@@ -33,7 +33,7 @@ public class BodyGenerator {
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(5*MPP, 5*MPP);
+    shape.setAsBox(5 * MPP, 5 * MPP);
 
     FixtureDef fdef = new FixtureDef();
     fdef.isSensor = true;
@@ -48,10 +48,25 @@ public class BodyGenerator {
     return b;
   }
 
+  public static Body createShieldBody(World world, Spine spine) {
+    CircleShape shape = new CircleShape();
+    float scaling = spine.jsonScaling;
+    float radius = (spine.skeleton.getData().getHeight() + 10) * scaling / 2;
+    shape.setRadius(radius * MPP);
+    return spineBody(shape, world, spine);
+  }
+
   /**
    * Creates the Box2d body for the given spine
    */
   public static Body createSpineBody(World world, Spine spine) {
+    PolygonShape shape = new PolygonShape();
+    float scaling = spine.jsonScaling;
+    shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
+    return spineBody(shape, world, spine);
+  }
+
+  private static Body spineBody(Shape shape, World world, Spine spine) {
     Vector2 center = spine.getCenter();
 
     BodyDef bdef = new BodyDef();
@@ -59,10 +74,6 @@ public class BodyGenerator {
     bdef.position.set(center.x * MPP, center.y * MPP);
     Body b = world.createBody(bdef);
     b.setLinearDamping(4f);
-
-    PolygonShape shape = new PolygonShape();
-    float scaling = spine.jsonScaling;
-    shape.setAsBox(spine.skeleton.getData().getWidth()*scaling/2 * MPP, spine.skeleton.getData().getHeight()*scaling/2 * MPP);
 
     FixtureDef fdef = new FixtureDef();
     fdef.density = 1;

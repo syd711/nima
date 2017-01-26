@@ -1,7 +1,7 @@
 {
   "spine" : "player",
   "defaultAnimation" : null,
-  "scale" : 0.3,
+  "scale" : 0.24,
   "health" : 100,
   "weapons" : ["laser","missile","phaser"],
   "steeringData" : {

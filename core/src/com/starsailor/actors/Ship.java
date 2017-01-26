@@ -3,6 +3,7 @@ package com.starsailor.actors;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.components.*;
+import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.Particles;
@@ -23,6 +24,7 @@ public class Ship extends Spine {
   public BodyComponent bodyComponent;
   public ShipDataComponent shipDataComponent;
   public ParticleComponent particleComponent;
+  public ShieldComponent shieldComponent;
 
   public ShipProfile shipProfile;
 
@@ -42,6 +44,11 @@ public class Ship extends Spine {
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     shipDataComponent = ComponentFactory.addShipDataComponent(this, profile);
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
+    shieldComponent = ComponentFactory.addShieldComponent(this, profile.shieldProfile);
+  }
+
+  public ShieldProfile getShield() {
+    return shipProfile.shieldProfile;
   }
 
   public List<WeaponProfile> getWeapons() {
@@ -58,6 +65,15 @@ public class Ship extends Spine {
     }
   }
 
+  /**
+   * Ignites the shield is available
+   */
+  public void fireShield() {
+    if(shieldComponent != null && shieldComponent.isCharged()) {
+
+    }
+  }
+
   public float getDistanceToPlayer() {
     return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
   }
@@ -71,7 +87,7 @@ public class Ship extends Spine {
   }
 
   /**
-   *
+   * Used the button in HUD is pressed
    */
   public void switchWeapon(WeaponProfile weaponProfile) {
     shootingComponent.setActiveWeaponProfile(weaponProfile);

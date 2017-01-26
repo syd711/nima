@@ -12,6 +12,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
+import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.TextureManager;
@@ -37,13 +38,13 @@ public class WeaponPanel extends Table {
     this.hudStage = hudStage;
     setDebug(debug);
     addWeapons();
-    setPosition(Gdx.graphics.getWidth()/2, -(PANEL_HEIGHT/2));
+    setPosition(Gdx.graphics.getWidth() / 2, -(PANEL_HEIGHT / 2));
   }
 
   private void addWeapons() {
 
     List<WeaponProfile> weapons = Player.getInstance().getWeapons();
-    for(int i=0; i<weapons.size(); i++) {
+    for(int i = 0; i < weapons.size(); i++) {
       final int index = i;
       WeaponProfile weaponProfile = weapons.get(i);
 
@@ -51,7 +52,7 @@ public class WeaponPanel extends Table {
         @Override
         public void draw(Batch batch, float parentAlpha) {
           Texture texture = TextureManager.getInstance().getTexture(Textures.HEALTHBG);
-          batch.draw(texture, getX() + (index*150),getY()-50, 50, 12);
+          batch.draw(texture, getX() + (index * 150), getY() - 50, 50, 12);
         }
       });
 
@@ -60,12 +61,26 @@ public class WeaponPanel extends Table {
       weapon1.setWidth(150);
       weapon1.addListener(new ChangeListener() {
         @Override
-        public void changed (ChangeEvent event, Actor actor) {
+        public void changed(ChangeEvent event, Actor actor) {
           Selectable selection = SelectionManager.getInstance().getSelection();
           if(selection instanceof NPC) {
             Player.getInstance().switchWeapon(weaponProfile);
-            Player.getInstance().fireAt((NPC)selection);
+            Player.getInstance().fireAt((NPC) selection);
           }
+        }
+      });
+      add(weapon1);
+    }
+
+    ShieldProfile shield = Player.getInstance().getShield();
+    if(shield != null) {
+      TextButton weapon1 = new TextButton(shield.name, Hud.skin);
+      weapon1.setDebug(debug);
+      weapon1.setWidth(150);
+      weapon1.addListener(new ChangeListener() {
+        @Override
+        public void changed(ChangeEvent event, Actor actor) {
+          Player.getInstance().fireShield();
         }
       });
       add(weapon1);
