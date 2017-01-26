@@ -28,7 +28,6 @@ public class BulletSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     if(entity instanceof Bullet) {
       Bullet bullet = (Bullet) entity;
-      Ship npc = bullet.target;
 
       WeaponProfile weaponProfile = bullet.weaponProfile;
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);

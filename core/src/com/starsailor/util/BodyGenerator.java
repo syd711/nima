@@ -51,9 +51,9 @@ public class BodyGenerator {
   public static Body createShieldBody(World world, Spine spine) {
     CircleShape shape = new CircleShape();
     float scaling = spine.jsonScaling;
-    float radius = (spine.skeleton.getData().getHeight() + 10) * scaling / 2;
+    float radius = (spine.skeleton.getData().getHeight() + 320) * scaling / 2;
     shape.setRadius(radius * MPP);
-    return spineBody(shape, world, spine);
+    return spineBody(shape, world, spine, true);
   }
 
   /**
@@ -63,10 +63,10 @@ public class BodyGenerator {
     PolygonShape shape = new PolygonShape();
     float scaling = spine.jsonScaling;
     shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
-    return spineBody(shape, world, spine);
+    return spineBody(shape, world, spine, false);
   }
 
-  private static Body spineBody(Shape shape, World world, Spine spine) {
+  private static Body spineBody(Shape shape, World world, Spine spine, boolean sensor) {
     Vector2 center = spine.getCenter();
 
     BodyDef bdef = new BodyDef();
@@ -77,7 +77,7 @@ public class BodyGenerator {
 
     FixtureDef fdef = new FixtureDef();
     fdef.density = 1;
-    fdef.isSensor = false;
+    fdef.isSensor = sensor;
     fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;

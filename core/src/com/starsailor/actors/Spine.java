@@ -7,6 +7,8 @@ import com.esotericsoftware.spine.*;
 import com.starsailor.data.DataEntities;
 import com.starsailor.util.SpineUtil;
 
+import static com.starsailor.util.Settings.MPP;
+
 /**
  * Superclass for spine entities
  */
@@ -52,6 +54,10 @@ abstract public class Spine extends GameEntity {
 
   public Vector2 getCenter() {
     return SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME);
+  }
+
+  public Vector2 getBox2dCenter() {
+    return SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME).scl(MPP);
   }
 
 }

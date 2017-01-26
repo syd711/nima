@@ -17,14 +17,11 @@ public class SpriteRenderSystem extends RenderingSystem {
   @Override
   public void process(Entity entity, float deltaTime) {
     SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
-
-    if(spriteComponent != null) {
-      Collection<SpriteComponent.SpriteItem> spriteItems = spriteComponent.getSpriteItems();
-      for(SpriteComponent.SpriteItem spriteItem : spriteItems) {
-        if(spriteItem.isPositioned() && spriteItem.isActive()) {
-          Sprite sprite = spriteItem.getSprite();
-          sprite.draw(batch);
-        }
+    Collection<SpriteComponent.SpriteItem> spriteItems = spriteComponent.getSpriteItems();
+    for(SpriteComponent.SpriteItem spriteItem : spriteItems) {
+      if(spriteItem.isPositioned() && spriteComponent.isEnabled()) {
+        Sprite sprite = spriteItem.getSprite();
+        sprite.draw(batch);
       }
     }
   }

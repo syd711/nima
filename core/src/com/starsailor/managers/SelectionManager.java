@@ -61,16 +61,11 @@ public class SelectionManager {
       ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SelectionComponent.class);
       for(Entity entity : entitiesFor) {
         Selectable selectable = (Selectable) entity;
-        if(selectable.equals(oldSelection)) {
-          if(selectable.isSelected()) {
-            selectable.setSelected(false);
-          }
-          else {
-            selectable.setSelected(true);
-          }
+        if(selectable.equals(newSelection)) {
+          selectable.setSelected(!selectable.isSelected());
         }
-        else if(newSelection != null && selectable.equals(newSelection)) {
-          selectable.setSelected(true);
+        else {
+          selectable.setSelected(false);
         }
       }
     }

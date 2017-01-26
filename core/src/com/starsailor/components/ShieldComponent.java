@@ -1,6 +1,7 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.Game;
 
@@ -14,8 +15,9 @@ public class ShieldComponent implements Component, Pool.Poolable {
   public float damageAbsorptionFactor;
 
   private long lastIgnitionTime = 0;
-  private boolean active = true;
+  private boolean active = false;
 
+  public Body body;
 
   @Override
   public void reset() {
@@ -40,5 +42,13 @@ public class ShieldComponent implements Component, Pool.Poolable {
       return Math.abs(health/damageAbsorptionFactor);
     }
     return 0;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
+  public boolean isRemaining() {
+    return health > 0;
   }
 }

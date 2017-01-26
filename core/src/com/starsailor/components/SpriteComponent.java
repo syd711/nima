@@ -17,8 +17,11 @@ public class SpriteComponent implements Component, Poolable {
 
   private Map<Textures, SpriteItem> sprites = new LinkedHashMap<>();
 
+  private boolean enabled = true;
+
   @Override
   public void reset() {
+    enabled = true;
     sprites.clear();
   }
 
@@ -46,6 +49,22 @@ public class SpriteComponent implements Component, Poolable {
     return sprites.values();
   }
 
+  public void removeSprite(Textures textures) {
+    sprites.remove(textures);
+  }
+
+  public boolean containsSprite(Textures textures) {
+    return sprites.containsKey(textures);
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
   /**
    * Helper to support multiple sprites for one component.
    */
@@ -55,8 +74,6 @@ public class SpriteComponent implements Component, Poolable {
     private Texture texture;
     private boolean isTexture = false;
     private Vector2 texturePosition;
-    private boolean active = true;
-
 
     public SpriteItem(Textures spriteEnum) {
       name = spriteEnum.name();
@@ -116,14 +133,6 @@ public class SpriteComponent implements Component, Poolable {
     @Override
     public String toString() {
       return "Sprite '" + name + "'";
-    }
-
-    public boolean isActive() {
-      return active;
-    }
-
-    public void setActive(boolean active) {
-      this.active = active;
     }
   }
 }

@@ -80,7 +80,7 @@ public class WeaponPanel extends Table {
       weapon1.addListener(new ChangeListener() {
         @Override
         public void changed(ChangeEvent event, Actor actor) {
-          Player.getInstance().fireShield();
+//          Player.getInstance().fireShield();
         }
       });
       add(weapon1);

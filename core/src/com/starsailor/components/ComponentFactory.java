@@ -223,15 +223,14 @@ public class ComponentFactory {
   }
 
   public static ShieldComponent addShieldComponent(Entity entity, ShieldProfile shieldProfile) {
+    ShieldComponent component = createComponent(ShieldComponent.class);
     if(shieldProfile != null) {
-      ShieldComponent component = createComponent(ShieldComponent.class);
       component.health = shieldProfile.health;
       component.maxHealth = shieldProfile.health;
       component.damageAbsorptionFactor = shieldProfile.damageAbsorptionFactor;
       component.rechargeTimeMillis = shieldProfile.rechargeTimeMillis;
-      entity.add(component);
-      return component;
     }
-    return null;
+    entity.add(component);
+    return component;
   }
 }

@@ -1,7 +1,6 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
-import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
@@ -45,12 +44,8 @@ public class NPC extends Ship implements Selectable {
   @Override
   public void setSelected(boolean b) {
     selectionComponent.selected = b;
-    if(selectionComponent.selected) {
-      getStateMachine().changeState(NPCStates.SELECT);
-    }
-    else {
-      getStateMachine().changeState(NPCStates.DESELECT);
-    }
+    selectionComponent.setSelected(b);
+    spriteComponent.setEnabled(b);
   }
 
   @Override

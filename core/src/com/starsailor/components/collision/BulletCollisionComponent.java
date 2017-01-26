@@ -9,9 +9,10 @@ import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.BodyComponent;
-import com.starsailor.components.ParticleComponent;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.*;
+import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SelectionManager;
+import com.starsailor.managers.SoundManager;
 import com.starsailor.util.Resources;
 
 /**
@@ -57,17 +58,9 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
    * is resetted and an explosion animation is rendered.
    */
   private void updateDamage(Bullet bullet, Ship npc) {
-    npc.applyDamage(bullet.bulletDamageComponent.damage);
-
-    if(npc.health <= 0 ) {
-      EntityManager.getInstance().destroy(npc);
+    boolean destroyed = npc.applyDamage(bullet.bulletDamageComponent.damage);
+    if(destroyed) {
       EntityManager.getInstance().destroy(bullet);
-
-      ParticleComponent particleComponent = npc.particleComponent;
-      if(particleComponent != null) {
-        particleComponent.enabled = true;
-      }
-
       SelectionManager.getInstance().setSelection(null);
     }
   }

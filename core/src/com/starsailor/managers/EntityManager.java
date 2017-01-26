@@ -70,6 +70,9 @@ public class EntityManager {
     ParticleSystem particleSystem = new ParticleSystem(renderer.getBatch());
     engine.addSystem(particleSystem);
 
+    SelectionSystem selectionSystem = new SelectionSystem();
+    engine.addSystem(selectionSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 
