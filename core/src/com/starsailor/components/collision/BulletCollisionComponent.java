@@ -49,6 +49,15 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
           updateDamage(bullet, npc);
           break;
         }
+        case MINE: {
+          hitAndDestroyBullet(bullet, position, Resources.SOUND_EXPLOSION);
+          updateDamage(bullet, npc);
+          break;
+        }
+        case FLARES: {
+          updateDamage(bullet, npc);
+          break;
+        }
       }
     }
   }
