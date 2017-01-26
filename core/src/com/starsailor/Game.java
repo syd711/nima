@@ -140,8 +140,9 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.render();
     tiledMapRenderer.postRender();
 
-    tiledMapRenderer.getBatch().begin();
     entityManager.update();
+
+    tiledMapRenderer.getBatch().begin();
     float deltaTime = Gdx.graphics.getDeltaTime();
     world.step(deltaTime, 6, 2);
 

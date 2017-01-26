@@ -19,15 +19,11 @@ import java.util.Map;
 /**
  * Rendering system for particle effects
  */
-public class ParticleSystem extends AbstractIteratingSystem implements EntityListener {
-
-  private Batch batch;
-
+public class ParticleSystem extends RenderingSystem implements EntityListener {
   private Map<Particles, ParticleComponent> effects = new LinkedHashMap<>();
 
-  public ParticleSystem(Batch spriteBatch) {
-    super(Family.all(ParticleComponent.class).get());
-    this.batch = spriteBatch;
+  public ParticleSystem(Batch batch) {
+    super(batch, Family.all(ParticleComponent.class).get());
     EntityManager.getInstance().addEntityListener(this);
   }
 

@@ -10,12 +10,10 @@ import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpineComponent;
 import com.starsailor.util.GraphicsUtil;
 
-public class SpineRenderSystem extends AbstractIteratingSystem {
-  private Batch batch;
+public class SpineRenderSystem extends RenderingSystem {
 
   public SpineRenderSystem(Batch batch) {
-    super(Family.all(SpineComponent.class).get());
-    this.batch = batch;
+    super(batch, Family.all(SpineComponent.class).get());
   }
 
   public void process(Entity entity, float deltaTime) {
