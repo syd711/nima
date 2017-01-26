@@ -42,6 +42,8 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private String mapFolder;
   private String mapPrefix;
 
+  private List<TiledMapFragment> actualMaps = new ArrayList<>();
+
   public TiledMultiMapRenderer(String mapFolder, String mapPrefix, SpriteBatch batch) {
     super(null, batch);
     this.mapFolder = mapFolder;
@@ -115,8 +117,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     int startX = actorFrameX - 1;
     int startY = actorFrameY - 1;
 
-    List<TiledMapFragment> actualMaps = new ArrayList<>();
-
     MapLayers layers = getMap().getLayers();
     for(MapLayer layer : layers) {
       String layerName = layer.getName();
@@ -150,6 +150,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     if(Settings.getInstance().debug) {
       debugRenderer.render();
     }
+  }
+
+  public void postRender() {
+    endRender();
 
     //listener handling
     if(dirty) {
@@ -158,10 +162,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     }
 
     actualMaps.clear();
-  }
-
-  public void postRender() {
-    endRender();
   }
 
   /**

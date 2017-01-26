@@ -3,8 +3,6 @@ package com.starsailor.systems.behaviours;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import static com.starsailor.util.Settings.PPM;
-
 /**
  * Custom FACE behaviour.
  * We pretend it to be a real SteeringBehaviour to use the update method.
@@ -30,9 +28,7 @@ public class FaceBehaviourImpl implements FaceBehaviour {
     float distance = behaviourTarget.getPosition().dst(behaviourOwner.getPosition());
     float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
 
-    if(distance*PPM < 100) {
-      return;
-    }
+//    System.out.println(distance + "/" + Math.toDegrees(desiredAngle));
 
     float totalRotation = desiredAngle - bodyAngle;
     float change = (float) (1 * Math.toRadians(degrees)); //allow 1 degree rotation per time step
