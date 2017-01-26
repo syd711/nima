@@ -58,6 +58,16 @@ public class InputManager implements InputProcessor {
       Game.gameSettings.save();
       return true;
     }
+    else if(keycode == Input.Keys.P) {
+//      if(Game.gameState.getCurrentState().equals(GameState.PAUSED)) {
+//        Game.gameState.changeState(GameState.RESUME);
+//      }
+//      else {
+//        Game.gameState.changeState(GameState.PAUSED);
+//      }
+
+      return true;
+    }
 
     return false;
   }

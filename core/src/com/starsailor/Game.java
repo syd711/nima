@@ -3,6 +3,7 @@ package com.starsailor;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,10 +13,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
-import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.InputManager;
-import com.starsailor.managers.ParticleManager;
-import com.starsailor.managers.TextureManager;
+import com.starsailor.managers.*;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.render.converters.*;
 import com.starsailor.ui.Hud;
@@ -46,11 +44,16 @@ public class Game extends ApplicationAdapter {
 
   public static GameSettings gameSettings = GameSettings.load();
 
+  public static DefaultStateMachine gameState;
+
+  private boolean paused;
 
   @Override
   public void create() {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
+
+    gameState = new DefaultStateMachine(this, GameState.RESUME);
 
     //load particle effects
     ParticleManager.getInstance().loadParticles();
@@ -112,11 +115,22 @@ public class Game extends ApplicationAdapter {
     inputManager.getInputMultiplexer().addProcessor(inputManager);
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
 
-    Runtime.getRuntime().addShutdownHook( new Thread() {
-      @Override public void run() {
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
         gameSettings.save();
       }
-    } );
+    });
+  }
+
+  @Override
+  public void pause() {
+    paused = true;
+  }
+
+  @Override
+  public void resume() {
+    paused = false;
   }
 
   int debugRender = 0;
@@ -148,7 +162,7 @@ public class Game extends ApplicationAdapter {
 
     if(Settings.getInstance().debug) {
       debugRender++;
-      if(debugRender%2 == 0) {
+      if(debugRender % 2 == 0) {
         debugRender = 0;
         box2DDebugRenderer.render(world, debugMatrix);
       }
@@ -159,6 +173,7 @@ public class Game extends ApplicationAdapter {
 
     rayHandler.setCombinedMatrix(camera);
     rayHandler.updateAndRender();
+
 
     //hud overlay at last
     hud.render();
@@ -178,6 +193,7 @@ public class Game extends ApplicationAdapter {
 
   @Override
   public void dispose() {
+    SoundManager.dispose();
     box2DDebugRenderer.dispose();
     world.dispose();
     super.dispose();
