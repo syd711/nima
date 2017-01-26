@@ -97,6 +97,10 @@ public class BulletSystem extends AbstractIteratingSystem {
           //apply permanent collision
           BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
           bulletCollisionComponent.applyCollisionWith(bullet, target, target.getCenter());
+
+          //update positions
+          bullet.positionComponent.setPosition(target.positionComponent.getPosition());
+          bullet.particleComponent.effect.setPosition(bullet.positionComponent.x, bullet.positionComponent.y);
           break;
         }
       }
