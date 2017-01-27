@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
-import com.starsailor.actors.Bullet;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;

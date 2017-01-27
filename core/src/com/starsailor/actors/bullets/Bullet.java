@@ -1,19 +1,24 @@
-package com.starsailor.actors;
+package com.starsailor.actors.bullets;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
+import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.Player;
+import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.Textures;
 
+import static com.starsailor.util.Settings.PPM;
+
 /**
  * Entity for bullets
  */
-public class Bullet extends GameEntity implements EntityListener {
+abstract public class Bullet extends GameEntity implements EntityListener {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public SteerableComponent steerableComponent;
@@ -26,7 +31,6 @@ public class Bullet extends GameEntity implements EntityListener {
   public Ship target;
 
   private Vector2 origin;
-
   private long shootingTime = 0;
 
   public Bullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
@@ -49,7 +53,46 @@ public class Bullet extends GameEntity implements EntityListener {
     }
 
     ComponentFactory.addBulletCollisionComponent(this);
-    Gdx.app.log(getClass().getName(), owner + " is firing " + this + " at " + target);
+
+    create();
+  }
+
+  /**
+   * Create components, etc.
+   */
+  abstract protected void create();
+
+  /**
+   * Called by the bullet system to update the bullet
+   */
+  abstract public void update();
+
+  /**
+   * Called by the collision component when a collision happens
+   * @param position position of the collision
+   */
+  abstract protected void collide(Vector2 position);
+
+  //------------------ Helper --------------------------------------------------
+
+
+  /**
+   * For bullets that use box2d and have to follow the body.
+   */
+  protected void updateSpritePositionForBody(boolean updateAngle) {
+    SpriteComponent.SpriteItem spriteItem = getSpriteItem();
+    Sprite bulletSprite = spriteItem.getSprite();
+    positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
+    positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
+
+    spriteItem.setPosition(positionComponent.getPosition(), false);
+    if(updateAngle) {
+      spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
+    }
+  }
+
+  protected SpriteComponent.SpriteItem getSpriteItem() {
+    return spriteComponent.getSprite(Textures.valueOf(weaponProfile.name.toUpperCase()));
   }
 
   public boolean is(WeaponProfile.Types type) {
@@ -64,11 +107,12 @@ public class Bullet extends GameEntity implements EntityListener {
     return positionComponent.getPosition().dst(origin);
   }
 
-
   public boolean isExhausted() {
     float current = Game.currentTimeMillis - shootingTime;
     return current > weaponProfile.durationMillis;
   }
+
+  //------------------ Auto Destroy ---------------------------------------------
 
   @Override
   public void entityAdded(Entity entity) {

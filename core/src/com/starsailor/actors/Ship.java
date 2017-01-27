@@ -2,6 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
+import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
@@ -102,7 +103,7 @@ public class Ship extends Spine {
    */
   public void fireAt(Ship target) {
     if(shootingComponent.isCharged()) {
-      BulletFactory.fireBullet(this, target);
+      BulletFactory.create(this, target);
     }
   }
 

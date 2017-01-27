@@ -3,7 +3,7 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.starsailor.actors.Bullet;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Route;
 import com.starsailor.components.PositionComponent;

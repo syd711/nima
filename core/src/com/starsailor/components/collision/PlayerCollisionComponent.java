@@ -16,8 +16,8 @@ public class PlayerCollisionComponent implements Collidable {
         Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
       }
     }
-    else if(collidee instanceof Bullet) {
-      Bullet bullet = (Bullet) collidee;
+    else if(collidee instanceof com.starsailor.actors.bullets.Bullet) {
+      com.starsailor.actors.bullets.Bullet bullet = (com.starsailor.actors.bullets.Bullet) collidee;
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
       bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
     }
