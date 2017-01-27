@@ -18,6 +18,7 @@ public class SoundManager {
     SoundManager.camera = camera;
   }
 
+
   public static void playMusic(String filePath, float volume) {
     playMusic(filePath, volume, 1.0f, 0.0f);
   }
@@ -33,6 +34,11 @@ public class SoundManager {
 
   public static void playSound(String filePath, float volume) {
     playSound(filePath, volume, 1.0f, 0.0f);
+  }
+
+  //TODO
+  public static void playSoundAtPosition(Sounds sound, float baseVolume, Vector3 sourcePos) {
+
   }
 
   public static void playSoundAtPosition(String filePath, float baseVolume, Vector3 sourcePos) {

@@ -21,8 +21,9 @@ public class BulletFactory {
       Class<?> clazz = Class.forName(fullClassName);
       Constructor<?> constructor = clazz.getConstructor(WeaponProfile.class, Ship.class, Ship.class);
       Bullet bullet = (Bullet) constructor.newInstance(weaponProfile, owner, target);
-      EntityManager.getInstance().add(bullet);
+      bullet.create();
 
+      EntityManager.getInstance().add(bullet);
       bullet.owner.shootingComponent.updateLastBulletTime();
     } catch (Exception e) {
       e.printStackTrace();

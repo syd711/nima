@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
@@ -11,6 +12,8 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.Particles;
+import com.starsailor.managers.SoundManager;
+import com.starsailor.managers.Sounds;
 import com.starsailor.managers.Textures;
 
 import static com.starsailor.util.Settings.PPM;
@@ -41,20 +44,9 @@ abstract public class Bullet extends GameEntity implements EntityListener {
     this.owner = owner;
     this.target = target;
 
-    spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
-    positionComponent = ComponentFactory.addPositionComponent(this);
-    positionComponent.setPosition(owner.getCenter());
-    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
-    particleComponent = ComponentFactory.addParticleComponent(this, Particles.valueOf(weaponProfile.name.toUpperCase() + "_BULLET_HIT"));
+    createComponents(weaponProfile, owner);
 
-    //not all bullets require a body
-    if(weaponProfile.bodyData != null) {
-      bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
-    }
-
-    ComponentFactory.addBulletCollisionComponent(this);
-
-    create();
+    playFiringSound();
   }
 
   /**
@@ -73,8 +65,32 @@ abstract public class Bullet extends GameEntity implements EntityListener {
    */
   abstract protected void collide(Vector2 position);
 
+  //------------------ Components ---------------------------------------------
+
+  protected void createComponents(WeaponProfile weaponProfile, Ship owner) {
+    spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
+    positionComponent = ComponentFactory.addPositionComponent(this);
+    positionComponent.setPosition(owner.getCenter());
+    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
+    particleComponent = ComponentFactory.addParticleComponent(this, Particles.valueOf(weaponProfile.name.toUpperCase() + "_BULLET_HIT"));
+
+    //not all bullets require a body
+    if(weaponProfile.bodyData != null) {
+      bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
+    }
+
+    ComponentFactory.addBulletCollisionComponent(this);
+  }
+
   //------------------ Helper --------------------------------------------------
 
+  /**
+   * Fires the firing sound configured in json
+   */
+  private void playFiringSound() {
+    Sounds sound = Sounds.valueOf(weaponProfile.sound.toUpperCase());
+    SoundManager.playSoundAtPosition(sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
+  }
 
   /**
    * For bullets that use box2d and have to follow the body.

@@ -13,8 +13,8 @@ import java.util.Random;
 /**
  * Concrete implementation of a weapon type.
  */
-public class FlareBullet extends Bullet {
-  public FlareBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
+public class FlaresBullet extends Bullet {
+  public FlaresBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
     super(weaponProfile, owner, target);
   }
 
@@ -22,9 +22,9 @@ public class FlareBullet extends Bullet {
   protected void create() {
     List<Bullet> bullets = new ArrayList<>();
     for(int i=0; i<weaponProfile.bulletCount-1; i++) {
-      //Bullet b = BulleBullet(weaponProfile, owner, target);
-      //bullets.add(b);
-      //EntityManager.getInstance().add(b);
+      Bullet b = new FlaresBullet(weaponProfile, owner, target);
+      bullets.add(b);
+      EntityManager.getInstance().add(b);
     }
     bullets.add(this);
 
@@ -42,16 +42,15 @@ public class FlareBullet extends Bullet {
       bb.applyForceToCenter(force, true);
       bb.applyTorque(weaponProfile.torque, true);
     }
-
-    float angularVelocity = bodyComponent.body.getAngularVelocity();
-    if(angularVelocity > 0 && angularVelocity<0.5f) {
-      EntityManager.getInstance().destroy(this);
-    }
   }
 
   @Override
   public void update() {
     updateSpritePositionForBody(true);
+    float angularVelocity = bodyComponent.body.getAngularVelocity();
+    if(angularVelocity > 0 && angularVelocity<0.5f) {
+      EntityManager.getInstance().destroy(this);
+    }
   }
 
   @Override

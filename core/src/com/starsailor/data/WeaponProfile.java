@@ -16,7 +16,9 @@ public class WeaponProfile {
   public float torque;
   public float impactFactor;
   public int bulletCount;
+
   public String name;
+  public String sound;
 
   //custom fields depending on the weapon
   public float activationDistance;

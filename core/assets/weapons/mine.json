@@ -1,9 +1,10 @@
 {
   "name" : "Mine",
+  "sound" : "laser",
   "damage" : 60,
   "forceFactor" : 3.1,
   "torque" : 34,
-  "impactFactor" : 4,
+  "impactFactor" : 40,
   "rechargeTimeMillis" : 2450,
   "bodyData" : {
     "angularDamping" : 1.8,

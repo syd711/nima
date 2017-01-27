@@ -1,13 +1,10 @@
 package com.starsailor.actors.bullets;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.SoundManager;
 import com.starsailor.util.Box2dUtil;
-import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
 /**
@@ -33,8 +30,6 @@ public class LaserBullet extends Bullet {
     float speedFactor = weaponProfile.forceFactor;
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
-
-    SoundManager.playSoundAtPosition(Resources.SOUND_LASER, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
   }
 
   @Override
