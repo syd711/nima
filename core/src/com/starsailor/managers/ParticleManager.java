@@ -33,6 +33,7 @@ public class ParticleManager extends ResourceManager {
     for(FileHandle particleFile : particleFiles) {
       ParticleEffect pe = new ParticleEffect();
       pe.load(particleFile, Gdx.files.internal(""));
+      pe.scaleEffect(0.3f);
 
       Gdx.app.log(this.getClass().getName(), "Loaded particle " + particleFile.file().getName());
 
