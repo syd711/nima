@@ -109,6 +109,11 @@ public class BulletSystem extends AbstractIteratingSystem {
         }
         case FLARES: {
           updateSpritePositionForBody(positionComponent, bodyComponent, spriteItem, true);
+
+          float angularVelocity = bodyComponent.body.getAngularVelocity();
+          if(angularVelocity > 0 && angularVelocity<0.5f) {
+            EntityManager.getInstance().destroy(bullet);
+          }
           break;
         }
       }

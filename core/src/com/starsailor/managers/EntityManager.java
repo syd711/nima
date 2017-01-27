@@ -61,7 +61,7 @@ public class EntityManager {
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
 
-    NPCSystem npcSystem = new NPCSystem();
+    BattleSystem npcSystem = new BattleSystem();
     engine.addSystem(npcSystem);
 
     BulletSystem bulletSystem = new BulletSystem();

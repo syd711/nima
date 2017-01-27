@@ -7,11 +7,17 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.*;
+import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SoundManager;
+import com.starsailor.managers.Textures;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -84,7 +90,7 @@ public class BulletFactory {
         break;
       }
       case MINE: {
-        //apply initial force to the missile
+        //apply initial force to the mine
         Body bulletBody = bodyComponent.body;
         Body ownerBody = bullet.owner.bodyComponent.body;
         bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
@@ -101,20 +107,30 @@ public class BulletFactory {
         break;
       }
       case FLARES: {
-        //apply initial force to the missile
-        Body bulletBody = bodyComponent.body;
-        Body ownerBody = bullet.owner.bodyComponent.body;
-        bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
+        List<Bullet> bullets = new ArrayList<>();
+        for(int i=0; i<weaponProfile.bulletCount-1; i++) {
+          Bullet b = new Bullet(weaponProfile, bullet.owner, bullet.target);
+          bullets.add(b);
+          EntityManager.getInstance().add(b);
+        }
+        bullets.add(bullet);
 
-        float angle = ownerBody.getAngle();
-        angle = Box2dUtil.addDegree(angle, -90);
-        Vector2 force = new Vector2();
-        force.x = (float) Math.cos(angle);
-        force.y = (float) Math.sin(angle);
-        force = force.scl(weaponProfile.forceFactor);
+        for(Bullet b : bullets) {
+          Body bb = b.bodyComponent.body;
+          Random r = new Random();
+          int angleDegree = r.nextInt((180 - (-180))) + (-180);
 
-        bulletBody.applyForceToCenter(force, true);
-        bulletBody.applyTorque(weaponProfile.torque, true);
+          float angle = (float) Math.toRadians(angleDegree);
+          Vector2 force = new Vector2();
+          force.x = (float) Math.cos(angle);
+          force.y = (float) Math.sin(angle);
+          force = force.scl(weaponProfile.forceFactor);
+
+          bb.applyForceToCenter(force, true);
+          bb.applyTorque(weaponProfile.torque, true);
+        }
+
+
         break;
       }
     }

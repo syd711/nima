@@ -123,7 +123,7 @@ public class BodyGenerator {
     }
 
     fdef.filter.groupIndex = 0;
-    fdef.isSensor = false;
+    fdef.isSensor = bodyData.sensor;
     fdef.density = 0.05f;
     if(bodyData.density > 0) {
       fdef.density = bodyData.density;

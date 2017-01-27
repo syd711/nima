@@ -7,7 +7,7 @@ public enum Textures {
   //weapon sprites
   LASER, MISSILE,
   PHASER, PHASER_1, PHASER_2,
-  MINE, FLARE,
+  MINE, FLARES,
 
   //selection sprite
   SELECTION,

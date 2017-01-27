@@ -1,0 +1,14 @@
+{
+  "name" : "Flares",
+  "bulletCount" : 5,
+  "forceFactor" : 3.1,
+  "torque" : 24,
+  "rechargeTimeMillis" : 2450,
+  "bodyData" : {
+    "angularDamping" : 0.6,
+    "linearDamping" : 3.8,
+    "density" : 0.1,
+    "radius" : 16,
+    "sensor" : true
+  }
+}

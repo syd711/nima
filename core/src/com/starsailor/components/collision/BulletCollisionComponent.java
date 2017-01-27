@@ -16,7 +16,7 @@ import com.starsailor.managers.SoundManager;
 import com.starsailor.util.Resources;
 
 /**
- * Collidable component for an ashley entity.
+ * Collideable component for an ashley entity.
  */
 public class BulletCollisionComponent implements Collidable, Pool.Poolable {
   @Override
