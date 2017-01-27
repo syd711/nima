@@ -3,7 +3,7 @@
   "damage" : 30,
   "forceFactor" : 0.5,
   "impactFactor" : 30,
-  "rechargeTimeMillis" : 700,
+  "rechargeTimeMillis" : 2700,
   "activationDistance" : 200,
   "steeringData" : {
     "boundingRadius" : 200,

@@ -8,7 +8,10 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
+import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.BodyGenerator;
+
+import java.util.List;
 
 public class BattleSystem extends AbstractIteratingSystem {
   public BattleSystem() {
@@ -25,18 +28,41 @@ public class BattleSystem extends AbstractIteratingSystem {
 
   /**
    * Fires the available weapons for the given NPC
+   *
    * @param npc
    */
   private void updateShooting(NPC npc) {
     if(npc.isAggressive()) {
-      if(npc.isInShootingRange() && npc.shootingComponent.isCharged()) {
-        npc.fireAt(Player.getInstance());
+
+      List<WeaponProfile> weapons = npc.getWeapons();
+      for(WeaponProfile weapon : weapons) {
+        switch(weapon.type) {
+          case LASER: {
+            if(npc.isInShootingRange()) {
+              npc.shootingComponent.setActiveWeaponProfile(weapon);
+              if(npc.shootingComponent.isCharged()) {
+                npc.fireAt(Player.getInstance());
+              }
+            }
+            break;
+          }
+          case MISSILE: {
+            if(npc.isInShootingRange()) {
+              npc.shootingComponent.setActiveWeaponProfile(weapon);
+              if(npc.shootingComponent.isCharged()) {
+                npc.fireAt(Player.getInstance());
+              }
+            }
+            break;
+          }
+        }
       }
     }
   }
 
   /**
    * Updates the shield state for the given NPC
+   *
    * @param npc
    */
   private void upateShield(NPC npc) {

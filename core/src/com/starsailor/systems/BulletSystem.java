@@ -2,6 +2,7 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.Bullet;
@@ -50,6 +51,13 @@ public class BulletSystem extends AbstractIteratingSystem {
             //lazy init of the bullet's steering system
             if(distanceToPlayer > weaponProfile.activationDistance && !bullet.steerableComponent.isEnabled()) {
               bullet.steerableComponent.setEnabled(true);
+
+              //now check if there are flares to update the target
+              ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(BulletCollisionComponent.class);
+              for(Entity e : entitiesFor) {
+                Bullet b = (Bullet) e;
+
+              }
             }
             else {
               spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle())-90);
