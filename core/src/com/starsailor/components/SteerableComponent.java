@@ -83,7 +83,8 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
       }
 
       if(faceBehaviour != null) {
-        faceBehaviour.update();
+//        faceBehaviour.update();
+        calculateOrientationFromLinearVelocity(this);
       }
     }
   }
@@ -126,6 +127,20 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
         body.setAngularVelocity(maxAngularSpeed);
       }
     }
+  }
+
+
+
+  private void calculateOrientationFromLinearVelocity (Steerable<Vector2> character) {
+    // If we haven't got any velocity, then we can do nothing.
+    if (character.getLinearVelocity().isZero(character.getZeroLinearSpeedThreshold())) {
+//      return character.getOrientation();
+      return;
+    }
+
+
+    float v = character.vectorToAngle(character.getLinearVelocity());
+    body.setTransform(body.getPosition(), v);
   }
 
 

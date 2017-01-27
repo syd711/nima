@@ -15,6 +15,10 @@ import com.starsailor.components.BodyComponent;
 public class BulletCollisionComponent implements Collidable, Pool.Poolable {
   @Override
   public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
+    if(!validEntities(collider, collidee)) {
+      return;
+    }
+
     if(collidee instanceof NPC) {
       applyCollisionWith((Bullet) collider, (Ship) collidee, position);
     }
@@ -58,6 +62,15 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
       //TODO e.g. phaser
       //component.body.applyForceToCenter(force.x, force.y, true);
     }
+  }
+
+  private boolean validEntities(Entity... entities) {
+    for(Entity entity : entities) {
+      if(entity instanceof NPC || entity instanceof Bullet) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

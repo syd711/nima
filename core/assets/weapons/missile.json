@@ -10,8 +10,8 @@
     "boundingRadius" : 200,
     "maxLinearSpeed" : 5,
     "maxLinearAcceleration" : 1.0,
-    "maxAngularSpeed" : 0.1,
-    "maxAngularAcceleration" : 10
+    "maxAngularSpeed" : 0.05,
+    "maxAngularAcceleration" : 5
   },
   "bodyData" : {
     "density" : 0.05,
