@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.data.SteeringData;
-import com.starsailor.systems.behaviours.FaceBehaviour;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
 
@@ -23,11 +22,11 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private float maxLinearAcceleration;
   private float maxAngularSpeed;
   private float maxAngularAcceleration;
+  private float maxAngularChange;
 
   public boolean enabled = true;
 
   private SteeringBehavior<Vector2> behavior;
-  private FaceBehaviour faceBehaviour;
   private SteeringAcceleration<Vector2> steeringOutput;
 
   private Body body;
@@ -41,6 +40,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.maxLinearAcceleration = steeringData.maxLinearAcceleration;
     this.maxAngularSpeed = steeringData.maxAngularSpeed;
     this.maxAngularAcceleration = steeringData.maxAngularAcceleration;
+    this.maxAngularChange = steeringData.maxAngularChange;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
@@ -70,6 +70,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.maxLinearAcceleration = -1;
     this.maxAngularSpeed = -1;
     this.maxAngularAcceleration = -1;
+    this.maxAngularChange = -1;
     this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
@@ -80,11 +81,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
       if(behavior != null) {
         behavior.calculateSteering(steeringOutput);
         applySteering(delta);
-      }
-
-      if(faceBehaviour != null) {
-//        faceBehaviour.update();
-        calculateOrientationFromLinearVelocity(this);
       }
     }
   }
@@ -101,20 +97,9 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
       anyAccelerations = true;
     }
 
-//    if(steeringOutput.angular != 0) {
-//      body.applyTorque(steeringOutput.angular * delta, true);
-//      anyAccelerations = true;
-//    }
-//    else {
-//      Vector2 linVel = getLinearVelocity();
-//      if(!linVel.isZero()) {
-//        float newOrientation = vectorToAngle(linVel);
-//        body.setAngularVelocity((newOrientation - getAngularVelocity())*delta);
-//        body.setTransform(body.getPosition(), newOrientation);
-//      }
-//    }
-
     if(anyAccelerations) {
+      calculateOrientationFromLinearVelocity();
+
       //Linear capping
       Vector2 velocity = body.getLinearVelocity();
       float currentSpeedSquare = velocity.len2();
@@ -131,16 +116,23 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
 
 
-  private void calculateOrientationFromLinearVelocity (Steerable<Vector2> character) {
+  private void calculateOrientationFromLinearVelocity () {
     // If we haven't got any velocity, then we can do nothing.
-    if (character.getLinearVelocity().isZero(character.getZeroLinearSpeedThreshold())) {
+    if (getLinearVelocity().isZero(getZeroLinearSpeedThreshold())) {
 //      return character.getOrientation();
       return;
     }
 
+    float desiredAngle = vectorToAngle(getLinearVelocity());
+    if(maxAngularChange > 0) {
+      float totalRotation = desiredAngle - body.getAngle();
+      float change = (float) (1 * Math.toRadians(2)); //allow 1 degree rotation per time step
+      desiredAngle = body.getAngle() + Math.min(change, Math.max(-change, totalRotation));
+    }
+    else {
 
-    float v = character.vectorToAngle(character.getLinearVelocity());
-    body.setTransform(body.getPosition(), v);
+    }
+    body.setTransform(body.getPosition(), desiredAngle);
   }
 
 
@@ -249,7 +241,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     return null;
   }
 
-
   public SteeringBehavior<Vector2> getBehavior() {
     return behavior;
   }
@@ -265,13 +256,4 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   public SteeringAcceleration<Vector2> getSteeringOutput() {
     return steeringOutput;
   }
-
-  public void setFaceBehaviour(FaceBehaviour faceBehaviour) {
-    this.faceBehaviour = faceBehaviour;
-  }
-
-  public FaceBehaviour getFaceBehaviour() {
-    return faceBehaviour;
-  }
-
 }

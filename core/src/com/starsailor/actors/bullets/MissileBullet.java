@@ -11,7 +11,6 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.Resources;
 
@@ -38,7 +37,6 @@ public class MissileBullet extends Bullet implements EntityListener {
     behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
     behaviour.setMaxPredictionTime(0f);
     steerableComponent.setBehavior(behaviour);
-    steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body, 3f));
     steerableComponent.setEnabled(false);
   }
 
@@ -76,7 +74,6 @@ public class MissileBullet extends Bullet implements EntityListener {
         nearestFlare = findNearestEnemyFlare();
         if(nearestFlare != null) {
           behaviour.setTarget(nearestFlare.steerableComponent);
-          steerableComponent.getFaceBehaviour().setTarget(nearestFlare.bodyComponent.body);
         }
       }
       else {
@@ -137,7 +134,6 @@ public class MissileBullet extends Bullet implements EntityListener {
     //check if a flare that is currently targeted is burned out
     if(entity.equals(nearestFlare)) {
       behaviour.setTarget(target.steerableComponent);
-      steerableComponent.getFaceBehaviour().setTarget(target.bodyComponent.body);
     }
 
     //check if the target is already destroyed by a previous bullet

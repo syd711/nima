@@ -28,7 +28,6 @@ public class RouteState implements State<NPC> {
     behaviour.setArrivalTolerance(0.10f);
     behaviour.setDecelerationRadius(1f);
     sourceSteering.setBehavior(behaviour);
-    sourceSteering.setFaceBehaviour(null);
   }
 
   @Override

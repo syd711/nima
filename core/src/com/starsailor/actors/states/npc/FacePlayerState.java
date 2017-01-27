@@ -6,7 +6,6 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.SteerableComponent;
-import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 
 /**
  *
@@ -15,9 +14,7 @@ public class FacePlayerState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     SteerableComponent steerableComponent = npc.getComponent(SteerableComponent.class);
-    FaceBehaviourImpl face = new FaceBehaviourImpl(npc.bodyComponent.body, Player.getInstance().bodyComponent.body);
     steerableComponent.setBehavior(null);
-    steerableComponent.setFaceBehaviour(face);
   }
 
   @Override

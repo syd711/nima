@@ -10,6 +10,7 @@
     "maxLinearSpeed" : 1000,
     "maxLinearAcceleration" : 1200,
     "maxAngularSpeed" : 5,
-    "maxAngularAcceleration" : 5
+    "maxAngularAcceleration" : 5,
+    "maxAngularChange" : 2
   }
 }
