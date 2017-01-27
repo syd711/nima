@@ -1,7 +1,6 @@
 package com.starsailor.actors.bullets;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -18,7 +17,7 @@ import static com.starsailor.util.Settings.PPM;
 /**
  * Entity for bullets
  */
-abstract public class Bullet extends GameEntity implements EntityListener {
+abstract public class Bullet extends GameEntity {
   public SpriteComponent spriteComponent;
   public PositionComponent positionComponent;
   public SteerableComponent steerableComponent;
@@ -62,6 +61,12 @@ abstract public class Bullet extends GameEntity implements EntityListener {
    */
   abstract public void collide(Ship ship, Vector2 position);
 
+  /**
+   * Called by the collision component when a collision happens
+   * @param position position of the collision
+   */
+  abstract public void collide(Bullet bullet, Vector2 position);
+
   //------------------ Possible overwrites  ----------------------------------
 
   /**
@@ -84,7 +89,6 @@ abstract public class Bullet extends GameEntity implements EntityListener {
     SoundManager.playSoundAtPosition(sound, 1f, new Vector3(position, 0));
     particleComponent.enabled = true;
   }
-
 
   /**
    * All default components of a bullet.
@@ -149,22 +153,5 @@ abstract public class Bullet extends GameEntity implements EntityListener {
   public boolean isExhausted() {
     float current = Game.currentTimeMillis - shootingTime;
     return current > weaponProfile.durationMillis;
-  }
-
-  //------------------ Auto Destroy ---------------------------------------------
-
-  @Override
-  public void entityAdded(Entity entity) {
-
-  }
-
-  @Override
-  public void entityRemoved(Entity entity) {
-    //check if the target is already destroyed
-    if(entity.equals(target)) {
-      if(steerableComponent != null) {
-        steerableComponent.setDestroyed(true);
-      }
-    }
   }
 }

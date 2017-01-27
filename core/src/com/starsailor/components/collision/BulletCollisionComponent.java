@@ -21,6 +21,16 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
     else if(collider instanceof NPC) {
       applyCollisionWith((Bullet) collidee, (Ship) collider, position);
     }
+    else if(collider instanceof Bullet) {
+      applyCollisionWith((Bullet) collidee, (Bullet) collider, position);
+    }
+    else if(collidee instanceof Bullet) {
+      applyCollisionWith((Bullet) collider, (Bullet) collidee, position);
+    }
+  }
+
+  public void applyCollisionWith(Bullet bullet, Bullet bullet2, Vector2 position) {
+    bullet.collide(bullet2, position);
   }
 
   public void applyCollisionWith(Bullet bullet, Ship ship, Vector2 position) {

@@ -11,5 +11,12 @@
     "density" : 0.1,
     "radius" : 16,
     "sensor" : true
+  },
+  "steeringData" : {
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 5,
+    "maxLinearAcceleration" : 1.0,
+    "maxAngularSpeed" : 0.1,
+    "maxAngularAcceleration" : 10
   }
 }

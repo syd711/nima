@@ -75,7 +75,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
 
-
   public void update(float delta) {
     if(isUpdateable()) {
       if(behavior != null) {

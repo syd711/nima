@@ -44,4 +44,9 @@ public class FaceBehaviourImpl implements FaceBehaviour {
   public boolean isValid() {
     return !behaviourTarget.isActive();
   }
+
+  @Override
+  public void setTarget(Body body) {
+    this.behaviourTarget = body;
+  }
 }

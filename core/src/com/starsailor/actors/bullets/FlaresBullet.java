@@ -3,8 +3,10 @@ package com.starsailor.actors.bullets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
+import com.starsailor.components.ComponentFactory;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,14 @@ import java.util.Random;
 public class FlaresBullet extends Bullet {
   public FlaresBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
     super(weaponProfile, owner, target);
+  }
+
+  @Override
+  protected void createComponents(WeaponProfile weaponProfile) {
+    super.createComponents(weaponProfile);
+
+    //additional steering component
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
   }
 
   @Override
@@ -56,5 +66,11 @@ public class FlaresBullet extends Bullet {
   @Override
   public void collide(Ship ship, Vector2 position) {
     updateDamage(ship);
+  }
+
+  @Override
+  public void collide(Bullet bullet, Vector2 position) {
+    hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    EntityManager.getInstance().destroy(bullet);
   }
 }

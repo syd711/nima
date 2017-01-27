@@ -36,4 +36,8 @@ public class BodyComponent implements Component, Pool.Poolable {
       Game.world.destroyBody(body);
     }
   }
+
+  public float distanceTo(Body body) {
+    return body.getPosition().dst(body.getPosition());
+  }
 }

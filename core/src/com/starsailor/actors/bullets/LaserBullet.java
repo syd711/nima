@@ -43,4 +43,9 @@ public class LaserBullet extends Bullet {
     hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
     updateDamage(ship);
   }
+
+  @Override
+  public void collide(Bullet bullet, Vector2 position) {
+
+  }
 }
