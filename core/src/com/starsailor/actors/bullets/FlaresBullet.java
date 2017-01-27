@@ -54,7 +54,7 @@ public class FlaresBullet extends Bullet {
   }
 
   @Override
-  protected void collide(Vector2 position) {
-
+  public void collide(Ship ship, Vector2 position) {
+    updateDamage(ship);
   }
 }

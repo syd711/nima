@@ -1,6 +1,7 @@
 package com.starsailor.actors.bullets;
 
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.components.collision.BulletCollisionComponent;
@@ -75,7 +76,7 @@ public class PhaserBullet extends Bullet {
   }
 
   @Override
-  protected void collide(Vector2 position) {
-
+  public void collide(Ship ship, Vector2 position) {
+    updateDamage(ship);
   }
 }

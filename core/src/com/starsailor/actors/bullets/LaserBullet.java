@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
 /**
@@ -38,7 +39,8 @@ public class LaserBullet extends Bullet {
   }
 
   @Override
-  protected void collide(Vector2 position) {
-
+  public void collide(Ship ship, Vector2 position) {
+    hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    updateDamage(ship);
   }
 }

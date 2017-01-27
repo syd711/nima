@@ -11,10 +11,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.Particles;
-import com.starsailor.managers.SoundManager;
-import com.starsailor.managers.Sounds;
-import com.starsailor.managers.Textures;
+import com.starsailor.managers.*;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -44,7 +41,7 @@ abstract public class Bullet extends GameEntity implements EntityListener {
     this.owner = owner;
     this.target = target;
 
-    createComponents(weaponProfile, owner);
+    createComponents(weaponProfile);
 
     playFiringSound();
   }
@@ -63,11 +60,37 @@ abstract public class Bullet extends GameEntity implements EntityListener {
    * Called by the collision component when a collision happens
    * @param position position of the collision
    */
-  abstract protected void collide(Vector2 position);
+  abstract public void collide(Ship ship, Vector2 position);
 
-  //------------------ Components ---------------------------------------------
+  //------------------ Possible overwrites  ----------------------------------
 
-  protected void createComponents(WeaponProfile weaponProfile, Ship owner) {
+  /**
+   * Checks if the ship is destroyed so that the selection
+   * is resetted and an explosion animation is rendered.
+   */
+  protected void updateDamage(Ship npc) {
+    boolean destroyed = npc.applyDamage(bulletDamageComponent.damage);
+    if(destroyed) {
+      EntityManager.getInstance().destroy(this);
+      SelectionManager.getInstance().setSelection(null);
+    }
+  }
+
+  /**
+   * Play sound, play effect and remove the entity from the system
+   */
+  protected void hitAndDestroyBullet(Vector2 position, String sound) {
+    EntityManager.getInstance().destroy(this);
+    SoundManager.playSoundAtPosition(sound, 1f, new Vector3(position, 0));
+    particleComponent.enabled = true;
+  }
+
+
+  /**
+   * All default components of a bullet.
+   * @param weaponProfile
+   */
+  protected void createComponents(WeaponProfile weaponProfile) {
     spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());

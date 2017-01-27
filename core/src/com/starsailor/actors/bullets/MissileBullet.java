@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
@@ -12,11 +13,15 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.systems.behaviours.FaceBehaviourImpl;
 import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.Resources;
 
 /**
  * Concrete implementation of a weapon type.
  */
 public class MissileBullet extends Bullet {
+
+  private Pursue<Vector2> behaviour;
+
   public MissileBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
     super(weaponProfile, owner, target);
   }
@@ -27,12 +32,7 @@ public class MissileBullet extends Bullet {
     EntityManager.getInstance().addEntityListener(this);
 
     //configure steerable of the missile
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
-    Pursue<Vector2> behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
-    behaviour.setMaxPredictionTime(0f);
-    steerableComponent.setBehavior(behaviour);
-    steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body, 3f));
-    steerableComponent.setEnabled(false);
+    configureSteering();
 
     //apply initial force to the missile
     Body bulletBody = bodyComponent.body;
@@ -73,7 +73,19 @@ public class MissileBullet extends Bullet {
   }
 
   @Override
-  protected void collide(Vector2 position) {
+  public void collide(Ship ship, Vector2 position) {
+    hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    updateDamage(ship);
+  }
 
+  // --------------------------  Helper ---------------------
+
+  private void configureSteering() {
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
+    behaviour = new Pursue<>(steerableComponent, target.steerableComponent);
+    behaviour.setMaxPredictionTime(0f);
+    steerableComponent.setBehavior(behaviour);
+    steerableComponent.setFaceBehaviour(new FaceBehaviourImpl(bodyComponent.body, target.bodyComponent.body, 3f));
+    steerableComponent.setEnabled(false);
   }
 }

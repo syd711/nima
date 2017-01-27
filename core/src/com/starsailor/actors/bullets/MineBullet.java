@@ -2,9 +2,11 @@ package com.starsailor.actors.bullets;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.Resources;
 
 /**
  * Concrete implementation of a weapon type.
@@ -38,7 +40,8 @@ public class MineBullet extends Bullet {
   }
 
   @Override
-  protected void collide(Vector2 position) {
-
+  public void collide(Ship ship, Vector2 position) {
+    hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    updateDamage(ship);
   }
 }
