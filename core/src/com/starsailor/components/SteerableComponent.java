@@ -114,23 +114,17 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     }
   }
 
-
-
   private void calculateOrientationFromLinearVelocity () {
     // If we haven't got any velocity, then we can do nothing.
     if (getLinearVelocity().isZero(getZeroLinearSpeedThreshold())) {
-//      return character.getOrientation();
       return;
     }
 
     float desiredAngle = vectorToAngle(getLinearVelocity());
     if(maxAngularChange > 0) {
       float totalRotation = desiredAngle - body.getAngle();
-      float change = (float) (1 * Math.toRadians(2)); //allow 1 degree rotation per time step
+      float change = (float) (1 * Math.toRadians(maxAngularChange)); //allow 1 degree rotation per time step
       desiredAngle = body.getAngle() + Math.min(change, Math.max(-change, totalRotation));
-    }
-    else {
-
     }
     body.setTransform(body.getPosition(), desiredAngle);
   }
