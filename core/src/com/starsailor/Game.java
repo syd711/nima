@@ -4,6 +4,8 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.*;
@@ -20,6 +23,8 @@ import com.starsailor.ui.Hud;
 import com.starsailor.util.GameSettings;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
+
+import java.util.Locale;
 
 public class Game extends ApplicationAdapter {
   public static long currentTimeMillis;
@@ -48,8 +53,16 @@ public class Game extends ApplicationAdapter {
 
   private boolean paused;
 
+  public static AssetManager assets = new AssetManager();
+
+  public static I18NBundle bundle;
+
   @Override
   public void create() {
+    FileHandle baseFileHandle = Gdx.files.internal("i18n/bundle");
+    Locale locale = new Locale(Locale.getDefault().getLanguage());
+    bundle = I18NBundle.createBundle(baseFileHandle, locale);
+
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 

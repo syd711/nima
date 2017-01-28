@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.starsailor.Game;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.Settings;
 
@@ -24,7 +25,7 @@ public class InfoTable extends Table {
     TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
     style.font = new BitmapFont();
     style.fontColor = Color.RED;
-    dockButton = new TextButton("Some info", Hud.skin);
+    dockButton = new TextButton(Game.bundle.get("info_button"), Hud.skin);
     dockButton.padRight(20);
     add(dockButton).expandX().align(Align.right);
   }
