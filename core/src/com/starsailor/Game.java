@@ -4,7 +4,6 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -53,8 +52,6 @@ public class Game extends ApplicationAdapter {
 
   private boolean paused;
 
-  public static AssetManager assets = new AssetManager();
-
   public static I18NBundle bundle;
 
   @Override
@@ -63,10 +60,7 @@ public class Game extends ApplicationAdapter {
     Locale locale = new Locale(Locale.getDefault().getLanguage());
     bundle = I18NBundle.createBundle(baseFileHandle, locale);
 
-    float w = Gdx.graphics.getWidth();
-    float h = Gdx.graphics.getHeight();
-
-    gameState = new DefaultStateMachine(this, GameState.RESUME);
+    gameState = new DefaultStateMachine<>(this, GameState.RESUME);
 
     //load particle effects
     ParticleManager.getInstance().loadParticles();
@@ -128,12 +122,7 @@ public class Game extends ApplicationAdapter {
     inputManager.getInputMultiplexer().addProcessor(inputManager);
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
 
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        gameSettings.save();
-      }
-    });
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> gameSettings.save()));
   }
 
   @Override

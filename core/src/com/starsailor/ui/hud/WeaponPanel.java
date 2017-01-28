@@ -12,6 +12,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
+import com.starsailor.components.ShootingComponent;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.SelectionManager;
@@ -44,6 +45,7 @@ public class WeaponPanel extends Table {
   private void addWeapons() {
 
     List<WeaponProfile> weapons = Player.getInstance().getWeapons();
+    ShootingComponent shootingComponent = Player.getInstance().shootingComponent;
     for(int i = 0; i < weapons.size(); i++) {
       final int index = i;
       WeaponProfile weaponProfile = weapons.get(i);
@@ -52,7 +54,10 @@ public class WeaponPanel extends Table {
         @Override
         public void draw(Batch batch, float parentAlpha) {
           Texture texture = TextureManager.getInstance().getTexture(Textures.HEALTHBG);
-          batch.draw(texture, getX() + (index * 150), getY() - 50, 50, 12);
+
+          float percent = shootingComponent.getChargingState(weaponProfile);
+
+          batch.draw(texture, getX() + (index * 10), getY() - 50, 50*percent/100, 12);
         }
       });
 

@@ -50,4 +50,17 @@ public class ShootingComponent implements Component, Poolable {
   public void updateLastBulletTime() {
      lastBulletTimes.put(activeWeaponProfile, Game.currentTimeMillis);
   }
+
+  public float getChargingState(WeaponProfile weaponProfile) {
+    long lastBulletTime = 0;
+    if(lastBulletTimes.containsKey(weaponProfile)) {
+      lastBulletTime = lastBulletTimes.get(weaponProfile);
+      float current = Game.currentTimeMillis - lastBulletTime;
+      if(current > weaponProfile.rechargeTimeMillis) {
+        return 100;
+      }
+      return current * 100 / weaponProfile.rechargeTimeMillis;
+    }
+    return 100; //100 percent
+  }
 }

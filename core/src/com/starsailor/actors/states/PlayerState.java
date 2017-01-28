@@ -23,9 +23,8 @@ public enum PlayerState implements State<Player> {
 
     @Override
     public void update(Player player) {
-      Entity targetEntity = EntityManager.getInstance().getEntityAt(player.getCenter());
+      Entity targetEntity = player.target;
       if(targetEntity != null && targetEntity instanceof Location) {
-        player.target = targetEntity;
         player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
       }
       else {

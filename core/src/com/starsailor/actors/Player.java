@@ -11,6 +11,7 @@ import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.SteeringData;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.util.Box2dUtil;
 import com.starsailor.util.GraphicsUtil;
 
@@ -45,6 +46,7 @@ public class Player extends Ship {
 
 
   public void moveTo(Vector2 worldCoordinates) {
+    target = EntityManager.getInstance().getEntityAt(worldCoordinates);
     if(clickTarget == null) {
       clickTarget = new ClickTarget(worldCoordinates);
       Arrive<Vector2> behaviour = new Arrive<>(steerableComponent, clickTarget.steerableComponent);
