@@ -20,8 +20,6 @@ import java.util.List;
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
-  public static TiledDebugRenderer debugRenderer;
-
   public int actorFrameX = 0;
   public int actorFrameY = 0;
 
@@ -51,8 +49,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
     TiledMapFragment tiledMapFragment = MapCache.getInstance().initCache(mapFolder, mapPrefix);
     setMap(tiledMapFragment.getMap());
-
-    debugRenderer = new TiledDebugRenderer(Game.camera);
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
@@ -146,10 +142,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         }
       }
     } //end layer rendering
-
-    if(Settings.getInstance().debug) {
-      debugRenderer.render();
-    }
   }
 
   public void postRender() {

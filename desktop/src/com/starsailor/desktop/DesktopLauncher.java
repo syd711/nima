@@ -3,12 +3,11 @@ package com.starsailor.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.starsailor.Game;
-import com.starsailor.util.LogInterceptor;
 import com.starsailor.util.Settings;
 
 public class DesktopLauncher {
   public static void main(String[] arg) {
-    LogInterceptor.interceptSystemOut("../../log.txt");
+//    LogInterceptor.interceptSystemOut("../../log.txt");
 
     Settings settings = Settings.getInstance();
 
@@ -20,6 +19,7 @@ public class DesktopLauncher {
     config.resizable = settings.resizable;
     config.backgroundFPS = settings.backgroundFPS;
     config.foregroundFPS = settings.foregroundFPS;
+    //config.addIcon("ico/favicon-32x32.png", Files.FileType.Internal);
 
     if(settings.x != 0) {
       config.x = settings.x;

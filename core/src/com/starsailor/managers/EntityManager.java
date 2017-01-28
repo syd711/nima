@@ -49,9 +49,6 @@ public class EntityManager {
     SteerableSystem steerableSystem = new SteerableSystem();
     engine.addSystem(steerableSystem);
 
-    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
-    engine.addSystem(renderSystem);
-
     AutoDestroySystem autoDestroySystem = new AutoDestroySystem();
     engine.addSystem(autoDestroySystem);
 
@@ -81,6 +78,9 @@ public class EntityManager {
 
     StateMachineSystem stateMachineSystem = new StateMachineSystem();
     engine.addSystem(stateMachineSystem);
+
+    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
+    engine.addSystem(renderSystem);
 
     updateables.add(new Camera(camera, player));
   }

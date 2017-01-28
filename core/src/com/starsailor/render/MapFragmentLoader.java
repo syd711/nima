@@ -39,6 +39,7 @@ public class MapFragmentLoader extends Thread {
   }
 
   private void executeLoaderThread(final TmxCacheMapLoader loader) {
+    Gdx.app.log(this.getName(), "Executing TMX Loader thread " + loader.getFilename());
     if(loader.isDirty()) {
       if(gdlThread) {
         loadUncached(loader);
