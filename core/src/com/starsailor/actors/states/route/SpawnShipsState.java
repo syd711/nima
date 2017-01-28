@@ -13,7 +13,7 @@ import com.starsailor.managers.EntityManager;
 /**
  *
  */
-public class SpawnShipState implements State<Route> {
+public class SpawnShipsState implements State<Route> {
   @Override
   public void enter(Route route) {
     RouteComponent routeComponent = route.routeComponent;

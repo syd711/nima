@@ -19,7 +19,7 @@ public class RouteSystem extends AbstractIteratingSystem {
   public void process(Entity entity, float deltaTime) {
     Route route = (Route) entity;
     if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteStates.IDLE)) {
-      route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIP);
+      route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIPS);
     }
     else if(!route.isActive()) {
       route.statefulComponent.stateMachine.changeState(RouteStates.INACTIVE);

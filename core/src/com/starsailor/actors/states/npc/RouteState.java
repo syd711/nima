@@ -21,6 +21,7 @@ public class RouteState implements State<NPC> {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
 
+    //TODO do not use next target, check previous state
     RoutePoint point = routingComponent.nextTarget();
     SteerableComponent targetSteering = routingComponent.getSteeringComponent(point);
 

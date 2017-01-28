@@ -112,7 +112,7 @@ public class Ship extends Spine {
   }
 
   public boolean isInShootingRange() {
-    return getDistanceToPlayer() < shipProfile.shootDistance;
+    return getDistanceToPlayer() != 0 && getDistanceToPlayer() < shipProfile.shootDistance;
   }
 
   public DefaultStateMachine getStateMachine() {

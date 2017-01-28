@@ -19,8 +19,8 @@ public class ShipProfile {
   public float health;
 
   //weapons
-  public List<String> weapons;
-  public List<WeaponProfile> weaponProfiles;
+  public List<String> weapons = new ArrayList<>();
+  public List<WeaponProfile> weaponProfiles = new ArrayList<>();
 
   //shield
   public String shield;

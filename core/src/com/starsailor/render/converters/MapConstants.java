@@ -23,6 +23,7 @@ public class MapConstants {
   public static final String PROPERTY_CONE_DEGREE = "coneDegree";
 
   public static final String PROPERTY_BOX2D_BODY = "body";
+  public static final String PROPERTY_GUARDING = "guarding";
 
   // PointLight, DirectionalLight, PositionalLight, ConeLight
   public static final String TYPE_CONE_LIGHT = "ConeLight";
@@ -30,5 +31,6 @@ public class MapConstants {
   public static final String TYPE_PLANET = "Planet";
   public static final String TYPE_STATION = "Station";
   public static final String TYPE_ROUTE_POINT = "Route";
+  public static final String TYPE_ROUTE_GUARD = "Guard";
 
 }

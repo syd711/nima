@@ -1,10 +1,11 @@
 {
-  "spine" : "merchant",
+  "spine" : "crusader",
   "defaultAnimation" : "walk",
-  "scale" : 0.18,
+  "scale" : 0.23,
   "health" : 100,
   "attackDistance" : 300,
   "evadeDistance" : 400,
+  "weapons" : ["laser"],
   "shield" : "energie",
   "steeringData" : {
     "boundingRadius" : 200,

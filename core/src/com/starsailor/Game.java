@@ -94,6 +94,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(Settings.getInstance().npcs_enabled));
+    tiledMapRenderer.addMapObjectConverter(new RouteGuards2EntityConverter(Settings.getInstance().npcs_enabled));
     tiledMapRenderer.fullScan(Settings.WORLD_WIDTH, Settings.WORLD_HEIGHT);
     tiledMapRenderer.removeAllObjectConverters();
 
