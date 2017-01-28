@@ -73,6 +73,9 @@ public class EntityManager {
     SelectionSystem selectionSystem = new SelectionSystem();
     engine.addSystem(selectionSystem);
 
+    AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(renderer.getBatch());
+    engine.addSystem(animationRenderSystem);
+
     lightSystem = new LightSystem(rayHandler);
     engine.addSystem(lightSystem);
 

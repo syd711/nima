@@ -1,12 +1,11 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.starsailor.managers.Textures;
 import com.starsailor.managers.TextureManager;
+import com.starsailor.managers.Textures;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -53,10 +52,6 @@ public class SpriteComponent implements Component, Poolable {
     sprites.remove(textures);
   }
 
-  public boolean containsSprite(Textures textures) {
-    return sprites.containsKey(textures);
-  }
-
   public boolean isEnabled() {
     return enabled;
   }
@@ -71,18 +66,10 @@ public class SpriteComponent implements Component, Poolable {
   public class SpriteItem {
     public Sprite sprite;
     private String name;
-    private Texture texture;
-    private boolean isTexture = false;
-    private Vector2 texturePosition;
 
     public SpriteItem(Textures spriteEnum) {
       name = spriteEnum.name();
-      texture = TextureManager.getInstance().getTexture(spriteEnum);
-      sprite = new Sprite(texture);
-    }
-
-    public Texture getTexture() {
-      return texture;
+      sprite = new Sprite(TextureManager.getInstance().getTexture(spriteEnum));
     }
 
     public Sprite getSprite() {
@@ -91,10 +78,6 @@ public class SpriteComponent implements Component, Poolable {
 
     public void setRotation(float angle) {
       sprite.setRotation(angle);
-    }
-
-    public void setTexturePosition(Vector2 pos) {
-      texturePosition = pos;
     }
 
     public void setPosition(Vector2 pos, boolean centered) {
@@ -118,25 +101,9 @@ public class SpriteComponent implements Component, Poolable {
       getSprite().setSize(width, sprite.getHeight());
     }
 
-    public boolean isTexture() {
-      return isTexture;
-    }
-
-    public void setTexture(boolean texture) {
-      isTexture = texture;
-    }
-
-    public Vector2 getTexturePosition() {
-      return texturePosition;
-    }
-
     @Override
     public String toString() {
       return "Sprite '" + name + "'";
-    }
-
-    public void setWrappedRepeat() {
-      texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
   }
 }

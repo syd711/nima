@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -18,6 +19,7 @@ import com.starsailor.data.SteeringData;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.Particles;
+import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.BodyGenerator;
@@ -218,6 +220,16 @@ public class ComponentFactory {
     ParticleComponent component = createComponent(ParticleComponent.class);
     component.effect = ParticleManager.getInstance().getEffect(particles);
     component.particle = particles;
+    entity.add(component);
+    return component;
+  }
+
+  public static AnimationComponent addAnimationComponent(Entity entity, Textures... textures) {
+    AnimationComponent component = createComponent(AnimationComponent.class);
+    for(Textures texture : textures) {
+      Texture t = TextureManager.getInstance().getTexture(texture);
+      component.textures.add(t);
+    }
     entity.add(component);
     return component;
   }
