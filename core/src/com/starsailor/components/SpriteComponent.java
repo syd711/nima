@@ -134,5 +134,9 @@ public class SpriteComponent implements Component, Poolable {
     public String toString() {
       return "Sprite '" + name + "'";
     }
+
+    public void setWrappedRepeat() {
+      texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+    }
   }
 }

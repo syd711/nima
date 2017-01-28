@@ -6,7 +6,6 @@ import com.starsailor.components.SpriteComponent;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
 
 import java.util.Random;
@@ -24,7 +23,9 @@ public class PhaserBullet extends Bullet {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;
-    spriteComponent.getSprite(Textures.PHASER).setTexture(true);
+    SpriteComponent.SpriteItem sprite = spriteComponent.getSprite(Textures.PHASER);
+    sprite.setTexture(true);
+    sprite.setWrappedRepeat();
   }
 
   @Override
@@ -55,15 +56,15 @@ public class PhaserBullet extends Bullet {
     //TODO phaser animation
     Random random = new Random();
     int i = random.nextInt(3 - 1 + 1) + 1;
-    if(i == 1) {
-      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER));
-    }
-    if(i == 2) {
-      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_2));
-    }
-    if(i == 3) {
-      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_1));
-    }
+//    if(i == 1) {
+//      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER));
+//    }
+//    if(i == 2) {
+//      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_2));
+//    }
+//    if(i == 3) {
+//      spriteItem.getSprite().setTexture(TextureManager.getInstance().getTexture(Textures.PHASER_1));
+//    }
 
     //apply permanent collision
     BulletCollisionComponent bulletCollisionComponent = getComponent(BulletCollisionComponent.class);
