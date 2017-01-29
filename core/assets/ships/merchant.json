@@ -4,7 +4,7 @@
   "scale" : 0.18,
   "health" : 100,
   "attackDistance" : 300,
-  "evadeDistance" : 400,
+  "evadeDistance" : 200,
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,
@@ -13,10 +13,10 @@
   },
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 2,
-    "maxLinearAcceleration" : 60,
-    "maxAngularSpeed" : 2,
-    "maxAngularAcceleration" : 2,
+    "maxLinearSpeed" : 6,
+    "maxLinearAcceleration" : 6,
+    "maxAngularSpeed" : 1,
+    "maxAngularAcceleration" : 1,
     "angularDamping" : 1.8,
     "linearDamping" : 4
   }

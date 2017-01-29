@@ -14,7 +14,6 @@ public class RoutePoint extends GameEntity {
   
   public Vector2 position;
   public boolean dockable;
-  public boolean spawnPoint;
   public Float dockTime;
 
   public RoutePoint() {

@@ -1,15 +1,15 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.starsailor.Game;
 import com.starsailor.actors.RoutePoint;
-import com.starsailor.managers.EntityManager;
-import com.starsailor.util.BodyGenerator;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.starsailor.util.Settings.MPP;
 
 /**
  * Contains the path finding status
@@ -19,46 +19,22 @@ public class RoutingComponent implements Component, Pool.Poolable {
   public RoutePoint target;
   public List<RoutePoint> targets;
 
-  private SteerableComponent steerableComponent;
-  private Body body;
-
-  private Iterator<RoutePoint> iterator;
+  private Array<Vector2> wayPoints;
 
   @Override
   public void reset() {
     target = null;
     targets = null;
-    iterator = null;
   }
 
-  public RoutePoint nextTarget() {
-    if(body != null) {
-      Game.world.destroyBody(body);
-    }
-
-    //create iterator and move to spawn point
-    if(iterator == null) {
-      iterator = targets.iterator();
-      while(iterator.hasNext()) {
-        RoutePoint next = iterator.next();
-        if(next.equals(target)) {
-          break;
-        }
+  public Array<Vector2> getWayPoints() {
+    if(wayPoints == null) {
+      List<Vector2> wp = new ArrayList<>();
+      for(RoutePoint routePoint : targets) {
+        wp.add(new Vector2(routePoint.position).scl(MPP));
       }
+      this.wayPoints = new Array<>(wp.toArray(new Vector2[wp.size()]));
     }
-
-    if(!iterator.hasNext()) {
-      iterator = targets.iterator();
-    }
-
-    return iterator.next();
-  }
-
-  public SteerableComponent getSteeringComponent(RoutePoint point) {
-    steerableComponent = EntityManager.getInstance().createComponent(SteerableComponent.class);
-    body = BodyGenerator.generateRoutePointBody(point);
-    body.setUserData(point);
-    steerableComponent.init(body, point.steeringData, false);
-    return steerableComponent;
+    return wayPoints;
   }
 }

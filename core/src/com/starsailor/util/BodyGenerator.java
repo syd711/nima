@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.RoutePoint;
 import com.starsailor.actors.Spine;
 import com.starsailor.data.BodyData;
 import com.starsailor.data.WeaponProfile;
@@ -172,25 +171,5 @@ public class BodyGenerator {
 
     shape.dispose();
     return body;
-  }
-
-  public static Body generateRoutePointBody(RoutePoint point) {
-    BodyDef bdef = new BodyDef();
-    bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(point.position.x * MPP, point.position.y * MPP);
-    Body b = world.createBody(bdef);
-
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(10 * MPP, 10 * MPP);
-
-    FixtureDef fdef = new FixtureDef();
-    fdef.isSensor = true;
-    fdef.density = 1;
-    fdef.restitution = 0.9f;
-    fdef.shape = shape;
-    b.createFixture(fdef);
-    shape.dispose();
-
-    return b;
   }
 }

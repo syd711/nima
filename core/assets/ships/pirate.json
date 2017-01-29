@@ -16,7 +16,7 @@
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 2,
-    "maxLinearAcceleration" : 60,
+    "maxLinearAcceleration" : 6,
     "maxAngularSpeed" : 2,
     "maxAngularAcceleration" : 2
   }

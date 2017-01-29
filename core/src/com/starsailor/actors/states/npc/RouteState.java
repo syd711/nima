@@ -2,10 +2,10 @@ package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
+import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SteerableComponent;
 
@@ -18,14 +18,13 @@ public class RouteState implements State<NPC> {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
 
-    //TODO do not use next target, check previous state
-    RoutePoint point = routingComponent.nextTarget();
-    SteerableComponent targetSteering = routingComponent.getSteeringComponent(point);
+    LinePath<Vector2> linePath = new LinePath<>(routingComponent.getWayPoints(), false);
+    FollowPath followPathSB = new FollowPath(sourceSteering, linePath, 1)
+        .setTimeToTarget(0.1f)
+        .setArrivalTolerance(0.01f)
+        .setDecelerationRadius(20);
 
-    Arrive<Vector2> behaviour = new Arrive<>(sourceSteering, targetSteering);
-    behaviour.setArrivalTolerance(0.10f);
-    behaviour.setDecelerationRadius(1f);
-    sourceSteering.setBehavior(behaviour);
+    sourceSteering.setBehavior(followPathSB);
   }
 
   @Override

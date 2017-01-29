@@ -6,7 +6,7 @@
   "weapons" : ["laser","missile","phaser","mine","flares"],
   "shield" : "plasma",
   "bodyData" : {
-    "angularDamping" : 1.8,
+    "angularDamping" : 3.8,
     "linearDamping" : 4,
     "density" : 1
   },
@@ -14,7 +14,7 @@
     "boundingRadius" : 200,
     "maxLinearSpeed" : 3,
     "maxLinearAcceleration" : 60,
-    "maxAngularSpeed" : 7,
-    "maxAngularAcceleration" : 7
+    "maxAngularSpeed" : 0.2,
+    "maxAngularAcceleration" : 0.7
   }
 }
