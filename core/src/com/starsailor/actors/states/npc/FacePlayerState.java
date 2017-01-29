@@ -3,8 +3,6 @@ package com.starsailor.actors.states.npc;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.Player;
-import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.SteerableComponent;
 
 /**

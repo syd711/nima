@@ -1,4 +1,4 @@
-package com.starsailor.actors.states;
+package com.starsailor.actors.states.route;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.actors.states.route.IdleState;

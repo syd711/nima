@@ -7,7 +7,7 @@ import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.RoutePoint;
-import com.starsailor.actors.states.NPCStates;
+import com.starsailor.actors.states.npc.NPCStates;
 
 /**
  * Collidable component for an ashley entity.

@@ -3,7 +3,7 @@ package com.starsailor.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.starsailor.actors.states.RouteStates;
+import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.components.StatefulComponent;

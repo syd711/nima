@@ -1,12 +1,12 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.data.ShipProfile;
-import com.starsailor.render.converters.MapConstants;
 
 /**
  * Common superclass for all NPC.
@@ -17,23 +17,49 @@ public class NPC extends Ship implements Selectable {
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
 
-  private Route route;
+  private Behaviours behaviour;
 
-  public NPC(ShipProfile shipProfile, Route route, State state) {
+  private Route route;
+  private NPC guardedNPC;
+
+
+  /**
+   * Constructor used for ships that have been spawned from a route point
+   * @param shipProfile
+   * @param route
+   * @param state
+   */
+  public NPC(ShipProfile shipProfile, Route route, State state, Behaviours behaviour) {
     super(shipProfile, state);
     this.route = route;
-
+    this.behaviour = behaviour;
     routingComponent = ComponentFactory.addRoutingComponent(this, route);
+  }
+
+  /**
+   * Constructor used for ships that guard a routing ship
+   * @param shipProfile
+   * @param guardedNPC
+   * @param state
+   */
+  public NPC(ShipProfile shipProfile, NPC guardedNPC, State state, Behaviours behaviour, Vector2 position) {
+    super(shipProfile, state);
+    this.behaviour = behaviour;
+    this.guardedNPC = guardedNPC;
+    this.positionComponent.setPosition(position);
+  }
+
+
+  @Override
+  protected void createComponents(ShipProfile profile, State state) {
+    super.createComponents(profile, state);
+
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
   }
 
   public boolean isAggressive() {
-    return getBehaviour() != null && getBehaviour().equalsIgnoreCase(MapConstants.BEHAVIOUR_AGGRESSIVE);
-  }
-
-  public String getBehaviour() {
-    return route.routeComponent.behaviour;
+    return behaviour != null && behaviour.equals(Behaviours.AGGRESSIVE);
   }
 
   @Override

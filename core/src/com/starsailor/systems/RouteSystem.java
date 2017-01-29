@@ -3,7 +3,7 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.Route;
-import com.starsailor.actors.states.RouteStates;
+import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.RouteComponent;
 
 /**

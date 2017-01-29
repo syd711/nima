@@ -4,10 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.Behaviours;
 import com.starsailor.actors.Route;
+import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.DataEntities;
-import com.starsailor.actors.RoutePoint;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
@@ -61,7 +62,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
       route.routeComponent.spawnPoint = routePoint;
     }
     if(behaviour != null) {
-      route.routeComponent.behaviour = behaviour;
+      route.routeComponent.behaviour = Behaviours.valueOf(behaviour.toUpperCase());
     }
   }
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.states.NPCStates;
 import com.starsailor.components.SteerableComponent;
 
 /**
