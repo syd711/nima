@@ -8,11 +8,16 @@
   "evadeDistance" : 200,
   "weapons" : ["missile"],
   "shield" : "energie",
+  "bodyData" : {
+    "angularDamping" : 1.8,
+    "linearDamping" : 4,
+    "density" : 1
+  },
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 500,
-    "maxLinearAcceleration" : 500,
-    "maxAngularSpeed" : 3000,
-    "maxAngularAcceleration" : 300
+    "maxLinearSpeed" : 2,
+    "maxLinearAcceleration" : 60,
+    "maxAngularSpeed" : 2,
+    "maxAngularAcceleration" : 2
   }
 }

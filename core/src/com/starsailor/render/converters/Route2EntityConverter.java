@@ -58,11 +58,11 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     //check if the point contains the ship type and therefore the start point
     if(shipProfile != null) {
       ShipProfile ship = DataEntities.getShip(shipProfile);
-      route.routeComponent.shipProfile = ship;
+      route.shipProfile = ship;
       route.routeComponent.spawnPoint = routePoint;
     }
     if(behaviour != null) {
-      route.routeComponent.behaviour = Behaviours.valueOf(behaviour.toUpperCase());
+      route.behaviour = Behaviours.valueOf(behaviour.toUpperCase());
     }
   }
 
@@ -74,7 +74,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     for(Entity entity : entitiesFor) {
       if(entity instanceof Route) {
         Route route = (Route) entity;
-        if(route.routeComponent.name.equals(name)) {
+        if(route.getName().equals(name)) {
           return route;
         }
       }

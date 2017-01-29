@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -13,10 +12,7 @@ import com.starsailor.Game;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
-import com.starsailor.data.ShieldProfile;
-import com.starsailor.data.ShipProfile;
-import com.starsailor.data.SteeringData;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.TextureManager;
@@ -70,9 +66,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Spine spine) {
+  public static BodyComponent addBodyComponent(Spine spine, BodyData bodyData) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.createSpineBody(Game.world, spine);
+    component.body = BodyGenerator.createSpineBody(Game.world, spine, bodyData);
     component.body.setUserData(spine);
     spine.add(component);
     return component;
@@ -127,29 +123,22 @@ public class ComponentFactory {
     return component;
   }
 
-  public static RouteComponent addRouteComponent(Route route, String name) {
+  public static RouteComponent addRouteComponent(Route route) {
     RouteComponent component = createComponent(RouteComponent.class);
-    component.name = name;
     route.add(component);
     return component;
   }
 
   public static SteerableComponent addSteerableComponent(Entity entity, Body body, SteeringData steeringData) {
     SteerableComponent component = createComponent(SteerableComponent.class);
-    component.init(body, steeringData);
-    entity.add(component);
-    return component;
-  }
-
-  public static StatefulComponent addStatefulComponent(Entity entity, State state) {
-    StatefulComponent component = createComponent(StatefulComponent.class);
-    component.stateMachine = new DefaultStateMachine<>(entity, state);
+    component.init(body, steeringData, false);
     entity.add(component);
     return component;
   }
 
   public static StatefulComponent addStatefulComponent(Entity entity) {
     StatefulComponent component = createComponent(StatefulComponent.class);
+    component.stateMachine = new DefaultStateMachine<>(entity);
     entity.add(component);
     return component;
   }

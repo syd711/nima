@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
-import com.starsailor.actors.states.PlayerState;
+import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.SelectionChangeListener;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.ui.hud.HudStage;

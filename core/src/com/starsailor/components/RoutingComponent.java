@@ -58,7 +58,7 @@ public class RoutingComponent implements Component, Pool.Poolable {
     steerableComponent = EntityManager.getInstance().createComponent(SteerableComponent.class);
     body = BodyGenerator.generateRoutePointBody(point);
     body.setUserData(point);
-    steerableComponent.init(body, point.steeringData);
+    steerableComponent.init(body, point.steeringData, false);
     return steerableComponent;
   }
 }

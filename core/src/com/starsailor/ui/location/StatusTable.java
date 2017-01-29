@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.states.PlayerState;
+import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.ui.Hud;
 
 /**

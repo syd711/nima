@@ -4,15 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.states.PlayerState;
 import com.starsailor.util.GraphicsUtil;
-
-import static com.starsailor.actors.states.PlayerState.IDLE;
-import static com.starsailor.actors.states.PlayerState.MOVE_TO_STATION;
 
 /**
  * Handles all kind of user input.
@@ -84,20 +81,17 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-    PlayerState currentState = (PlayerState) player.getStateMachine().getCurrentState();
     float targetX = screenX;
     float targetY = Gdx.graphics.getHeight() - screenY;
 
-    if(currentState.equals(IDLE) || currentState.equals(MOVE_TO_STATION)) {
-      if(button == Input.Buttons.RIGHT) {
-        Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
-        Player.getInstance().moveTo(worldCoordinates);
-        return true;
-      }
+    if(button == Input.Buttons.RIGHT) {
+      Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+      Player.getInstance().moveTo(worldCoordinates);
+      return true;
+    }
 
-      if(button == Input.Buttons.LEFT) {
-        return SelectionManager.getInstance().selectAt(targetX, targetY, true);
-      }
+    if(button == Input.Buttons.LEFT) {
+      return SelectionManager.getInstance().selectAt(targetX, targetY, true);
     }
     return false;
   }

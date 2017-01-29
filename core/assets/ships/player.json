@@ -5,12 +5,16 @@
   "health" : 100,
   "weapons" : ["laser","missile","phaser","mine","flares"],
   "shield" : "plasma",
+  "bodyData" : {
+    "angularDamping" : 1.8,
+    "linearDamping" : 4,
+    "density" : 1
+  },
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 1000,
-    "maxLinearAcceleration" : 1200,
-    "maxAngularSpeed" : 5,
-    "maxAngularAcceleration" : 5,
-    "maxAngularChange" : 2
+    "maxLinearSpeed" : 3,
+    "maxLinearAcceleration" : 60,
+    "maxAngularSpeed" : 7,
+    "maxAngularAcceleration" : 7
   }
 }

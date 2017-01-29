@@ -10,9 +10,11 @@ import com.starsailor.Game;
 import com.starsailor.actors.Camera;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Updateable;
+import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.data.DataEntities;
+import com.starsailor.data.ShipProfile;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.systems.*;
 import com.starsailor.util.Box2dUtil;
@@ -40,7 +42,10 @@ public class EntityManager {
 
   private void init(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
     //create player
-    player = new Player(DataEntities.getShip(DataEntities.SHIP_PLAYER));
+    ShipProfile ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
+    player = new Player(ship);
+    player.createComponents(ship);
+    player.getStateMachine().changeState(PlayerState.IDLE);
     engine.addEntity(player);
 
     ScalingSystem scalingSystem = new ScalingSystem();

@@ -1,4 +1,4 @@
-package com.starsailor.actors.states;
+package com.starsailor.actors.states.player;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
@@ -16,9 +16,11 @@ import com.starsailor.util.Settings;
  */
 public enum PlayerState implements State<Player> {
 
+
   IDLE() {
     @Override
     public void enter(Player player) {
+      player.steerableComponent.setEnabled(false);
     }
 
     @Override

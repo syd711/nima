@@ -5,11 +5,8 @@ package com.starsailor.data;
  */
 public class SteeringData {
   public float boundingRadius = 200;
-  public float maxLinearSpeed = 500;
-  public float maxLinearAcceleration = 500;
-  public float maxAngularSpeed = 3000;
-  public float maxAngularAcceleration = 300;
-
-  //custom value
-  public float maxAngularChange = 0;
+  public float maxLinearSpeed = 5;
+  public float maxLinearAcceleration = 5;
+  public float maxAngularSpeed = 1;
+  public float maxAngularAcceleration = 1;
 }

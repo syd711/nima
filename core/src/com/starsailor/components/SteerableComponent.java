@@ -22,7 +22,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private float maxLinearAcceleration;
   private float maxAngularSpeed;
   private float maxAngularAcceleration;
-  private float maxAngularChange;
 
   public boolean enabled = true;
 
@@ -31,16 +30,17 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   private Body body;
   private boolean destroyed;
+  private boolean independentFacing;
 
-  public void init(Body body, SteeringData steeringData) {
+  public void init(Body body, SteeringData steeringData, boolean independentFacing) {
     this.body = body;
+    this.independentFacing = true;
 
     this.boundingRadius = steeringData.boundingRadius;
     this.maxLinearSpeed = steeringData.maxLinearSpeed;
     this.maxLinearAcceleration = steeringData.maxLinearAcceleration;
     this.maxAngularSpeed = steeringData.maxAngularSpeed;
     this.maxAngularAcceleration = steeringData.maxAngularAcceleration;
-    this.maxAngularChange = steeringData.maxAngularChange;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }
@@ -70,7 +70,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.maxLinearAcceleration = -1;
     this.maxAngularSpeed = -1;
     this.maxAngularAcceleration = -1;
-    this.maxAngularChange = -1;
     this.tagged = false;
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
@@ -89,45 +88,94 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     return Settings.getInstance().steering_enabled && isEnabled() && !isDestroyed();
   }
 
-  private void applySteering(float delta) {
+  private void applySteering(float deltaTime) {
+//    boolean anyAccelerations = false;
+//    if(!steeringOutput.isZero()) {
+//      Vector2 force = steeringOutput.linear.scl(deltaTime);
+//      body.applyForceToCenter(force, true);
+//      anyAccelerations = true;
+//    }
+//
+//    if(anyAccelerations) {
+//      calculateOrientationFromLinearVelocity();
+//
+//      //Linear capping
+//      Vector2 velocity = body.getLinearVelocity();
+//      float currentSpeedSquare = velocity.len2();
+//      if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+//        body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
+//      }
+//
+//      //Angular capping
+//      if(body.getAngularVelocity() > maxAngularSpeed) {
+//        body.setAngularVelocity(maxAngularSpeed);
+//      }
+//    }
+
     boolean anyAccelerations = false;
-    if(!steeringOutput.isZero()) {
-      Vector2 force = steeringOutput.linear.scl(delta);
-      body.applyForceToCenter(force, true);
+
+    // Update position and linear velocity.
+    if (!steeringOutput.linear.isZero()) {
+      // this method internally scales the force by deltaTime
+      body.applyForceToCenter(steeringOutput.linear, true);
       anyAccelerations = true;
     }
 
-    if(anyAccelerations) {
-      calculateOrientationFromLinearVelocity();
+    // Update orientation and angular velocity
+    if (independentFacing) {
+      if (steeringOutput.angular != 0) {
+        // this method internally scales the torque by deltaTime
+        body.applyTorque(steeringOutput.angular, true);
+        anyAccelerations = true;
+      }
+    } else {
+      // If we haven't got any velocity, then we can do nothing.
+      Vector2 linVel = getLinearVelocity();
+      if (!linVel.isZero(getZeroLinearSpeedThreshold())) {
+        float newOrientation = vectorToAngle(linVel);
+        body.setAngularVelocity((newOrientation - getAngularVelocity()) * deltaTime); // this is superfluous if independentFacing is always true
+        body.setTransform(body.getPosition(), newOrientation);
+      }
+    }
 
-      //Linear capping
+    if (anyAccelerations) {
+      // body.activate();
+
+      // TODO:
+      // Looks like truncating speeds here after applying forces doesn't work as expected.
+      // We should likely cap speeds form inside an InternalTickCallback, see
+      // http://www.bulletphysics.org/mediawiki-1.5.8/index.php/Simulation_Tick_Callbacks
+
+      // Cap the linear speed
       Vector2 velocity = body.getLinearVelocity();
       float currentSpeedSquare = velocity.len2();
-      if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-        body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
+      float maxLinearSpeed = getMaxLinearSpeed();
+      if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+        body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float)Math.sqrt(currentSpeedSquare)));
       }
 
-      //Angular capping
-      if(body.getAngularVelocity() > maxAngularSpeed) {
-        body.setAngularVelocity(maxAngularSpeed);
+      // Cap the angular speed
+      float maxAngVelocity = getMaxAngularSpeed();
+      if (body.getAngularVelocity() > maxAngVelocity) {
+        body.setAngularVelocity(maxAngVelocity);
       }
     }
   }
 
-  private void calculateOrientationFromLinearVelocity () {
-    // If we haven't got any velocity, then we can do nothing.
-    if (getLinearVelocity().isZero(getZeroLinearSpeedThreshold())) {
-      return;
-    }
-
-    float desiredAngle = vectorToAngle(getLinearVelocity());
-    if(maxAngularChange > 0) {
-      float totalRotation = desiredAngle - body.getAngle();
-      float change = (float) (1 * Math.toRadians(maxAngularChange)); //allow 1 degree rotation per time step
-      desiredAngle = body.getAngle() + Math.min(change, Math.max(-change, totalRotation));
-    }
-    body.setTransform(body.getPosition(), desiredAngle);
-  }
+//  private void calculateOrientationFromLinearVelocity () {
+//    // If we haven't got any velocity, then we can do nothing.
+//    if (getLinearVelocity().isZero(getZeroLinearSpeedThreshold())) {
+//      return;
+//    }
+//
+//    float desiredAngle = vectorToAngle(getLinearVelocity());
+//    if(maxAngularChange > 0) {
+//      float totalRotation = desiredAngle - body.getAngle();
+//      float change = (float) (1 * Math.toRadians(maxAngularChange)); //allow 1 degree rotation per time step
+//      desiredAngle = body.getAngle() + Math.min(change, Math.max(-change, totalRotation));
+//    }
+//    body.setTransform(body.getPosition(), desiredAngle);
+//  }
 
 
   @Override

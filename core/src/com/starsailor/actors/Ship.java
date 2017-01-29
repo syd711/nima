@@ -1,7 +1,6 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
@@ -33,18 +32,17 @@ public class Ship extends Spine {
   public float health = 100;
   public float maxHealth = 100;
 
-  public Ship(ShipProfile profile, State state) {
+  public Ship(ShipProfile profile) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
     this.shipProfile = profile;
-    createComponents(profile, state);
   }
 
-  protected void createComponents(ShipProfile profile, State state) {
+  public void createComponents(ShipProfile profile) {
     scalingComponent = ComponentFactory.addScalingComponent(this);
-    statefulComponent = ComponentFactory.addStatefulComponent(this, state);
+    statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this);
+    bodyComponent = ComponentFactory.addBodyComponent(this, profile.bodyData);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);

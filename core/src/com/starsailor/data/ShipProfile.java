@@ -18,6 +18,8 @@ public class ShipProfile {
 
   public float health;
 
+  public BodyData bodyData;
+
   //weapons
   public List<String> weapons = new ArrayList<>();
   public List<WeaponProfile> weaponProfiles = new ArrayList<>();

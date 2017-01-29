@@ -51,7 +51,7 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
     if(behaviour == null) {
       behaviour = PROPERTY_GUARDING;
     }
-    route.routeComponent.addGuard(ship, centeredPosition, Behaviours.valueOf(behaviour.toUpperCase()));
+    route.addGuard(ship, centeredPosition, Behaviours.valueOf(behaviour.toUpperCase()));
     Gdx.app.log(this.getClass().getName(), "Add guard for '" + routeNameToGuard + "'");
   }
 
@@ -63,7 +63,7 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
     for(Entity entity : entitiesFor) {
       if(entity instanceof Route) {
         Route route = (Route) entity;
-        if(route.routeComponent.name.equalsIgnoreCase(name)) {
+        if(route.getName().equalsIgnoreCase(name)) {
           return route;
         }
       }

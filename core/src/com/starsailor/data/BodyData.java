@@ -9,6 +9,6 @@ public class BodyData {
   public int width;
   public int height;
   public int radius;
-  public float density;
+  public float density = 1;
   public boolean sensor = false;
 }

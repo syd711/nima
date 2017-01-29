@@ -1,7 +1,5 @@
 package com.starsailor.actors;
 
-import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
@@ -17,43 +15,17 @@ public class NPC extends Ship implements Selectable {
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
 
-  private Behaviours behaviour;
+  protected Behaviours behaviour;
 
-  private Route route;
-  private NPC guardedNPC;
-
-
-  /**
-   * Constructor used for ships that have been spawned from a route point
-   * @param shipProfile
-   * @param route
-   * @param state
-   */
-  public NPC(ShipProfile shipProfile, Route route, State state, Behaviours behaviour) {
-    super(shipProfile, state);
-    this.route = route;
+  public NPC(ShipProfile profile, Behaviours behaviour) {
+    super(profile);
+    this.shipProfile = profile;
     this.behaviour = behaviour;
-    routingComponent = ComponentFactory.addRoutingComponent(this, route);
   }
-
-  /**
-   * Constructor used for ships that guard a routing ship
-   * @param shipProfile
-   * @param guardedNPC
-   * @param state
-   */
-  public NPC(ShipProfile shipProfile, NPC guardedNPC, State state, Behaviours behaviour, Vector2 position) {
-    super(shipProfile, state);
-    this.behaviour = behaviour;
-    this.guardedNPC = guardedNPC;
-    this.positionComponent.setPosition(position);
-  }
-
 
   @Override
-  protected void createComponents(ShipProfile profile, State state) {
-    super.createComponents(profile, state);
-
+  public void createComponents(ShipProfile profile) {
+    super.createComponents(profile);
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
   }

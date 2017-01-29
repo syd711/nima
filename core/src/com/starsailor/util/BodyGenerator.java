@@ -48,35 +48,46 @@ public class BodyGenerator {
     return b;
   }
 
-  public static Body createShieldBody(World world, Spine spine) {
+  public static Body createShieldBody(World world, Spine spine, BodyData bodyData) {
     CircleShape shape = new CircleShape();
     float scaling = spine.jsonScaling;
     float radius = (spine.skeleton.getData().getHeight() + 320) * scaling / 2;
     shape.setRadius(radius * MPP);
-    return spineBody(shape, world, spine, true);
+    return spineBody(shape, world, bodyData, spine, true);
   }
 
   /**
    * Creates the Box2d body for the given spine
    */
-  public static Body createSpineBody(World world, Spine spine) {
+  public static Body createSpineBody(World world, Spine spine, BodyData bodyData) {
     PolygonShape shape = new PolygonShape();
     float scaling = spine.jsonScaling;
     shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
-    return spineBody(shape, world, spine, false);
+    return spineBody(shape, world, bodyData, spine, false);
   }
 
-  private static Body spineBody(Shape shape, World world, Spine spine, boolean sensor) {
+  private static Body spineBody(Shape shape, World world, BodyData bodyData, Spine spine, boolean sensor) {
     Vector2 center = spine.getCenter();
 
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
     bdef.position.set(center.x * MPP, center.y * MPP);
     Body b = world.createBody(bdef);
-    b.setLinearDamping(4f);
+
+    if(bodyData.linearDamping > 0) {
+      b.setLinearDamping(bodyData.linearDamping);
+    }
+    else {
+      b.setLinearDamping(4f);
+    }
+
+    if(bodyData.angularDamping > 0) {
+      b.setAngularDamping(bodyData.angularDamping);
+    }
+
 
     FixtureDef fdef = new FixtureDef();
-    fdef.density = 1;
+    fdef.density = bodyData.density;
     fdef.isSensor = sensor;
     fdef.restitution = 0.1f;
     fdef.shape = shape;

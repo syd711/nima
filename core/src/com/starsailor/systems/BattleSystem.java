@@ -8,6 +8,7 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
+import com.starsailor.data.BodyData;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.BodyGenerator;
 
@@ -69,7 +70,7 @@ public class BattleSystem extends AbstractIteratingSystem {
     ShieldComponent shieldComponent = npc.getComponent(ShieldComponent.class);
     if(shieldComponent.isActive()) {
       if(npc.shieldComponent.body == null) {
-        npc.shieldComponent.body = BodyGenerator.createShieldBody(Game.world, npc);
+        npc.shieldComponent.body = BodyGenerator.createShieldBody(Game.world, npc, new BodyData());
       }
       Body body = npc.shieldComponent.body;
       body.setUserData(npc);
