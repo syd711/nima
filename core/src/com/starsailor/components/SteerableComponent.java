@@ -31,7 +31,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private Body body;
   private boolean destroyed;
   private boolean independentFacing;
-  private boolean independetFacing;
 
   public void init(Body body, SteeringData steeringData, boolean independentFacing) {
     this.body = body;
@@ -301,6 +300,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   }
 
   public void setIndependetFacing(boolean independetFacing) {
-    this.independetFacing = independetFacing;
+    this.independentFacing = independetFacing;
   }
 }
