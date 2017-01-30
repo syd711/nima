@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.data.SteeringData;
+import com.starsailor.util.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
 
@@ -162,21 +163,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     }
   }
 
-//  private void calculateOrientationFromLinearVelocity () {
-//    // If we haven't got any velocity, then we can do nothing.
-//    if (getLinearVelocity().isZero(getZeroLinearSpeedThreshold())) {
-//      return;
-//    }
-//
-//    float desiredAngle = vectorToAngle(getLinearVelocity());
-//    if(maxAngularChange > 0) {
-//      float totalRotation = desiredAngle - body.getAngle();
-//      float change = (float) (1 * Math.toRadians(maxAngularChange)); //allow 1 degree rotation per time step
-//      desiredAngle = body.getAngle() + Math.min(change, Math.max(-change, totalRotation));
-//    }
-//    body.setTransform(body.getPosition(), desiredAngle);
-//  }
-
 
   @Override
   public Vector2 getLinearVelocity() {
@@ -280,7 +266,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   @Override
   public Location<Vector2> newLocation() {
-    return null;
+    return new Box2dLocation(new Vector2());
   }
 
   public SteeringBehavior<Vector2> getBehavior() {
