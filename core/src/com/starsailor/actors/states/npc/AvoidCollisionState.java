@@ -31,7 +31,7 @@ public class AvoidCollisionState implements State<NPC> {
   public void update(NPC npc) {
     float distanceToPlayer = npc.getDistanceToPlayer();
     if(distanceToPlayer > npc.shipProfile.evadeDistance) {
-      npc.getStateMachine().changeState(NPCStates.ROUTE);
+      npc.getStateMachine().changeState(new RouteState());
     }
   }
 
