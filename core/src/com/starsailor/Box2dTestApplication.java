@@ -3,6 +3,10 @@ package com.starsailor;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.fma.Formation;
+import com.badlogic.gdx.ai.fma.FormationMember;
+import com.badlogic.gdx.ai.fma.FreeSlotAssignmentStrategy;
+import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -12,29 +16,29 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.starsailor.util.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
 
-/**
- * Created by Matthias on 29.12.2016.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Box2dTestApplication extends ApplicationAdapter {
 
   private World world;
   private Box2DDebugRenderer box2DDebugRenderer;
 
-  TestSteeringEntity entity, target;
+  TestSteeringEntity entity;
+
+
+  private Formation<Vector2> formation;
+
+  List<TestSteeringEntity> targets = new ArrayList<>();
   private OrthographicCamera camera;
 
   @Override
   public void create() {
-    float w = Gdx.graphics.getWidth();
-    float h = Gdx.graphics.getHeight();
-
-
-    //camera
     camera = new OrthographicCamera();
-//    camera.zoom = 1.5f;
-    camera.setToOrtho(false, w, h);
+    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     camera.update();
 
     world = new World(new Vector2(0, 0), false);
@@ -43,7 +47,7 @@ public class Box2dTestApplication extends ApplicationAdapter {
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.DynamicBody;
     def.fixedRotation = false;
-    def.position.set(600, 600);
+    def.position.set(400, 400);
     Body body = world.createBody(def);
 
     PolygonShape shape = new PolygonShape();
@@ -54,28 +58,39 @@ public class Box2dTestApplication extends ApplicationAdapter {
 
     entity = new TestSteeringEntity(body, 30);
 
-    def = new BodyDef();
-    def.type = BodyDef.BodyType.DynamicBody;
-    def.fixedRotation = false;
-    def.position.set(150, 150);
-    body = world.createBody(def);
+    //////////// Creation formation
+    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
+    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(100);
+    formation = new Formation<>(entity, defensiveCirclePattern, freeSlotAssignmentStrategy);
 
-    shape = new PolygonShape();
-    //calculated from center!
-    shape.setAsBox(20, 20);
-    body.createFixture(shape, 1f);
-    shape.dispose();
+    ////////// Create formation entities
+    for(int i = 0; i < 3; i++) {
+      def = new BodyDef();
+      def.type = BodyDef.BodyType.DynamicBody;
+      def.fixedRotation = false;
+      def.position.set(150 + i * 50, 150 + i * 50);
+      body = world.createBody(def);
+      body.setLinearDamping(0.5f);
 
-    target = new TestSteeringEntity(body, 130);
+      shape = new PolygonShape();
+      //calculated from center!
+      shape.setAsBox(20, 20);
+      body.createFixture(shape, 0.01f);
+      shape.dispose();
 
-    Arrive<Vector2> arrive = new Arrive<>(entity, target);
-    arrive.setTimeToTarget(0.1f);
-    arrive.setArrivalTolerance(2f);
-    arrive.setDecelerationRadius(10);
+      TestSteeringEntity target = new TestSteeringEntity(body, 130);
+      targets.add(target);
+      formation.addMember(target);
 
-    entity.setBehavior(arrive);
+      Arrive<Vector2> arrive = new Arrive<>(target, target.getTargetLocation());
+      arrive.setTimeToTarget(0.1f);
+      arrive.setArrivalTolerance(2f);
+      arrive.setDecelerationRadius(10);
+
+      target.setBehavior(arrive);
+    }
+
   }
-
 
 
   @Override
@@ -87,35 +102,39 @@ public class Box2dTestApplication extends ApplicationAdapter {
     world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     box2DDebugRenderer.render(world, camera.combined);
 
-    int x= 0, y = 0;
+    int x = 0, y = 0;
     int delta = 10;
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      x+= delta;
+      x += delta;
     }
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      x-= delta;
+      x -= delta;
     }
     if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      y+= delta;
+      y += delta;
     }
     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      y-= delta;
+      y -= delta;
     }
 
     if(x != 0) {
-      Vector2 vel = target.getBody().getLinearVelocity();
-      target.getBody().setLinearVelocity(x*10, vel.y);
+      Vector2 vel = entity.getBody().getLinearVelocity();
+      entity.getBody().setLinearVelocity(x * 10, vel.y);
     }
     if(y != 0) {
-      Vector2 vel = target.getBody().getLinearVelocity();
-      target.getBody().setLinearVelocity(vel.y, y*10);
+      Vector2 vel = entity.getBody().getLinearVelocity();
+      entity.getBody().setLinearVelocity(vel.y, y * 10);
+    }
+
+    for(TestSteeringEntity target : targets) {
+      target.update(Gdx.graphics.getDeltaTime());
     }
 
     entity.update(Gdx.graphics.getDeltaTime());
-
+    formation.updateSlots();
   }
 
-  class TestSteeringEntity implements Steerable<Vector2> {
+  public static class TestSteeringEntity implements Steerable<Vector2>, FormationMember<Vector2> {
 
     private boolean tagged;
     private float boundingRadius;
@@ -133,7 +152,10 @@ public class Box2dTestApplication extends ApplicationAdapter {
 
     private Body body;
 
+    private Box2dLocation location;
+
     public TestSteeringEntity(Body body, float boundingRadius) {
+      location = new Box2dLocation(new Vector2());
       this.body = body;
       this.boundingRadius = boundingRadius;
 
@@ -154,19 +176,49 @@ public class Box2dTestApplication extends ApplicationAdapter {
       }
     }
 
-    private void applySteering(float delta) {
+    private void applySteering(float deltaTime) {
+
       boolean anyAccelerations = false;
-      if(!steeringOutput.isZero()) {
-        Vector2 force = steeringOutput.linear.scl(50);
-        body.applyForceToCenter(force, true);
+
+      // Update position and linear velocity.
+      if(!steeringOutput.linear.isZero()) {
+        // this method internally scales the force by deltaTime
+        body.applyForceToCenter(steeringOutput.linear, true);
         anyAccelerations = true;
       }
 
+      // Update orientation and angular velocity
+      if(true) {
+        if(steeringOutput.angular != 0) {
+          // this method internally scales the torque by deltaTime
+          body.applyTorque(steeringOutput.angular, true);
+          anyAccelerations = true;
+        }
+      }
+      else {
+        // If we haven't got any velocity, then we can do nothing.
+        Vector2 linVel = getLinearVelocity();
+        if(!linVel.isZero(getZeroLinearSpeedThreshold())) {
+          float newOrientation = vectorToAngle(linVel);
+          body.setAngularVelocity((newOrientation - getAngularVelocity()) * deltaTime); // this is superfluous if independentFacing is always true
+          body.setTransform(body.getPosition(), newOrientation);
+        }
+      }
+
       if(anyAccelerations) {
+
+        // Cap the linear speed
         Vector2 velocity = body.getLinearVelocity();
         float currentSpeedSquare = velocity.len2();
+        float maxLinearSpeed = getMaxLinearSpeed();
         if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-          body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
+          body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+        }
+
+        // Cap the angular speed
+        float maxAngVelocity = getMaxAngularSpeed();
+        if(body.getAngularVelocity() > maxAngVelocity) {
+          body.setAngularVelocity(maxAngVelocity);
         }
       }
     }
@@ -291,6 +343,11 @@ public class Box2dTestApplication extends ApplicationAdapter {
 
     public SteeringAcceleration<Vector2> getSteeringOutput() {
       return steeringOutput;
+    }
+
+    @Override
+    public Location<Vector2> getTargetLocation() {
+      return location;
     }
   }
 }
