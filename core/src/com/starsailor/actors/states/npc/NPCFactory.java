@@ -23,7 +23,7 @@ public class NPCFactory {
   public static GuardingNPC createGuardingNPC(ShipProfile shipProfile, NPC guardedNPC, Behaviours behaviour, Vector2 position) {
     GuardingNPC npc = new GuardingNPC(shipProfile, guardedNPC, behaviour, position);
     npc.createComponents(shipProfile);
-    npc.getStateMachine().changeState(NPCStates.GUARD);
+    npc.getStateMachine().changeState(new GuardState());
 
     EntityManager.getInstance().add(npc);
     return npc;
