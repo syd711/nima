@@ -25,7 +25,7 @@ public class PursuePlayerState implements State<NPC> {
     float distanceToPlayer = npc.getDistanceToPlayer();
     //check if in shooting distance
     if(distanceToPlayer > npc.shipProfile.attackDistance) {
-      npc.getStateMachine().changeState(NPCStates.ROUTE);
+      npc.getStateMachine().changeState(new RouteState());
     }
     if(distanceToPlayer < npc.shipProfile.shootDistance) {
       npc.getStateMachine().changeState(NPCStates.FACE_PLAYER);
