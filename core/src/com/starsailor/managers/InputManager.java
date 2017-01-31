@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
@@ -53,6 +52,16 @@ public class InputManager implements InputProcessor {
     }
     else if(keycode == Input.Keys.Q) {
       Game.gameSettings.save();
+      return true;
+    }
+    else if(keycode == Input.Keys.PLUS) {
+      if(Game.camera.zoom != 1) {
+        Game.camera.zoom-=0.2;
+      }
+      return true;
+    }
+    else if(keycode == Input.Keys.MINUS) {
+      Game.camera.zoom+=0.2;
       return true;
     }
     else if(keycode == Input.Keys.P) {
