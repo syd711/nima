@@ -159,10 +159,14 @@ public class Box2dTestApplication extends ApplicationAdapter {
       this.body = body;
       this.boundingRadius = boundingRadius;
 
-      this.maxLinearSpeed = 1500;
-      this.maxLinearAcceleration = 1000;
-      this.maxAngularSpeed = 30;
-      this.maxAngularAcceleration = 1500;
+//      "maxLinearSpeed" : 2,
+//          "maxLinearAcceleration" : 6,
+//          "maxAngularSpeed" : 2,
+//          "maxAngularAcceleration" : 2
+      this.maxLinearSpeed = 6;
+      this.maxLinearAcceleration = 6;
+      this.maxAngularSpeed = 2;
+      this.maxAngularAcceleration = 2;
 
       this.tagged = false;
 
