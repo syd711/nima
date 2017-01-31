@@ -25,6 +25,7 @@ public class DesktopLauncher {
       config.x = settings.x;
     }
 
+//    new LwjglApplication(new Box2dTestApplication(), config);
     new LwjglApplication(new Game(), config);
   }
 }
