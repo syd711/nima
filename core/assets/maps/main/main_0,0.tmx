@@ -112,20 +112,20 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
-  <object id="38" name="Route 1" type="Route" x="401.5" y="913.5" width="43" height="43">
+  <object id="38" name="Route 1" type="Route" x="1214.5" y="1128.5" width="43" height="43">
    <properties>
     <property name="shipProfile" value="merchant"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="39" name="Route 1" type="Route" x="186.5" y="922.5" width="43" height="43">
+  <object id="39" name="Route 1" type="Route" x="853.5" y="1160.5" width="43" height="43">
    <properties>
     <property name="dockTime" type="float" value="3000"/>
     <property name="dockable" type="bool" value="true"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="52" name="Route 1 Guard 1" type="Guard" x="102" y="752" width="32" height="32">
+  <object id="52" name="Route 1 Guard 1" type="Guard" x="434" y="183" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
@@ -139,7 +139,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="58" name="Route 1 Guard 2" type="Guard" x="271" y="727" width="32" height="32">
+  <object id="58" name="Route 1 Guard 2" type="Guard" x="135" y="193" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
