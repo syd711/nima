@@ -3,6 +3,9 @@ package com.starsailor.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.ai.fma.Formation;
+import com.badlogic.gdx.ai.fma.FreeSlotAssignmentStrategy;
+import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
@@ -231,6 +234,15 @@ public class ComponentFactory {
       component.damageAbsorptionFactor = shieldProfile.damageAbsorptionFactor;
       component.rechargeTimeMillis = shieldProfile.rechargeTimeMillis;
     }
+    entity.add(component);
+    return component;
+  }
+
+  public static FormationComponent addFormationComponent(Entity entity, SteerableComponent formationOwnerSteering, float distance) {
+    FormationComponent component = createComponent(FormationComponent.class);
+    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
+    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance*MPP);
+    component.formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
     entity.add(component);
     return component;
   }

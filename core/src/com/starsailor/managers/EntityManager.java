@@ -87,6 +87,9 @@ public class EntityManager {
     SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
     engine.addSystem(renderSystem);
 
+    FormationSystem formationSystem = new FormationSystem();
+    engine.addSystem(formationSystem);
+
     updateables.add(new Camera(camera, player));
   }
 
@@ -117,6 +120,7 @@ public class EntityManager {
 
   /**
    * Adds the given entity to the Ashley engine.
+   *
    * @param entity the entity to add
    */
   public void add(Entity entity) {
@@ -126,6 +130,7 @@ public class EntityManager {
   /**
    * Registers entities to be destroyed
    * for the next render interval.
+   *
    * @param toDestroy the list of entities to be destroyed
    */
   public void destroy(Entity toDestroy) {
@@ -154,12 +159,12 @@ public class EntityManager {
   public void update() {
     engine.update(Gdx.graphics.getDeltaTime());
 
-    for (Updateable updateable : updateables) {
+    for(Updateable updateable : updateables) {
       updateable.update();
     }
 
     if(!destroyEntities.isEmpty()) {
-      for (Entity entity : destroyEntities) {
+      for(Entity entity : destroyEntities) {
         BodyComponent component = entity.getComponent(BodyComponent.class);
         if(component != null) {
           component.destroy();
@@ -174,7 +179,7 @@ public class EntityManager {
       }
       destroyEntities.clear();
 
-      Gdx.app.log(this.toString(),"Ashley engine has " + engine.getEntities().size() + " entities");
+      Gdx.app.log(this.toString(), "Ashley engine has " + engine.getEntities().size() + " entities");
     }
   }
 
@@ -191,8 +196,7 @@ public class EntityManager {
     return engine.getEntitiesFor(Family.all(componentClass).get());
   }
 
-  public <T extends Component> T createComponent (Class<T> componentType) {
+  public <T extends Component> T createComponent(Class<T> componentType) {
     return engine.createComponent(componentType);
   }
-
 }
