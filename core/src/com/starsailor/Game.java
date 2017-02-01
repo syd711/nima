@@ -136,8 +136,6 @@ public class Game extends ApplicationAdapter {
     paused = false;
   }
 
-  int debugRender = 0;
-
   @Override
   public void render() {
     currentTimeMillis = System.currentTimeMillis();
@@ -164,11 +162,7 @@ public class Game extends ApplicationAdapter {
     world.step(deltaTime, 6, 2);
 
     if(Settings.getInstance().debug) {
-      debugRender++;
-      if(debugRender % 2 == 0) {
-        debugRender = 0;
-        box2DDebugRenderer.render(world, debugMatrix);
-      }
+      box2DDebugRenderer.render(world, debugMatrix);
     }
 
     tiledMapRenderer.getBatch().end();
@@ -176,7 +170,6 @@ public class Game extends ApplicationAdapter {
 
     rayHandler.setCombinedMatrix(camera);
     rayHandler.updateAndRender();
-
 
     //hud overlay at last
     hud.render();
