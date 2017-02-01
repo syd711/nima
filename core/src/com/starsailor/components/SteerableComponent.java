@@ -90,29 +90,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   }
 
   private void applySteering(float deltaTime) {
-//    boolean anyAccelerations = false;
-//    if(!steeringOutput.isZero()) {
-//      Vector2 force = steeringOutput.linear.scl(deltaTime);
-//      body.applyForceToCenter(force, true);
-//      anyAccelerations = true;
-//    }
-//
-//    if(anyAccelerations) {
-//      calculateOrientationFromLinearVelocity();
-//
-//      //Linear capping
-//      Vector2 velocity = body.getLinearVelocity();
-//      float currentSpeedSquare = velocity.len2();
-//      if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-//        body.setLinearVelocity(velocity.scl((float) (maxLinearSpeed / Math.sqrt(currentSpeedSquare))));
-//      }
-//
-//      //Angular capping
-//      if(body.getAngularVelocity() > maxAngularSpeed) {
-//        body.setAngularVelocity(maxAngularSpeed);
-//      }
-//    }
-
     boolean anyAccelerations = false;
 
     // Update position and linear velocity.
