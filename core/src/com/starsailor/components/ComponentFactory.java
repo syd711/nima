@@ -134,7 +134,7 @@ public class ComponentFactory {
 
   public static SteerableComponent addSteerableComponent(Entity entity, Body body, SteeringData steeringData) {
     SteerableComponent component = createComponent(SteerableComponent.class);
-    component.init(body, steeringData, true);
+    component.init(body, steeringData, false);
     entity.add(component);
     return component;
   }

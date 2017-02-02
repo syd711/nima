@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.GuardingNPC;
-import com.starsailor.actors.NPC;
 import com.starsailor.actors.Route;
+import com.starsailor.actors.RoutedNPC;
 import com.starsailor.actors.states.npc.NPCFactory;
-import com.starsailor.actors.states.npc.NPCStates;
+import com.starsailor.actors.states.npc.RouteState;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.ShipProfile;
 
@@ -20,7 +20,7 @@ public class SpawnShipsState implements State<Route> {
     RouteComponent routeComponent = route.routeComponent;
     ShipProfile shipProfile = route.shipProfile;
 
-    NPC npc = NPCFactory.createRoutedNPC(shipProfile, route, NPCStates.ROUTE, route.behaviour);
+    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, new RouteState(), route.behaviour);
 
     Gdx.app.log(getClass().getName(), "Route '" + route.getName() + "': spawned ship "
         + route.shipProfile + " at " + routeComponent.spawnPoint.position);

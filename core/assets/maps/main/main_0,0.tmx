@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="59">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="68">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -112,37 +112,79 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
-  <object id="38" name="Route 1" type="Route" x="1214.5" y="1128.5" width="43" height="43">
+  <object id="38" name="Route 1" type="Route" x="378.5" y="899.5" width="43" height="43">
    <properties>
     <property name="shipProfile" value="merchant"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="39" name="Route 1" type="Route" x="853.5" y="1160.5" width="43" height="43">
+  <object id="39" name="Route 1" type="Route" x="543.197" y="380.409" width="43" height="43">
    <properties>
     <property name="dockTime" type="float" value="3000"/>
     <property name="dockable" type="bool" value="true"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="52" name="Route 1 Guard 1" type="Guard" x="446" y="727" width="32" height="32">
+  <object id="52" name="Route 1 Guard 1" type="Guard" x="121" y="675" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="56" name="Route 1" type="Route" x="558.5" y="375.5" width="43" height="43">
+  <object id="58" name="Route 1 Guard 2" type="Guard" x="116" y="1159" width="32" height="32">
+   <properties>
+    <property name="guarding" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="60" name="Route 1 Guard 4" type="Guard" x="574" y="1118" width="32" height="32">
+   <properties>
+    <property name="guarding" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="61" name="Route 1 Guard 3" type="Guard" x="568" y="694" width="32" height="32">
+   <properties>
+    <property name="guarding" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="62" name="Route 1 Guard 5" type="Guard" x="760" y="896" width="32" height="32">
+   <properties>
+    <property name="guarding" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="63" name="Route 1" type="Route" x="1260.32" y="160.318" width="43" height="43">
    <properties>
     <property name="dockTime" type="float" value="3000"/>
     <property name="dockable" type="bool" value="true"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="58" name="Route 1 Guard 2" type="Guard" x="134" y="891" width="32" height="32">
+  <object id="64" name="Route 1" type="Route" x="1696.68" y="554.258" width="43" height="43">
    <properties>
-    <property name="guarding" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
+    <property name="dockTime" type="float" value="3000"/>
+    <property name="dockable" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="66" name="Route 1" type="Route" x="1557.29" y="1030.02" width="43" height="43">
+   <properties>
+    <property name="dockTime" type="float" value="3000"/>
+    <property name="dockable" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="67" name="Route 1" type="Route" x="854.258" y="1111.83" width="43" height="43">
+   <properties>
+    <property name="dockTime" type="float" value="3000"/>
+    <property name="dockable" type="bool" value="true"/>
    </properties>
    <ellipse/>
   </object>

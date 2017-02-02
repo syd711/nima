@@ -26,6 +26,6 @@ public class GuardingNPC extends NPC {
   @Override
   public void createComponents(ShipProfile profile) {
     super.createComponents(profile);
-    this.positionComponent.setPosition(position);
+    this.bodyComponent.setWorldPosition(position);
   }
 }

@@ -2,21 +2,21 @@
   "name" : "Missile",
   "sound" : "laser",
   "damage" : 30,
-  "forceFactor" : 4.5,
+  "forceFactor" : 8.5,
   "impactFactor" : 30,
   "rechargeTimeMillis" : 2700,
   "activationDistance" : 200,
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 2.4,
-    "maxLinearAcceleration" : 2.4,
-    "maxAngularSpeed" : 1.01,
-    "maxAngularAcceleration" : 1.01
+    "maxLinearSpeed" : 3.0,
+    "maxLinearAcceleration" : 3.0,
+    "maxAngularSpeed" : 0.03,
+    "maxAngularAcceleration" : 0.04
   },
   "bodyData" : {
-    "density" : 0.5,
-    "linearDamping" : 0.2,
-    "width" : 3.5,
+    "density" : 1,
+    "linearDamping" : 1,
+    "width" : 3.8,
     "height" : 25
   }
 }

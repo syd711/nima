@@ -12,7 +12,7 @@
     "density" : 1
   },
   "steeringData" : {
-    "boundingRadius" : 200,
+    "boundingRadius" : 300,
     "maxLinearSpeed" : 6,
     "maxLinearAcceleration" : 6,
     "maxAngularSpeed" : 1,

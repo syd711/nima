@@ -1,6 +1,9 @@
 package com.starsailor.actors;
 
+import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
@@ -9,6 +12,7 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.Textures;
+import com.starsailor.util.Box2dLocation;
 import com.starsailor.util.Resources;
 
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.List;
 /**
  * The general ship entity which is always a spine.
  */
-public class Ship extends Spine {
+public class Ship extends Spine implements FormationMember<Vector2> {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public SpineComponent spineComponent;
@@ -31,6 +35,8 @@ public class Ship extends Spine {
   public ShipProfile shipProfile;
   public float health = 100;
   public float maxHealth = 100;
+
+  private Box2dLocation location;
 
   public Ship(ShipProfile profile) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
@@ -51,6 +57,9 @@ public class Ship extends Spine {
     spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.SELECTION, -1);
     spriteComponent.addSprite(Textures.HEALTHBG);
     spriteComponent.addSprite(Textures.HEALTHFG);
+
+
+    this.location = new Box2dLocation(new Vector2());
   }
 
   public ShieldProfile getShield() {
@@ -122,5 +131,10 @@ public class Ship extends Spine {
    */
   public void switchWeapon(WeaponProfile weaponProfile) {
     shootingComponent.setActiveWeaponProfile(weaponProfile);
+  }
+
+  @Override
+  public Location<Vector2> getTargetLocation() {
+    return location;
   }
 }

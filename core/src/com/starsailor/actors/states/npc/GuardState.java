@@ -2,14 +2,20 @@ package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.ai.steer.Steerable;
-import com.badlogic.gdx.ai.steer.behaviors.Cohesion;
-import com.badlogic.gdx.ai.steer.proximities.RadiusProximity;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
+import com.badlogic.gdx.ai.steer.behaviors.CollisionAvoidance;
+import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
+import com.badlogic.gdx.ai.steer.limiters.AngularLimiter;
+import com.badlogic.gdx.ai.steer.limiters.NullLimiter;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.GuardingNPC;
-import com.starsailor.actors.Player;
 import com.starsailor.components.SteerableComponent;
+import com.starsailor.util.Box2dRadiusProximity;
+
+import static com.starsailor.Game.world;
+import static com.starsailor.util.Settings.MPP;
 
 /**
  * Let the give npc follow its route.
@@ -18,35 +24,42 @@ public class GuardState implements State<GuardingNPC> {
   @Override
   public void enter(GuardingNPC npc) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
-    SteerableComponent targetSteering = npc.guardedNPC.getComponent(SteerableComponent.class);
 
+    Arrive<Vector2> arrive = new Arrive<>(sourceSteering, npc.getTargetLocation());
+    arrive.setTimeToTarget(0.1f);
+    arrive.setArrivalTolerance(2f);
+    arrive.setDecelerationRadius(10);
 
-    float radius = 1f;
-    Array<Steerable<Vector2>> obstacles = new Array<>();
-    obstacles.add(Player.getInstance().steerableComponent);
-    RadiusProximity<Vector2> radiusProximity = new RadiusProximity<>(targetSteering, obstacles, radius);
-    Cohesion<Vector2> behaviour = new Cohesion<>(sourceSteering, radiusProximity);
-    sourceSteering.setBehavior(behaviour);
+    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
+    CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
-//    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<Vector2>() //
-//        .add(groupAlignmentSB, .2f) //
-//        .add(groupCohesionSB, .06f) //
-//        .add(groupSeparationSB, 1.7f);
-//    blendedSteerings.add(blendedSteering);
+    LookWhereYouAreGoing lookWhereYouAreGoingSB = new LookWhereYouAreGoing<Vector2>(sourceSteering) //
+        .setLimiter(new AngularLimiter(0.5f, 0.5f)) //
+        .setTimeToTarget(0.1f) //
+        .setAlignTolerance(0.001f) //
+        .setDecelerationRadius(MathUtils.PI);
+
+    BlendedSteering<Vector2> reachPositionAndOrientationSB = new BlendedSteering<Vector2>(sourceSteering);
+    reachPositionAndOrientationSB.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    reachPositionAndOrientationSB.add(arrive, 1f);
+    reachPositionAndOrientationSB.add(collisionAvoidanceSB, 1f) ;
+    reachPositionAndOrientationSB.add(lookWhereYouAreGoingSB, 0.5f);
+
+    npc.steerableComponent.setBehavior(reachPositionAndOrientationSB);
   }
 
   @Override
   public void update(GuardingNPC npc) {
-    float distanceToPlayer = npc.getDistanceToPlayer();
-
-    if(npc.isAggressive()) {
-      if(distanceToPlayer < npc.shipProfile.attackDistance) {
-        npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
-      }
-    }
-    else if(distanceToPlayer < npc.shipProfile.evadeDistance) {
-      npc.getStateMachine().changeState(NPCStates.AVOID_PLAYER_COLLISION);
-    }
+//    float distanceToPlayer = npc.getDistanceToPlayer();
+//
+//    if(npc.isAggressive()) {
+//      if(distanceToPlayer < npc.shipProfile.attackDistance) {
+//        npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
+//      }
+//    }
+//    else if(distanceToPlayer < npc.shipProfile.evadeDistance) {
+//      npc.getStateMachine().changeState(NPCStates.AVOID_PLAYER_COLLISION);
+//    }
   }
 
   @Override
