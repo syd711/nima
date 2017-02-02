@@ -32,8 +32,6 @@ public class Player extends Ship {
     super.createComponents(profile);
     ComponentFactory.addPlayerCollisionComponent(this);
 
-    steerableComponent.setIndependetFacing(true);
-
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
