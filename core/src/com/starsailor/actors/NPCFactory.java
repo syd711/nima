@@ -1,8 +1,8 @@
-package com.starsailor.actors.states.npc;
+package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.*;
+import com.starsailor.actors.states.npc.GuardState;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
 

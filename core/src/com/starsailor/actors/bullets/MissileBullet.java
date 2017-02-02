@@ -17,7 +17,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.box2d.Box2dUtil;
 import com.starsailor.util.Resources;
 
 import java.util.ArrayList;

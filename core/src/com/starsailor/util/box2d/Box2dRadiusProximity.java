@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.starsailor.util;
+package com.starsailor.util.box2d;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.steer.Proximity;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.starsailor.actors.Collidable;
-import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.box2d.Box2dUtil;
 
 /**
  * The Box2d world contact listener

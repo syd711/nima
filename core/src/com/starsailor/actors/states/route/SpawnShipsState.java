@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.GuardingNPC;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutedNPC;
-import com.starsailor.actors.states.npc.NPCFactory;
+import com.starsailor.actors.NPCFactory;
 import com.starsailor.actors.states.npc.RouteState;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.ShipProfile;

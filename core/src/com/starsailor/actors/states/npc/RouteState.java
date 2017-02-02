@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.RoutedNPC;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SteerableComponent;
-import com.starsailor.util.Box2dRadiusProximity;
+import com.starsailor.util.box2d.Box2dRadiusProximity;
 
 import static com.starsailor.Game.world;
 import static com.starsailor.util.Settings.MPP;

@@ -1,4 +1,4 @@
-package com.starsailor.util;
+package com.starsailor.util.box2d;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.starsailor.util.Settings;
 
 import static com.starsailor.util.Settings.MPP;
 

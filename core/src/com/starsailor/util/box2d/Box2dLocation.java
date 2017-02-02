@@ -1,7 +1,8 @@
-package com.starsailor.util;
+package com.starsailor.util.box2d;
 
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.util.GraphicsUtil;
 
 /**
  * Used for steering

@@ -21,8 +21,8 @@ import com.starsailor.managers.Particles;
 import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
 import com.starsailor.render.converters.MapConstants;
-import com.starsailor.util.BodyGenerator;
-import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.box2d.BodyGenerator;
+import com.starsailor.util.box2d.Box2dUtil;
 import com.starsailor.util.GraphicsUtil;
 
 import static com.starsailor.util.Settings.MPP;

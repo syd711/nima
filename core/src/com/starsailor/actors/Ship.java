@@ -12,7 +12,7 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.Textures;
-import com.starsailor.util.Box2dLocation;
+import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.Resources;
 
 import java.util.List;

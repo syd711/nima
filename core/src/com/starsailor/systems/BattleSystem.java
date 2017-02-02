@@ -10,7 +10,7 @@ import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
 import com.starsailor.data.BodyData;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.util.BodyGenerator;
+import com.starsailor.util.box2d.BodyGenerator;
 
 import java.util.List;
 

@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.starsailor.util.Box2dLocation;
+import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.data.SteeringData;
-import com.starsailor.util.Box2dLocation;
+import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
 

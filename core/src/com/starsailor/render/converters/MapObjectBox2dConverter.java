@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.starsailor.render.MapObjectConverter;
 import com.starsailor.render.TiledMapFragment;
-import com.starsailor.util.BodyGenerator;
+import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.Settings;
 
 import static com.starsailor.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;

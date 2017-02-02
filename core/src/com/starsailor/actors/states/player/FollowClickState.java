@@ -14,7 +14,7 @@ import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.data.SteeringData;
-import com.starsailor.util.Box2dUtil;
+import com.starsailor.util.box2d.Box2dUtil;
 
 /**
  * State used for navigating the player
