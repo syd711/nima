@@ -2,13 +2,14 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Iterating system that renders
  */
-abstract public class RenderingSystem extends AbstractIteratingSystem {
+abstract public class RenderingSystem extends IteratingSystem {
 
   protected SpriteBatch batch;
 
@@ -23,4 +24,6 @@ abstract public class RenderingSystem extends AbstractIteratingSystem {
     process(entity, deltaTime);
     batch.end();
   }
+
+  abstract protected void process(Entity entity, float deltaTime);
 }

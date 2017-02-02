@@ -50,9 +50,10 @@ public class Game extends ApplicationAdapter {
 
   public static DefaultStateMachine gameState;
 
-  private boolean paused;
-
   public static I18NBundle bundle;
+
+  //quicker access for box2d
+  private boolean paused = false;
 
   @Override
   public void create() {
@@ -114,7 +115,7 @@ public class Game extends ApplicationAdapter {
     positionComponent = player.getComponent(PositionComponent.class);
 
     //input processing
-    inputManager = new InputManager(player, camera);
+    inputManager = new InputManager(this, camera);
 
     //hud creation
     hud = new Hud();
@@ -129,16 +130,19 @@ public class Game extends ApplicationAdapter {
   @Override
   public void pause() {
     paused = true;
+    Game.gameState.changeState(GameState.PAUSED);
   }
 
   @Override
   public void resume() {
     paused = false;
+    Game.gameState.changeState(GameState.RESUME);
   }
 
   @Override
   public void render() {
     currentTimeMillis = System.currentTimeMillis();
+    float deltaTime = Gdx.graphics.getDeltaTime();
 
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -158,8 +162,9 @@ public class Game extends ApplicationAdapter {
     entityManager.update();
 
     tiledMapRenderer.getBatch().begin();
-    float deltaTime = Gdx.graphics.getDeltaTime();
-    world.step(deltaTime, 6, 2);
+    if(!paused) {
+      world.step(deltaTime, 6, 2);
+    }
 
     if(Settings.getInstance().debug) {
       box2DDebugRenderer.render(world, debugMatrix);

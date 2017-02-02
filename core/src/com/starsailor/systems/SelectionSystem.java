@@ -12,7 +12,7 @@ import com.starsailor.managers.Textures;
 /**
  * Handles the selection and the changed selection rendering
  */
-public class SelectionSystem extends AbstractIteratingSystem {
+public class SelectionSystem extends PauseableIteratingSystem {
 
   public SelectionSystem() {
     super(Family.all(SelectionComponent.class).get());

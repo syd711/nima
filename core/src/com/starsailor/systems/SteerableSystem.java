@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.components.SteerableComponent;
 
-public class SteerableSystem extends AbstractIteratingSystem {
+public class SteerableSystem extends PauseableIteratingSystem {
   private ComponentMapper<SteerableComponent> steerableMap = ComponentMapper.getFor(SteerableComponent.class);
 
   public SteerableSystem() {

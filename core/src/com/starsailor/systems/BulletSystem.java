@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.BulletDamageComponent;
 
-public class BulletSystem extends AbstractIteratingSystem {
+public class BulletSystem extends PauseableIteratingSystem {
   public BulletSystem() {
     super(Family.all(BulletDamageComponent.class).get());
   }

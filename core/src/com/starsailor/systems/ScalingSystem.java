@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.ScalingComponent;
 
-public class ScalingSystem extends AbstractIteratingSystem {
+public class ScalingSystem extends PauseableIteratingSystem {
   private ComponentMapper<ScalingComponent> skalingsMap = ComponentMapper.getFor(ScalingComponent.class);
 
   public ScalingSystem() {

@@ -11,7 +11,7 @@ public class GameState {
   public static State RESUME = new State<Game>() {
     @Override
     public void enter(Game game) {
-      game.resume();
+
     }
 
     @Override
@@ -33,7 +33,6 @@ public class GameState {
   public static State PAUSED = new State<Game>() {
     @Override
     public void enter(Game game) {
-      game.pause();
     }
 
     @Override

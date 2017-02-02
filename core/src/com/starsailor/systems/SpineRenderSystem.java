@@ -33,7 +33,6 @@ public class SpineRenderSystem extends RenderingSystem {
     spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
 
     //apply the rendering to the spine engine
-    spine.state.update(deltaTime); // Update the animation time.
     spine.state.apply(spine.skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
     spine.skeleton.updateWorldTransform();
     spine.skeletonRenderer.draw(batch, spine.skeleton); // Draw the skeleton images.

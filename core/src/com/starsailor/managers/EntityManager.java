@@ -84,6 +84,9 @@ public class EntityManager {
     StateMachineSystem stateMachineSystem = new StateMachineSystem();
     engine.addSystem(stateMachineSystem);
 
+    SpineUpdateSystem spineSystem = new SpineUpdateSystem();
+    engine.addSystem(spineSystem);
+
     SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
     engine.addSystem(renderSystem);
 

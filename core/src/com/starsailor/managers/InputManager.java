@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
+import com.starsailor.GameState;
 import com.starsailor.actors.Player;
 import com.starsailor.util.GraphicsUtil;
 
@@ -16,12 +17,12 @@ import com.starsailor.util.GraphicsUtil;
 public class InputManager implements InputProcessor {
 
   private OrthographicCamera camera;
-  private Player player;
   private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+  private Game game;
 
-  public InputManager(Player player, OrthographicCamera camera) {
+  public InputManager(Game game, OrthographicCamera camera) {
+    this.game = game;
     this.camera = camera;
-    this.player = player;
   }
 
   public InputMultiplexer getInputMultiplexer() {
@@ -65,12 +66,12 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.P) {
-//      if(Game.gameState.getCurrentState().equals(GameState.PAUSED)) {
-//        Game.gameState.changeState(GameState.RESUME);
-//      }
-//      else {
-//        Game.gameState.changeState(GameState.PAUSED);
-//      }
+      if(Game.gameState.getCurrentState().equals(GameState.PAUSED)) {
+        game.resume();
+      }
+      else {
+        game.pause();
+      }
 
       return true;
     }

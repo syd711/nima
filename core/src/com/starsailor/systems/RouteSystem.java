@@ -11,7 +11,7 @@ import com.starsailor.components.RouteComponent;
  * Other systems ensure that the route entity is still in the engine,
  * so we only have to check the ship status on the route.
  */
-public class RouteSystem extends AbstractIteratingSystem {
+public class RouteSystem extends PauseableIteratingSystem {
   public RouteSystem() {
     super(Family.all(RouteComponent.class).get());
   }

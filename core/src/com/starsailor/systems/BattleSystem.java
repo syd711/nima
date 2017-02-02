@@ -14,7 +14,7 @@ import com.starsailor.util.box2d.BodyGenerator;
 
 import java.util.List;
 
-public class BattleSystem extends AbstractIteratingSystem {
+public class BattleSystem extends PauseableIteratingSystem {
   public BattleSystem() {
     super(Family.all(ShootingComponent.class).get());
   }
