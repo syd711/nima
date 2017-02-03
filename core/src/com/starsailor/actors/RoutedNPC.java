@@ -1,21 +1,16 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.FormationComponent;
-import com.starsailor.components.SteerableComponent;
 import com.starsailor.data.ShipProfile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Patrolling a route
  */
 public class RoutedNPC extends NPC {
   private Route route;
-  private List<GuardingNPC> guards = new ArrayList<>();
   private FormationComponent formationComponent;
 
   /**
@@ -23,8 +18,8 @@ public class RoutedNPC extends NPC {
    * @param shipProfile
    * @param route
    */
-  public RoutedNPC(ShipProfile shipProfile, Route route, State<NPC> defaultState) {
-    super(shipProfile, defaultState);
+  public RoutedNPC(ShipProfile shipProfile, Route route, State<NPC> defaultState, Vector2 position) {
+    super(shipProfile, defaultState, position);
     this.route = route;
     this.route.npc = this;
   }
@@ -37,15 +32,6 @@ public class RoutedNPC extends NPC {
   }
 
   public void addGuard(GuardingNPC guardingNPC) {
-    guards.add(guardingNPC);
     formationComponent.addMember(guardingNPC);
-  }
-
-  public Array<SteerableComponent> getGuardSteerings() {
-    List<SteerableComponent> steerableComponents = new ArrayList<>();
-    for(GuardingNPC guard : guards) {
-      steerableComponents.add(guard.steerableComponent);
-    }
-    return new Array<>(steerableComponents.toArray(new SteerableComponent[steerableComponents.size()]));
   }
 }

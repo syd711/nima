@@ -4,10 +4,12 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -24,6 +26,8 @@ import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
 import java.util.Locale;
+
+import static com.starsailor.util.Settings.PPM;
 
 public class Game extends ApplicationAdapter {
   public static long currentTimeMillis;
@@ -52,8 +56,10 @@ public class Game extends ApplicationAdapter {
   public static DefaultStateMachine gameState;
 
   public static I18NBundle bundle;
-  
-  
+
+  ShapeRenderer shapeRenderer;
+
+  public static Wander wanderSB;
 
   //quicker access for box2d
   private boolean paused = false;
@@ -75,6 +81,7 @@ public class Game extends ApplicationAdapter {
     //camera
     camera = new OrthographicCamera();
     camera.setToOrtho(false);
+    camera.zoom = settings.cameraZoom;
     camera.update();
 
     //box2d
@@ -112,6 +119,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2ConeLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
+    tiledMapRenderer.addMapObjectConverter(new Pirate2EntityConverter(settings.npcs_enabled));
 
     //init player
     Player player = entityManager.getPlayer();
@@ -127,7 +135,11 @@ public class Game extends ApplicationAdapter {
     inputManager.getInputMultiplexer().addProcessor(inputManager);
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
 
+    //shutdown hook to store settings
     Runtime.getRuntime().addShutdownHook(new Thread(() -> gameSettings.save()));
+
+    //debugging
+    shapeRenderer = new ShapeRenderer();
   }
 
   @Override
@@ -155,7 +167,7 @@ public class Game extends ApplicationAdapter {
 
     camera.update();
 
-    Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(Settings.PPM, Settings.PPM, 0);
+    Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(PPM, PPM, 0);
     batch.setProjectionMatrix(camera.combined);
 
     tiledMapRenderer.setView(camera);
@@ -173,9 +185,22 @@ public class Game extends ApplicationAdapter {
 
     if(settings.debug) {
       box2DDebugRenderer.render(world, debugMatrix);
-      if(camera.zoom != settings.cameraZoom) {
-        camera.zoom = settings.cameraZoom;
-      }
+
+//      shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//      shapeRenderer.setColor(0, 1, 0, 1);
+//      float wanderCenterX = wanderSB.getWanderCenter().x*PPM;
+//      float wanderCenterY = wanderSB.getWanderCenter().y*PPM;
+//      float wanderRadius = wanderSB.getWanderRadius()*PPM;
+//      shapeRenderer.circle(wanderCenterX, wanderCenterY, wanderRadius);
+//      shapeRenderer.end();
+//
+//      // Draw target
+//      shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//      shapeRenderer.setColor(1, 0, 0, 1);
+//      int targetCenterX = wanderSB.getInternalTargetPosition().x*PPM;
+//      int targetCenterY = wanderSB.getInternalTargetPosition().y*PPM;
+//      shapeRenderer.circle(targetCenterX, targetCenterY, 4);
+//      shapeRenderer.end();
     }
 
     tiledMapRenderer.getBatch().end();

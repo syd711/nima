@@ -69,10 +69,16 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Spine spine, BodyData bodyData) {
+  public static BodyComponent addBodyComponent(Spine spine, BodyData bodyData, Vector2 position) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createSpineBody(Game.world, spine, bodyData);
     component.body.setUserData(spine);
+
+    if(position != null) {
+      Vector2 box2dPos = Box2dUtil.toBox2Vector(position);
+      component.body.setTransform(box2dPos, component.body.getAngle());
+    }
+
     spine.add(component);
     return component;
   }

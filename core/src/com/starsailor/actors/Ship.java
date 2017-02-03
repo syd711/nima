@@ -38,9 +38,12 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   private Box2dLocation location;
 
-  public Ship(ShipProfile profile) {
+  private Vector2 position;
+
+  public Ship(ShipProfile profile, Vector2 position) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
     this.shipProfile = profile;
+    this.position = position;
   }
 
   public void createComponents(ShipProfile profile) {
@@ -48,7 +51,7 @@ public class Ship extends Spine implements FormationMember<Vector2> {
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this, profile.bodyData);
+    bodyComponent = ComponentFactory.addBodyComponent(this, profile.bodyData, position);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, profile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, profile);
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);

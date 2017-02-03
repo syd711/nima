@@ -38,6 +38,10 @@ public class DataEntities {
   }
 
   public static ShipProfile getShip(String profile) {
-    return ships.get(profile);
+    ShipProfile shipProfile = ships.get(profile);
+    if(shipProfile == null) {
+      throw new UnsupportedOperationException("No ship profile found for '" + profile + "'");
+    }
+    return shipProfile;
   }
 }

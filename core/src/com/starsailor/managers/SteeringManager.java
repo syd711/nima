@@ -79,14 +79,14 @@ public class SteeringManager {
 
     Wander<Vector2> wanderSB = new Wander<>(sourceSteering);
     wanderSB.setLimiter(new LinearAccelerationLimiter(sourceSteering.getMaxLinearAcceleration()));
-    wanderSB.setFaceEnabled(false);
-    wanderSB.setAlignTolerance(0.001f);
-    wanderSB.setDecelerationRadius(5);
-    wanderSB.setTimeToTarget(0.1f);
-    wanderSB.setWanderOffset(70);
-    wanderSB.setWanderOrientation(10);
-    wanderSB.setWanderRadius(40);
-    wanderSB.setWanderRate(MathUtils.PI2 * 4);
+    wanderSB.setFaceEnabled(false); // We want to use Face internally (independent facing is on)
+    wanderSB.setAlignTolerance(0.001f); // Used by Face
+    wanderSB.setDecelerationRadius(1); // Used by Face
+    wanderSB.setTimeToTarget(0.1f); // Used by Face
+    wanderSB.setWanderOffset(3);
+    wanderSB.setWanderOrientation(3);
+    wanderSB.setWanderRadius(1);
+    wanderSB.setWanderRate(MathUtils.PI2 * 1);
 
     sourceSteering.setBehavior(wanderSB);
   }

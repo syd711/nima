@@ -23,7 +23,7 @@ public class Player extends Ship {
   }
 
   public Player(ShipProfile profile) {
-    super(profile);
+    super(profile, null);
     instance = this;
   }
 

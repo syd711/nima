@@ -1,6 +1,7 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
@@ -19,8 +20,8 @@ public class NPC extends Ship implements Selectable {
 
   protected State<NPC> defaultState;
 
-  public NPC(ShipProfile profile, State<NPC> defaultState) {
-    super(profile);
+  public NPC(ShipProfile profile, State<NPC> defaultState, Vector2 position) {
+    super(profile, position);
     this.shipProfile = profile;
     this.defaultState = defaultState;
   }

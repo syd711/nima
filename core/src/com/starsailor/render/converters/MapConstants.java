@@ -30,6 +30,7 @@ public class MapConstants {
   public static final String TYPE_STATION = "Station";
   public static final String TYPE_ROUTE_POINT = "Route";
   public static final String TYPE_ROUTE_MEMBER = "RouteMember";
+  public static final String TYPE_PIRATE = "Pirate";
 
   // Steering Behaviours represented by states
   public static final String PROPERTY_STATE = "state";

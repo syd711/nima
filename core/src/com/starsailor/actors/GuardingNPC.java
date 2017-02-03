@@ -18,7 +18,7 @@ public class GuardingNPC extends NPC {
    * @param guardedNPC
    */
   public GuardingNPC(ShipProfile shipProfile, NPC guardedNPC, State<NPC> defaultState, Vector2 position) {
-    super(shipProfile, defaultState);
+    super(shipProfile, defaultState, position);
     this.guardedNPC = guardedNPC;
     this.position = position;
   }
