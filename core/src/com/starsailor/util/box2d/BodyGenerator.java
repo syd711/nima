@@ -28,7 +28,7 @@ public class BodyGenerator {
   public static Body createClickBody(Vector2 clickPoint) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(Box2dUtil.toBox2Vector(clickPoint.scl(Game.camera.zoom)));
+    bdef.position.set(Box2dUtil.toBox2Vector(clickPoint));
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();

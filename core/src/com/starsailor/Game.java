@@ -129,8 +129,10 @@ public class Game extends ApplicationAdapter {
 
   @Override
   public void pause() {
-    paused = true;
-    Game.gameState.changeState(GameState.PAUSED);
+    if(!Settings.getInstance().debug) {
+      paused = true;
+      Game.gameState.changeState(GameState.PAUSED);
+    }
   }
 
   @Override

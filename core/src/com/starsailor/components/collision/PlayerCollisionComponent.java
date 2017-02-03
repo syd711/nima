@@ -6,11 +6,12 @@ import com.starsailor.actors.Collidable;
 import com.starsailor.actors.Location;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.FollowClickState;
 import com.starsailor.actors.states.player.PlayerState;
 
 /**
- * Collidable component for an ashley entity.
+ * Collideable component for an ashley entity.
  */
 public class PlayerCollisionComponent implements Collidable {
   @Override
@@ -20,8 +21,8 @@ public class PlayerCollisionComponent implements Collidable {
         Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
       }
     }
-    else if(collidee instanceof com.starsailor.actors.bullets.Bullet) {
-      com.starsailor.actors.bullets.Bullet bullet = (com.starsailor.actors.bullets.Bullet) collidee;
+    else if(collidee instanceof Bullet) {
+      Bullet bullet = (Bullet) collidee;
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
       bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
     }
