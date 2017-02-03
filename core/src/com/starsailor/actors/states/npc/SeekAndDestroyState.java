@@ -2,6 +2,7 @@ package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.starsailor.Game;
 import com.starsailor.actors.NPC;
 import com.starsailor.managers.SteeringManager;
 
@@ -11,7 +12,7 @@ import com.starsailor.managers.SteeringManager;
 public class SeekAndDestroyState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
-    SteeringManager.setWanderSteering(npc);
+    Game.wanderSB = SteeringManager.setWanderSteering(npc);
   }
 
   @Override

@@ -42,7 +42,7 @@ public class SteeringManager {
     BlendedSteering<Vector2> reachPositionAndOrientationSB = new BlendedSteering<Vector2>(sourceSteering);
     reachPositionAndOrientationSB.setLimiter(NullLimiter.NEUTRAL_LIMITER);
     reachPositionAndOrientationSB.add(arrive, 1f);
-    reachPositionAndOrientationSB.add(collisionAvoidanceSB, 1f) ;
+    reachPositionAndOrientationSB.add(collisionAvoidanceSB, 1f);
     reachPositionAndOrientationSB.add(lookWhereYouAreGoingSB, 0.5f);
 
     npc.steerableComponent.setBehavior(reachPositionAndOrientationSB);
@@ -74,7 +74,7 @@ public class SteeringManager {
     sourceSteering.setBehavior(reachPositionAndOrientationSB);
   }
 
-  public static void setWanderSteering(NPC npc) {
+  public static Wander<Vector2> setWanderSteering(NPC npc) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
     Wander<Vector2> wanderSB = new Wander<>(sourceSteering);
@@ -86,8 +86,10 @@ public class SteeringManager {
     wanderSB.setWanderOffset(3);
     wanderSB.setWanderOrientation(3);
     wanderSB.setWanderRadius(1);
-    wanderSB.setWanderRate(MathUtils.PI2 * 1);
+    wanderSB.setWanderRate(MathUtils.PI2 * 4);
 
     sourceSteering.setBehavior(wanderSB);
+
+    return wanderSB;
   }
 }

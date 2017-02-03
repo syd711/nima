@@ -5,22 +5,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.fma.Formation;
 import com.badlogic.gdx.ai.fma.FormationMember;
-import com.badlogic.gdx.ai.fma.FreeSlotAssignmentStrategy;
-import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
+import com.starsailor.util.box2d.Box2dLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.starsailor.util.Settings.PPM;
 
 public class Box2dTestApplication extends ApplicationAdapter {
 
@@ -34,6 +36,10 @@ public class Box2dTestApplication extends ApplicationAdapter {
 
   List<TestSteeringEntity> targets = new ArrayList<>();
   private OrthographicCamera camera;
+
+
+  ShapeRenderer shapeRenderer;
+  public static Wander<Vector2> wanderSB;
 
   @Override
   public void create() {
@@ -55,41 +61,67 @@ public class Box2dTestApplication extends ApplicationAdapter {
     shape.setAsBox(10, 10);
     body.createFixture(shape, 1f);
     shape.dispose();
+    //debugging
+    shapeRenderer = new ShapeRenderer();
 
     entity = new TestSteeringEntity(body, 30);
 
     //////////// Creation formation
-    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
-    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(100);
-    formation = new Formation<>(entity, defensiveCirclePattern, freeSlotAssignmentStrategy);
+//    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
+//    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(100);
+//    formation = new Formation<>(entity, defensiveCirclePattern, freeSlotAssignmentStrategy);
+//
+//    ////////// Create formation entities
+//    for(int i = 0; i < 3; i++) {
+//      def = new BodyDef();
+//      def.type = BodyDef.BodyType.DynamicBody;
+//      def.fixedRotation = false;
+//      def.position.set(150 + i * 50, 150 + i * 50);
+//      body = world.createBody(def);
+//      body.setLinearDamping(0.5f);
+//
+//      shape = new PolygonShape();
+//      //calculated from center!
+//      shape.setAsBox(20, 20);
+//      body.createFixture(shape, 0.01f);
+//      shape.dispose();
+//
+//      TestSteeringEntity target = new TestSteeringEntity(body, 130);
+//      targets.add(target);
+//      formation.addMember(target);
+//
+//      Arrive<Vector2> arrive = new Arrive<>(target, target.getTargetLocation());
+//      arrive.setTimeToTarget(0.1f);
+//      arrive.setArrivalTolerance(2f);
+//      arrive.setDecelerationRadius(10);
+//
+//      target.setBehavior(arrive);
+//    }
 
-    ////////// Create formation entities
-    for(int i = 0; i < 3; i++) {
-      def = new BodyDef();
-      def.type = BodyDef.BodyType.DynamicBody;
-      def.fixedRotation = false;
-      def.position.set(150 + i * 50, 150 + i * 50);
-      body = world.createBody(def);
-      body.setLinearDamping(0.5f);
+    def = new BodyDef();
+    def.type = BodyDef.BodyType.DynamicBody;
+    def.fixedRotation = false;
+    def.position.set(150 + 3 * 50, 150 + 3 * 50);
+    body = world.createBody(def);
+    body.setLinearDamping(0.5f);
 
-      shape = new PolygonShape();
-      //calculated from center!
-      shape.setAsBox(20, 20);
-      body.createFixture(shape, 0.01f);
-      shape.dispose();
-
-      TestSteeringEntity target = new TestSteeringEntity(body, 130);
-      targets.add(target);
-      formation.addMember(target);
-
-      Arrive<Vector2> arrive = new Arrive<>(target, target.getTargetLocation());
-      arrive.setTimeToTarget(0.1f);
-      arrive.setArrivalTolerance(2f);
-      arrive.setDecelerationRadius(10);
-
-      target.setBehavior(arrive);
-    }
-
+    shape = new PolygonShape();
+    //calculated from center!
+    shape.setAsBox(20, 20);
+    body.createFixture(shape, 0.01f);
+    shape.dispose();
+    TestSteeringEntity target = new TestSteeringEntity(body, 2);
+    targets.add(target);
+    wanderSB = new Wander<Vector2>(target) //
+        .setFaceEnabled(true) // We want to use Face internally (independent facing is on)
+        .setAlignTolerance(0.001f) // Used by Face
+        .setDecelerationRadius(1) // Used by Face
+        .setTimeToTarget(0.1f) // Used by Face
+        .setWanderOffset(3) //
+        .setWanderOrientation(3) //
+        .setWanderRadius(1) //
+        .setWanderRate(MathUtils.PI2 * 4);
+    target.setBehavior(wanderSB);
   }
 
 
@@ -131,7 +163,27 @@ public class Box2dTestApplication extends ApplicationAdapter {
     }
 
     entity.update(Gdx.graphics.getDeltaTime());
-    formation.updateSlots();
+    if(formation != null) {
+      formation.updateSlots();
+    }
+
+    if(wanderSB != null) {
+      shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+      shapeRenderer.setColor(0, 1, 0, 1);
+      float wanderCenterX = wanderSB.getWanderCenter().x * PPM;
+      float wanderCenterY = wanderSB.getWanderCenter().y * PPM;
+      float wanderRadius = wanderSB.getWanderRadius() * PPM;
+      shapeRenderer.circle(wanderCenterX, wanderCenterY, wanderRadius);
+      shapeRenderer.end();
+
+      // Draw target
+      shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+      shapeRenderer.setColor(1, 0, 0, 1);
+      float targetCenterX = wanderSB.getInternalTargetPosition().x * PPM;
+      float targetCenterY = wanderSB.getInternalTargetPosition().y * PPM;
+      shapeRenderer.circle(targetCenterX, targetCenterY, 4);
+      shapeRenderer.end();
+    }
   }
 
   public static class TestSteeringEntity implements Steerable<Vector2>, FormationMember<Vector2> {

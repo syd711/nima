@@ -1,14 +1,16 @@
 package com.starsailor.util;
 
+import com.badlogic.gdx.ai.GdxAI;
+
 /**
  * Utility class for timings
  */
-public class Timer {
+public class GameTimer {
 
   private long duration;
   private long startTime;
 
-  public Timer(long duration, long currentGameTime) {
+  public GameTimer(long duration, long currentGameTime) {
     this.duration = duration;
     this.startTime = currentGameTime;
   }
@@ -23,9 +25,9 @@ public class Timer {
 
   /**
    * To be updated with the gaming time, not the real time
-   * @param currentGameTime amount of millies the user is in the game
    */
-  public void update(long currentGameTime) {
-    this.startTime+=(currentGameTime-startTime);
+  public static float update(float deltaTime) {
+    GdxAI.getTimepiece().update(deltaTime);
+    return GdxAI.getTimepiece().getDeltaTime();
   }
 }

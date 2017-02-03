@@ -1,7 +1,7 @@
 {
   "version": 0.1,
   "debug": true,
-  "cameraZoom" : 1.8,
+  "cameraZoom" : 1.0,
   "fullscreen" : false,
   "resizable" : false,
   "backgroundFPS" : 60,

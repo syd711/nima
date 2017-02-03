@@ -177,11 +177,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="70" name="Pirate 1" type="Pirate" x="899" y="1146" width="52" height="52">
-   <properties>
-    <property name="shipProfile" value="pirate"/>
-    <property name="state" value="SeekAndDestroy"/>
-   </properties>
+  <object id="70" name="Pirate 1" type="Route" x="996" y="605" width="52" height="52">
    <ellipse/>
   </object>
  </objectgroup>
