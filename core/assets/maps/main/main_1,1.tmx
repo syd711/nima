@@ -97,6 +97,7 @@
   <object id="4" name="Route 3" type="Route" x="531" y="367" width="52" height="52">
    <properties>
     <property name="shipProfile" value="pirate"/>
+    <property name="state" value="SeekAndDestroy"/>
    </properties>
    <ellipse/>
   </object>

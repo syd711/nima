@@ -5,14 +5,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.Player;
 import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
 import com.starsailor.data.BodyData;
-import com.starsailor.data.WeaponProfile;
 import com.starsailor.util.box2d.BodyGenerator;
-
-import java.util.List;
 
 public class BattleSystem extends PauseableIteratingSystem {
   public BattleSystem() {
@@ -33,32 +29,32 @@ public class BattleSystem extends PauseableIteratingSystem {
    * @param npc
    */
   private void updateShooting(NPC npc) {
-    if(npc.isAggressive()) {
-
-      List<WeaponProfile> weapons = npc.getWeapons();
-      for(WeaponProfile weapon : weapons) {
-        switch(weapon.type) {
-          case LASER: {
-            if(npc.isInShootingRange()) {
-              npc.shootingComponent.setActiveWeaponProfile(weapon);
-              if(npc.shootingComponent.isCharged()) {
-                npc.fireAt(Player.getInstance());
-              }
-            }
-            break;
-          }
-          case MISSILE: {
-            if(npc.isInShootingRange()) {
-              npc.shootingComponent.setActiveWeaponProfile(weapon);
-              if(npc.shootingComponent.isCharged()) {
-                npc.fireAt(Player.getInstance());
-              }
-            }
-            break;
-          }
-        }
-      }
-    }
+//    if(npc.isAggressive()) {
+//
+//      List<WeaponProfile> weapons = npc.getWeapons();
+//      for(WeaponProfile weapon : weapons) {
+//        switch(weapon.type) {
+//          case LASER: {
+//            if(npc.isInShootingRange()) {
+//              npc.shootingComponent.setActiveWeaponProfile(weapon);
+//              if(npc.shootingComponent.isCharged()) {
+//                npc.fireAt(Player.getInstance());
+//              }
+//            }
+//            break;
+//          }
+//          case MISSILE: {
+//            if(npc.isInShootingRange()) {
+//              npc.shootingComponent.setActiveWeaponProfile(weapon);
+//              if(npc.shootingComponent.isCharged()) {
+//                npc.fireAt(Player.getInstance());
+//              }
+//            }
+//            break;
+//          }
+//        }
+//      }
+//    }
   }
 
   /**

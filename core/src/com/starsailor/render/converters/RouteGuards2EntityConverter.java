@@ -5,16 +5,16 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.Behaviours;
 import com.starsailor.actors.Route;
+import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.DataEntities;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
 
-import static com.starsailor.render.converters.MapConstants.PROPERTY_GUARDING;
 import static com.starsailor.render.converters.MapConstants.PROPERTY_OBJECT_TYPE;
+import static com.starsailor.render.converters.MapConstants.PROPERTY_ROUTE;
 
 /**
  * Initializes the map positions of route stations.
@@ -30,7 +30,7 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_ROUTE_GUARD);
+    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_ROUTE_MEMBER);
   }
 
   @Override
@@ -41,18 +41,15 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
-    String behaviour = (String) mapObject.getProperties().get(MapConstants.PROPERTY_BEHAVIOUR);
-    String routeNameToGuard = (String) mapObject.getProperties().get(PROPERTY_GUARDING);
+    String defaultStateName = (String) mapObject.getProperties().get(MapConstants.PROPERTY_STATE);
+    String routeName = (String) mapObject.getProperties().get(PROPERTY_ROUTE);
 
     //apply additional route tracking point
-    Route route = getRoute(routeNameToGuard);
+    Route route = getRoute(routeName);
     ShipProfile ship = DataEntities.getShip(shipProfile);
 
-    if(behaviour == null) {
-      behaviour = PROPERTY_GUARDING;
-    }
-    route.addGuard(ship, centeredPosition, Behaviours.valueOf(behaviour.toUpperCase()));
-    Gdx.app.log(this.getClass().getName(), "Add guard for '" + routeNameToGuard + "'");
+    route.addMember(ship, centeredPosition, NPCStates.forName(defaultStateName));
+    Gdx.app.log(this.getClass().getName(), "Added ship for route '" + routeName + "'");
   }
 
   /**

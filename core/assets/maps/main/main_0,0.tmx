@@ -125,38 +125,27 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="52" name="Route 1 Guard 1" type="Guard" x="121" y="675" width="32" height="32">
+  <object id="52" name="Route 1 Guard 1" type="RouteMember" x="121" y="675" width="32" height="32">
    <properties>
-    <property name="guarding" value="Route 1"/>
+    <property name="route" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="58" name="Route 1 Guard 2" type="Guard" x="705" y="841" width="32" height="32">
+  <object id="58" name="Route 1 Guard 2" type="RouteMember" x="705" y="841" width="32" height="32">
    <properties>
-    <property name="guarding" value="Route 1"/>
+    <property name="route" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="60" name="Route 1 Guard 4" type="Guard" x="574" y="1118" width="32" height="32">
+  <object id="61" name="Route 1 Guard 3" type="RouteMember" x="195" y="1125" width="32" height="32">
    <properties>
-    <property name="guarding" value="Route 1"/>
+    <property name="route" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="61" name="Route 1 Guard 3" type="Guard" x="195" y="1125" width="32" height="32">
-   <properties>
-    <property name="guarding" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="62" name="Route 1 Guard 5" type="Guard" x="435" y="662" width="32" height="32">
-   <properties>
-    <property name="guarding" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
    </properties>
    <ellipse/>
   </object>

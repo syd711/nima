@@ -35,7 +35,8 @@ data        type:Route          Defines a point of a route          The route th
                                 - merchant
                                 - pirate
                                 - crusader
-            behaviour:<STRING>  Steering Behaviours:
-                                - aggressive
-                                - guard (see 'guarding' value)
-                                - peaceful (default)
+            state:<STRING>      Default State of the entity:
+                                - SeekAndDestroy
+                                - Guard
+                                - Peaceful (default)
+            route:<STRING>      - name of the route the entity belongs to

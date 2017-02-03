@@ -1,5 +1,7 @@
 package com.starsailor.actors;
 
+import com.badlogic.gdx.ai.fsm.State;
+import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
@@ -15,12 +17,12 @@ public class NPC extends Ship implements Selectable {
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
 
-  protected Behaviours behaviour;
+  protected State<NPC> defaultState;
 
-  public NPC(ShipProfile profile, Behaviours behaviour) {
+  public NPC(ShipProfile profile, State<NPC> defaultState) {
     super(profile);
     this.shipProfile = profile;
-    this.behaviour = behaviour;
+    this.defaultState = defaultState;
   }
 
   @Override
@@ -28,10 +30,8 @@ public class NPC extends Ship implements Selectable {
     super.createComponents(profile);
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
-  }
 
-  public boolean isAggressive() {
-    return behaviour != null && behaviour.equals(Behaviours.AGGRESSIVE);
+    getStateMachine().setInitialState(NPCStates.IDLE);
   }
 
   @Override

@@ -11,17 +11,17 @@ public class MapConstants {
   public static final String PROPERTY_DOCKABLE = "dockable";
   public static final String PROPERTY_DOCK_TIME = "dockTime";
 
-  public static final String PROPERTY_BEHAVIOUR = "behaviour";
-
+  //entity properties
   public static final String PROPERTY_POSITION = "position";
   public static final String PROPERTY_CENTERED_POSITION = "centeredPosition";
 
+  //light properties
   public static final String PROPERTY_LIGHT_DISTANCE = "lightDistance";
   public static final String PROPERTY_LIGHT_DEGREE = "lightDegree";
   public static final String PROPERTY_CONE_DEGREE = "coneDegree";
 
+  //used to store the body of an entity temporary to the map object
   public static final String PROPERTY_BOX2D_BODY = "body";
-  public static final String PROPERTY_GUARDING = "guarding";
 
   // PointLight, DirectionalLight, PositionalLight, ConeLight
   public static final String TYPE_CONE_LIGHT = "ConeLight";
@@ -29,6 +29,16 @@ public class MapConstants {
   public static final String TYPE_PLANET = "Planet";
   public static final String TYPE_STATION = "Station";
   public static final String TYPE_ROUTE_POINT = "Route";
-  public static final String TYPE_ROUTE_GUARD = "Guard";
+  public static final String TYPE_ROUTE_MEMBER = "RouteMember";
+
+  // Steering Behaviours represented by states
+  public static final String PROPERTY_STATE = "state";
+
+  public static final String STATE_SEEK_AND_DESTROY = "SeekAndDestroy";
+  public static final String STATE_GUARD = "Guard";
+  public static final String STATE_ROUTE = "Route";
+
+  //routing attributes
+  public static final String PROPERTY_ROUTE = "route";
 
 }

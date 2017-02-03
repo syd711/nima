@@ -1,9 +1,7 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
-import com.starsailor.actors.Behaviours;
 import com.starsailor.actors.RoutePoint;
-import com.starsailor.data.ShipProfile;
 
 import java.util.ArrayList;
 import java.util.List;

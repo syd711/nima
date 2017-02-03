@@ -20,13 +20,13 @@ public class SpawnShipsState implements State<Route> {
     RouteComponent routeComponent = route.routeComponent;
     ShipProfile shipProfile = route.shipProfile;
 
-    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, new RouteState(), route.behaviour);
+    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, new RouteState());
 
     Gdx.app.log(getClass().getName(), "Route '" + route.getName() + "': spawned ship "
         + route.shipProfile + " at " + routeComponent.spawnPoint.position);
 
-    for(Route.Guard guard : route.guards) {
-      GuardingNPC guardingNPC = NPCFactory.createGuardingNPC(guard.ship, npc, guard.behaviour, guard.centeredPosition);
+    for(Route.RouteMember guard : route.members) {
+      GuardingNPC guardingNPC = NPCFactory.createGuardingNPC(guard.ship, npc, guard.state, guard.centeredPosition);
       route.guardingNPCs.add(guardingNPC);
     }
   }

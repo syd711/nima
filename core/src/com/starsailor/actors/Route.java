@@ -3,6 +3,7 @@ package com.starsailor.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.ComponentFactory;
@@ -22,13 +23,12 @@ public class Route extends GameEntity implements EntityListener {
 
   public NPC npc;
   public List<GuardingNPC> guardingNPCs = new ArrayList<>();
-  public List<Guard> guards = new ArrayList<>();
+  public List<RouteMember> members = new ArrayList<>();
 
   private String name;
 
   //the profile is needed here to respawn ships
   public ShipProfile shipProfile;
-  public Behaviours behaviour = Behaviours.PEACEFUL;
 
   public Route(String name) {
     this.name = name;
@@ -53,23 +53,23 @@ public class Route extends GameEntity implements EntityListener {
     }
   }
 
-  public void addGuard(ShipProfile ship, Vector2 centeredPosition, Behaviours behaviour) {
-    guards.add(new Guard(ship, centeredPosition, behaviour));
+  public void addMember(ShipProfile ship, Vector2 centeredPosition, State state) {
+    members.add(new RouteMember(ship, centeredPosition, state));
   }
 
   public String getName() {
     return name;
   }
 
-  public class Guard {
+  public class RouteMember {
     public ShipProfile ship;
     public Vector2 centeredPosition;
-    public Behaviours behaviour;
+    public State state;
 
-    public Guard(ShipProfile ship, Vector2 centeredPosition, Behaviours behaviour) {
+    public RouteMember(ShipProfile ship, Vector2 centeredPosition, State state) {
       this.ship = ship;
       this.centeredPosition = centeredPosition;
-      this.behaviour = behaviour;
+      this.state = state;
     }
   }
 }

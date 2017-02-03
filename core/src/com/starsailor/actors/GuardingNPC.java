@@ -1,5 +1,6 @@
 package com.starsailor.actors;
 
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.data.ShipProfile;
 
@@ -16,9 +17,8 @@ public class GuardingNPC extends NPC {
    * @param shipProfile
    * @param guardedNPC
    */
-  public GuardingNPC(ShipProfile shipProfile, NPC guardedNPC, Behaviours behaviour, Vector2 position) {
-    super(shipProfile, behaviour);
-    this.behaviour = behaviour;
+  public GuardingNPC(ShipProfile shipProfile, NPC guardedNPC, State<NPC> defaultState, Vector2 position) {
+    super(shipProfile, defaultState);
     this.guardedNPC = guardedNPC;
     this.position = position;
   }

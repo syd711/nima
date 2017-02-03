@@ -16,22 +16,12 @@ public class RouteState implements State<RoutedNPC> {
   public void enter(RoutedNPC npc) {
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
     Array<Vector2> wayPoints = routingComponent.getWayPoints();
+
     SteeringManager.setRouteSteering(npc, wayPoints);
   }
 
   @Override
   public void update(RoutedNPC npc) {
-//    npc.updateFormation();
-//    float distanceToPlayer = npc.getDistanceToPlayer();
-//
-//    if(npc.isAggressive()) {
-//      if(distanceToPlayer < npc.shipProfile.attackDistance) {
-//        npc.getStateMachine().changeState(RoutedNPCStates.PURSUE_PLAYER);
-//      }
-//    }
-//    else if(distanceToPlayer < npc.shipProfile.evadeDistance) {
-//      npc.getStateMachine().changeState(RoutedNPCStates.AVOID_PLAYER_COLLISION);
-//    }
   }
 
   @Override

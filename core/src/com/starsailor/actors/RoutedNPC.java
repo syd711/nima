@@ -1,5 +1,6 @@
 package com.starsailor.actors;
 
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.FormationComponent;
@@ -13,7 +14,6 @@ import java.util.List;
  * Patrolling a route
  */
 public class RoutedNPC extends NPC {
-
   private Route route;
   private List<GuardingNPC> guards = new ArrayList<>();
   private FormationComponent formationComponent;
@@ -23,11 +23,10 @@ public class RoutedNPC extends NPC {
    * @param shipProfile
    * @param route
    */
-  public RoutedNPC(ShipProfile shipProfile, Route route, Behaviours behaviour) {
-    super(shipProfile, behaviour);
+  public RoutedNPC(ShipProfile shipProfile, Route route, State<NPC> defaultState) {
+    super(shipProfile, defaultState);
     this.route = route;
     this.route.npc = this;
-    this.behaviour = behaviour;
   }
 
   @Override

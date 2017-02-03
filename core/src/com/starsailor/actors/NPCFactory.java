@@ -2,7 +2,6 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.states.npc.GuardState;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
 
@@ -11,8 +10,8 @@ import com.starsailor.managers.EntityManager;
  */
 public class NPCFactory {
 
-  public static RoutedNPC createRoutedNPC(ShipProfile shipProfile, Route route, State state, Behaviours behaviour) {
-    RoutedNPC npc = new RoutedNPC(shipProfile, route, behaviour);
+  public static RoutedNPC createRoutedNPC(ShipProfile shipProfile, Route route, State state) {
+    RoutedNPC npc = new RoutedNPC(shipProfile, route, state);
     npc.createComponents(shipProfile);
     npc.getStateMachine().changeState(state);
 
@@ -20,10 +19,10 @@ public class NPCFactory {
     return npc;
   }
 
-  public static GuardingNPC createGuardingNPC(ShipProfile shipProfile, RoutedNPC guardedNPC, Behaviours behaviour, Vector2 position) {
-    GuardingNPC npc = new GuardingNPC(shipProfile, guardedNPC, behaviour, position);
+  public static GuardingNPC createGuardingNPC(ShipProfile shipProfile, RoutedNPC guardedNPC, State<NPC> state, Vector2 position) {
+    GuardingNPC npc = new GuardingNPC(shipProfile, guardedNPC, state, position);
     npc.createComponents(shipProfile);
-    npc.getStateMachine().changeState(new GuardState());
+    npc.getStateMachine().changeState(state);
 
     guardedNPC.addGuard(npc);
 
