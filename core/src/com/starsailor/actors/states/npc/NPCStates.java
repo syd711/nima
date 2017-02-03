@@ -11,6 +11,11 @@ public class NPCStates {
   public static State IDLE = new IdleState();
   public static State ROUTE_POINT_ARRIVED = new RoutingPointArrivedState();
 
+  /**
+   * States created via map object constants
+   * @param defaultStateName
+   * @return
+   */
   public static State forName(String defaultStateName) {
     if(defaultStateName.equals(MapConstants.STATE_GUARD)) {
       return new GuardState();

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.GuardingNPC;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.RoutedNPC;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.util.box2d.Box2dRadiusProximity;
@@ -73,17 +74,20 @@ public class SteeringManager {
     sourceSteering.setBehavior(reachPositionAndOrientationSB);
   }
 
-  public static void setWanderSteering(RoutedNPC npc) {
-    Wander<Vector2> wanderSB = new Wander<Vector2>(npc.steerableComponent) //
-        .setLimiter(new LinearAccelerationLimiter(40)) //
-        .setFaceEnabled(false) // set to 0 because independent facing is off
-        .setAlignTolerance(0.001f) //
-        .setDecelerationRadius(5) //
-        .setTimeToTarget(0.1f) //
-        .setWanderOffset(70) //
-        .setWanderOrientation(10) //
-        .setWanderRadius(40) //
-        .setWanderRate(MathUtils.PI2 * 4);
-    npc.steerableComponent.setBehavior(wanderSB);
+  public static void setWanderSteering(NPC npc) {
+    SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+
+    Wander<Vector2> wanderSB = new Wander<>(sourceSteering);
+    wanderSB.setLimiter(new LinearAccelerationLimiter(sourceSteering.getMaxLinearAcceleration()));
+    wanderSB.setFaceEnabled(false);
+    wanderSB.setAlignTolerance(0.001f);
+    wanderSB.setDecelerationRadius(5);
+    wanderSB.setTimeToTarget(0.1f);
+    wanderSB.setWanderOffset(70);
+    wanderSB.setWanderOrientation(10);
+    wanderSB.setWanderRadius(40);
+    wanderSB.setWanderRate(MathUtils.PI2 * 4);
+
+    sourceSteering.setBehavior(wanderSB);
   }
 }

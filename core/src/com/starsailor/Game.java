@@ -47,10 +47,13 @@ public class Game extends ApplicationAdapter {
   private SpriteBatch batch;
 
   public static GameSettings gameSettings = GameSettings.load();
+  private Settings settings = Settings.getInstance();
 
   public static DefaultStateMachine gameState;
 
   public static I18NBundle bundle;
+  
+  
 
   //quicker access for box2d
   private boolean paused = false;
@@ -94,8 +97,8 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
-    tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(Settings.getInstance().npcs_enabled));
-    tiledMapRenderer.addMapObjectConverter(new RouteGuards2EntityConverter(Settings.getInstance().npcs_enabled));
+    tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(settings.npcs_enabled));
+    tiledMapRenderer.addMapObjectConverter(new RouteGuards2EntityConverter(settings.npcs_enabled));
     tiledMapRenderer.fullScan(Settings.WORLD_WIDTH, Settings.WORLD_HEIGHT);
     tiledMapRenderer.removeAllObjectConverters();
 
@@ -129,7 +132,7 @@ public class Game extends ApplicationAdapter {
 
   @Override
   public void pause() {
-    if(!Settings.getInstance().debug) {
+    if(!settings.debug) {
       paused = true;
       Game.gameState.changeState(GameState.PAUSED);
     }
@@ -168,8 +171,11 @@ public class Game extends ApplicationAdapter {
       world.step(deltaTime, 6, 2);
     }
 
-    if(Settings.getInstance().debug) {
+    if(settings.debug) {
       box2DDebugRenderer.render(world, debugMatrix);
+      if(camera.zoom != settings.cameraZoom) {
+        camera.zoom = settings.cameraZoom;
+      }
     }
 
     tiledMapRenderer.getBatch().end();

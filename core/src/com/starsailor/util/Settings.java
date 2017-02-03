@@ -60,6 +60,7 @@ public class Settings {
   public boolean npcs_enabled;
   public boolean sound_enabled;
 
+  public float cameraZoom;
 
   public float docking_target_scale;
 
