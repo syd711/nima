@@ -132,7 +132,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="58" name="Route 1 Guard 2" type="Guard" x="116" y="1159" width="32" height="32">
+  <object id="58" name="Route 1 Guard 2" type="Guard" x="705" y="841" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
@@ -146,14 +146,14 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="61" name="Route 1 Guard 3" type="Guard" x="568" y="694" width="32" height="32">
+  <object id="61" name="Route 1 Guard 3" type="Guard" x="195" y="1125" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="62" name="Route 1 Guard 5" type="Guard" x="760" y="896" width="32" height="32">
+  <object id="62" name="Route 1 Guard 5" type="Guard" x="435" y="662" width="32" height="32">
    <properties>
     <property name="guarding" value="Route 1"/>
     <property name="shipProfile" value="crusader"/>

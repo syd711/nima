@@ -2,6 +2,7 @@ package com.starsailor.managers;
 
 import com.badlogic.gdx.ai.steer.behaviors.*;
 import com.badlogic.gdx.ai.steer.limiters.AngularLimiter;
+import com.badlogic.gdx.ai.steer.limiters.LinearAccelerationLimiter;
 import com.badlogic.gdx.ai.steer.limiters.NullLimiter;
 import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.math.MathUtils;
@@ -25,14 +26,14 @@ public class SteeringManager {
 
     Arrive<Vector2> arrive = new Arrive<>(sourceSteering, npc.getTargetLocation());
     arrive.setTimeToTarget(0.1f);
-    arrive.setArrivalTolerance(2f);
+    arrive.setArrivalTolerance(0.2f);
     arrive.setDecelerationRadius(10);
 
     Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
     LookWhereYouAreGoing lookWhereYouAreGoingSB = new LookWhereYouAreGoing<Vector2>(sourceSteering);
-    lookWhereYouAreGoingSB.setLimiter(new AngularLimiter(5.5f, 5.5f));
+    lookWhereYouAreGoingSB.setLimiter(new AngularLimiter(sourceSteering.getMaxAngularAcceleration(), sourceSteering.getMaxAngularSpeed()));
     lookWhereYouAreGoingSB.setTimeToTarget(0.1f);
     lookWhereYouAreGoingSB.setAlignTolerance(0.001f);
     lookWhereYouAreGoingSB.setDecelerationRadius(MathUtils.PI);
@@ -58,7 +59,7 @@ public class SteeringManager {
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
     LookWhereYouAreGoing lookWhereYouAreGoingSB = new LookWhereYouAreGoing<Vector2>(sourceSteering);
-    lookWhereYouAreGoingSB.setLimiter(new AngularLimiter(100, 20));
+    lookWhereYouAreGoingSB.setLimiter(new AngularLimiter(sourceSteering.getMaxAngularAcceleration(), sourceSteering.getMaxAngularSpeed()));
     lookWhereYouAreGoingSB.setTimeToTarget(0.1f);
     lookWhereYouAreGoingSB.setAlignTolerance(0.001f);
     lookWhereYouAreGoingSB.setDecelerationRadius(MathUtils.PI);
@@ -70,5 +71,19 @@ public class SteeringManager {
     reachPositionAndOrientationSB.add(lookWhereYouAreGoingSB, 0.2f);
 
     sourceSteering.setBehavior(reachPositionAndOrientationSB);
+  }
+
+  public static void setWanderSteering(RoutedNPC npc) {
+    Wander<Vector2> wanderSB = new Wander<Vector2>(npc.steerableComponent) //
+        .setLimiter(new LinearAccelerationLimiter(40)) //
+        .setFaceEnabled(false) // set to 0 because independent facing is off
+        .setAlignTolerance(0.001f) //
+        .setDecelerationRadius(5) //
+        .setTimeToTarget(0.1f) //
+        .setWanderOffset(70) //
+        .setWanderOrientation(10) //
+        .setWanderRadius(40) //
+        .setWanderRate(MathUtils.PI2 * 4);
+    npc.steerableComponent.setBehavior(wanderSB);
   }
 }
