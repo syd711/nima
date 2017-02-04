@@ -43,6 +43,10 @@ public class Pirate2EntityConverter extends DefaultMapObjectConverter {
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
     String defaultStateName = (String) mapObject.getProperties().get(MapConstants.PROPERTY_STATE);
 
+    if(shipProfile == null) {
+      throw new UnsupportedOperationException("No shipProfile found for data entity '" + mapObject.getName() + "'");
+    }
+
     NPC npc = NPCFactory.createPirate(DataEntities.getShip(shipProfile), NPCStates.forName(defaultStateName), centeredPosition);
     Gdx.app.log(this.getClass().getName(), "Added pirate ship '" + npc + "'");
   }

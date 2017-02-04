@@ -8,6 +8,7 @@ import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutedNPC;
 import com.starsailor.actors.NPCFactory;
 import com.starsailor.actors.states.npc.RouteState;
+import com.starsailor.actors.states.npc.SeekAndDestroyState;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.ShipProfile;
 
@@ -20,7 +21,13 @@ public class SpawnShipsState implements State<Route> {
     RouteComponent routeComponent = route.routeComponent;
     ShipProfile shipProfile = route.shipProfile;
 
-    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, new RouteState(), routeComponent.spawnPoint.position);
+    State state = new RouteState();
+    //TODO
+    if(shipProfile.spine.equalsIgnoreCase("pirate")) {
+      state = new SeekAndDestroyState();
+    }
+
+    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, state, routeComponent.spawnPoint.position);
 
     Gdx.app.log(getClass().getName(), "Route '" + route.getName() + "': spawned ship "
         + route.shipProfile + " at " + routeComponent.spawnPoint.position);

@@ -1,5 +1,7 @@
 package com.starsailor.actors;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.utils.Location;
@@ -37,6 +39,8 @@ public class Ship extends Spine implements FormationMember<Vector2> {
   public float maxHealth = 100;
 
   private Box2dLocation location;
+
+  private Ship shootingTarget;
 
   private Vector2 position;
 
@@ -117,12 +121,8 @@ public class Ship extends Spine implements FormationMember<Vector2> {
     }
   }
 
-  public float getDistanceToPlayer() {
-    return positionComponent.getPosition().dst(Player.getInstance().positionComponent.getPosition());
-  }
-
-  public boolean isInShootingRange() {
-    return getDistanceToPlayer() != 0 && getDistanceToPlayer() < shipProfile.shootDistance;
+  public void lockTarget(Ship npc) {
+    shootingTarget = npc;
   }
 
   public DefaultStateMachine getStateMachine() {
@@ -139,5 +139,30 @@ public class Ship extends Spine implements FormationMember<Vector2> {
   @Override
   public Location<Vector2> getTargetLocation() {
     return location;
+  }
+
+  public float getDistanceTo(Ship ship) {
+    return ship.getCenter().dst(this.getCenter());
+  }
+
+  public Ship findNearestNeighbour() {
+    Ship nearestNeighbour = null;
+    //TODO not necessarily a spine
+    ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SpineComponent.class);
+    for(Entity entity : entitiesFor) {
+      Ship ship = (Ship) entity;
+      if(ship.equals(this)) {
+        continue;
+      }
+      if(nearestNeighbour == null) {
+        nearestNeighbour = ship;
+        continue;
+      }
+
+      if(this.getDistanceTo(ship) < this.getDistanceTo(nearestNeighbour)) {
+        nearestNeighbour = ship;
+      }
+    }
+    return nearestNeighbour;
   }
 }

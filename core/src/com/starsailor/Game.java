@@ -185,7 +185,7 @@ public class Game extends ApplicationAdapter {
 
       if(wanderSB != null) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setTransformMatrix(debugMatrix);
+//        shapeRenderer.setTransformMatrix(debugMatrix);
         shapeRenderer.setColor(0, 1, 0, 1);
         float wanderCenterX = wanderSB.getWanderCenter().x*PPM;
         float wanderCenterY = wanderSB.getWanderCenter().y*PPM;

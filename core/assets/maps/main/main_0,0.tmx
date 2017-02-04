@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="71">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="73">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -178,6 +178,13 @@
    <ellipse/>
   </object>
   <object id="70" name="Pirate 1" type="Route" x="996" y="605" width="52" height="52">
+   <ellipse/>
+  </object>
+  <object id="71" name="Pirate 2" type="Pirate" x="961" y="1186" width="71" height="71">
+   <properties>
+    <property name="shipProfile" value="pirate"/>
+    <property name="state" value="SeekAndDestroy"/>
+   </properties>
    <ellipse/>
   </object>
  </objectgroup>

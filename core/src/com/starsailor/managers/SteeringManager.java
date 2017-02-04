@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.GuardingNPC;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.RoutedNPC;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.util.box2d.Box2dRadiusProximity;
 
@@ -48,7 +47,7 @@ public class SteeringManager {
     npc.steerableComponent.setBehavior(reachPositionAndOrientationSB);
   }
 
-  public static void setRouteSteering(RoutedNPC npc, Array<Vector2> wayPoints) {
+  public static void setRouteSteering(NPC npc, Array<Vector2> wayPoints) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
     LinePath<Vector2> linePath = new LinePath<>(wayPoints, false);
     FollowPath followPathSB = new FollowPath(sourceSteering, linePath, 1);
@@ -76,6 +75,7 @@ public class SteeringManager {
 
   public static Wander<Vector2> setWanderSteering(NPC npc) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+    npc.steerableComponent.setIndependetFacing(false);
 
     Wander<Vector2> wanderSB = new Wander<>(sourceSteering);
     wanderSB.setLimiter(new LinearAccelerationLimiter(sourceSteering.getMaxLinearAcceleration()));
@@ -91,5 +91,9 @@ public class SteeringManager {
     sourceSteering.setBehavior(wanderSB);
 
     return wanderSB;
+  }
+
+  public static void setBattleSteering(NPC npc) {
+    npc.steerableComponent.setBehavior(null);
   }
 }

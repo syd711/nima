@@ -17,7 +17,7 @@
     "boundingRadius" : 200,
     "maxLinearSpeed" : 6,
     "maxLinearAcceleration" : 6,
-    "maxAngularSpeed" : 2,
-    "maxAngularAcceleration" : 2
+    "maxAngularSpeed" : 6,
+    "maxAngularAcceleration" : 6
   }
 }
