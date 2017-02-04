@@ -24,7 +24,7 @@ public class NPCStates {
       return new RouteState();
     }
     else if(defaultStateName.equals(MapConstants.STATE_SEEK_AND_DESTROY)) {
-      return new SeekAndDestroyState();
+      return new WanderingSeekAndDestroyState();
     }
 
     throw new UnsupportedOperationException("No state found for string " + defaultStateName);

@@ -14,8 +14,8 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.Textures;
-import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.Resources;
+import com.starsailor.util.box2d.Box2dLocation;
 
 import java.util.List;
 
@@ -79,8 +79,8 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   /**
    * Applies the damage to the shield or the ship health.
-   * @param damage
-   * @return
+   * @param damage the damage to apply for the shield or health.
+   * @return True if the damage destroyed this entity.
    */
   public boolean applyDamage(float damage) {
     float damageOffset = damage; //the additional value to substract from health
@@ -143,6 +143,25 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   public float getDistanceTo(Ship ship) {
     return ship.getCenter().dst(this.getCenter());
+  }
+
+  /**
+   * Searches for an enemy to shoot at.
+   * @return True if an enemy was found to shoot at
+   */
+  public boolean findAndLockNearestTarget() {
+    //TODO filter for friends!
+    float attackDistance = shipProfile.attackDistance;
+    Ship nearestNeighbour = findNearestNeighbour();
+    if(nearestNeighbour != null) {
+      float distanceToEnemy = nearestNeighbour.getDistanceTo(this);
+      if(distanceToEnemy != 0 && distanceToEnemy < attackDistance) {
+        shieldComponent.setActive(true);
+        lockTarget(nearestNeighbour);
+        return true;
+      }
+    }
+    return false;
   }
 
   public Ship findNearestNeighbour() {

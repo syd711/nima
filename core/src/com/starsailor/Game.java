@@ -60,8 +60,6 @@ public class Game extends ApplicationAdapter {
 
   ShapeRenderer shapeRenderer;
 
-  public static Wander<Vector2> wanderSB;
-
   //quicker access for box2d
   private boolean paused = false;
 
@@ -179,32 +177,12 @@ public class Game extends ApplicationAdapter {
 
     entityManager.update();
 
-    tiledMapRenderer.getBatch().begin();
     if(settings.debug) {
+      tiledMapRenderer.getBatch().begin();
       box2DDebugRenderer.render(world, debugMatrix);
-
-      if(wanderSB != null) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setTransformMatrix(debugMatrix);
-        shapeRenderer.setColor(0, 1, 0, 1);
-        float wanderCenterX = wanderSB.getWanderCenter().x*PPM;
-        float wanderCenterY = wanderSB.getWanderCenter().y*PPM;
-        float wanderRadius = wanderSB.getWanderRadius()*PPM;
-        shapeRenderer.circle(wanderCenterX, wanderCenterY, wanderRadius);
-        shapeRenderer.end();
-
-        // Draw target
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        float targetCenterX = wanderSB.getInternalTargetPosition().x*PPM;
-        float targetCenterY = wanderSB.getInternalTargetPosition().y*PPM;
-        shapeRenderer.circle(targetCenterX, targetCenterY, 4);
-        shapeRenderer.end();
-      }
-
+      tiledMapRenderer.getBatch().end();
     }
 
-    tiledMapRenderer.getBatch().end();
     updateActorFrame();
 
     rayHandler.setCombinedMatrix(camera);

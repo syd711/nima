@@ -180,12 +180,5 @@
   <object id="70" name="Pirate 1" type="Route" x="996" y="605" width="52" height="52">
    <ellipse/>
   </object>
-  <object id="71" name="Pirate 2" type="Pirate" x="961" y="1186" width="71" height="71">
-   <properties>
-    <property name="shipProfile" value="pirate"/>
-    <property name="state" value="SeekAndDestroy"/>
-   </properties>
-   <ellipse/>
-  </object>
  </objectgroup>
 </map>
