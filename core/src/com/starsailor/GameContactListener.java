@@ -20,7 +20,7 @@ public class GameContactListener implements ContactListener {
     Entity userDataB = (Entity) contact.getFixtureB().getBody().getUserData();
 
     Vector2 position = Box2dUtil.toWorldPoint(contact.getWorldManifold().getPoints()[0]);
-    System.out.println(userDataA + " ################## " + userDataB + " at " + position);
+//    System.out.println(userDataA + " ################## " + userDataB + " at " + position);
     Collidable component = userDataA.getComponent(Collidable.class);
     component.handleCollision(userDataA, userDataB, position);
 }

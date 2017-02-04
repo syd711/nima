@@ -8,6 +8,7 @@
   "bodyData" : {
     "density" : 0.1,
     "width" : 10,
-    "height" : 2.5
+    "height" : 2.5,
+    "sensor" : true
   }
 }

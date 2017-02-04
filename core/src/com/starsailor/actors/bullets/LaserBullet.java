@@ -24,6 +24,8 @@ public class LaserBullet extends Bullet {
     Vector2 to = Box2dUtil.toBox2Vector(target.getCenter());
     float radianAngle = Box2dUtil.getBox2dAngle(from, to);
 
+    System.out.println(Box2dUtil.toWorldPoint(to) + "/" + Math.toDegrees(radianAngle));
+
     SpriteComponent.SpriteItem spriteItem = getSpriteItem();
     Sprite bulletSprite = spriteItem.getSprite();
     bulletSprite.setRotation((float) Math.toDegrees(radianAngle));
