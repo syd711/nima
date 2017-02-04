@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.BodyComponent;
+import com.starsailor.managers.CameraManager;
 
 /**
  * Collideable component for an ashley entity.
@@ -41,6 +43,10 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
     if(!bullet.isOwner(ship)) {
       applyImpactForce(bullet, ship, position);
       bullet.collide(ship, position);
+
+      if(ship instanceof Player) {
+        CameraManager.getInstance().shake(bullet.weaponProfile.impactFactor, 80);
+      }
     }
   }
 

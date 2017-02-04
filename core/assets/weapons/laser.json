@@ -4,7 +4,7 @@
   "damage" : 3,
   "forceFactor" : 0.9,
   "impactFactor" : 4,
-  "rechargeTimeMillis" : 450,
+  "rechargeTimeMillis" : 850,
   "bodyData" : {
     "density" : 0.1,
     "width" : 10,
