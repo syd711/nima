@@ -4,12 +4,10 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -58,8 +56,6 @@ public class Game extends ApplicationAdapter {
 
   public static I18NBundle bundle;
 
-  ShapeRenderer shapeRenderer;
-
   //quicker access for box2d
   private boolean paused = false;
 
@@ -97,7 +93,7 @@ public class Game extends ApplicationAdapter {
 
     tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
     //Ashley Entity Engine
-    entityManager = EntityManager.create(tiledMapRenderer, camera, rayHandler);
+    entityManager = EntityManager.create(tiledMapRenderer, rayHandler);
 
     //Initializing the game by a full map scan
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionUpdateConverter());
@@ -124,6 +120,9 @@ public class Game extends ApplicationAdapter {
     Player player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
 
+    //init camera manager
+    CameraManager.getInstance().init(camera, player);
+
     //input processing
     inputManager = new InputManager(this, camera);
 
@@ -136,9 +135,6 @@ public class Game extends ApplicationAdapter {
 
     //shutdown hook to store settings
     Runtime.getRuntime().addShutdownHook(new Thread(() -> gameSettings.save()));
-
-    //debugging
-    shapeRenderer = new ShapeRenderer();
   }
 
   @Override
@@ -164,7 +160,7 @@ public class Game extends ApplicationAdapter {
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    camera.update();
+    CameraManager.getInstance().update(deltaTime);
 
     Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(PPM, PPM, 0);
     batch.setProjectionMatrix(camera.combined);

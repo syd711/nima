@@ -64,13 +64,13 @@ public class SteeringManager {
     lookWhereYouAreGoingSB.setAlignTolerance(0.001f);
     lookWhereYouAreGoingSB.setDecelerationRadius(MathUtils.PI);
 
-    BlendedSteering<Vector2> reachPositionAndOrientationSB = new BlendedSteering<Vector2>(sourceSteering);
-    reachPositionAndOrientationSB.setLimiter(NullLimiter.NEUTRAL_LIMITER);
-    reachPositionAndOrientationSB.add(followPathSB, 1f);
-    reachPositionAndOrientationSB.add(collisionAvoidanceSB, 1f);
-    reachPositionAndOrientationSB.add(lookWhereYouAreGoingSB, 0.2f);
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<Vector2>(sourceSteering);
+    blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    blendedSteering.add(followPathSB, 1f);
+    blendedSteering.add(collisionAvoidanceSB, 1f);
+    blendedSteering.add(lookWhereYouAreGoingSB, 0.2f);
 
-    sourceSteering.setBehavior(reachPositionAndOrientationSB);
+    sourceSteering.setBehavior(blendedSteering);
   }
 
   public static Wander<Vector2> setWanderSteering(NPC npc) {
@@ -94,6 +94,21 @@ public class SteeringManager {
   }
 
   public static void setBattleSteering(NPC npc) {
-    npc.steerableComponent.setBehavior(null);
+    SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+
+    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
+    CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
+
+    final Face<Vector2> faceSB = new Face<>(sourceSteering, npc.shootingTarget.steerableComponent);
+    faceSB.setTimeToTarget(0.01f);
+    faceSB.setAlignTolerance(0.0001f);
+    faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);
+
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<Vector2>(sourceSteering);
+    blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    blendedSteering.add(faceSB, 1f);
+    blendedSteering.add(collisionAvoidanceSB, 1f);
+
+    sourceSteering.setBehavior(blendedSteering);
   }
 }

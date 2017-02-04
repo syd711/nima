@@ -6,7 +6,7 @@
   "attackDistance" : 400,
   "shootDistance" : 300,
   "evadeDistance" : 200,
-  "weapons" : ["missile"],
+  "weapons" : ["missile", "laser"],
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,

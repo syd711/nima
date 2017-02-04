@@ -23,6 +23,7 @@ public class RoutedSeekAndDestroyState implements State<NPC> {
   public void update(NPC npc) {
     if(npc.findAndLockNearestTarget()) {
       SteeringManager.setBattleSteering(npc);
+      npc.getStateMachine().changeState(new AttackTargetState());
     }
   }
 

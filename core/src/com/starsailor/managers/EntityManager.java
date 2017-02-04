@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
-import com.starsailor.actors.Camera;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Updateable;
 import com.starsailor.actors.states.player.PlayerState;
@@ -40,7 +39,7 @@ public class EntityManager {
     ComponentFactory.engine = engine;
   }
 
-  private void init(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
+  private void init(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
     //create player
     ShipProfile ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
     player = new Player(ship);
@@ -92,13 +91,11 @@ public class EntityManager {
 
     FormationSystem formationSystem = new FormationSystem();
     engine.addSystem(formationSystem);
-
-    updateables.add(new Camera(camera, player));
   }
 
-  public static EntityManager create(TiledMultiMapRenderer renderer, OrthographicCamera camera, RayHandler rayHandler) {
+  public static EntityManager create(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
     INSTANCE = new EntityManager();
-    INSTANCE.init(renderer, camera, rayHandler);
+    INSTANCE.init(renderer, rayHandler);
     return INSTANCE;
   }
 

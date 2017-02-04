@@ -70,7 +70,8 @@ public class WeaponPanel extends Table {
           Selectable selection = SelectionManager.getInstance().getSelection();
           if(selection instanceof NPC) {
             Player.getInstance().switchWeapon(weaponProfile);
-            Player.getInstance().fireAt((NPC) selection);
+            Player.getInstance().lockTarget((NPC) selection);
+            Player.getInstance().fireAtTarget();
           }
         }
       });

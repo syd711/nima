@@ -29,32 +29,6 @@ public class BattleSystem extends PauseableIteratingSystem {
    * @param npc
    */
   private void updateShooting(NPC npc) {
-//    if(npc.isAggressive()) {
-//
-//      List<WeaponProfile> weapons = npc.getWeapons();
-//      for(WeaponProfile weapon : weapons) {
-//        switch(weapon.type) {
-//          case LASER: {
-//            if(npc.isInShootingRange()) {
-//              npc.shootingComponent.setActiveWeaponProfile(weapon);
-//              if(npc.shootingComponent.isCharged()) {
-//                npc.fireAt(Player.getInstance());
-//              }
-//            }
-//            break;
-//          }
-//          case MISSILE: {
-//            if(npc.isInShootingRange()) {
-//              npc.shootingComponent.setActiveWeaponProfile(weapon);
-//              if(npc.shootingComponent.isCharged()) {
-//                npc.fireAt(Player.getInstance());
-//              }
-//            }
-//            break;
-//          }
-//        }
-//      }
-//    }
   }
 
   /**

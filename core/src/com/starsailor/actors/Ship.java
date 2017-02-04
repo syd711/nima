@@ -40,7 +40,7 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   private Box2dLocation location;
 
-  private Ship shootingTarget;
+  public Ship shootingTarget;
 
   private Vector2 position;
 
@@ -113,12 +113,9 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   /**
    * Fires a bullet using the active weapon profile
-   * @param target the target to shoot to
    */
-  public void fireAt(Ship target) {
-    if(shootingComponent.isCharged()) {
-      BulletFactory.create(this, target);
-    }
+  public void fireAtTarget() {
+    BulletFactory.create(this, shootingTarget);
   }
 
   public void lockTarget(Ship npc) {
@@ -147,6 +144,8 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
   /**
    * Searches for an enemy to shoot at.
+   * The entities "attackDistance" is used for this which means
+   * that the ship itself has not necessarily a weapon in shooting range.
    * @return True if an enemy was found to shoot at
    */
   public boolean findAndLockNearestTarget() {
