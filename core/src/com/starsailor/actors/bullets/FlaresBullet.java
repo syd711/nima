@@ -31,7 +31,7 @@ public class FlaresBullet extends Bullet {
   @Override
   protected void create() {
     List<Bullet> bullets = new ArrayList<>();
-    for(int i=0; i<weaponProfile.bulletCount-1; i++) {
+    for(int i = 0; i < weaponProfile.bulletCount - 1; i++) {
       Bullet b = new FlaresBullet(weaponProfile, owner, target);
       bullets.add(b);
       EntityManager.getInstance().add(b);
@@ -58,7 +58,7 @@ public class FlaresBullet extends Bullet {
   public void update() {
     updateSpritePositionForBody(true);
     float angularVelocity = bodyComponent.body.getAngularVelocity();
-    if(angularVelocity > 0 && angularVelocity<0.5f) {
+    if(angularVelocity > 0 && angularVelocity < 0.5f) {
       EntityManager.getInstance().destroy(this);
     }
   }
@@ -70,6 +70,11 @@ public class FlaresBullet extends Bullet {
 
   @Override
   public void collide(Bullet bullet, Vector2 position) {
+    //ignore other flares
+    if(bullet instanceof FlaresBullet) {
+      return;
+    }
+
     hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
     EntityManager.getInstance().destroy(bullet);
   }

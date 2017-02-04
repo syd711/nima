@@ -2,11 +2,13 @@ package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.GraphicsUtil;
 
 /**
@@ -36,6 +38,14 @@ public class Player extends Ship {
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
     bodyComponent.setWorldPosition(screenCenter);
+  }
+
+  @Override
+  public void fireAtTarget() {
+    Selectable selection = SelectionManager.getInstance().getSelection();
+    if(selection != null && selection instanceof Ship) {
+      BulletFactory.create(this, (Ship) selection);
+    }
   }
 
   public void moveTo(Vector2 worldCoordinates) {

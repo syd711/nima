@@ -109,6 +109,26 @@ abstract public class Bullet extends GameEntity {
     ComponentFactory.addBulletCollisionComponent(this);
   }
 
+  /**
+   * Apply force to the box2d so that the impact is visible
+   */
+  public void applyImpactForce(Ship ship, Vector2 position) {
+    BodyComponent component = ship.getComponent(BodyComponent.class);
+    float impactFactor = weaponProfile.impactFactor;
+
+    if(bodyComponent != null) {
+      //use my linear velocity
+      Vector2 linearVelocity = bodyComponent.body.getLinearVelocity();
+      Vector2 force = new Vector2(linearVelocity.x * impactFactor, linearVelocity.y * impactFactor);
+      //to apply it on the target
+      component.body.applyForceToCenter(force.x, force.y, true);
+    }
+    else {
+      //TODO e.g. phaser
+      //component.body.applyForceToCenter(force.x, force.y, true);
+    }
+  }
+
   //------------------ Helper --------------------------------------------------
 
   /**

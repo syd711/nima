@@ -34,6 +34,7 @@ public class BodyComponent implements Component, Pool.Poolable {
   public void destroy() {
     if(body != null) {
       Game.world.destroyBody(body);
+      body = null;
     }
   }
 

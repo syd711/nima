@@ -171,8 +171,6 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.render();
     tiledMapRenderer.postRender();
 
-    entityManager.update();
-
     if(settings.debug) {
       tiledMapRenderer.getBatch().begin();
       box2DDebugRenderer.render(world, debugMatrix);
@@ -192,6 +190,9 @@ public class Game extends ApplicationAdapter {
       float update = GameTimer.update(deltaTime);
       world.step(update, 6, 2);
     }
+
+    //update engine after world.step for saver body removal
+    entityManager.update();
   }
 
   /**

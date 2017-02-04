@@ -62,13 +62,14 @@ public class SelectionSystem extends PauseableIteratingSystem {
     Vector2 pos = new Vector2(npc.getCenter());
     pos.y += y;
     pos.x -= npc.getWidth() / 2 - 10;
-    npc.spriteComponent.getSprite(textures1).setPosition(pos, false);
 
-    SpriteComponent.SpriteItem sprite = npc.spriteComponent.getSprite(textures2);
-    sprite.setPosition(pos, false);
+    SpriteComponent.SpriteItem background = npc.spriteComponent.getSprite(textures1);
+    background.setPosition(pos, false);
+    SpriteComponent.SpriteItem foreGround = npc.spriteComponent.getSprite(textures2);
+    foreGround.setPosition(pos, false);
 
     float healthPercentage = health * 100 / maxHealth;
-    float healthWidth = sprite.getSprite().getTexture().getWidth() * healthPercentage / 100;
-    sprite.setWidth(healthWidth);
+    float healthWidth = foreGround.getSprite().getTexture().getWidth() * healthPercentage / 100;
+    foreGround.setWidth(healthWidth);
   }
 }

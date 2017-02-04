@@ -1,6 +1,7 @@
 package com.starsailor.managers;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * All selection based events and management
  */
-public class SelectionManager {
+public class SelectionManager implements EntityListener {
   private static SelectionManager INSTANCE = new SelectionManager();
 
   public List<SelectionChangeListener> selectionChangeListeners = new ArrayList<>();
@@ -74,6 +75,18 @@ public class SelectionManager {
 
     for(SelectionChangeListener selectionChangeListener : selectionChangeListeners) {
       selectionChangeListener.selectionChanged(oldSelection, newSelection);
+    }
+  }
+
+  @Override
+  public void entityAdded(Entity entity) {
+
+  }
+
+  @Override
+  public void entityRemoved(Entity entity) {
+    if(currentSelection != null && currentSelection.equals(entity)) {
+      setSelection(null);
     }
   }
 }

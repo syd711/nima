@@ -8,7 +8,6 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.components.BodyComponent;
 import com.starsailor.managers.CameraManager;
 
 /**
@@ -41,32 +40,12 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
 
   public void applyCollisionWith(Bullet bullet, Ship ship, Vector2 position) {
     if(!bullet.isOwner(ship)) {
-      applyImpactForce(bullet, ship, position);
+      bullet.applyImpactForce(ship, position);
       bullet.collide(ship, position);
 
       if(ship instanceof Player) {
         CameraManager.getInstance().shake(bullet.weaponProfile.impactFactor, 80);
       }
-    }
-  }
-
-  /**
-   * Apply force to the box2d so that the impact is visible
-   */
-  private void applyImpactForce(Bullet bullet, Ship ship, Vector2 position) {
-    BodyComponent component = ship.getComponent(BodyComponent.class);
-    float impactFactor = bullet.weaponProfile.impactFactor;
-
-    if(bullet.bodyComponent != null) {
-      //use my linear velocity
-      Vector2 linearVelocity = bullet.bodyComponent.body.getLinearVelocity();
-      Vector2 force = new Vector2(linearVelocity.x * impactFactor, linearVelocity.y * impactFactor);
-      //to apply it on the target
-      component.body.applyForceToCenter(force.x, force.y, true);
-    }
-    else {
-      //TODO e.g. phaser
-      //component.body.applyForceToCenter(force.x, force.y, true);
     }
   }
 

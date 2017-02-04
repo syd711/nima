@@ -4,8 +4,8 @@ import box2dLight.RayHandler;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Updateable;
@@ -29,6 +29,7 @@ public class EntityManager {
   private Player player;
   private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
+  private List<Body> destroyBodies = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 

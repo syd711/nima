@@ -91,6 +91,8 @@ public class Ship extends Spine implements FormationMember<Vector2> {
 
     if(health <= 0) {
       EntityManager.getInstance().destroy(this);
+
+      //trigger particle effect
       if(particleComponent != null) {
         particleComponent.enabled = true;
       }
@@ -98,17 +100,26 @@ public class Ship extends Spine implements FormationMember<Vector2> {
     }
 
     if(!shieldComponent.isActive() && shieldComponent.isRemaining()) {
+      activateShield(true);
+    }
+
+    if(!shieldComponent.isActive() || !shieldComponent.isRemaining()) {
+      activateShield(false);
+    }
+
+    return false;
+  }
+
+  private void activateShield(boolean enabled) {
+    if(enabled) {
       spriteComponent.addSprite(Textures.SHIELDBG);
       spriteComponent.addSprite(Textures.SHIELDFG);
       shieldComponent.setActive(true);
     }
-
-    if(!shieldComponent.isActive() || !shieldComponent.isRemaining()) {
+    else {
       spriteComponent.removeSprite(Textures.SHIELDBG);
       spriteComponent.removeSprite(Textures.SHIELDFG);
     }
-
-    return false;
   }
 
   /**
@@ -155,7 +166,7 @@ public class Ship extends Spine implements FormationMember<Vector2> {
     if(nearestNeighbour != null) {
       float distanceToEnemy = nearestNeighbour.getDistanceTo(this);
       if(distanceToEnemy != 0 && distanceToEnemy < attackDistance) {
-        shieldComponent.setActive(true);
+        activateShield(true);
         lockTarget(nearestNeighbour);
         return true;
       }
