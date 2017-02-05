@@ -3,10 +3,7 @@ package com.starsailor.actors.states.npc;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
-import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.SteeringManager;
-
-import java.util.List;
 
 /**
  *
@@ -16,9 +13,15 @@ public class AttackedState implements State<NPC> {
   public void enter(NPC npc) {
     npc.setShieldEnabled(true);
 
+    //TODO
+    if(npc.shipProfile.spine.equalsIgnoreCase("merchant")) {
+      npc.getStateMachine().changeState(new FleeFromAttackerState());
+      return;
+    }
+
     //apply target
-    if(npc.attacker != null) {
-      npc.lockTarget(npc.attacker);
+    if(npc.formationOwner.attacker != null) {
+      npc.lockTarget(npc.formationOwner.attacker);
       SteeringManager.setBattleSteering(npc);
     }
     else {
@@ -28,13 +31,10 @@ public class AttackedState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    List<WeaponProfile> weapons = npc.getWeapons();
-
   }
 
   @Override
   public void exit(NPC npc) {
-
   }
 
   @Override

@@ -1,11 +1,9 @@
 package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.messaging.Messages;
 
 import java.util.List;
 
@@ -19,6 +17,11 @@ public class AttackState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
+    if(npc.attacking == null) {
+      npc.getStateMachine().changeState(npc.getStateMachine().getPreviousState());
+      return;
+    }
+
     List<WeaponProfile> weapons = npc.getWeapons();
     for(WeaponProfile weapon : weapons) {
       switch(weapon.type) {

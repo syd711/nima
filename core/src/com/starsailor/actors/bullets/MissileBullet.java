@@ -42,7 +42,7 @@ public class MissileBullet extends Bullet implements EntityListener {
 
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
 
-
+    //TODO
     LookWhereYouAreGoing lookWhereYouAreGoingSB = new LookWhereYouAreGoing<Vector2>(steerableComponent) //
         .setLimiter(new AngularLimiter(8, 0.1f)) //
         .setTimeToTarget(0.1f) //

@@ -16,16 +16,6 @@ public class GuardState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-//    float distanceToPlayer = npc.getDistanceToPlayer();
-//
-//    if(npc.isAggressive()) {
-//      if(distanceToPlayer < npc.shipProfile.attackDistance) {
-//        npc.getStateMachine().changeState(NPCStates.PURSUE_PLAYER);
-//      }
-//    }
-//    else if(distanceToPlayer < npc.shipProfile.evadeDistance) {
-//      npc.getStateMachine().changeState(NPCStates.AVOID_PLAYER_COLLISION);
-//    }
   }
 
   @Override

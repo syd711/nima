@@ -14,6 +14,7 @@ public class BulletFactory {
 
   public static void create(Ship owner, Ship target) {
     try {
+      //TODO don't do that
       WeaponProfile weaponProfile = owner.shootingComponent.getActiveWeaponProfile();
       String className = StringUtils.capitalize(weaponProfile.type.toString().toLowerCase()) + "Bullet";
       String fullClassName = Bullet.class.getPackage().getName() + "." + className;

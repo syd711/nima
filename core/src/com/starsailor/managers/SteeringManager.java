@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Ship;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.util.box2d.Box2dRadiusProximity;
 
@@ -109,5 +110,14 @@ public class SteeringManager {
     blendedSteering.add(collisionAvoidanceSB, 1f);
 
     sourceSteering.setBehavior(blendedSteering);
+  }
+
+  public static void setFleeSteering(NPC npc, Ship attacker) {
+    SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+    SteerableComponent targetSteering = attacker.getComponent(SteerableComponent.class);
+
+    Flee<Vector2> fleeSB= new Flee<>(sourceSteering, targetSteering);
+    sourceSteering.setBehavior(fleeSB);
+
   }
 }

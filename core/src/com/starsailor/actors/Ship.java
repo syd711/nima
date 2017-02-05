@@ -61,6 +61,8 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
     this.shipProfile = profile;
     this.position = position;
+
+    EntityManager.getInstance().addEntityListener(this);
   }
 
   public void createComponents(ShipProfile profile) {
@@ -111,8 +113,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
    * @return True if the damage destroyed this entity.
    */
   public void applyDamageFor(Bullet bullet) {
-    this.attacker = getAttackerFromBullet(bullet);
-    if(attacker != null) {
+    Ship attackerFromBullet = getAttackerFromBullet(bullet);
+    if(attacker == null) {
+      //apply data to formation owner
+      formationOwner.attacker = attackerFromBullet;
       applyFormationState(new AttackedState());
     }
 
@@ -256,7 +260,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
   @Override
   public void entityRemoved(Entity entity) {
     if(attacker != null && entity.equals(attacker)) {
-      attacker = null;
+      this.attacker = null;
+    }
+    if(attacking != null && entity.equals(attacking)) {
+      this.attacking = null;
     }
   }
 
@@ -271,6 +278,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
         formationMember.getStateMachine().changeState(state);
       }
     }
+    formationOwner.getStateMachine().changeState(state);
   }
 
   /**

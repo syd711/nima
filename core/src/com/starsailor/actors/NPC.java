@@ -18,7 +18,7 @@ public class NPC extends Ship implements Selectable {
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
 
-  protected State<NPC> defaultState;
+  public State<NPC> defaultState;
 
   //not necessarily set
   private Route route;
