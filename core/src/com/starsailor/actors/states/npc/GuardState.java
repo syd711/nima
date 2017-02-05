@@ -2,20 +2,20 @@ package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.starsailor.actors.GuardingNPC;
+import com.starsailor.actors.NPC;
 import com.starsailor.managers.SteeringManager;
 
 /**
  * Let the give npc follow its route.
  */
-public class GuardState implements State<GuardingNPC> {
+public class GuardState implements State<NPC> {
   @Override
-  public void enter(GuardingNPC npc) {
+  public void enter(NPC npc) {
     SteeringManager.setGuardSteering(npc);
   }
 
   @Override
-  public void update(GuardingNPC npc) {
+  public void update(NPC npc) {
 //    float distanceToPlayer = npc.getDistanceToPlayer();
 //
 //    if(npc.isAggressive()) {
@@ -29,12 +29,12 @@ public class GuardState implements State<GuardingNPC> {
   }
 
   @Override
-  public void exit(GuardingNPC npc) {
+  public void exit(NPC npc) {
 
   }
 
   @Override
-  public boolean onMessage(GuardingNPC npc, Telegram telegram) {
+  public boolean onMessage(NPC npc, Telegram telegram) {
     return false;
   }
 }

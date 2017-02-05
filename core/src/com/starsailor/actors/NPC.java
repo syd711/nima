@@ -20,10 +20,35 @@ public class NPC extends Ship implements Selectable {
 
   protected State<NPC> defaultState;
 
+  //not necessarily set
+  private Route route;
+
   public NPC(ShipProfile profile, State<NPC> defaultState, Vector2 position) {
     super(profile, position);
     this.shipProfile = profile;
     this.defaultState = defaultState;
+    this.formationOwner = this;//maybe overwritten by other constructor
+  }
+
+  /**
+   * Constructor used for ships that guard a routing ship
+   * @param shipProfile
+   * @param formationOwner
+   */
+  public NPC(ShipProfile shipProfile, NPC formationOwner, State<NPC> defaultState, Vector2 position) {
+    this(shipProfile, defaultState, position);
+    this.formationOwner = formationOwner;
+  }
+
+  /**
+   * Constructor used for ships that have been spawned from a route point
+   * @param shipProfile
+   * @param route
+   */
+  public NPC(ShipProfile shipProfile, Route route, State<NPC> defaultState, Vector2 position) {
+    this(shipProfile, defaultState, position);
+    this.route = route;
+    this.route.npc = this;
   }
 
   @Override
@@ -31,6 +56,10 @@ public class NPC extends Ship implements Selectable {
     super.createComponents(profile);
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
+
+    if(this.route != null) {
+      routingComponent = ComponentFactory.addRoutingComponent(this, route);
+    }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
   }
@@ -42,13 +71,12 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public void setSelected(boolean b) {
-    selectionComponent.selected = b;
     selectionComponent.setSelected(b);
     spriteComponent.setEnabled(b);
   }
 
   @Override
   public boolean isSelected() {
-    return selectionComponent.selected;
+    return selectionComponent.isSelected();
   }
 }

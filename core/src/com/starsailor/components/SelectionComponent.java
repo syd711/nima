@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class SelectionComponent implements Component, Pool.Poolable {
 
-  public boolean selected = false;
+  private boolean selected = false;
 
   @Override
   public void reset() {
@@ -17,5 +17,9 @@ public class SelectionComponent implements Component, Pool.Poolable {
 
   public void setSelected(boolean b) {
     this.selected = b;
+  }
+
+  public boolean isSelected() {
+    return selected;
   }
 }

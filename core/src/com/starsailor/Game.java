@@ -4,6 +4,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -193,6 +194,9 @@ public class Game extends ApplicationAdapter {
 
     //update engine after world.step for saver body removal
     entityManager.update();
+
+    //update message handling
+    MessageManager.getInstance().update();
   }
 
   /**

@@ -3,10 +3,9 @@ package com.starsailor.actors.states.route;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.starsailor.actors.GuardingNPC;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.NPCFactory;
 import com.starsailor.actors.Route;
-import com.starsailor.actors.RoutedNPC;
 import com.starsailor.actors.states.npc.RouteState;
 import com.starsailor.actors.states.npc.RoutedSeekAndDestroyState;
 import com.starsailor.components.RouteComponent;
@@ -27,14 +26,14 @@ public class SpawnShipsState implements State<Route> {
       state = new RoutedSeekAndDestroyState();
     }
 
-    RoutedNPC npc = NPCFactory.createRoutedNPC(shipProfile, route, state, routeComponent.spawnPoint.position);
+    NPC npc = NPCFactory.createRoutedNPC(shipProfile, route, state, routeComponent.spawnPoint.position);
 
     Gdx.app.log(getClass().getName(), "Route '" + route.getName() + "': spawned ship "
         + route.shipProfile + " at " + routeComponent.spawnPoint.position);
 
-    for(Route.RouteMember guard : route.members) {
-      GuardingNPC guardingNPC = NPCFactory.createGuardingNPC(guard.ship, npc, guard.state, guard.centeredPosition);
-      route.guardingNPCs.add(guardingNPC);
+    for(Route.RouteMember member : route.members) {
+      NPC routeMember = NPCFactory.createRouteMember(member.ship, npc, member.state, member.centeredPosition);
+      route.routeMembers.add(routeMember);
     }
   }
 

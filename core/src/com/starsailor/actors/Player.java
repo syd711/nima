@@ -1,6 +1,7 @@
 package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.actors.states.player.PlayerStates;
@@ -27,6 +28,7 @@ public class Player extends Ship {
   public Player(ShipProfile profile) {
     super(profile, null);
     instance = this;
+    formationOwner = this;
   }
 
   @Override
@@ -53,5 +55,10 @@ public class Player extends Ship {
     target = EntityManager.getInstance().getEntityAt(worldCoordinates);
     getStateMachine().changeState(PlayerStates.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
+  }
+
+  @Override
+  public boolean handleMessage(Telegram msg) {
+    return false;
   }
 }

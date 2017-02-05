@@ -73,12 +73,8 @@ abstract public class Bullet extends GameEntity {
    * Checks if the ship is destroyed so that the selection
    * is resetted and an explosion animation is rendered.
    */
-  protected void updateDamage(Ship npc) {
-    boolean destroyed = npc.applyDamage(bulletDamageComponent.damage);
-    if(destroyed) {
-      EntityManager.getInstance().destroy(this);
-      SelectionManager.getInstance().setSelection(null);
-    }
+  protected void updateDamage(Ship ship) {
+    ship.applyDamageFor(this);
   }
 
   /**

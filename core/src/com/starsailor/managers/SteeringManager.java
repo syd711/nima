@@ -8,7 +8,6 @@ import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.starsailor.actors.GuardingNPC;
 import com.starsailor.actors.NPC;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.util.box2d.Box2dRadiusProximity;
@@ -21,7 +20,7 @@ import static com.starsailor.util.Settings.MPP;
  */
 public class SteeringManager {
 
-  public static void setGuardSteering(GuardingNPC npc) {
+  public static void setGuardSteering(NPC npc) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
     Arrive<Vector2> arrive = new Arrive<>(sourceSteering, npc.getTargetLocation());
@@ -99,7 +98,7 @@ public class SteeringManager {
     Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
-    final Face<Vector2> faceSB = new Face<>(sourceSteering, npc.shootingTarget.steerableComponent);
+    final Face<Vector2> faceSB = new Face<>(sourceSteering, npc.attacking.steerableComponent);
     faceSB.setTimeToTarget(0.01f);
     faceSB.setAlignTolerance(0.0001f);
     faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);

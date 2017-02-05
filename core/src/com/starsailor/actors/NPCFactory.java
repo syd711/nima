@@ -10,8 +10,8 @@ import com.starsailor.managers.EntityManager;
  */
 public class NPCFactory {
 
-  public static RoutedNPC createRoutedNPC(ShipProfile shipProfile, Route route, State state, Vector2 position) {
-    RoutedNPC npc = new RoutedNPC(shipProfile, route, state, position);
+  public static NPC createRoutedNPC(ShipProfile shipProfile, Route route, State state, Vector2 position) {
+    NPC npc = new NPC(shipProfile, route, state, position);
     npc.createComponents(shipProfile);
     npc.getStateMachine().changeState(state);
 
@@ -19,12 +19,12 @@ public class NPCFactory {
     return npc;
   }
 
-  public static GuardingNPC createGuardingNPC(ShipProfile shipProfile, RoutedNPC guardedNPC, State<NPC> state, Vector2 position) {
-    GuardingNPC npc = new GuardingNPC(shipProfile, guardedNPC, state, position);
+  public static NPC createRouteMember(ShipProfile shipProfile, NPC routeOwner, State<NPC> state, Vector2 position) {
+    NPC npc = new NPC(shipProfile, routeOwner, state, position);
     npc.createComponents(shipProfile);
     npc.getStateMachine().changeState(state);
 
-    guardedNPC.addGuard(npc);
+    routeOwner.addFormationMember(npc);
 
     EntityManager.getInstance().add(npc);
     return npc;

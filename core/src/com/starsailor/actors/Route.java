@@ -22,7 +22,7 @@ public class Route extends GameEntity implements EntityListener {
   public StatefulComponent statefulComponent;
 
   public NPC npc;
-  public List<GuardingNPC> guardingNPCs = new ArrayList<>();
+  public List<NPC> routeMembers = new ArrayList<>();
   public List<RouteMember> members = new ArrayList<>();
 
   private String name;

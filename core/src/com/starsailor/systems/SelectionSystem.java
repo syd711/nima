@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
 import com.starsailor.components.SelectionComponent;
-import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.SpriteComponent;
 import com.starsailor.managers.Textures;
 
@@ -26,50 +25,13 @@ public class SelectionSystem extends PauseableIteratingSystem {
 
     NPC npc = (NPC) entity;
     SpriteComponent spriteComponent = npc.spriteComponent;
-    ShieldComponent shieldComponent = npc.shieldComponent;
 
     //update selection sprite
-    if(npc.selectionComponent.selected) {
+    if(npc.selectionComponent.isSelected()) {
       //update selection sprite
       Vector2 center = npc.getCenter();
       spriteComponent.getSprite(Textures.SELECTION).setPosition(center, true);
-
-      //update health sprites
-      updateHealthSprites(npc, shieldComponent);
     }
   }
 
-  private void updateHealthSprites(NPC npc, ShieldComponent shieldComponent) {
-    updatePositionAndHealth(npc, Textures.HEALTHBG, Textures.HEALTHFG, 120, npc.health, npc.maxHealth);
-
-    if(shieldComponent.isActive()) {
-      //update shield sprite
-      ShieldComponent shield = npc.shieldComponent;
-      updatePositionAndHealth(npc, Textures.SHIELDBG, Textures.SHIELDFG, 145, shield.health, shield.maxHealth);
-    }
-  }
-
-  /**
-   * Updates the health and shield status bars
-   * @param npc
-   * @param textures1
-   * @param textures2
-   * @param y
-   * @param health
-   * @param maxHealth
-   */
-  private void updatePositionAndHealth(NPC npc, Textures textures1, Textures textures2, int y, float health, float maxHealth) {
-    Vector2 pos = new Vector2(npc.getCenter());
-    pos.y += y;
-    pos.x -= npc.getWidth() / 2 - 10;
-
-    SpriteComponent.SpriteItem background = npc.spriteComponent.getSprite(textures1);
-    background.setPosition(pos, false);
-    SpriteComponent.SpriteItem foreGround = npc.spriteComponent.getSprite(textures2);
-    foreGround.setPosition(pos, false);
-
-    float healthPercentage = health * 100 / maxHealth;
-    float healthWidth = foreGround.getSprite().getTexture().getWidth() * healthPercentage / 100;
-    foreGround.setWidth(healthWidth);
-  }
 }
