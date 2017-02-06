@@ -2,7 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.states.route.RouteStates;
@@ -34,7 +34,7 @@ public class Route extends GameEntity implements EntityListener {
     this.name = name;
     routeComponent = ComponentFactory.addRouteComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
-    statefulComponent.stateMachine = new DefaultStateMachine<>(this, RouteStates.IDLE);
+    statefulComponent.stateMachine = new StackStateMachine(this, RouteStates.IDLE);
   }
 
   public boolean isActive() {

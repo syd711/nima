@@ -3,7 +3,8 @@ package com.starsailor;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StackStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,7 +54,7 @@ public class Game extends ApplicationAdapter {
   public static GameSettings gameSettings = GameSettings.load();
   private Settings settings = Settings.getInstance();
 
-  public static DefaultStateMachine gameState;
+  public static StateMachine gameState;
 
   public static I18NBundle bundle;
 
@@ -66,7 +67,7 @@ public class Game extends ApplicationAdapter {
     Locale locale = new Locale(Locale.getDefault().getLanguage());
     bundle = I18NBundle.createBundle(baseFileHandle, locale);
 
-    gameState = new DefaultStateMachine<>(this, GameState.RESUME);
+    gameState = new StackStateMachine<>(this, GameState.RESUME);
 
     //load particle effects
     ParticleManager.getInstance().loadParticles();

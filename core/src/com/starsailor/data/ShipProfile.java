@@ -7,6 +7,10 @@ import java.util.List;
  * Contains all attributes a ship can have.
  */
 public class ShipProfile {
+  public enum Types {
+    MERCHANT, PIRATE, CRUSADER
+  }
+
   public String spine;
   public float scale;
   public String defaultAnimation;
@@ -30,6 +34,10 @@ public class ShipProfile {
 
   //Steering
   public SteeringData steeringData;
+
+  public ShipProfile.Types getType() {
+    return Types.valueOf(spine.toUpperCase());
+  }
 
   public void addWeaponProfile(WeaponProfile profile) {
     if(weaponProfiles == null) {

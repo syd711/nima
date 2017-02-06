@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.fma.FormationMember;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.ai.utils.Location;
@@ -168,7 +168,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
     attacking = npc;
   }
 
-  public DefaultStateMachine getStateMachine() {
+  public StateMachine getStateMachine() {
     return statefulComponent.stateMachine;
   }
 
