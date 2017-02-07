@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.Fraction;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.NPCFactory;
 import com.starsailor.actors.Route;
@@ -42,12 +43,13 @@ public class Pirate2EntityConverter extends DefaultMapObjectConverter {
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
     String defaultStateName = (String) mapObject.getProperties().get(MapConstants.PROPERTY_STATE);
+    String fraction = (String) mapObject.getProperties().get(MapConstants.PROPERTY_FRACTION);
 
     if(shipProfile == null) {
       throw new UnsupportedOperationException("No shipProfile found for data entity '" + mapObject.getName() + "'");
     }
 
-    NPC npc = NPCFactory.createPirate(DataEntities.getShip(shipProfile), NPCStates.forName(defaultStateName), centeredPosition);
+    NPC npc = NPCFactory.createPirate(DataEntities.getShip(shipProfile), NPCStates.forName(defaultStateName), Fraction.valueOf(fraction.toUpperCase()), centeredPosition);
     Gdx.app.log(this.getClass().getName(), "Added pirate ship '" + npc + "'");
   }
 

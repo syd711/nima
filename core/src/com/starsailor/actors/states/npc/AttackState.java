@@ -17,7 +17,7 @@ public class AttackState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    if(npc.attacking == null) {
+    if(npc.attacking == null || npc.formationOwner.attacking == null) {
       npc.getStateMachine().changeState(npc.getStateMachine().getPreviousState());
       return;
     }

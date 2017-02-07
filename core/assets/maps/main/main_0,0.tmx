@@ -114,6 +114,7 @@
  <objectgroup name="data">
   <object id="38" name="Route 1" type="Route" x="378.5" y="899.5" width="43" height="43">
    <properties>
+    <property name="fraction" value="ferengi"/>
     <property name="shipProfile" value="merchant"/>
    </properties>
    <ellipse/>

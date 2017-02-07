@@ -12,13 +12,21 @@ import com.starsailor.managers.SteeringManager;
 public class AttackedState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
-    npc.setShieldEnabled(true);
+    boolean attacked = npc.formationOwner.attacking != null;
+    npc.setShieldEnabled(attacked);
+
+    //attack is finished, return back to previous state
+    if(!attacked) {
+      npc.getStateMachine().changeState(npc.getDefaultState());
+      return;
+    }
 
     ShipProfile.Types type = npc.shipProfile.getType();
     switch(type) {
       case CRUSADER: {
-        npc.lockTarget(npc.formationOwner.attacker);
+        npc.lockTarget(npc.formationOwner.attacking);
         SteeringManager.setBattleSteering(npc);
+        npc.getStateMachine().changeState(new AttackState());
         break;
       }
       case MERCHANT: {
@@ -26,7 +34,8 @@ public class AttackedState implements State<NPC> {
         break;
       }
       case PIRATE: {
-        throw new UnsupportedOperationException("Pirate attack not supported yet");
+        npc.getStateMachine().changeState(new AttackState());
+        break;
       }
     }
   }

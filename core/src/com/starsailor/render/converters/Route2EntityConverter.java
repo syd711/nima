@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RouteComponent;
@@ -43,9 +44,14 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
     Float dockTime = (Float) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
     Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
+    String fraction = (String) mapObject.getProperties().get(MapConstants.PROPERTY_FRACTION);
 
     //apply additional route tracking point
     Route route = getOrCreateRoute(name);
+
+    if(fraction != null) {
+      route.fractionComponent.fraction = Fraction.valueOf(fraction.toUpperCase());
+    }
 
     RoutePoint routePoint = new RoutePoint();
     routePoint.position = centeredPosition;

@@ -18,7 +18,7 @@ public class NPC extends Ship implements Selectable {
   public SelectionComponent selectionComponent;
   public NPCCollisionComponent collisionComponent;
 
-  public State<NPC> defaultState;
+  private State<NPC> defaultState;
 
   //not necessarily set
   private Route route;
@@ -27,7 +27,6 @@ public class NPC extends Ship implements Selectable {
     super(profile, position);
     this.shipProfile = profile;
     this.defaultState = defaultState;
-    this.formationOwner = this;//maybe overwritten by other constructor
   }
 
   /**
@@ -52,8 +51,8 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
-  public void createComponents(ShipProfile profile) {
-    super.createComponents(profile);
+  public void createComponents(ShipProfile profile, Fraction fraction) {
+    super.createComponents(profile, fraction);
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
 
@@ -62,6 +61,11 @@ public class NPC extends Ship implements Selectable {
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
+  }
+
+  @Override
+  public State getDefaultState() {
+    return defaultState;
   }
 
   @Override

@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.FractionComponent;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.components.StatefulComponent;
 import com.starsailor.data.ShipProfile;
@@ -18,6 +19,7 @@ import java.util.List;
  * Represents a route
  */
 public class Route extends GameEntity implements EntityListener {
+  public FractionComponent fractionComponent;
   public RouteComponent routeComponent;
   public StatefulComponent statefulComponent;
 
@@ -35,6 +37,7 @@ public class Route extends GameEntity implements EntityListener {
     routeComponent = ComponentFactory.addRouteComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     statefulComponent.stateMachine = new StackStateMachine(this, RouteStates.IDLE);
+    fractionComponent = ComponentFactory.createFractionComponent(this, null);
   }
 
   public boolean isActive() {

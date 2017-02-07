@@ -64,12 +64,14 @@ public class SpriteRenderSystem extends RenderingSystem {
     pos.x -= ship.getWidth() / 2 - 10;
 
     SpriteComponent.SpriteItem background = ship.spriteComponent.getSprite(textures1);
-    background.setPosition(pos, false);
-    SpriteComponent.SpriteItem foreGround = ship.spriteComponent.getSprite(textures2);
-    foreGround.setPosition(pos, false);
+    if(background  != null) {
+      background.setPosition(pos, false);
+      SpriteComponent.SpriteItem foreGround = ship.spriteComponent.getSprite(textures2);
+      foreGround.setPosition(pos, false);
 
-    float healthPercentage = health * 100 / maxHealth;
-    float healthWidth = foreGround.getSprite().getTexture().getWidth() * healthPercentage / 100;
-    foreGround.setWidth(healthWidth);
+      float healthPercentage = health * 100 / maxHealth;
+      float healthWidth = foreGround.getSprite().getTexture().getWidth() * healthPercentage / 100;
+      foreGround.setWidth(healthWidth);
+    }
   }
 }

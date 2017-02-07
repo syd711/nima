@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
@@ -249,6 +250,13 @@ public class ComponentFactory {
     FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
     DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance*MPP);
     component.formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
+    entity.add(component);
+    return component;
+  }
+
+  public static FractionComponent createFractionComponent(Entity entity, Fraction fraction) {
+    FractionComponent component = createComponent(FractionComponent.class);
+    component.fraction = fraction;
     entity.add(component);
     return component;
   }

@@ -96,6 +96,7 @@
  <objectgroup name="lights">
   <object id="5" name="Pirate 1" type="Route" x="74" y="1148" width="52" height="52">
    <properties>
+    <property name="fraction" value="klingonen"/>
     <property name="shipProfile" value="pirate"/>
    </properties>
    <ellipse/>

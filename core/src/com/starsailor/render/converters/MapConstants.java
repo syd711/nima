@@ -10,6 +10,7 @@ public class MapConstants {
   public static final String PROPERTY_SHIP_PROFILE = "shipProfile";
   public static final String PROPERTY_DOCKABLE = "dockable";
   public static final String PROPERTY_DOCK_TIME = "dockTime";
+  public static final String PROPERTY_FRACTION = "fraction";
 
   //entity properties
   public static final String PROPERTY_POSITION = "position";

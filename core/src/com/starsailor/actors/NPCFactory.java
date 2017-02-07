@@ -12,7 +12,7 @@ public class NPCFactory {
 
   public static NPC createRoutedNPC(ShipProfile shipProfile, Route route, State state, Vector2 position) {
     NPC npc = new NPC(shipProfile, route, state, position);
-    npc.createComponents(shipProfile);
+    npc.createComponents(shipProfile, route.fractionComponent.fraction);
     npc.getStateMachine().changeState(state);
 
     EntityManager.getInstance().add(npc);
@@ -21,7 +21,7 @@ public class NPCFactory {
 
   public static NPC createRouteMember(ShipProfile shipProfile, NPC routeOwner, State<NPC> state, Vector2 position) {
     NPC npc = new NPC(shipProfile, routeOwner, state, position);
-    npc.createComponents(shipProfile);
+    npc.createComponents(shipProfile, routeOwner.fractionComponent.fraction);
     npc.getStateMachine().changeState(state);
 
     routeOwner.addFormationMember(npc);
@@ -30,9 +30,9 @@ public class NPCFactory {
     return npc;
   }
 
-  public static NPC createPirate(ShipProfile shipProfile, State state, Vector2 position) {
+  public static NPC createPirate(ShipProfile shipProfile, State state, Fraction fraction, Vector2 position) {
     NPC npc = new NPC(shipProfile, state, position);
-    npc.createComponents(shipProfile);
+    npc.createComponents(shipProfile, fraction);
     npc.getStateMachine().changeState(state);
 
     EntityManager.getInstance().add(npc);

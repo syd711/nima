@@ -6,8 +6,6 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.fsm.StateMachine;
-import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
@@ -28,7 +26,7 @@ import java.util.List;
 /**
  * The general ship entity which is always a spine.
  */
-abstract public class Ship extends Spine implements FormationMember<Vector2>, Telegraph, EntityListener {
+abstract public class Ship extends Spine implements FormationMember<Vector2>, EntityListener {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public SpineComponent spineComponent;
@@ -40,6 +38,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
   public ShieldComponent shieldComponent;
   public SpriteComponent spriteComponent;
   public FormationComponent formationComponent;
+  public FractionComponent fractionComponent;
 
   public ShipProfile shipProfile;
   public float health = 100;
@@ -49,7 +48,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
 
   //battle variables
   public Ship attacking;
-  public Ship attacker;
 
   //set if this entity is part of a formation
   public Ship formationOwner;
@@ -61,11 +59,12 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
     this.shipProfile = profile;
     this.position = position;
+    this.formationOwner = this;
 
     EntityManager.getInstance().addEntityListener(this);
   }
 
-  public void createComponents(ShipProfile profile) {
+  public void createComponents(ShipProfile profile, Fraction fraction) {
     scalingComponent = ComponentFactory.addScalingComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
@@ -76,11 +75,11 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
     shieldComponent = ComponentFactory.addShieldComponent(this, profile.shieldProfile);
     formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, 150f);
+    fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
 
     spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.SELECTION, -1);
     spriteComponent.addSprite(Textures.HEALTHBG);
     spriteComponent.addSprite(Textures.HEALTHFG);
-
 
     this.location = new Box2dLocation(new Vector2());
   }
@@ -107,18 +106,22 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
   }
 
   /**
+   * The given target is used to shoot at
+   *
+   * @param npc
+   */
+  public void lockTarget(Ship npc) {
+    attacking = npc;
+  }
+
+  /**
    * Applies the damage to the shield or the ship health.
    *
    * @param bullet the damage to apply for the shield or health.
    * @return True if the damage destroyed this entity.
    */
   public void applyDamageFor(Bullet bullet) {
-    Ship attackerFromBullet = getAttackerFromBullet(bullet);
-    if(attacker == null) {
-      //apply data to formation owner
-      formationOwner.attacker = attackerFromBullet;
-      applyFormationState(new AttackedState());
-    }
+    updateAttackState(bullet);
 
     BulletDamageComponent damageComponent = bullet.getComponent(BulletDamageComponent.class);
     float damage = damageComponent.damage;
@@ -157,15 +160,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
    */
   public void fireAtTarget() {
     BulletFactory.create(this, attacking);
-  }
-
-  /**
-   * The given target is used to shoot at
-   *
-   * @param npc
-   */
-  public void lockTarget(Ship npc) {
-    attacking = npc;
   }
 
   public StateMachine getStateMachine() {
@@ -234,22 +228,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
     return nearestNeighbour;
   }
 
-  //-------------- Messaging Service ---------------------------------------------------------------------
-
-  @Override
-  public boolean handleMessage(Telegram msg) {
-    switch(msg.message) {
-//      case ATTACKED: {//usually triggerd by bullet collision message
-//        return true;
-//      }
-//      case ATTACK: {
-//        return true;
-//      }
-    }
-
-    return false;
-  }
-
   //-------------- Entity Listener -----------------------------------------------------------------------
 
   @Override
@@ -259,16 +237,52 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, Te
 
   @Override
   public void entityRemoved(Entity entity) {
-    if(attacker != null && entity.equals(attacker)) {
-      this.attacker = null;
+    if(entity.equals(this)) {
+      return;
     }
+
     if(attacking != null && entity.equals(attacking)) {
-      this.attacking = null;
+      //auto lock next next
+      List<NPC> formationMembers = attacking.formationOwner.getFormationMembers();
+      if(!formationMembers.isEmpty()) {
+        //TODO find nearest member
+        this.attacking = formationMembers.iterator().next();
+      }
+      else {
+        this.attacking = null;
+        this.formationOwner.attacking = null;
+      }
     }
   }
 
+  //------------ To be implemented ------------------------------------------------------------------------
+
+  abstract public State getDefaultState();
+
 
   //------------- Helper ----------------------------------------------------------------------------------
+
+  /**
+   * Updates the battle state for each bullet hit
+   * @param bullet
+   */
+  private void updateAttackState(Bullet bullet) {
+    Ship attackerFromBullet = getAttackerFromBullet(bullet);
+    //ignore friendly fire
+    if(attackerFromBullet == null) {
+      return;
+    }
+
+    //the attack is only of interest if the entity is in the default state
+    State currentState = getStateMachine().getCurrentState();
+    if(currentState.equals(getDefaultState())) {
+      //all formation owner attack the same target, split afterwards in attack mode
+      formationOwner.attacking = attackerFromBullet;
+      if(this instanceof NPC) {
+        applyFormationState(new AttackedState());
+      }
+    }
+  }
 
   private void applyFormationState(State<NPC> state) {
     //notify my members that I am under attack

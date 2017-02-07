@@ -7,7 +7,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.Ship;
 import com.starsailor.actors.Updateable;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.BodyComponent;
@@ -44,7 +46,7 @@ public class EntityManager {
     //create player
     ShipProfile ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
     player = new Player(ship);
-    player.createComponents(ship);
+    player.createComponents(ship, Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);
     engine.addEntity(player);
 
@@ -173,6 +175,12 @@ public class EntityManager {
 
         if(entity instanceof EntityListener) {
           engine.removeEntityListener((EntityListener) entity);
+        }
+
+        //remove ship from formation
+        if(entity instanceof Ship) {
+          Ship ship = (Ship) entity;
+          ship.formationOwner.formationComponent.removeMember(ship);
         }
 
         engine.removeEntity(entity);

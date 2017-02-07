@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Ship;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class FormationComponent implements Component, Pool.Poolable {
   @Override
   public void reset() {
     this.formation = null;
+    this.members.clear();
   }
 
   public void updateFormation() {
@@ -30,5 +32,10 @@ public class FormationComponent implements Component, Pool.Poolable {
   public void addMember(FormationMember member) {
     members.add((NPC) member);
     formation.addMember(member);
+  }
+
+  public void removeMember(Ship ship) {
+    members.remove(ship);
+    formation.removeMember(ship);
   }
 }
