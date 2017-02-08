@@ -1,7 +1,7 @@
 {
   "spine" : "pirate",
   "defaultAnimation" : "walk",
-  "scale" : 0.2,
+  "scale" : 0.15,
   "health" : 100,
   "attackDistance" : 600,
   "shootDistance" : 400,
@@ -10,14 +10,14 @@
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,
-    "linearDamping" : 4,
+    "linearDamping" : 8,
     "density" : 1
   },
   "steeringData" : {
     "boundingRadius" : 200,
     "maxLinearSpeed" : 6,
     "maxLinearAcceleration" : 6,
-    "maxAngularSpeed" : 6,
-    "maxAngularAcceleration" : 6
+    "maxAngularSpeed" : 4,
+    "maxAngularAcceleration" : 4
   }
 }

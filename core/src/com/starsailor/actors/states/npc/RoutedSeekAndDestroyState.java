@@ -11,7 +11,7 @@ import com.starsailor.managers.SteeringManager;
 /**
  *
  */
-public class RoutedSeekAndDestroyState implements State<NPC> {
+public class RoutedSeekAndDestroyState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
@@ -21,7 +21,7 @@ public class RoutedSeekAndDestroyState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    if(npc.findAndLockNearestTarget()) {
+    if(findAndLockNearestTarget(npc)) {
       SteeringManager.setBattleSteering(npc);
       npc.getStateMachine().changeState(new AttackState());
     }

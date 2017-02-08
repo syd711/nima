@@ -1,23 +1,21 @@
 {
   "spine" : "merchant",
   "defaultAnimation" : "walk",
-  "scale" : 0.22,
+  "scale" : 0.13,
   "health" : 100,
   "attackDistance" : 300,
   "evadeDistance" : 200,
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,
-    "linearDamping" : 4,
+    "linearDamping" : 8,
     "density" : 1
   },
   "steeringData" : {
-    "boundingRadius" : 150,
-    "maxLinearSpeed" : 5,
-    "maxLinearAcceleration" : 5,
-    "maxAngularSpeed" : 3,
-    "maxAngularAcceleration" : 3,
-    "angularDamping" : 1.8,
-    "linearDamping" : 4
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 3,
+    "maxLinearAcceleration" : 3,
+    "maxAngularSpeed" : 4,
+    "maxAngularAcceleration" : 4
   }
 }

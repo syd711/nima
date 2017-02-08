@@ -2,7 +2,6 @@ package com.starsailor.actors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.fsm.StateMachine;
@@ -185,48 +184,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2>, En
     return ship.getCenter().dst(this.getCenter());
   }
 
-  /**
-   * Searches for an enemy to shoot at.
-   * The entities "attackDistance" is used for this which means
-   * that the ship itself has not necessarily a weapon in shooting range.
-   *
-   * @return True if an enemy was found to shoot at
-   */
-  public boolean findAndLockNearestTarget() {
-    //TODO filter for friends!
-    float attackDistance = shipProfile.attackDistance;
-    Ship nearestNeighbour = findNearestNeighbour();
-    if(nearestNeighbour != null) {
-      float distanceToEnemy = nearestNeighbour.getDistanceTo(this);
-      if(distanceToEnemy != 0 && distanceToEnemy < attackDistance) {
-        setShieldEnabled(true);
-        lockTarget(nearestNeighbour);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public Ship findNearestNeighbour() {
-    Ship nearestNeighbour = null;
-    //TODO not necessarily a spine
-    ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SpineComponent.class);
-    for(Entity entity : entitiesFor) {
-      Ship ship = (Ship) entity;
-      if(ship.equals(this)) {
-        continue;
-      }
-      if(nearestNeighbour == null) {
-        nearestNeighbour = ship;
-        continue;
-      }
-
-      if(this.getDistanceTo(ship) < this.getDistanceTo(nearestNeighbour)) {
-        nearestNeighbour = ship;
-      }
-    }
-    return nearestNeighbour;
-  }
 
   //-------------- Entity Listener -----------------------------------------------------------------------
 

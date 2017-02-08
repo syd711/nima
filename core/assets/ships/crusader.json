@@ -1,7 +1,7 @@
 {
   "spine" : "crusader",
   "defaultAnimation" : "walk",
-  "scale" : 0.16,
+  "scale" : 0.15,
   "health" : 100,
   "attackDistance" : 300,
   "evadeDistance" : 400,
@@ -13,12 +13,10 @@
     "density" : 1
   },
   "steeringData" : {
-    "boundingRadius" : 240,
-    "maxLinearSpeed" : 8,
-    "maxLinearAcceleration" : 8,
-    "maxAngularSpeed" : 3,
-    "maxAngularAcceleration" : 3,
-    "angularDamping" : 1.8,
-    "linearDamping" : 4
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 7,
+    "maxLinearAcceleration" : 7,
+    "maxAngularSpeed" : 4,
+    "maxAngularAcceleration" : 4
   }
 }

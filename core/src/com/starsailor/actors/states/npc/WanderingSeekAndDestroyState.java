@@ -8,7 +8,7 @@ import com.starsailor.managers.SteeringManager;
 /**
  *
  */
-public class WanderingSeekAndDestroyState implements State<NPC> {
+public class WanderingSeekAndDestroyState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
      SteeringManager.setWanderSteering(npc);
@@ -16,7 +16,7 @@ public class WanderingSeekAndDestroyState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    if(npc.findAndLockNearestTarget()) {
+    if(findAndLockNearestTarget(npc)) {
       SteeringManager.setBattleSteering(npc);
     }
   }
