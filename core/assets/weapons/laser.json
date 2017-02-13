@@ -1,5 +1,6 @@
 {
   "name" : "Laser",
+  "category" : "primary",
   "sound" : "laser",
   "damage" : 3,
   "forceFactor" : 0.9,

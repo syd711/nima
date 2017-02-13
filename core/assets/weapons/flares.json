@@ -1,5 +1,6 @@
 {
   "name" : "Flares",
+  "category" : "defensive",
   "sound" : "laser",
   "bulletCount" : 5,
   "forceFactor" : 3.1,

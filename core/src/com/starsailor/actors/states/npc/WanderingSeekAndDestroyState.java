@@ -16,9 +16,9 @@ public class WanderingSeekAndDestroyState extends NPCState implements State<NPC>
 
   @Override
   public void update(NPC npc) {
-    if(findAndLockNearestTarget(npc)) {
-      SteeringManager.setBattleSteering(npc);
-    }
+//    if(findAndLockNearestTarget(npc)) {
+//      SteeringManager.setBattleSteering(npc);
+//    }
   }
 
   @Override

@@ -29,30 +29,9 @@ public class NPC extends Ship implements Selectable {
     this.defaultState = defaultState;
   }
 
-  /**
-   * Constructor used for ships that guard a routing ship
-   * @param shipProfile
-   * @param formationOwner
-   */
-  public NPC(ShipProfile shipProfile, NPC formationOwner, State<NPC> defaultState, Vector2 position) {
-    this(shipProfile, defaultState, position);
-    this.formationOwner = formationOwner;
-  }
-
-  /**
-   * Constructor used for ships that have been spawned from a route point
-   * @param shipProfile
-   * @param route
-   */
-  public NPC(ShipProfile shipProfile, Route route, State<NPC> defaultState, Vector2 position) {
-    this(shipProfile, defaultState, position);
-    this.route = route;
-    this.route.npc = this;
-  }
-
   @Override
-  public void createComponents(ShipProfile profile, Fraction fraction) {
-    super.createComponents(profile, fraction);
+  public void createComponents(Fraction fraction) {
+    super.createComponents(fraction);
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
 
@@ -82,5 +61,14 @@ public class NPC extends Ship implements Selectable {
   @Override
   public boolean isSelected() {
     return selectionComponent.isSelected();
+  }
+
+  public void setRoute(Route route) {
+    this.route = route;
+  }
+
+  @Override
+  public String toString() {
+    return "NPC '" + shipProfile.spine + "'";
   }
 }

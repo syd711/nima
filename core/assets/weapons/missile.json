@@ -1,5 +1,6 @@
 {
   "name" : "Missile",
+  "category" : "secondary",
   "sound" : "laser",
   "damage" : 30,
   "forceFactor" : 8.5,

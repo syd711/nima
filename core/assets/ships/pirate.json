@@ -1,4 +1,5 @@
 {
+  "name" : "pirate",
   "spine" : "pirate",
   "defaultAnimation" : "walk",
   "scale" : 0.15,

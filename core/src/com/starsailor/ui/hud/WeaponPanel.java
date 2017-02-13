@@ -8,10 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.NPC;
-import com.starsailor.actors.Player;
-import com.starsailor.actors.Selectable;
+import com.starsailor.actors.*;
+import com.starsailor.actors.bullets.BulletFactory;
 import com.starsailor.components.ShootingComponent;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.WeaponProfile;
@@ -69,9 +67,7 @@ public class WeaponPanel extends Table {
         public void changed(ChangeEvent event, Actor actor) {
           Selectable selection = SelectionManager.getInstance().getSelection();
           if(selection instanceof NPC) {
-            Player.getInstance().switchWeapon(weaponProfile);
-            Player.getInstance().lockTarget((NPC) selection);
-            Player.getInstance().fireAtTarget();
+            BulletFactory.create(Player.getInstance(), (Ship) selection, weaponProfile);
           }
         }
       });

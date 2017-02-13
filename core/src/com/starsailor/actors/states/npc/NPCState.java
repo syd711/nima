@@ -1,57 +1,127 @@
 package com.starsailor.actors.states.npc;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
-import com.starsailor.components.SpineComponent;
+import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.bullets.BulletFactory;
+import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by Matthias on 07.02.2017.
+ * Abstract superstate for all npc with different helper methods
  */
-public class NPCState {
+abstract public class NPCState {
 
   /**
-   * Searches for an enemy to shoot at.
+   * Used for search and destroy.
+   * Instead of search for the next enemy of an enemy group, we
+   * use all instances of ships to find the nearest target for an attack
+   */
+  @Nullable
+  protected Ship findNearestEnemy(NPC npc) {
+    List<Ship> entities = EntityManager.getInstance().getEntities(Ship.class);
+    return findNearestEnemyOfGroup(npc, entities);
+  }
+
+  /**
+   * Returns another ship that is inside the closest attack range and an enemy.
    * The entities "attackDistance" is used for this which means
    * that the ship itself has not necessarily a weapon in shooting range.
    *
-   * @return True if an enemy was found to shoot at
+   * @param npc the npc to search an enemy for
    */
-  public boolean findAndLockNearestTarget(NPC npc) {
-    //TODO filter for friends!
-    float attackDistance = npc.shipProfile.attackDistance;
-    Ship nearestNeighbour = findNearestNeighbour(npc);
-    if(nearestNeighbour != null) {
-      float distanceToEnemy = nearestNeighbour.getDistanceTo(npc);
-      if(distanceToEnemy != 0 && distanceToEnemy < attackDistance) {
-        npc.setShieldEnabled(true);
-        npc.lockTarget(nearestNeighbour);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public Ship findNearestNeighbour(NPC npc) {
-    Ship nearestNeighbour = null;
-    //TODO not necessarily a spine
-    ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(SpineComponent.class);
-    for(Entity entity : entitiesFor) {
-      Ship ship = (Ship) entity;
-      if(ship.equals(npc)) {
-        continue;
-      }
-      if(nearestNeighbour == null) {
-        nearestNeighbour = ship;
+  @Nullable
+  protected Ship findNearestEnemyOfGroup(NPC npc, List<? extends Ship> group) {
+    Ship enemy = null;
+    for(Ship ship : group) {
+      if(!ship.isEnemyOf(npc)) {
         continue;
       }
 
-      if(npc.getDistanceTo(ship) < npc.getDistanceTo(nearestNeighbour)) {
-        nearestNeighbour = ship;
+      float distanceToEnemy = ship.getDistanceTo(npc);
+      if(distanceToEnemy != 0) {
+        if(enemy == null) {
+          enemy = ship;
+        }
+        //may another ship is closer?
+        else if(distanceToEnemy < ship.getDistanceTo(enemy)) {
+          enemy = ship;
+        }
       }
     }
-    return nearestNeighbour;
+    return enemy;
   }
+
+  /**
+   * Returns true if the enemy is in attack range of the ship
+   *
+   * @param ship
+   * @param enemy
+   */
+  protected boolean isInAttackDistance(Ship ship, Ship enemy) {
+    float attackDistance = ship.shipProfile.attackDistance;
+    float distanceToEnemy = ship.getDistanceTo(enemy);
+    return distanceToEnemy < attackDistance;
+  }
+
+  /**
+   * Returns the bullet that is currently on it's way to me :(
+   * We ignore the fact if it is a friendly or enemy bullet since we never fire at friends but can hit them.
+   *
+   * @param npc the npc to check for bullets for
+   */
+  @Nullable
+  protected Bullet findEnemyBulletTargetedFor(NPC npc) {
+    List<Bullet> bullets = EntityManager.getInstance().getEntities(Bullet.class);
+    for(Bullet bullet : bullets) {
+      //one is enough
+      if(bullet.target.equals(npc)) {
+        return bullet;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Checks if the bullet that is currently targeted for the given npc can be defended by another weapon.
+   *
+   * @param npc         the npc that wants to defend itself
+   * @param enemyBullet the enemy bullet that should be defended
+   */
+  protected void fireDefensiveWeaponsFor(NPC npc, Bullet enemyBullet) {
+
+  }
+
+  /**
+   * Returns the weapons that are charged and match the given category.
+   *
+   * @param ship           the ship to retrieve the information for
+   * @param weaponCategory the category
+   */
+  protected List<WeaponProfile> getChargedWeaponsForCategory(Ship ship, WeaponProfile.Category weaponCategory) {
+    List<WeaponProfile> result = new ArrayList<>();
+    for(WeaponProfile weapon : ship.getWeapons()) {
+      if(!weapon.getCategory().equals(weaponCategory)) {
+        continue;
+      }
+
+      boolean charged = ship.shootingComponent.isCharged(weapon);
+      if(charged) {
+        result.add(weapon);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Fires a bullet using the active weapon profile
+   */
+  public void fireAtTarget(Ship attacker, Ship attacking, WeaponProfile weaponProfile) {
+    BulletFactory.create(attacker, attacking, weaponProfile);
+  }
+
 }

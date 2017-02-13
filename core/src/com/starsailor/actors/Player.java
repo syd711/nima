@@ -3,13 +3,12 @@ package com.starsailor.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.bullets.BulletFactory;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.GraphicsUtil;
 
 /**
@@ -28,12 +27,11 @@ public class Player extends Ship {
   public Player(ShipProfile profile) {
     super(profile, null);
     instance = this;
-    formationOwner = this;
   }
 
   @Override
-  public void createComponents(ShipProfile profile, Fraction fraction) {
-    super.createComponents(profile, fraction);
+  public void createComponents(Fraction fraction) {
+    super.createComponents(fraction);
     ComponentFactory.addPlayerCollisionComponent(this);
 
     //position player
@@ -43,18 +41,19 @@ public class Player extends Ship {
   }
 
   @Override
-  public void fireAtTarget() {
-    Selectable selection = SelectionManager.getInstance().getSelection();
-    if(selection != null && selection instanceof Ship) {
-      BulletFactory.create(this, (Ship) selection);
-    }
-  }
-
-  @Override
   public State getDefaultState() {
     return null;
   }
 
+  @Override
+  public void applyDamageFor(Bullet bullet) {
+    updateDamage(bullet);
+  }
+
+  /**
+   * Moves to the given world coordinates
+   * @param worldCoordinates the coordinates the user has clicked at
+   */
   public void moveTo(Vector2 worldCoordinates) {
     targetCoordinates = worldCoordinates;
     target = EntityManager.getInstance().getEntityAt(worldCoordinates);

@@ -44,8 +44,10 @@ public class Settings {
   public final static int FRAME_PIXELS_Y = 1280;
 
 
+  /**
+   * Screen Settings
+   */
   public String version;
-
   public boolean fullscreen;
   public boolean resizable;
   public int backgroundFPS;
@@ -54,13 +56,15 @@ public class Settings {
   public int width;
   public int height;
 
-
+  /**
+   * Debugging stuff
+   */
   public boolean debug;
   public boolean steering_enabled;
   public boolean npcs_enabled;
   public boolean sound_enabled;
-
   public float cameraZoom;
+
 
   public float docking_target_scale;
 
@@ -70,7 +74,6 @@ public class Settings {
   public float ambient_light_brightness;
   public float fade_out_offset;
   public float fade_in_offset;
-
 
   /**
    * Bullets

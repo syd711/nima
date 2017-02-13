@@ -66,12 +66,12 @@ public class Box2dTestApplication extends ApplicationAdapter {
 
     entity = new TestSteeringEntity(body, 30);
 
-    //////////// Creation formation
+    //////////// Creation group
 //    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
 //    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(100);
-//    formation = new Formation<>(entity, defensiveCirclePattern, freeSlotAssignmentStrategy);
+//    group = new Formation<>(entity, defensiveCirclePattern, freeSlotAssignmentStrategy);
 //
-//    ////////// Create formation entities
+//    ////////// Create group entities
 //    for(int i = 0; i < 3; i++) {
 //      def = new BodyDef();
 //      def.type = BodyDef.BodyType.DynamicBody;
@@ -88,7 +88,7 @@ public class Box2dTestApplication extends ApplicationAdapter {
 //
 //      TestSteeringEntity target = new TestSteeringEntity(body, 130);
 //      targets.add(target);
-//      formation.addMember(target);
+//      group.addMember(target);
 //
 //      Arrive<Vector2> arrive = new Arrive<>(target, target.getTargetLocation());
 //      arrive.setTimeToTarget(0.1f);

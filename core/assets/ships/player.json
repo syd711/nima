@@ -1,4 +1,5 @@
 {
+  "name" : "player",
   "spine" : "player",
   "defaultAnimation" : null,
   "scale" : 0.15,

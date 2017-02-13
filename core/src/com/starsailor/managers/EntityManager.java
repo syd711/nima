@@ -9,8 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.Ship;
-import com.starsailor.actors.Updateable;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
@@ -26,10 +24,9 @@ import java.util.List;
 /**
  * Central Ashley initialization of entity systems.
  */
-public class EntityManager {
+public class EntityManager implements EntityListener {
   private PooledEngine engine;
   private Player player;
-  private List<Updateable> updateables = new ArrayList<>();
   private List<Entity> destroyEntities = new ArrayList<>();
   private List<Body> destroyBodies = new ArrayList<>();
 
@@ -39,6 +36,7 @@ public class EntityManager {
 
   private EntityManager() {
     this.engine = new PooledEngine();
+    this.addEntityListener(this);
     ComponentFactory.engine = engine;
   }
 
@@ -46,7 +44,7 @@ public class EntityManager {
     //create player
     ShipProfile ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
     player = new Player(ship);
-    player.createComponents(ship, Fraction.PLAYER);
+    player.createComponents( Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);
     engine.addEntity(player);
 
@@ -150,10 +148,6 @@ public class EntityManager {
     }
   }
 
-  public void addUpdateable(Updateable entity) {
-    this.updateables.add(entity);
-  }
-
   /**
    * Uses the Ashley engine to update
    * all classes implementing the Updateable interface.
@@ -161,10 +155,6 @@ public class EntityManager {
    */
   public void update() {
     engine.update(Gdx.graphics.getDeltaTime());
-
-    for(Updateable updateable : updateables) {
-      updateable.update();
-    }
 
     if(!destroyEntities.isEmpty()) {
       for(Entity entity : destroyEntities) {
@@ -177,12 +167,6 @@ public class EntityManager {
           engine.removeEntityListener((EntityListener) entity);
         }
 
-        //remove ship from formation
-        if(entity instanceof Ship) {
-          Ship ship = (Ship) entity;
-          ship.formationOwner.formationComponent.removeMember(ship);
-        }
-
         engine.removeEntity(entity);
         Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
@@ -191,6 +175,25 @@ public class EntityManager {
       Gdx.app.log(this.toString(), "Ashley engine has " + engine.getEntities().size() + " entities");
     }
   }
+
+  //-------------- Entity Listener -----------------------------------------------------------------------
+
+  @Override
+  public void entityAdded(Entity entity) {
+
+  }
+
+  @Override
+  public void entityRemoved(Entity removedEntity) {
+    //if a ship is destroyed we have to ensure that it is removed from the list of member for all other members
+//    if(removedEntity instanceof Ship) {
+//      List<NPC> groupMembers = ((Ship) removedEntity).formationComponent.getMembers();
+//      for(NPC groupMember : groupMembers) {
+//        groupMember.formationComponent.getMembers().remove(removedEntity);
+//      }
+//    }
+  }
+
 
   public Entity getEntityAt(float x, float y) {
     Vector2 clickPoint = new Vector2(x, y);
@@ -207,5 +210,35 @@ public class EntityManager {
 
   public <T extends Component> T createComponent(Class<T> componentType) {
     return engine.createComponent(componentType);
+  }
+
+  public <T> List<T> getEntities(Class<T> clazz) {
+    List<T> result = new ArrayList<T>();
+    for(Entity entity : engine.getEntities()) {
+      if(clazz.isInstance(entity)) {
+        result.add((T) entity);
+      }
+    }
+    return result;
+  }
+
+  public <T> List<T> filterAliveEntities(List<T> list) {
+    List<T> result = new ArrayList<T>();
+    for(T entity : list) {
+      if(isAliveEntity(entity)) {
+        result.add(entity);
+      }
+    }
+    return result;
+  }
+
+  public <T> boolean isAliveEntity(T entity) {
+    ImmutableArray<Entity> entities = engine.getEntities();
+    for(Entity e : entities) {
+      if(e.equals(entity)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -16,7 +16,6 @@ public class RouteState implements State<NPC> {
   public void enter(NPC npc) {
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
     Array<Vector2> wayPoints = routingComponent.getWayPoints();
-
     SteeringManager.setRouteSteering(npc, wayPoints);
   }
 

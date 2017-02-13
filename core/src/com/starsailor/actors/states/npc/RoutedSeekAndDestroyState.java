@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Ship;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.managers.SteeringManager;
 
@@ -21,9 +22,9 @@ public class RoutedSeekAndDestroyState extends NPCState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    if(findAndLockNearestTarget(npc)) {
-      SteeringManager.setBattleSteering(npc);
-      npc.getStateMachine().changeState(new AttackState());
+    Ship nearestEnemy = findNearestEnemy(npc);
+    if(nearestEnemy != null && isInAttackDistance(npc, nearestEnemy)) {
+      npc.getStateMachine().changeState(new AttackState(nearestEnemy));
     }
   }
 

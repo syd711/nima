@@ -1,5 +1,6 @@
 {
   "name" : "Phaser",
+  "category" : "primary",
   "sound" : "laser",
   "damage" : 0.1,
   "impactFactor" : 2,

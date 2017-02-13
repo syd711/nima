@@ -18,6 +18,7 @@ public class FormationComponent implements Component, Pool.Poolable {
 
   public Formation<Vector2> formation;
   public List<NPC> members = new ArrayList<>();
+  public Ship formationOwner;
 
   @Override
   public void reset() {
@@ -37,5 +38,9 @@ public class FormationComponent implements Component, Pool.Poolable {
   public void removeMember(Ship ship) {
     members.remove(ship);
     formation.removeMember(ship);
+  }
+
+  public List<NPC> getMembers() {
+    return members;
   }
 }

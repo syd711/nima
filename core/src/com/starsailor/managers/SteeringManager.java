@@ -93,13 +93,13 @@ public class SteeringManager {
     return wanderSB;
   }
 
-  public static void setBattleSteering(NPC npc) {
+  public static void setBattleSteering(NPC npc, SteerableComponent targetSteering) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
     Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
-    final Face<Vector2> faceSB = new Face<>(sourceSteering, npc.attacking.steerableComponent);
+    final Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);
     faceSB.setTimeToTarget(0.01f);
     faceSB.setAlignTolerance(0.0001f);
     faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);

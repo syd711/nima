@@ -40,7 +40,7 @@ public class SpriteRenderSystem extends RenderingSystem {
 
 
   private void updateHealthSprites(Ship ship, ShieldComponent shieldComponent) {
-    updatePositionAndHealth(ship, Textures.HEALTHBG, Textures.HEALTHFG, 120, ship.health, ship.maxHealth);
+    updatePositionAndHealth(ship, Textures.HEALTHBG, Textures.HEALTHFG, 120, ship.healthComponent.health, ship.healthComponent.maxHealth);
 
     if(shieldComponent.isActive()) {
       //update shield sprite

@@ -1,5 +1,6 @@
 {
   "name" : "Mine",
+  "category" : "defensive",
   "sound" : "laser",
   "damage" : 60,
   "forceFactor" : 3.1,

@@ -1,40 +1,48 @@
 package com.starsailor.actors.states.npc;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.data.ShipProfile;
-import com.starsailor.managers.SteeringManager;
+
+import java.util.List;
 
 /**
  *
  */
 public class AttackedState implements State<NPC> {
+  private Bullet bullet;
+
+  public AttackedState(Bullet bullet) {
+    this.bullet = bullet;
+  }
+
   @Override
   public void enter(NPC npc) {
-    boolean attacked = npc.formationOwner.attacking != null;
-    npc.setShieldEnabled(attacked);
+    Gdx.app.log(getClass().getName(), npc + " entered AttackedState");
+
+    //notify all members that 'we' are attacked
+    List<NPC> groupMembers = npc.formationComponent.getMembers();
+    for(NPC formationMember : groupMembers) {
+      formationMember.moveToAttackedState(bullet);
+    }
 
     //attack is finished, return back to previous state
-    if(!attacked) {
+    if(bullet.isFriendlyFire()) {
       npc.getStateMachine().changeState(npc.getDefaultState());
       return;
     }
 
     ShipProfile.Types type = npc.shipProfile.getType();
     switch(type) {
-      case CRUSADER: {
-        npc.lockTarget(npc.formationOwner.attacking);
-        SteeringManager.setBattleSteering(npc);
-        npc.getStateMachine().changeState(new AttackState());
-        break;
-      }
       case MERCHANT: {
-        npc.getStateMachine().changeState(new FleeFromAttackerState());
+        npc.getStateMachine().changeState(new FleeFromAttackerState(bullet));
         break;
       }
-      case PIRATE: {
-        npc.getStateMachine().changeState(new AttackState());
+      default: {
+        npc.getStateMachine().changeState(new AttackState(bullet.owner));
         break;
       }
     }

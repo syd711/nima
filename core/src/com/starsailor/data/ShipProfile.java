@@ -11,6 +11,7 @@ public class ShipProfile {
     MERCHANT, PIRATE, CRUSADER
   }
 
+  public String name;
   public String spine;
   public float scale;
   public String defaultAnimation;
@@ -19,6 +20,7 @@ public class ShipProfile {
   public float attackDistance;
   public float shootDistance;
   public float evadeDistance;
+  public float formationDistance;
 
   public float health;
 
@@ -36,7 +38,7 @@ public class ShipProfile {
   public SteeringData steeringData;
 
   public ShipProfile.Types getType() {
-    return Types.valueOf(spine.toUpperCase());
+    return Types.valueOf(name.toUpperCase());
   }
 
   public void addWeaponProfile(WeaponProfile profile) {

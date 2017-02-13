@@ -8,6 +8,10 @@ public class WeaponProfile {
     LASER, MISSILE, PHASER, MINE, FLARES
   }
 
+  public enum Category {
+    PRIMARY, SECONDARY, DEFENSIVE, EMERGENCY
+  }
+
   public Types type;
   public float rechargeTimeMillis;
   public float durationMillis; //for constant shooting
@@ -19,6 +23,7 @@ public class WeaponProfile {
 
   public String name;
   public String sound;
+  public String category;
 
   //custom fields depending on the weapon
   public float activationDistance;
@@ -28,6 +33,10 @@ public class WeaponProfile {
 
   //box2d data
   public BodyData bodyData;
+
+  public Category getCategory() {
+    return Category.valueOf(category.toUpperCase());
+  }
 
   @Override
   public String toString() {

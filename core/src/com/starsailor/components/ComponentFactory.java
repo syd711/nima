@@ -260,4 +260,12 @@ public class ComponentFactory {
     entity.add(component);
     return component;
   }
+
+  public static HealthComponent addHealthComponent(Entity entity, ShieldProfile shieldProfile) {
+    HealthComponent component = createComponent(HealthComponent.class);
+    component.maxHealth = shieldProfile.health;
+    component.health = shieldProfile.health;
+    entity.add(component);
+    return component;
+  }
 }

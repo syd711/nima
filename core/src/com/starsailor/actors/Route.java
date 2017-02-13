@@ -1,7 +1,5 @@
 package com.starsailor.actors;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
@@ -18,13 +16,11 @@ import java.util.List;
 /**
  * Represents a route
  */
-public class Route extends GameEntity implements EntityListener {
+public class Route extends GameEntity {
   public FractionComponent fractionComponent;
   public RouteComponent routeComponent;
   public StatefulComponent statefulComponent;
 
-  public NPC npc;
-  public List<NPC> routeMembers = new ArrayList<>();
   public List<RouteMember> members = new ArrayList<>();
 
   private String name;
@@ -41,19 +37,7 @@ public class Route extends GameEntity implements EntityListener {
   }
 
   public boolean isActive() {
-    return npc != null;
-  }
-
-  @Override
-  public void entityAdded(Entity entity) {
-
-  }
-
-  @Override
-  public void entityRemoved(Entity entity) {
-    if(entity.equals(npc)) {
-      npc = null;
-    }
+   return true;
   }
 
   public void addMember(ShipProfile ship, Vector2 centeredPosition, State state) {
@@ -65,13 +49,13 @@ public class Route extends GameEntity implements EntityListener {
   }
 
   public class RouteMember {
-    public ShipProfile ship;
-    public Vector2 centeredPosition;
+    public ShipProfile shipProfile;
+    public Vector2 position;
     public State state;
 
     public RouteMember(ShipProfile ship, Vector2 centeredPosition, State state) {
-      this.ship = ship;
-      this.centeredPosition = centeredPosition;
+      this.shipProfile = ship;
+      this.position = centeredPosition;
       this.state = state;
     }
   }

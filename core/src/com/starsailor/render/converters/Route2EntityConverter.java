@@ -83,7 +83,6 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
 
     Route route = new Route(name);
     EntityManager.getInstance().add(route);
-    EntityManager.getInstance().addEntityListener(route);
     return route;
   }
 }

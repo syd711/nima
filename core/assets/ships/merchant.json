@@ -1,5 +1,7 @@
 {
+  "name" : "merchant",
   "spine" : "merchant",
+  "formationDistance" : 160,
   "defaultAnimation" : "walk",
   "scale" : 0.13,
   "health" : 100,
