@@ -2,7 +2,7 @@
   "name" : "Phaser",
   "category" : "primary",
   "sound" : "laser",
-  "damage" : 0.1,
+  "damage" : 0.01,
   "impactFactor" : 2,
   "durationMillis" : 3000,
   "rechargeTimeMillis" : 6000

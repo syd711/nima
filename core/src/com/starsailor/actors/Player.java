@@ -41,7 +41,7 @@ public class Player extends Ship {
   }
 
   @Override
-  public State getDefaultState() {
+  protected State getDefaultState() {
     return null;
   }
 

@@ -29,15 +29,15 @@ public class AttackState extends NPCState implements State<NPC> {
    * @param bullet the bullet that hit the ship of this state
    */
   public void hitBy(Bullet bullet) {
-
+    if(!bullet.isFriendlyFire()) {
+      this.enemy = bullet.owner;
+    }
   }
 
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered AttackState");
-
-    SteeringManager.setBattleSteering(npc, enemy.steerableComponent);
-    npc.setShieldEnabled(true);
+    SteeringManager.setArriveAndFaceSteering(npc, enemy.steerableComponent);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class AttackState extends NPCState implements State<NPC> {
     //check if there are more attackers first
     if(attackingGroupMembers.isEmpty()) {
       //..and return to default state
-      npc.getStateMachine().changeState(npc.getDefaultState());
+      npc.switchToDefaultState();
       return;
     }
 
@@ -60,8 +60,9 @@ public class AttackState extends NPCState implements State<NPC> {
     }
 
     if(!nearestEnemyOfGroup.equals(enemy)) {
+      enemy = nearestEnemyOfGroup;
       //update steering if we have a new target
-      SteeringManager.setBattleSteering(npc, nearestEnemyOfGroup.steerableComponent);
+      SteeringManager.setArriveAndFaceSteering(npc, nearestEnemyOfGroup.steerableComponent);
     }
 
     //the primary weapon attack
@@ -104,8 +105,6 @@ public class AttackState extends NPCState implements State<NPC> {
 
   @Override
   public void exit(NPC npc) {
-    //disable shield then...
-    npc.setShieldEnabled(false);
   }
 
   @Override

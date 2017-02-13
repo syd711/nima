@@ -122,7 +122,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
 
   //------------ To be implemented ------------------------------------------------------------------------
 
-  abstract public State getDefaultState();
+  abstract protected State getDefaultState();
 
 
   //------------- Helper ----------------------------------------------------------------------------------
@@ -132,9 +132,9 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    *
    * @return
    */
-  private boolean isAlreadyInBattle() {
+  private boolean isInDefaultState() {
     State currentState = getStateMachine().getCurrentState();
-    return currentState instanceof AttackedState || currentState instanceof AttackState;
+    return currentState.equals(getDefaultState());
   }
 
   /**
@@ -143,8 +143,14 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * @param bullet the attacker bullet
    */
   public void moveToAttackedState(Bullet bullet) {
-    if(!isAlreadyInBattle()) {
+    if(isInDefaultState()) {
       getStateMachine().changeState(new AttackedState(bullet));
+
+      //notify all members that 'we' are attacked
+      List<Ship> groupMembers = formationComponent.getMembers();
+      for(Ship formationMember : groupMembers) {
+        formationMember.moveToAttackedState(bullet);
+      }
     }
   }
 
@@ -211,5 +217,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
 
   public boolean isShieldEnabled() {
     return shieldComponent.isActive();
+  }
+
+  public void switchToDefaultState() {
+    getStateMachine().changeState(getDefaultState());
+    shieldComponent.setActive(false);
   }
 }

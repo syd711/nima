@@ -19,7 +19,7 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
   private List<Ship> formationMembers;
 
   /**
-   * Bullet will alway be an enemy bullet
+   * Bullet will always be an enemy bullet
    * @param bullet
    */
   public FleeFromAttackerState(Bullet bullet) {
@@ -38,20 +38,18 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
     //check if all attacker members are destroyed, return to default state then
     List<Ship> filteredMembers = EntityManager.getInstance().filterAliveEntities(formationMembers);
     if(filteredMembers.isEmpty()) {
-      npc.getStateMachine().changeState(npc.getDefaultState());
+      npc.switchToDefaultState();
       return;
     }
 
     //check max distance to all enemies
     for(Ship filteredMember : filteredMembers) {
       float distanceTo = npc.getDistanceTo(filteredMember);
-      float shootingDistanceWithOffset = npc.shipProfile.shootDistance + 100;
-      if(distanceTo < shootingDistanceWithOffset) {
-        SteeringManager.setFleeSteering(npc, filteredMember);
-        break;
+      float shootingDistanceWithOffset = bullet.owner.shipProfile.shootDistance * 5;
+      if(distanceTo > shootingDistanceWithOffset) {
+        npc.steerableComponent.setBehavior(null);
+        npc.getStateMachine().changeState(NPCStates.IDLE);
       }
-
-      npc.steerableComponent.setBehavior(null);
     }
   }
 

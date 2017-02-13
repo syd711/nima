@@ -93,7 +93,7 @@ public class SteeringManager {
     return wanderSB;
   }
 
-  public static void setBattleSteering(NPC npc, SteerableComponent targetSteering) {
+  public static void setFaceSteering(NPC npc, SteerableComponent targetSteering) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
     Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
@@ -104,10 +104,35 @@ public class SteeringManager {
     faceSB.setAlignTolerance(0.0001f);
     faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);
 
-    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<Vector2>(sourceSteering);
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(sourceSteering);
     blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
     blendedSteering.add(faceSB, 1f);
     blendedSteering.add(collisionAvoidanceSB, 1f);
+
+    sourceSteering.setBehavior(blendedSteering);
+  }
+
+  public static void setArriveAndFaceSteering(NPC npc, SteerableComponent targetSteering) {
+    SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+
+    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
+    CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
+
+    final Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);
+    faceSB.setTimeToTarget(0.01f);
+    faceSB.setAlignTolerance(0.0001f);
+    faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);
+
+    Arrive<Vector2> arriveSB = new Arrive<>(sourceSteering, targetSteering);
+    arriveSB.setTimeToTarget(0.1f);
+    arriveSB.setArrivalTolerance(0.2f);
+    arriveSB.setDecelerationRadius(10);
+
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(sourceSteering);
+    blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    blendedSteering.add(faceSB, 1f);
+    blendedSteering.add(collisionAvoidanceSB, 1f);
+    blendedSteering.add(arriveSB, 0.31f);
 
     sourceSteering.setBehavior(blendedSteering);
   }

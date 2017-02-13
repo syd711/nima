@@ -6,7 +6,7 @@
   "health" : 100,
   "attackDistance" : 300,
   "evadeDistance" : 400,
-  "weapons" : ["laser"],
+  "weapons" : ["laser", "phaser", "flares"],
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,

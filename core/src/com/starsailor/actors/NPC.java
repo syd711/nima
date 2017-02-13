@@ -43,7 +43,7 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
-  public State getDefaultState() {
+  protected State getDefaultState() {
     return defaultState;
   }
 
