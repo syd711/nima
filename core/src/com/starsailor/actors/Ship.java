@@ -87,9 +87,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * @return True if the damage destroyed this entity.
    */
   public void applyDamageFor(Bullet bullet) {
-    if(!isAlreadyInBattle()) {
-      moveToAttackedState(bullet);
-    }
+    moveToAttackedState(bullet);
     updateAttackState(bullet);
     updateDamage(bullet);
   }
@@ -131,6 +129,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
 
   /**
    * Return true if the entity is already in a battle state
+   *
    * @return
    */
   private boolean isAlreadyInBattle() {
@@ -144,8 +143,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * @param bullet the attacker bullet
    */
   public void moveToAttackedState(Bullet bullet) {
-    State currentState = getStateMachine().getCurrentState();
-    if(!(currentState instanceof AttackedState)) {
+    if(!isAlreadyInBattle()) {
       getStateMachine().changeState(new AttackedState(bullet));
     }
   }

@@ -40,7 +40,10 @@ public class FormationComponent implements Component, Pool.Poolable {
     formation.removeMember(ship);
   }
 
-  public List<NPC> getMembers() {
-    return members;
+  public List<Ship> getMembers() {
+    List<Ship> result = new ArrayList<>();
+    result.addAll(formationOwner.formationComponent.members);
+    result.add(formationOwner);
+    return result;
   }
 }

@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 public class AttackState extends NPCState implements State<NPC> {
-  private List<NPC> attackingGroupMembers;
+  private List<Ship> attackingGroupMembers;
   private Ship enemy;
 
   public AttackState(Ship enemy) {

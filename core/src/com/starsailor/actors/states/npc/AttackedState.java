@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.data.ShipProfile;
 
@@ -24,8 +25,8 @@ public class AttackedState implements State<NPC> {
     Gdx.app.log(getClass().getName(), npc + " entered AttackedState");
 
     //notify all members that 'we' are attacked
-    List<NPC> groupMembers = npc.formationComponent.getMembers();
-    for(NPC formationMember : groupMembers) {
+    List<Ship> groupMembers = npc.formationComponent.getMembers();
+    for(Ship formationMember : groupMembers) {
       formationMember.moveToAttackedState(bullet);
     }
 

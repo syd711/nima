@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
@@ -49,8 +48,8 @@ abstract public class Bullet extends GameEntity {
   }
 
   public boolean isFriendlyFire() {
-    List<NPC> formationMembers = owner.formationComponent.getMembers();
-    for(NPC formationMember : formationMembers) {
+    List<Ship> formationMembers = owner.formationComponent.getMembers();
+    for(Ship formationMember : formationMembers) {
       if(formationMember.equals(target)) {
         return true;
       }

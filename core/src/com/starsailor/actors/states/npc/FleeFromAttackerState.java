@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class FleeFromAttackerState extends NPCState implements State<NPC> {
   private Bullet bullet;
-  private List<NPC> formationMembers;
+  private List<Ship> formationMembers;
 
   /**
    * Bullet will alway be an enemy bullet
@@ -35,14 +36,14 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
   @Override
   public void update(NPC npc) {
     //check if all attacker members are destroyed, return to default state then
-    List<NPC> filteredMembers = EntityManager.getInstance().filterAliveEntities(formationMembers);
+    List<Ship> filteredMembers = EntityManager.getInstance().filterAliveEntities(formationMembers);
     if(filteredMembers.isEmpty()) {
       npc.getStateMachine().changeState(npc.getDefaultState());
       return;
     }
 
     //check max distance to all enemies
-    for(NPC filteredMember : filteredMembers) {
+    for(Ship filteredMember : filteredMembers) {
       float distanceTo = npc.getDistanceTo(filteredMember);
       float shootingDistanceWithOffset = npc.shipProfile.shootDistance + 100;
       if(distanceTo < shootingDistanceWithOffset) {
