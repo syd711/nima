@@ -92,8 +92,22 @@ abstract public class NPCState {
    * @param npc         the npc that wants to defend itself
    * @param enemyBullet the enemy bullet that should be defended
    */
-  protected void fireDefensiveWeaponsFor(NPC npc, Bullet enemyBullet) {
-
+  protected List<WeaponProfile> getChargedDefensiveWeaponsFor(NPC npc, Bullet enemyBullet) {
+    List<WeaponProfile> result = new ArrayList<>();
+    List<WeaponProfile.Types> defensiveWeapons = enemyBullet.getDefensiveWeapons();
+    for(WeaponProfile.Types defensiveWeapon : defensiveWeapons) {
+      //find matching weapon for the given ship
+      List<WeaponProfile> weaponProfiles = npc.shipProfile.weaponProfiles;
+      for(WeaponProfile weaponProfile : weaponProfiles) {
+        if(weaponProfile.type.equals(defensiveWeapon)) {
+          boolean charged = npc.shootingComponent.isCharged(weaponProfile);
+          if(charged) {
+            result.add(weaponProfile);
+          }
+        }
+      }
+    }
+    return result;
   }
 
   /**
@@ -120,8 +134,19 @@ abstract public class NPCState {
   /**
    * Fires a bullet using the active weapon profile
    */
-  public void fireAtTarget(Ship attacker, Ship attacking, WeaponProfile weaponProfile) {
+  private void fireAtTarget(Ship attacker, Ship attacking, WeaponProfile weaponProfile) {
     BulletFactory.create(attacker, attacking, weaponProfile);
   }
 
+  /**
+   * Fires all weapons of the given weapon profile list
+   * @param attacker
+   * @param attacking
+   * @param weaponProfiles
+   */
+  protected void fireWeapons(Ship attacker, Ship attacking, List<WeaponProfile> weaponProfiles) {
+    for(WeaponProfile chargedWeapon : weaponProfiles) {
+      fireAtTarget(attacker, attacking, chargedWeapon);
+    }
+  }
 }

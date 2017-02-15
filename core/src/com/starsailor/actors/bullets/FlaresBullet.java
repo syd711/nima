@@ -74,6 +74,9 @@ public class FlaresBullet extends Bullet {
     if(bullet instanceof FlaresBullet) {
       return;
     }
+    else {
+      bullet.markForDestroy();
+    }
 
     hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
     markForDestroy();

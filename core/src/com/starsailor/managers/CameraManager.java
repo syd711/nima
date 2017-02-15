@@ -44,7 +44,7 @@ public class CameraManager {
 
   public void shake(float intensity, float duration) {
     this.shakeIntensity = intensity;
-    this.duration+=duration;
+    this.duration = duration;
   }
 
   public void update(float deltaTime) {

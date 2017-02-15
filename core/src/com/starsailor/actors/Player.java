@@ -34,6 +34,9 @@ public class Player extends Ship {
     super.createComponents(fraction);
     ComponentFactory.addPlayerCollisionComponent(this);
 
+    //make player always a member of the formationComponent, maybe we get a fellow someday?
+    formationComponent.formationOwner = this;
+
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));

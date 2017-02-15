@@ -14,6 +14,7 @@ import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.data.SteeringData;
+import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.box2d.Box2dUtil;
 
 /**
@@ -26,23 +27,7 @@ public class FollowClickState implements State<Player> {
   public void enter(Player player) {
     if(clickTarget == null) {
       clickTarget = new ClickTarget(player.targetCoordinates);
-      Arrive<Vector2> arriveSB = new Arrive<>(player.steerableComponent, clickTarget.steerableComponent);
-
-      LookWhereYouAreGoing<Vector2> lookWhereYouAreGoingSB = new LookWhereYouAreGoing<>(player.steerableComponent)
-          .setTimeToTarget(0.1f)
-          .setAlignTolerance(0.01f)
-          .setDecelerationRadius(MathUtils.PI);
-
-      Face<Vector2> faceSB = new Face<>(player.steerableComponent, clickTarget.steerableComponent)
-          .setTimeToTarget(0.1f)
-          .setAlignTolerance(0.001f)
-          .setDecelerationRadius(MathUtils.degreesToRadians * 180);
-
-      BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(player.steerableComponent)
-          .add(arriveSB, 1f)
-          .add(lookWhereYouAreGoingSB, 1f);
-
-      player.steerableComponent.setBehavior(blendedSteering);
+      SteeringManager.setFollowClickTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
     }
     else {
       clickTarget.update(player.targetCoordinates);

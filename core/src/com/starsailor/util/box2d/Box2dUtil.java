@@ -17,6 +17,7 @@ public class Box2dUtil {
 
   /**
    * Both parameters are in box2d format
+   *
    * @param from
    * @param to
    * @return
@@ -34,7 +35,7 @@ public class Box2dUtil {
   }
 
   public static Vector2 toBox2Vector(Vector2 vector) {
-    return new Vector2(vector.x*MPP, vector.y*MPP);
+    return new Vector2(vector.x * MPP, vector.y * MPP);
   }
 
   public static Entity getEntityAt(World world, Vector2 clickPoint) {
@@ -55,21 +56,48 @@ public class Box2dUtil {
     return null;
   }
 
-  public static float rotateDegrees(float degree, float box2dAngle, boolean left) {
-    double radians = Math.toRadians(degree);
-    if(left) {
-      return (float) (box2dAngle+radians);
-    }
-    return (float) (box2dAngle-radians);
-  }
-
   public static float addDegree(float angle, int degree) {
     return (float) (angle + Math.toRadians(degree));
   }
 
+  public static void updateAngle(Body body, Vector2 target) {
+//    float offset = 1f;
+//    float updatingDegrees = 0f;
+//
+//    float targetAngleDegrees = (float) Math.toDegrees(targetAngleRadians);
+//    float currentAngleDegrees = (float) Math.toDegrees(body.getAngle());
+//    float difference = targetAngleDegrees-currentAngleDegrees;
+//
+//    if(difference > 0 ) {
+//      updatingDegrees = currentAngleDegrees+offset;
+//    }
+//    else {
+//      updatingDegrees = currentAngleDegrees-offset;
+//    }
+//    body.setTransform(body.getPosition(), (float) Math.toRadians(updatingDegrees));
+    body.setAngularVelocity(0);
+
+    float bodyAngle = body.getAngle();
+    float DEGTORAD = (float) Math.toRadians(2f);
+
+    Vector2 toTarget = target.sub(body.getPosition());
+    float desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
+    float nextAngle = bodyAngle + body.getAngularVelocity() / 60.0f;
+    float totalRotation = desiredAngle - nextAngle;
+    while(totalRotation < -180 * DEGTORAD) totalRotation += 360 * DEGTORAD;
+    while(totalRotation > 180 * DEGTORAD) totalRotation -= 360 * DEGTORAD;
+    float desiredAngularVelocity = totalRotation * 60;
+    float torque = body.getInertia() * desiredAngularVelocity / (1 / 60.0f);
+    body.applyTorque(torque, true);
+
+    float change = (1 * DEGTORAD); //allow 1 degree rotation per time step
+    float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
+    body.setTransform(body.getPosition(), newAngle);
+
+  }
 
 //  @Override
-//  public void update() {
+//  public void updateAngle() {
 //    if(routingComponent != null) {
 //
 //      if(scalingComponent.isChanging()) {

@@ -30,7 +30,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private SteeringAcceleration<Vector2> steeringOutput;
 
   private Body body;
-  private boolean destroyed;
   private boolean independentFacing;
 
   public void init(Body body, SteeringData steeringData, boolean independentFacing) {
@@ -52,14 +51,6 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
-  }
-
-  public boolean isDestroyed() {
-    return destroyed;
-  }
-
-  public void setDestroyed(boolean b) {
-    this.destroyed = b;
   }
 
   @Override
@@ -86,7 +77,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   }
 
   private boolean isUpdateable() {
-    return Settings.getInstance().steering_enabled && isEnabled() && !isDestroyed();
+    return Settings.getInstance().steering_enabled && isEnabled();
   }
 
   private void applySteering(float deltaTime) {

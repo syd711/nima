@@ -12,6 +12,7 @@ import com.starsailor.components.*;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.*;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.starsailor.util.Settings.PPM;
@@ -79,7 +80,16 @@ abstract public class Bullet extends GameEntity {
    */
   abstract public void collide(Bullet bullet, Vector2 position);
 
+
   //------------------ Possible overwrites  ----------------------------------
+
+  /**
+   * Returns the list of weapons that can defend this kind of bullet.
+   * @return a list of weapon profiles that may destroy this bullet.
+   */
+  public List<WeaponProfile.Types> getDefensiveWeapons() {
+    return Collections.emptyList();
+  }
 
   /**
    * Checks if the ship is destroyed so that the selection

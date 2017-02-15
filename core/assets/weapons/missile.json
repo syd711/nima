@@ -9,15 +9,17 @@
   "activationDistance" : 200,
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 3.0,
-    "maxLinearAcceleration" : 3.0,
-    "maxAngularSpeed" : 0.03,
-    "maxAngularAcceleration" : 0.04
+    "maxLinearSpeed" : 2.0,
+    "maxLinearAcceleration" : 2.0,
+    "maxAngularSpeed" : 1.0,
+    "maxAngularAcceleration" : 1.0
   },
   "bodyData" : {
-    "density" : 1,
+    "density" : 1.2,
     "linearDamping" : 1,
+    "angularDamping" : 6,
     "width" : 3.8,
-    "height" : 25
+    "height" : 25,
+    "sensor" : true
   }
 }

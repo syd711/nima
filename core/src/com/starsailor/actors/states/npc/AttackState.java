@@ -55,10 +55,10 @@ public class AttackState extends NPCState implements State<NPC> {
 
     //change steering, may be we are close enough sicne we are in the arrive steering
     if(isInAttackDistance(npc, enemy)) {
-      SteeringManager.setFaceSteering(npc, enemy.steerableComponent);
+      SteeringManager.setFaceSteering(npc.steerableComponent, enemy.steerableComponent);
     }
     else {
-      SteeringManager.setAttackSteering(npc, enemy.steerableComponent);
+      SteeringManager.setAttackSteering(npc.steerableComponent, enemy.steerableComponent);
       //if the attacker is not in attacking distance, we skip here
       return;
     }
@@ -66,21 +66,21 @@ public class AttackState extends NPCState implements State<NPC> {
 
     //the primary weapon attack
     List<WeaponProfile> primaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.PRIMARY);
-    for(WeaponProfile chargedWeapon : primaryChargedWeapons) {
-      fireAtTarget(npc, enemy, chargedWeapon);
-    }
+    fireWeapons(npc, enemy, primaryChargedWeapons);
 
     //no check if I am a locked target (e.g. missiles firing at me!)
     Bullet enemyBullet = findEnemyBulletTargetedFor(npc);
-    fireDefensiveWeaponsFor(npc, enemyBullet);
+    if(enemyBullet != null) {
+      List<WeaponProfile> chargedDefensiveWeapons = getChargedDefensiveWeaponsFor(npc, enemyBullet);
+      fireWeapons(npc, enemy, chargedDefensiveWeapons);
+    }
+
 
     //check shield state
     if(!npc.shieldComponent.isActive()) {
       //fire seconds weapons if there is no shield anymore
       List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.SECONDARY);
-      for(WeaponProfile chargedWeapon : secondaryChargedWeapons) {
-        fireAtTarget(npc, enemy, chargedWeapon);
-      }
+      fireWeapons(npc, enemy, secondaryChargedWeapons);
     }
     else {
       //we are finished here and can start the next iteration
@@ -90,9 +90,7 @@ public class AttackState extends NPCState implements State<NPC> {
     float healthPercentage = npc.healthComponent.getPercent();
     if(healthPercentage > 50) {
       List<WeaponProfile> emergencyChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.EMERGENCY);
-      for(WeaponProfile chargedWeapon : emergencyChargedWeapons) {
-        fireAtTarget(npc, enemy, chargedWeapon);
-      }
+      fireWeapons(npc, enemy, emergencyChargedWeapons);
     }
   }
 

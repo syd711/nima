@@ -5,7 +5,6 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.data.ShipProfile;
 
 /**
  *
@@ -23,22 +22,22 @@ public class AttackedState implements State<NPC> {
     npc.setStateVisible(true);
 
     //attack is finished, return back to previous state
-    if(bullet.isFriendlyFire()) {
-      npc.switchToDefaultState();
-      return;
-    }
-
-    ShipProfile.Types type = npc.shipProfile.getType();
-    switch(type) {
-      case MERCHANT: {
-        npc.getStateMachine().changeState(new FleeFromAttackerState(bullet));
-        break;
-      }
-      default: {
-        npc.getStateMachine().changeState(new AttackState(bullet.owner));
-        break;
-      }
-    }
+//    if(bullet.isFriendlyFire()) {
+//      npc.switchToDefaultState();
+//      return;
+//    }
+//
+//    ShipProfile.Types type = npc.shipProfile.getType();
+//    switch(type) {
+//      case MERCHANT: {
+//        npc.getStateMachine().changeState(new FleeFromAttackerState(bullet));
+//        break;
+//      }
+//      default: {
+//        npc.getStateMachine().changeState(new AttackState(bullet.owner));
+//        break;
+//      }
+//    }
   }
 
   @Override

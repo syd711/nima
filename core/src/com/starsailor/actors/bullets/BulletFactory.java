@@ -3,9 +3,6 @@ package com.starsailor.actors.bullets;
 import com.starsailor.actors.Ship;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
-import org.apache.commons.lang3.StringUtils;
-
-import java.lang.reflect.Constructor;
 
 /**
  * Creates new bullets via reflection.
@@ -13,20 +10,37 @@ import java.lang.reflect.Constructor;
 public class BulletFactory {
 
   public static void create(Ship owner, Ship target, WeaponProfile weaponProfile) {
-    try {
-      //TODO don't do that reflection stuff
-      String className = StringUtils.capitalize(weaponProfile.type.toString().toLowerCase()) + "Bullet";
-      String fullClassName = Bullet.class.getPackage().getName() + "." + className;
-
-      Class<?> clazz = Class.forName(fullClassName);
-      Constructor<?> constructor = clazz.getConstructor(WeaponProfile.class, Ship.class, Ship.class);
-      Bullet bullet = (Bullet) constructor.newInstance(weaponProfile, owner, target);
-      bullet.create();
-
-      EntityManager.getInstance().add(bullet);
-      bullet.owner.shootingComponent.updateLastBulletTime(weaponProfile);
-    } catch (Exception e) {
-      e.printStackTrace();
+    WeaponProfile.Types type = weaponProfile.type;
+    Bullet bullet = null;
+    switch(type) {
+      case LASER: {
+        bullet = new LaserBullet(weaponProfile, owner, target);
+        break;
+      }
+      case MISSILE: {
+        bullet = new MissileBullet(weaponProfile, owner, target);
+        break;
+      }
+      case PHASER: {
+        bullet = new PhaserBullet(weaponProfile, owner, target);
+        break;
+      }
+      case MINE: {
+        bullet = new MineBullet(weaponProfile, owner, target);
+        break;
+      }
+      case FLARES: {
+        bullet = new FlaresBullet(weaponProfile, owner, target);
+        break;
+      }
+      default: {
+        throw new UnsupportedOperationException("Unsupported weapon type " + type.toString());
+      }
     }
+
+
+    bullet.create();
+    EntityManager.getInstance().add(bullet);
+    bullet.owner.shootingComponent.updateLastBulletTime(weaponProfile);
   }
 }
