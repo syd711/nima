@@ -6,7 +6,6 @@
   "scale" : 0.13,
   "health" : 100,
   "attackDistance" : 300,
-  "evadeDistance" : 200,
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,

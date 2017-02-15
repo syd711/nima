@@ -5,7 +5,6 @@
   "scale" : 0.15,
   "health" : 100,
   "attackDistance" : 300,
-  "evadeDistance" : 400,
   "weapons" : ["laser", "phaser", "flares"],
   "shield" : "energie",
   "bodyData" : {

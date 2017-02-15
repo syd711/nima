@@ -6,7 +6,6 @@
   "health" : 100,
   "attackDistance" : 600,
   "shootDistance" : 400,
-  "evadeDistance" : 200,
   "weapons" : ["missile", "laser"],
   "shield" : "energie",
   "bodyData" : {

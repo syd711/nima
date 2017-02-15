@@ -19,7 +19,6 @@ public class ShipProfile {
   //Behaviour attributes
   public float attackDistance;
   public float shootDistance;
-  public float evadeDistance;
   public float formationDistance;
 
   public float health;
