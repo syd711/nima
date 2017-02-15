@@ -5,7 +5,7 @@
   "defaultAnimation" : "walk",
   "scale" : 0.13,
   "health" : 100,
-  "attackDistance" : 300,
+  "attackDistance" : 600,
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,
@@ -14,8 +14,8 @@
   },
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 3,
-    "maxLinearAcceleration" : 3,
+    "maxLinearSpeed" : 2,
+    "maxLinearAcceleration" : 2,
     "maxAngularSpeed" : 4,
     "maxAngularAcceleration" : 4
   }

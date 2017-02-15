@@ -93,7 +93,7 @@ abstract public class Bullet extends GameEntity {
    * Play sound, play effect and remove the entity from the system
    */
   protected void hitAndDestroyBullet(Vector2 position, String sound) {
-    EntityManager.getInstance().destroy(this);
+    markForDestroy();
     SoundManager.playSoundAtPosition(sound, 1f, new Vector3(position, 0));
     particleComponent.enabled = true;
   }

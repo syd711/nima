@@ -12,10 +12,13 @@ import com.starsailor.components.GameEntityComponent;
 public class GameEntity extends Entity {
   public GameEntityComponent gameEntityComponent;
 
+  private boolean markedForDestroy;
+
   public GameEntity() {
     gameEntityComponent = new GameEntityComponent();
     add(gameEntityComponent);
   }
+
 
   @SuppressWarnings("unchecked")
   @Override
@@ -38,5 +41,13 @@ public class GameEntity extends Entity {
     }
 
     return super.getComponent(component);
+  }
+
+  public boolean isMarkedForDestroy() {
+    return markedForDestroy;
+  }
+
+  public void markForDestroy() {
+    this.markedForDestroy = true;
   }
 }

@@ -59,7 +59,7 @@ public class FlaresBullet extends Bullet {
     updateSpritePositionForBody(true);
     float angularVelocity = bodyComponent.body.getAngularVelocity();
     if(angularVelocity > 0 && angularVelocity < 0.5f) {
-      EntityManager.getInstance().destroy(this);
+      markForDestroy();
     }
   }
 
@@ -76,6 +76,6 @@ public class FlaresBullet extends Bullet {
     }
 
     hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
-    EntityManager.getInstance().destroy(bullet);
+    markForDestroy();
   }
 }

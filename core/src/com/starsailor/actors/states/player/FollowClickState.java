@@ -33,7 +33,7 @@ public class FollowClickState implements State<Player> {
           .setAlignTolerance(0.01f)
           .setDecelerationRadius(MathUtils.PI);
 
-      Face<Vector2> faceSB = new Face<Vector2>(player.steerableComponent, clickTarget.steerableComponent)
+      Face<Vector2> faceSB = new Face<>(player.steerableComponent, clickTarget.steerableComponent)
           .setTimeToTarget(0.1f)
           .setAlignTolerance(0.001f)
           .setDecelerationRadius(MathUtils.degreesToRadians * 180);

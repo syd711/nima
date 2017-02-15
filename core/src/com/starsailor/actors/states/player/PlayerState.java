@@ -34,23 +34,6 @@ public enum PlayerState implements State<Player> {
       }
     }
   },
-  ATTACKED() {
-    @Override
-    public void enter(Player entity) {
-      super.enter(entity);
-    }
-
-    @Override
-    public void update(Player entity) {
-
-    }
-  },
-  ATTACK() {
-    @Override
-    public void update(Player entity) {
-
-    }
-  },
   MOVE_TO_STATION() {
     @Override
     public void enter(Player player) {

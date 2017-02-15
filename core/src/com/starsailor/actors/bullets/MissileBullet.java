@@ -113,7 +113,7 @@ public class MissileBullet extends Bullet implements EntityListener {
   @Override
   public void collide(Bullet bullet, Vector2 position) {
     hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
-    EntityManager.getInstance().destroy(bullet);
+    markForDestroy();
   }
 
   // --------------------------  Helper ---------------------

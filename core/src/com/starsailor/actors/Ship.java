@@ -12,7 +12,6 @@ import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
@@ -94,7 +93,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * Handling the entity removal from the Ashley engine, etc.
    */
   protected void destroy() {
-    EntityManager.getInstance().destroy(this);
+    markForDestroy();
   }
 
   public StateMachine getStateMachine() {

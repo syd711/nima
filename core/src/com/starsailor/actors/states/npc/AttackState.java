@@ -1,6 +1,5 @@
 package com.starsailor.actors.states.npc;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
@@ -36,8 +35,6 @@ public class AttackState extends NPCState implements State<NPC> {
 
   @Override
   public void enter(NPC npc) {
-    Gdx.app.log(getClass().getName(), npc + " entered AttackState");
-    SteeringManager.setArriveAndFaceSteering(npc, enemy.steerableComponent);
   }
 
   @Override
@@ -53,24 +50,24 @@ public class AttackState extends NPCState implements State<NPC> {
     }
 
     //-------------- There are enemies -----------------------------
-
     //there are enemies, so find the nearest one
-    Ship nearestEnemyOfGroup = findNearestEnemyOfGroup(npc, attackingGroupMembers);
-    //check range, maybe adept steering
-    if(!isInAttackDistance(npc, nearestEnemyOfGroup)) {
-      //TODO
+    enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
+
+    //change steering, may be we are close enough sicne we are in the arrive steering
+    if(isInAttackDistance(npc, enemy)) {
+      SteeringManager.setFaceSteering(npc, enemy.steerableComponent);
+    }
+    else {
+      SteeringManager.setAttackSteering(npc, enemy.steerableComponent);
+      //if the attacker is not in attacking distance, we skip here
+      return;
     }
 
-    if(!nearestEnemyOfGroup.equals(enemy)) {
-      enemy = nearestEnemyOfGroup;
-      //update steering if we have a new target
-      SteeringManager.setArriveAndFaceSteering(npc, nearestEnemyOfGroup.steerableComponent);
-    }
 
     //the primary weapon attack
     List<WeaponProfile> primaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.PRIMARY);
     for(WeaponProfile chargedWeapon : primaryChargedWeapons) {
-      fireAtTarget(npc, nearestEnemyOfGroup, chargedWeapon);
+      fireAtTarget(npc, enemy, chargedWeapon);
     }
 
     //no check if I am a locked target (e.g. missiles firing at me!)
@@ -82,7 +79,7 @@ public class AttackState extends NPCState implements State<NPC> {
       //fire seconds weapons if there is no shield anymore
       List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.SECONDARY);
       for(WeaponProfile chargedWeapon : secondaryChargedWeapons) {
-        fireAtTarget(npc, nearestEnemyOfGroup, chargedWeapon);
+        fireAtTarget(npc, enemy, chargedWeapon);
       }
     }
     else {
@@ -94,19 +91,14 @@ public class AttackState extends NPCState implements State<NPC> {
     if(healthPercentage > 50) {
       List<WeaponProfile> emergencyChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.EMERGENCY);
       for(WeaponProfile chargedWeapon : emergencyChargedWeapons) {
-        fireAtTarget(npc, nearestEnemyOfGroup, chargedWeapon);
-      }
-    }
-    else if(healthPercentage < 30) {
-      List<WeaponProfile> defensiveChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.DEFENSIVE);
-      for(WeaponProfile chargedWeapon : defensiveChargedWeapons) {
-        fireAtTarget(npc, nearestEnemyOfGroup, chargedWeapon);
+        fireAtTarget(npc, enemy, chargedWeapon);
       }
     }
   }
 
   @Override
   public void exit(NPC npc) {
+    npc.setStateVisible(false);
   }
 
   @Override

@@ -4,18 +4,18 @@
   "defaultAnimation" : "walk",
   "scale" : 0.15,
   "health" : 100,
-  "attackDistance" : 300,
+  "attackDistance" : 600,
   "weapons" : ["laser", "phaser", "flares"],
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,
     "linearDamping" : 4,
-    "density" : 1
+    "density" : 0.7
   },
   "steeringData" : {
     "boundingRadius" : 200,
-    "maxLinearSpeed" : 7,
-    "maxLinearAcceleration" : 7,
+    "maxLinearSpeed" : 6,
+    "maxLinearAcceleration" : 6,
     "maxAngularSpeed" : 4,
     "maxAngularAcceleration" : 4
   }

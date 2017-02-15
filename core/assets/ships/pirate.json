@@ -5,7 +5,7 @@
   "scale" : 0.15,
   "health" : 100,
   "attackDistance" : 600,
-  "shootDistance" : 400,
+  "shootDistance" : 600,
   "weapons" : ["missile", "laser"],
   "shield" : "energie",
   "bodyData" : {

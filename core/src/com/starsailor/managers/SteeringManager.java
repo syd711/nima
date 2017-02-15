@@ -112,10 +112,11 @@ public class SteeringManager {
     sourceSteering.setBehavior(blendedSteering);
   }
 
-  public static void setArriveAndFaceSteering(NPC npc, SteerableComponent targetSteering) {
+  public static void setAttackSteering(NPC npc, SteerableComponent targetSteering) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
-    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
+    //we use a smaller collision avoidance here!
+    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius()/2 * MPP);
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
     final Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);

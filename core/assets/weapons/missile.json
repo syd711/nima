@@ -2,7 +2,7 @@
   "name" : "Missile",
   "category" : "secondary",
   "sound" : "laser",
-  "damage" : 30,
+  "damage" : 10,
   "forceFactor" : 8.5,
   "impactFactor" : 30,
   "rechargeTimeMillis" : 2700,

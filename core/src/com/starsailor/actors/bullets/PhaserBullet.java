@@ -6,7 +6,6 @@ import com.starsailor.components.AnimationComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Textures;
 
 /**
@@ -36,7 +35,7 @@ public class PhaserBullet extends Bullet {
 
     //check if shooting must be stopped
     if(isExhausted()) {
-      EntityManager.getInstance().destroy(this);
+      markForDestroy();
       return;
     }
 
