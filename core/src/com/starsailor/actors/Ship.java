@@ -151,11 +151,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
       }
       destroy();
     }
-    else {
-      if(!shieldComponent.isRemaining()) {
-        setStateVisible(false);
-      }
-    }
   }
 
   //------------ To be implemented ------------------------------------------------------------------------

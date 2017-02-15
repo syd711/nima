@@ -52,6 +52,8 @@ public class AttackState extends NPCState implements State<NPC> {
       return;
     }
 
+    //-------------- There are enemies -----------------------------
+
     //there are enemies, so find the nearest one
     Ship nearestEnemyOfGroup = findNearestEnemyOfGroup(npc, attackingGroupMembers);
     //check range, maybe adept steering
