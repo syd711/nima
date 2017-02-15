@@ -261,10 +261,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static HealthComponent addHealthComponent(Entity entity, ShieldProfile shieldProfile) {
+  public static HealthComponent addHealthComponent(Entity entity, ShipProfile shipProfile) {
     HealthComponent component = createComponent(HealthComponent.class);
-    component.maxHealth = shieldProfile.health;
-    component.health = shieldProfile.health;
+    component.maxHealth = shipProfile.health;
+    component.health = shipProfile.health;
     entity.add(component);
     return component;
   }

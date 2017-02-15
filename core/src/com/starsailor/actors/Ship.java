@@ -14,7 +14,6 @@ import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
-import com.starsailor.managers.Textures;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
 
@@ -33,7 +32,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public BodyComponent bodyComponent;
   public ParticleComponent particleComponent;
   public ShieldComponent shieldComponent;
-  public SpriteComponent spriteComponent;
   public FormationComponent formationComponent;
   public FractionComponent fractionComponent;
   public HealthComponent healthComponent;
@@ -61,13 +59,9 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     shootingComponent = ComponentFactory.addShootableComponent(this, shipProfile);
     particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
     shieldComponent = ComponentFactory.addShieldComponent(this, shipProfile.shieldProfile);
-    healthComponent = ComponentFactory.addHealthComponent(this, shipProfile.shieldProfile);
+    healthComponent = ComponentFactory.addHealthComponent(this, shipProfile);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
     formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipProfile.formationDistance);
-
-    spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.SELECTION, -1);
-    spriteComponent.addSprite(Textures.HEALTHBG);
-    spriteComponent.addSprite(Textures.HEALTHFG);
 
     this.location = new Box2dLocation(new Vector2());
   }
@@ -96,7 +90,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     return !fractionComponent.fraction.equals(ship.fractionComponent.fraction);
   }
 
-
   /**
    * Handling the entity removal from the Ashley engine, etc.
    */
@@ -120,51 +113,22 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     return ship.getCenter().dst(this.getCenter());
   }
 
-  //------------ To be implemented ------------------------------------------------------------------------
-
-  abstract protected State getDefaultState();
-
-
-  //------------- Helper ----------------------------------------------------------------------------------
-
   /**
-   * Return true if the entity is already in a battle state
-   *
-   * @return
+   * Enable the shild component and the visual elements for it
    */
-  private boolean isInDefaultState() {
-    State currentState = getStateMachine().getCurrentState();
-    return currentState.equals(getDefaultState());
+  public void setStateVisible(boolean enabled) {
+    shieldComponent.setActive(enabled);
+    healthComponent.setActive(enabled);
   }
 
   /**
-   * Switches this entity to the attacked state if not already there.
-   *
-   * @param bullet the attacker bullet
+   * Returns to the state that has been passed as default state in the constructor.
    */
-  public void moveToAttackedState(Bullet bullet) {
-    if(isInDefaultState()) {
-      getStateMachine().changeState(new AttackedState(bullet));
-
-      //notify all members that 'we' are attacked
-      List<Ship> groupMembers = formationComponent.getMembers();
-      for(Ship formationMember : groupMembers) {
-        formationMember.moveToAttackedState(bullet);
-      }
-    }
+  public void switchToDefaultState() {
+    getStateMachine().changeState(getDefaultState());
+    shieldComponent.setActive(false);
   }
 
-  /**
-   * Updates the last bullet for the attack state
-   *
-   * @param bullet the attacker bullet
-   */
-  private void updateAttackState(Bullet bullet) {
-    State currentState = getStateMachine().getCurrentState();
-    if(currentState instanceof AttackState) {
-      ((AttackState) getStateMachine().getCurrentState()).hitBy(bullet);
-    }
-  }
 
   /**
    * Updates shield and health damage for the given bullet
@@ -189,38 +153,53 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     }
     else {
       if(!shieldComponent.isRemaining()) {
-        setShieldEnabled(false);
+        setStateVisible(false);
       }
     }
   }
 
+  //------------ To be implemented ------------------------------------------------------------------------
+
+  abstract protected State getDefaultState();
+
+  //------------- Helper ----------------------------------------------------------------------------------
 
   /**
-   * Enable the shild component and the visual elements for it
+   * Return true if the entity is already in a battle state
    *
-   * @param enabled
+   * @return
    */
-  public void setShieldEnabled(boolean enabled) {
-    if(enabled) {
-      if(!shieldComponent.isActive()) {
-        spriteComponent.addSprite(Textures.SHIELDBG);
-        spriteComponent.addSprite(Textures.SHIELDFG);
-        shieldComponent.setActive(true);
-        spriteComponent.setEnabled(true);
+  private boolean isInDefaultState() {
+    State currentState = getStateMachine().getCurrentState();
+    return currentState.equals(getDefaultState());
+  }
+
+  /**
+   * Switches this entity to the attacked state if not already there.
+   *
+   * @param bullet the attacker bullet
+   */
+  private void moveToAttackedState(Bullet bullet) {
+    if(isInDefaultState()) {
+      getStateMachine().changeState(new AttackedState(bullet));
+
+      //notify all members that 'we' are attacked
+      List<Ship> groupMembers = formationComponent.getMembers();
+      for(Ship formationMember : groupMembers) {
+        formationMember.moveToAttackedState(bullet);
       }
     }
-    else {
-      spriteComponent.removeSprite(Textures.SHIELDBG);
-      spriteComponent.removeSprite(Textures.SHIELDFG);
+  }
+
+  /**
+   * Updates the last bullet for the attack state
+   *
+   * @param bullet the attacker bullet
+   */
+  private void updateAttackState(Bullet bullet) {
+    State currentState = getStateMachine().getCurrentState();
+    if(currentState instanceof AttackState) {
+      ((AttackState) getStateMachine().getCurrentState()).hitBy(bullet);
     }
-  }
-
-  public boolean isShieldEnabled() {
-    return shieldComponent.isActive();
-  }
-
-  public void switchToDefaultState() {
-    getStateMachine().changeState(getDefaultState());
-    shieldComponent.setActive(false);
   }
 }

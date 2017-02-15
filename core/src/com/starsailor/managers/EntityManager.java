@@ -72,9 +72,6 @@ public class EntityManager implements EntityListener {
     ParticleSystem particleSystem = new ParticleSystem(renderer.getBatch());
     engine.addSystem(particleSystem);
 
-    SelectionSystem selectionSystem = new SelectionSystem();
-    engine.addSystem(selectionSystem);
-
     AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(renderer.getBatch());
     engine.addSystem(animationRenderSystem);
 

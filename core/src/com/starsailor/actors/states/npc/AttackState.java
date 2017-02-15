@@ -76,7 +76,7 @@ public class AttackState extends NPCState implements State<NPC> {
     fireDefensiveWeaponsFor(npc, enemyBullet);
 
     //check shield state
-    if(!npc.isShieldEnabled()) {
+    if(!npc.shieldComponent.isActive()) {
       //fire seconds weapons if there is no shield anymore
       List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.SECONDARY);
       for(WeaponProfile chargedWeapon : secondaryChargedWeapons) {

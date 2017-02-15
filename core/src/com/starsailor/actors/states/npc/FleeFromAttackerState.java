@@ -45,7 +45,7 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
     //check max distance to all enemies
     for(Ship filteredMember : filteredMembers) {
       float distanceTo = npc.getDistanceTo(filteredMember);
-      float shootingDistanceWithOffset = bullet.owner.shipProfile.shootDistance * 5;
+      float shootingDistanceWithOffset = bullet.owner.shipProfile.shootDistance * 3;
       if(distanceTo > shootingDistanceWithOffset) {
         npc.steerableComponent.setBehavior(null);
         npc.getStateMachine().changeState(NPCStates.IDLE);

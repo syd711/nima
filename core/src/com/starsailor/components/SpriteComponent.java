@@ -1,6 +1,7 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -16,11 +17,8 @@ public class SpriteComponent implements Component, Poolable {
 
   private Map<Textures, SpriteItem> sprites = new LinkedHashMap<>();
 
-  private boolean enabled = true;
-
   @Override
   public void reset() {
-    enabled = true;
     sprites.clear();
   }
 
@@ -52,12 +50,15 @@ public class SpriteComponent implements Component, Poolable {
     sprites.remove(textures);
   }
 
-  public boolean isEnabled() {
-    return enabled;
-  }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+
+  /**
+   * Empty method that may be overwritten by a subclass to update
+   * the position of sprites before rendering
+   * @param entity the owner of this sprite component
+   */
+  public void updatePosition(Entity entity) {
+    //update the position of the sprite map
   }
 
   /**

@@ -20,7 +20,7 @@ public class AttackedState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered AttackedState");
-    npc.setShieldEnabled(true);
+    npc.setStateVisible(true);
 
     //attack is finished, return back to previous state
     if(bullet.isFriendlyFire()) {

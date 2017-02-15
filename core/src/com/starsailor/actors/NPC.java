@@ -55,7 +55,6 @@ public class NPC extends Ship implements Selectable {
   @Override
   public void setSelected(boolean b) {
     selectionComponent.setSelected(b);
-    spriteComponent.setEnabled(b);
   }
 
   @Override
@@ -69,6 +68,6 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public String toString() {
-    return "NPC '" + shipProfile.spine + "'";
+    return "NPC '" + shipProfile.name + "'";
   }
 }

@@ -4,13 +4,17 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.starsailor.components.GameEntityComponent;
 
 /**
  * Improved Ashley entity.
  */
 public class GameEntity extends Entity {
+  public GameEntityComponent gameEntityComponent;
 
   public GameEntity() {
+    gameEntityComponent = new GameEntityComponent();
+    add(gameEntityComponent);
   }
 
   @SuppressWarnings("unchecked")
