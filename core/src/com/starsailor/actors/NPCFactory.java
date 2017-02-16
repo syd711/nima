@@ -60,6 +60,7 @@ public class NPCFactory {
   public static NPC createPirate(ShipProfile shipProfile, State state, Fraction fraction, Vector2 position) {
     NPC npc = new NPC(shipProfile, state, position);
     npc.createComponents(fraction);
+    npc.formationComponent.formationOwner = npc;
     npc.getStateMachine().changeState(state);
 
     EntityManager.getInstance().add(npc);

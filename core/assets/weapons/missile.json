@@ -2,9 +2,9 @@
   "name" : "Missile",
   "category" : "secondary",
   "sound" : "laser",
-  "damage" : 10,
-  "forceFactor" : 8.5,
-  "impactFactor" : 20,
+  "damage" : 20,
+  "forceFactor" : 12.5,
+  "impactFactor" : 10,
   "rechargeTimeMillis" : 2700,
   "activationDistance" : 200,
   "steeringData" : {

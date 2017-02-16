@@ -41,6 +41,9 @@ public class AttackState extends NPCState implements State<NPC> {
   public void update(NPC npc) {
     //update the list of active enemies, maybe one was destroyed
     attackingGroupMembers = EntityManager.getInstance().filterAliveEntities(attackingGroupMembers);
+    if(attackingGroupMembers.contains(npc)) {
+      System.out.println("?");
+    }
 
     //check if there are more attackers first
     if(attackingGroupMembers.isEmpty()) {

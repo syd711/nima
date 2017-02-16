@@ -19,7 +19,7 @@ public class BodyGenerator {
 //  public final static short BITS = 0x0032;
 
   private final static short MASK_PLAYER = NPC_BITS | WORLD_BITS | BULLET_BITS;
-  private final static short MASK_NPC = PLAYER_BITS | BULLET_BITS;
+  private final static short MASK_NPC = PLAYER_BITS | NPC_BITS | BULLET_BITS;
   private final static short MASK_WORLD = PLAYER_BITS;
   private final static short MASK_BULLET_BITS = BULLET_BITS | PLAYER_BITS | NPC_BITS;
 

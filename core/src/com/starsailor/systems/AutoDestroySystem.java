@@ -54,6 +54,12 @@ public class AutoDestroySystem extends IteratingSystem {
             EntityManager.getInstance().destroy(phaserBullet);
           }
         }
+
+        //remove ship from formation
+        Ship formationOwner = ship.formationComponent.formationOwner;
+        if(!formationOwner.equals(ship)) {
+          formationOwner.formationComponent.removeMember(ship);
+        }
       }
     }
     else if(gameEntity instanceof NPC) {

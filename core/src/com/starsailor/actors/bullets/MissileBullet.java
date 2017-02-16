@@ -85,8 +85,17 @@ public class MissileBullet extends Bullet implements EntityListener {
         targetBody = nearestEnemyFlare.bodyComponent.body;
       }
 
-      Box2dUtil.gravity(bodyComponent.body, targetBody, 1.5f);
-      getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
+      //may it has been destroyed during flying
+      if(targetBody != null) {
+        Box2dUtil.gravity(bodyComponent.body, targetBody, 1.5f);
+        getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
+      }
+      else {
+        Vector2 linearVelocity = bodyComponent.body.getLinearVelocity();
+        bodyComponent.body.setLinearDamping(0);
+        bodyComponent.body.setLinearVelocity(linearVelocity);
+      }
+
     }
   }
 

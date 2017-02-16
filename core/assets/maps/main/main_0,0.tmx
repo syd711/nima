@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="74">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="78">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -169,6 +169,30 @@
    <properties>
     <property name="fraction" value="klingonen"/>
     <property name="shipProfile" value="pirate"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="75" name="Route 1 Guard 2" type="RouteMember" x="134" y="1008" width="32" height="32">
+   <properties>
+    <property name="route" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="76" name="Route 1 Guard 3" type="RouteMember" x="440" y="706" width="32" height="32">
+   <properties>
+    <property name="route" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="77" name="Route 1 Guard 4" type="RouteMember" x="458" y="970" width="32" height="32">
+   <properties>
+    <property name="route" value="Route 1"/>
+    <property name="shipProfile" value="crusader"/>
+    <property name="state" value="Guard"/>
    </properties>
    <ellipse/>
   </object>

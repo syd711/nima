@@ -4,7 +4,7 @@
   "sound" : "laser",
   "damage" : 1,
   "forceFactor" : 0.9,
-  "impactFactor" : 4,
+  "impactFactor" : 1,
   "rechargeTimeMillis" : 850,
   "bodyData" : {
     "density" : 0.1,
