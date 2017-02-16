@@ -22,6 +22,7 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.SteerableComponent;
 
 /**
@@ -43,6 +44,21 @@ public class Box2dRadiusProximity extends Box2dSquareAABBProximity {
   }
 
   @Override
+  public boolean reportFixture(Fixture fixture) {
+    Steerable<Vector2> steerable = getSteerable(fixture);
+    if(steerable == null) {
+      return false;
+    }
+
+    boolean accept = accept(steerable);
+    if(!accept) {
+      return false;
+    }
+
+    return super.reportFixture(fixture);
+  }
+
+  @Override
   protected boolean accept(Steerable<Vector2> steerable) {
     // The bounding radius of the current body is taken into account
     // by adding it to the radius proximity
@@ -51,6 +67,11 @@ public class Box2dRadiusProximity extends Box2dSquareAABBProximity {
     // Make sure the current body is within the range.
     // Notice we're working in distance-squared space to avoid square root.
     float distanceSquare = steerable.getPosition().dst2(owner.getPosition());
+
+    Entity entity = (Entity) ((SteerableComponent)steerable).getBody().getUserData();
+    if(entity instanceof Bullet) {
+      return false;
+    }
 
     return distanceSquare <= range * range;
   }

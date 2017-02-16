@@ -2,7 +2,7 @@
   "name" : "player",
   "spine" : "player",
   "defaultAnimation" : null,
-  "scale" : 0.15,
+  "scale" : 0.13,
   "health" : 100,
   "weapons" : ["laser","missile","phaser","mine","flares"],
   "shield" : "plasma",

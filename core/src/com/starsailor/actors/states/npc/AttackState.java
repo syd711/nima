@@ -55,7 +55,9 @@ public class AttackState extends NPCState implements State<NPC> {
 
     //change steering, may be we are close enough sicne we are in the arrive steering
     if(isInAttackDistance(npc, enemy)) {
-      SteeringManager.setFaceSteering(npc.steerableComponent, enemy.steerableComponent);
+      //increase during attack
+      float radius = npc.steerableComponent.getBoundingRadius() + 100;
+      SteeringManager.setFaceSteering(npc.steerableComponent, enemy.steerableComponent, radius);
     }
     else {
       SteeringManager.setAttackSteering(npc.steerableComponent, enemy.steerableComponent);

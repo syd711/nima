@@ -53,6 +53,10 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.enabled = enabled;
   }
 
+  public Body getBody() {
+    return body;
+  }
+
   @Override
   public void reset() {
     this.body = null;

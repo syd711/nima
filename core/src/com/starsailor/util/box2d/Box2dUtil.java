@@ -56,41 +56,55 @@ public class Box2dUtil {
     return null;
   }
 
+  /**
+   * Point gravity: uses the given target as gravity point to let
+   * the given source body move to it
+   * @param source the body the gravity is applied to
+   * @param target the body that has gravity
+   * @param gravity the gravity value
+   */
+  public static void gravity(Body source, Body target, float gravity) {
+    float G = gravity; //modifier of gravity value - you can make it bigger to have stronger gravity
+    Vector2 targetPosition = target.getPosition();
+    Vector2 myPosition = source.getPosition();
+    float distance = myPosition.dst(targetPosition);
+    float forceValue = G / (distance * distance);
+    Vector2 direction = new Vector2(targetPosition).sub(new Vector2(myPosition));
+    source.applyForceToCenter(direction.scl(forceValue), true);
+  }
+
   public static float addDegree(float angle, int degree) {
     return (float) (angle + Math.toRadians(degree));
   }
 
   public static void updateAngle(Body body, Vector2 target) {
-    body.setAngularVelocity(3);
-//
+    body.setAngularVelocity(0);
     float bodyAngle = body.getAngle();
     float DEGTORAD = (float) Math.toRadians(4f);
 
     Vector2 source = body.getPosition();
     Vector2 toTarget = new Vector2(target).sub(source);
-    float desiredAngle = (float) Math.atan2(-toTarget.x, -toTarget.y);
+    //       0
+    //   +++++++++
+    //   + 1 + 2 +
+    //90 +++++++++ -90
+    //   + 4 + 3 +
+    //   +++++++++
+    //     -180
+    float desiredAngle = (float) Math.atan2(-toTarget.x, -toTarget.y); //1
     if(source.x < target.x && source.y < target.y) {
-      desiredAngle = (float) Math.atan2(toTarget.x, -toTarget.y);
+      desiredAngle = (float) Math.atan2(toTarget.x, toTarget.y); // 2
     }
     else if(source.x < target.x && source.y > target.y) {
-      desiredAngle = (float) Math.atan2(toTarget.x, toTarget.y);
+      desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y); //3
     }
     else if(source.x > target.x && source.y > target.y) {
-      desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y);
+      desiredAngle = (float) Math.atan2(toTarget.x, -toTarget.y); //4
     }
 
-    //1
-//    float nextAngle = bodyAngle + body.getAngularVelocity() / 60.0f;
-//    float totalRotation = desiredAngle - nextAngle;
-//    while(totalRotation < -180 * DEGTORAD) totalRotation += 360 * DEGTORAD;
-//    while(totalRotation > 180 * DEGTORAD) totalRotation -= 360 * DEGTORAD;
-//    float desiredAngularVelocity = totalRotation * 60;
-//    float torque = body.getInertia() * desiredAngularVelocity / (1 / 60.0f);
-//    body.applyTorque(torque, true);
-
-    //2
     float nextAngle = bodyAngle + body.getAngularVelocity() / 60.0f;
     float desiredAngleDegrees = (float) Math.toDegrees(desiredAngle);
+    System.out.println(desiredAngleDegrees);
     float totalRotation = desiredAngle - nextAngle;
     while(totalRotation < -180 * DEGTORAD) totalRotation += 360 * DEGTORAD;
     while(totalRotation > 180 * DEGTORAD) totalRotation -= 360 * DEGTORAD;
@@ -98,18 +112,6 @@ public class Box2dUtil {
     float change = (1 * DEGTORAD); //allow 1 degree rotation per time step
     float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
     body.setTransform(source, newAngle);
-
-    //3
-//    float nextAngle = body.getAngle() + body.getAngularVelocity() / 60.0f;
-//    float totalRotation = desiredAngle - nextAngle;
-//    while ( totalRotation < -180 * DEGTORAD ) totalRotation += 360 * DEGTORAD;
-//    while ( totalRotation >  180 * DEGTORAD ) totalRotation -= 360 * DEGTORAD;
-//    float desiredAngularVelocity = totalRotation * 60;
-//    float change = 1 * DEGTORAD; //allow 1 degree rotation per time step
-//    desiredAngularVelocity = Math.min( change, Math.max(-change, desiredAngularVelocity));
-//    float impulse = body.getInertia() * desiredAngularVelocity;
-//    body.applyAngularImpulse( impulse, true );
-
   }
 
 //  @Override

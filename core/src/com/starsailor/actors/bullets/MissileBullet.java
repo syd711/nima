@@ -33,8 +33,8 @@ public class MissileBullet extends Bullet implements EntityListener {
     super.createComponents(weaponProfile);
 
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
-    SteeringManager.setFaceSteering(steerableComponent, target.steerableComponent);
-//    steerableComponent.setIndependetFacing(false);
+    SteeringManager.setMissileSteering(steerableComponent, target.steerableComponent);
+    steerableComponent.setIndependetFacing(false);
     steerableComponent.setEnabled(false);
   }
 
@@ -46,6 +46,8 @@ public class MissileBullet extends Bullet implements EntityListener {
     //apply initial force to the missile
     Body bulletBody = bodyComponent.body;
     Body ownerBody = owner.bodyComponent.body;
+
+    //align bullet with bullet owner
     bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
 
     float angle = ownerBody.getAngle();
@@ -70,32 +72,20 @@ public class MissileBullet extends Bullet implements EntityListener {
       //lazy init of the bullet's steering system
       if(distanceToOwner > weaponProfile.activationDistance && !steerableComponent.isEnabled()) {
         steeringEnabled = true;
+        steerableComponent.setEnabled(true);
       }
     }
     else {
-      //in render method
-      float G = 2; //modifier of gravity value - you can make it bigger to have stronger gravity
-
-      Vector2 targetPosition = target.bodyComponent.body.getPosition();
-      Vector2 myPosition = bodyComponent.body.getPosition();
-
-      float targetAngle = Box2dUtil.getBox2dAngle(targetPosition, myPosition);
-      float distance = myPosition.dst(targetPosition);
-      float forceValue = G / (distance * distance);
-
-      Vector2 direction = targetPosition.sub(myPosition);
-      bodyComponent.body.applyForceToCenter(direction.scl(forceValue), true);
-
-      Box2dUtil.updateAngle(bodyComponent.body, targetPosition);
+      //by default the target body is what we aim for
+      Body targetBody = target.bodyComponent.body;
 
       //check for flares
-//      Bullet nearestEnemyFlare = findNearestEnemyFlare();
-//      if(nearestEnemyFlare != null) {
-//        SteeringManager.setMissileSteering(steerableComponent, nearestEnemyFlare.steerableComponent);
-//      }
-//      else {
-//        SteeringManager.setMissileSteering(steerableComponent, target.steerableComponent);
-//      }
+      Bullet nearestEnemyFlare = findNearestEnemyFlare();
+      if(nearestEnemyFlare != null) {
+        targetBody = nearestEnemyFlare.bodyComponent.body;
+      }
+
+      Box2dUtil.gravity(bodyComponent.body, targetBody, 1.5f);
       getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
     }
   }

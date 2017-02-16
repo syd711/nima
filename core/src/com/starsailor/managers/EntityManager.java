@@ -57,9 +57,6 @@ public class EntityManager implements EntityListener {
     AutoDestroySystem autoDestroySystem = new AutoDestroySystem();
     engine.addSystem(autoDestroySystem);
 
-    SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
-    engine.addSystem(spriteRenderSystem);
-
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
 
@@ -83,6 +80,9 @@ public class EntityManager implements EntityListener {
 
     SpineUpdateSystem spineSystem = new SpineUpdateSystem();
     engine.addSystem(spineSystem);
+
+    SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
+    engine.addSystem(spriteRenderSystem);
 
     SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
     engine.addSystem(renderSystem);
@@ -165,11 +165,11 @@ public class EntityManager implements EntityListener {
         }
 
         engine.removeEntity(entity);
-        Gdx.app.log(this.toString(), "Destroyed " + entity);
+//        Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
       destroyEntities.clear();
 
-      Gdx.app.log(this.toString(), "Ashley engine has " + engine.getEntities().size() + " entities");
+//      Gdx.app.log(this.toString(), "Ashley engine has " + engine.getEntities().size() + " entities");
     }
   }
 

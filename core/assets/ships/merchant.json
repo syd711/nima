@@ -3,7 +3,7 @@
   "spine" : "merchant",
   "formationDistance" : 160,
   "defaultAnimation" : "walk",
-  "scale" : 0.13,
+  "scale" : 0.11,
   "health" : 100,
   "attackDistance" : 600,
   "shield" : "energie",
