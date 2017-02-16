@@ -71,6 +71,10 @@ public class Box2dRaycastCollisionDetector implements RaycastCollisionDetector<V
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
       Entity entity = (Entity) fixture.getBody().getUserData();
+      if(!(entity instanceof Ship)) {
+        return fraction;
+      }
+
       Ship ship = (Ship) sourceBody.getUserData();
       if(ship.formationComponent.getMembers().contains(entity)) {
         return fraction;

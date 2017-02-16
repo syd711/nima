@@ -33,6 +33,7 @@ public class AttackState extends NPCState implements State<NPC> {
 
   /**
    * Called for each additional hit
+   *
    * @param bullet the bullet that hit the ship of this state
    */
   public void hitBy(Bullet bullet) {
@@ -54,9 +55,6 @@ public class AttackState extends NPCState implements State<NPC> {
   public void update(NPC npc) {
     //update the list of active enemies, maybe one was destroyed
     attackingGroupMembers = EntityManager.getInstance().filterAliveEntities(attackingGroupMembers);
-    if(attackingGroupMembers.contains(npc)) {
-      System.out.println("?");
-    }
 
     //check if there are more attackers first
     if(attackingGroupMembers.isEmpty()) {
@@ -69,46 +67,12 @@ public class AttackState extends NPCState implements State<NPC> {
     //there are enemies, so find the nearest one
     Ship enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
 
-    //change steering, may be we are close enough sicne we are in the arrive steering
+    //update steering
+    updateAttackSteering(npc, enemy);
+
+    //and shoot weapons if in attack range
     if(isInAttackDistance(npc, enemy)) {
-      //increase during attack
-      float radius = npc.steerableComponent.getBoundingRadius() + 100;
-      SteeringManager.setFaceSteering(npc.steerableComponent, enemy.steerableComponent, radius);
-    }
-    else {
-      SteeringManager.setAttackSteering(npc.steerableComponent, enemy.steerableComponent);
-      //if the attacker is not in attacking distance, we skip here
-      return;
-    }
-
-
-    //the primary weapon attack
-    List<WeaponProfile> primaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.PRIMARY);
-    fireWeapons(npc, enemy, primaryChargedWeapons);
-
-    //no check if I am a locked target (e.g. missiles firing at me!)
-    Bullet enemyBullet = findEnemyBulletTargetedFor(npc);
-    if(enemyBullet != null) {
-      List<WeaponProfile> chargedDefensiveWeapons = getChargedDefensiveWeaponsFor(npc, enemyBullet);
-      fireWeapons(npc, enemy, chargedDefensiveWeapons);
-    }
-
-
-    //check shield state
-    if(!npc.shieldComponent.isActive()) {
-      //fire seconds weapons if there is no shield anymore
-      List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.SECONDARY);
-      fireWeapons(npc, enemy, secondaryChargedWeapons);
-    }
-    else {
-      //we are finished here and can start the next iteration
-      return;
-    }
-
-    float healthPercentage = npc.healthComponent.getPercent();
-    if(healthPercentage > 50) {
-      List<WeaponProfile> emergencyChargedWeapons = getChargedWeaponsForCategory(npc, WeaponProfile.Category.EMERGENCY);
-      fireWeapons(npc, enemy, emergencyChargedWeapons);
+      fireWeapons(npc, enemy);
     }
   }
 
@@ -121,4 +85,67 @@ public class AttackState extends NPCState implements State<NPC> {
   public boolean onMessage(NPC npc, Telegram telegram) {
     return false;
   }
+
+
+  //------------- Helper---------------------------------
+
+  /**
+   * Fires available weapons depending on the state of the ship
+   * @param ship the ship that should fire the weapons and owns this state
+   * @param enemy the enemy to shoot at
+   */
+  private void fireWeapons(Ship ship, Ship enemy) {
+    //the primary weapon attack
+    List<WeaponProfile> primaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.PRIMARY);
+    fireWeapons(ship, enemy, primaryChargedWeapons);
+
+    //no check if I am a locked target (e.g. missiles firing at me!)
+    Bullet enemyBullet = findEnemyBulletTargetedFor(ship);
+    if(enemyBullet != null) {
+      List<WeaponProfile> chargedDefensiveWeapons = getChargedDefensiveWeaponsFor(ship, enemyBullet);
+      fireWeapons(ship, enemy, chargedDefensiveWeapons);
+    }
+
+
+    //check shield state
+    if(!ship.shieldComponent.isActive()) {
+      //fire seconds weapons if there is no shield anymore
+      List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.SECONDARY);
+      fireWeapons(ship, enemy, secondaryChargedWeapons);
+    }
+    else {
+      //we are finished here and can start the next iteration
+      return;
+    }
+
+    float healthPercentage = ship.healthComponent.getPercent();
+    if(healthPercentage > 50) {
+      List<WeaponProfile> emergencyChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.EMERGENCY);
+      fireWeapons(ship, enemy, emergencyChargedWeapons);
+    }
+  }
+
+  /**
+   * Updates the steering for the given ship, depending on the location to the enemy
+   * @param ship the ship to update the steering for
+   * @param enemy the enemy to adept the steerig for
+   * @return true if addition
+   */
+  private void updateAttackSteering(Ship ship, Ship enemy) {
+    //change steering, may be we are close enough sicne we are in the arrive steering
+    if(isInAttackDistance(ship, enemy)) {
+      if(ship.getDistanceTo(enemy) < ship.shipProfile.attackDistance - 100)  {
+        SteeringManager.setFleeSteering(ship.steerableComponent, enemy.steerableComponent);
+      }
+      else {
+        //increase during attack
+        float radius = ship.steerableComponent.getBoundingRadius() + 100;
+        SteeringManager.setFaceSteering(ship.steerableComponent, enemy.steerableComponent, radius);
+      }
+    }
+    else {
+      SteeringManager.setAttackSteering(ship.steerableComponent, enemy.steerableComponent);
+    }
+  }
+
 }

@@ -4,6 +4,7 @@
   "defaultAnimation" : null,
   "scale" : 0.13,
   "health" : 100,
+  "attackDistance" : 600,
   "weapons" : ["laser","missile","phaser","mine","flares"],
   "shield" : "plasma",
   "bodyData" : {

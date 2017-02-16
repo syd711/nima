@@ -31,7 +31,7 @@ public class AttackedState implements State<NPC> {
     ShipProfile.Types type = npc.shipProfile.getType();
     switch(type) {
       case MERCHANT: {
-        npc.getStateMachine().changeState(new FleeFromAttackerState(bullet));
+        npc.getStateMachine().changeState(new FleeFromAttackerAndWaitState(bullet));
         break;
       }
       default: {

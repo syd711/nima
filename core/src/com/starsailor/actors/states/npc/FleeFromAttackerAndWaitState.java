@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Let the give npc follow its route.
  */
-public class FleeFromAttackerState extends NPCState implements State<NPC> {
+public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC> {
   private Bullet bullet;
   private List<Ship> formationMembers;
 
@@ -22,7 +22,7 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
    * Bullet will always be an enemy bullet
    * @param bullet
    */
-  public FleeFromAttackerState(Bullet bullet) {
+  public FleeFromAttackerAndWaitState(Bullet bullet) {
     formationMembers = bullet.owner.formationComponent.getMembers();
     this.bullet = bullet;
   }
@@ -30,7 +30,7 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered FleeFromAttackerState");
-    SteeringManager.setFleeSteering(npc, bullet.owner);
+    SteeringManager.setFleeSteering(npc.steerableComponent, bullet.owner.steerableComponent);
   }
 
   @Override
@@ -45,7 +45,11 @@ public class FleeFromAttackerState extends NPCState implements State<NPC> {
     //check max distance to all enemies
     for(Ship filteredMember : filteredMembers) {
       float distanceTo = npc.getDistanceTo(filteredMember);
-      float shootingDistanceWithOffset = bullet.owner.shipProfile.shootDistance * 2;
+      float shootingDistanceWithOffset = bullet.owner.shipProfile.attackDistance * 2;
+      if(shootingDistanceWithOffset <= 0) {
+        throw new UnsupportedOperationException(bullet.owner + " does not define a attackDistance");
+      }
+
       if(distanceTo > shootingDistanceWithOffset) {
         npc.steerableComponent.setBehavior(null);
       }

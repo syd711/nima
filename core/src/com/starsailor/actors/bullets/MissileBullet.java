@@ -61,17 +61,14 @@ public class MissileBullet extends Bullet implements EntityListener {
     getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
   }
 
-  private boolean steeringEnabled = false;
-
   @Override
   public void update() {
     updateSpritePositionForBody(false);
 
-    if(!steeringEnabled) {
+    if(!steerableComponent.isEnabled()) {
       float distanceToOwner = getDistanceFromOrigin() * Game.camera.zoom;
       //lazy init of the bullet's steering system
       if(distanceToOwner > weaponProfile.activationDistance && !steerableComponent.isEnabled()) {
-        steeringEnabled = true;
         steerableComponent.setEnabled(true);
       }
     }

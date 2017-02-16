@@ -72,14 +72,14 @@ abstract public class NPCState {
    * Returns the bullet that is currently on it's way to me :(
    * We ignore the fact if it is a friendly or enemy bullet since we never fire at friends but can hit them.
    *
-   * @param npc the npc to check for bullets for
+   * @param ship the ship to check for bullets for
    */
   @Nullable
-  protected Bullet findEnemyBulletTargetedFor(NPC npc) {
+  protected Bullet findEnemyBulletTargetedFor(Ship ship) {
     List<Bullet> bullets = EntityManager.getInstance().getEntities(Bullet.class);
     for(Bullet bullet : bullets) {
       //one is enough
-      if(bullet.target.equals(npc)) {
+      if(bullet.target.equals(ship)) {
         return bullet;
       }
     }
@@ -87,20 +87,20 @@ abstract public class NPCState {
   }
 
   /**
-   * Checks if the bullet that is currently targeted for the given npc can be defended by another weapon.
+   * Checks if the bullet that is currently targeted for the given ship can be defended by another weapon.
    *
-   * @param npc         the npc that wants to defend itself
+   * @param ship         the ship that wants to defend itself
    * @param enemyBullet the enemy bullet that should be defended
    */
-  protected List<WeaponProfile> getChargedDefensiveWeaponsFor(NPC npc, Bullet enemyBullet) {
+  protected List<WeaponProfile> getChargedDefensiveWeaponsFor(Ship ship, Bullet enemyBullet) {
     List<WeaponProfile> result = new ArrayList<>();
     List<WeaponProfile.Types> defensiveWeapons = enemyBullet.getDefensiveWeapons();
     for(WeaponProfile.Types defensiveWeapon : defensiveWeapons) {
       //find matching weapon for the given ship
-      List<WeaponProfile> weaponProfiles = npc.shipProfile.weaponProfiles;
+      List<WeaponProfile> weaponProfiles = ship.shipProfile.weaponProfiles;
       for(WeaponProfile weaponProfile : weaponProfiles) {
         if(weaponProfile.type.equals(defensiveWeapon)) {
-          boolean charged = npc.shootingComponent.isCharged(weaponProfile);
+          boolean charged = ship.shootingComponent.isCharged(weaponProfile);
           if(charged) {
             result.add(weaponProfile);
           }
