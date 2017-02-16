@@ -9,6 +9,7 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,11 +17,18 @@ import java.util.List;
  */
 public class AttackState extends NPCState implements State<NPC> {
   private List<Ship> attackingGroupMembers;
-  private Ship enemy;
 
   public AttackState(Ship enemy) {
-    this.enemy = enemy;
     this.attackingGroupMembers = enemy.formationComponent.getMembers();
+  }
+
+  public AttackState(Bullet bullet) {
+    if(bullet.wasFriendlyFire()) {
+      this.attackingGroupMembers = Collections.emptyList();
+    }
+    else {
+      this.attackingGroupMembers = bullet.owner.formationComponent.getMembers();
+    }
   }
 
   /**
@@ -28,8 +36,13 @@ public class AttackState extends NPCState implements State<NPC> {
    * @param bullet the bullet that hit the ship of this state
    */
   public void hitBy(Bullet bullet) {
-    if(!bullet.isFriendlyFire()) {
-      this.enemy = bullet.owner;
+    if(!bullet.wasFriendlyFire()) {
+      List<Ship> members = bullet.owner.formationComponent.getMembers();
+      for(Ship member : members) {
+        if(!this.attackingGroupMembers.contains(member)) {
+          this.attackingGroupMembers.add(member);
+        }
+      }
     }
   }
 
@@ -54,7 +67,7 @@ public class AttackState extends NPCState implements State<NPC> {
 
     //-------------- There are enemies -----------------------------
     //there are enemies, so find the nearest one
-    enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
+    Ship enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
 
     //change steering, may be we are close enough sicne we are in the arrive steering
     if(isInAttackDistance(npc, enemy)) {

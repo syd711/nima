@@ -34,6 +34,7 @@ abstract public class Bullet extends GameEntity {
 
   private Vector2 origin;
   private long shootingTime = 0;
+  private Ship actualHit;
 
   public Bullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
     shootingTime = System.currentTimeMillis();
@@ -48,10 +49,15 @@ abstract public class Bullet extends GameEntity {
     playFiringSound();
   }
 
-  public boolean isFriendlyFire() {
+  public boolean wasFriendlyFire() {
+    if(actualHit == null) {
+      return false;
+    }
+
     List<Ship> formationMembers = owner.formationComponent.getMembers();
     for(Ship formationMember : formationMembers) {
-      if(formationMember.equals(target)) {
+      //the target may differ from the actual hit
+      if(formationMember.equals(actualHit)) {
         return true;
       }
     }
@@ -191,5 +197,9 @@ abstract public class Bullet extends GameEntity {
   public boolean isExhausted() {
     float current = Game.currentTimeMillis - shootingTime;
     return current > weaponProfile.durationMillis;
+  }
+
+  public void setActualHit(Ship actualHit) {
+    this.actualHit = actualHit;
   }
 }

@@ -40,6 +40,7 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
 
   public void applyCollisionWith(Bullet bullet, Ship ship, Vector2 position) {
     if(!bullet.isOwner(ship)) {
+      bullet.setActualHit(ship);
       bullet.applyImpactForce(ship, position);
       bullet.collide(ship, position);
 

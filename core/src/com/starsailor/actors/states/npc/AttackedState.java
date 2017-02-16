@@ -23,7 +23,7 @@ public class AttackedState implements State<NPC> {
     npc.setStateVisible(true);
 
     //attack is finished, return back to previous state
-    if(bullet.isFriendlyFire()) {
+    if(bullet.wasFriendlyFire()) {
       npc.switchToDefaultState();
       return;
     }
@@ -35,7 +35,7 @@ public class AttackedState implements State<NPC> {
         break;
       }
       default: {
-        npc.getStateMachine().changeState(new AttackState(bullet.owner));
+        npc.getStateMachine().changeState(new AttackState(bullet));
         break;
       }
     }
