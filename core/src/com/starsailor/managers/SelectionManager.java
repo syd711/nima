@@ -47,7 +47,14 @@ public class SelectionManager implements EntityListener {
     Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(Game.camera, targetX, targetY);
     Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(clickTarget instanceof Selectable) {
-      updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
+      Selectable selectable = (Selectable) clickTarget;
+      if(selectable.isSelected()) {
+        updateSelection(currentSelection, null, singleSelection);
+      }
+      else {
+        updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
+      }
+
       return true;
     }
 

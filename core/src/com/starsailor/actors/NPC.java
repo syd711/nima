@@ -8,6 +8,7 @@ import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.data.ShipProfile;
+import com.starsailor.managers.SelectionManager;
 
 /**
  * Common superclass for all NPC.
@@ -40,6 +41,14 @@ public class NPC extends Ship implements Selectable {
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
+  }
+
+  @Override
+  public void switchToDefaultState() {
+    super.switchToDefaultState();
+    if(selectionComponent.isActive()) {
+      SelectionManager.getInstance().setSelection(null);
+    }
   }
 
   @Override

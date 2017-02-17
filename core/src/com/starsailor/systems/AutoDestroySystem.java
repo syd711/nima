@@ -69,6 +69,7 @@ public class AutoDestroySystem extends IteratingSystem {
         //check if we can auto-select the next member of the group
         boolean selected = npc.selectionComponent.isActive();
         if(selected) {
+          SelectionManager.getInstance().setSelection(null);
           Ship member = npc.formationComponent.getNearestMemberTo(Player.getInstance());
           if(member != null) {
             SelectionManager.getInstance().setSelection((Selectable) member);

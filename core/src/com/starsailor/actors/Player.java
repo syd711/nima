@@ -9,6 +9,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.GraphicsUtil;
 
 /**
@@ -51,6 +52,9 @@ public class Player extends Ship {
   @Override
   public void applyDamageFor(Bullet bullet) {
     updateDamage(bullet);
+    if(SelectionManager.getInstance().getSelection() == null) {
+      SelectionManager.getInstance().setSelection((Selectable) bullet.owner);
+    }
   }
 
   /**
