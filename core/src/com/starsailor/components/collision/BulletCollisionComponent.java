@@ -35,6 +35,10 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
   }
 
   public void applyCollisionWith(Bullet bullet, Bullet bullet2, Vector2 position) {
+    //ignore bullets from the same entity
+    if(bullet.owner.equals(bullet2.owner)) {
+      return;
+    }
     bullet.collide(bullet2, position);
   }
 

@@ -17,8 +17,6 @@ public class ShieldComponent extends SpriteComponent {
   public float rechargeTimeMillis;
   public float damageAbsorptionFactor;
 
-  private boolean active = false;
-
   public Body body;
 
   @Override
@@ -28,9 +26,6 @@ public class ShieldComponent extends SpriteComponent {
     this.health = 0;
   }
 
-  public boolean isActive() {
-    return active;
-  }
 
   public float applyDamage(float damage) {
     this.health = health - (damage * damageAbsorptionFactor);
@@ -42,18 +37,16 @@ public class ShieldComponent extends SpriteComponent {
     return 0;
   }
 
-  public void setActive(boolean active) {
-    this.active = active;
+  @Override
+  protected void activate() {
+    addSprite(SHIELDBG);
+    addSprite(SHIELDFG);
+  }
 
-    //TODO custom sprite for shield
-    if(active) {
-      addSprite(SHIELDBG);
-      addSprite(SHIELDFG);
-    }
-    else {
-      removeSprite(SHIELDBG);
-      removeSprite(SHIELDFG);
-    }
+  @Override
+  protected void deactivate() {
+    removeSprite(SHIELDBG);
+    removeSprite(SHIELDFG);
   }
 
   @Override

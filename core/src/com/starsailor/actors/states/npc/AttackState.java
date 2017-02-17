@@ -67,11 +67,17 @@ public class AttackState extends NPCState implements State<NPC> {
     //there are enemies, so find the nearest one
     Ship enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
 
+    //check if the enemy is out of range
+    if(isGroupInRetreatingDistance(npc, enemy)) {
+      npc.switchToDefaultState();
+      return;
+    }
+
     //update steering
     updateAttackSteering(npc, enemy);
 
     //and shoot weapons if in attack range
-    if(isInAttackDistance(npc, enemy)) {
+    if(isInAttackingDistance(npc, enemy)) {
       fireWeapons(npc, enemy);
     }
   }
@@ -133,7 +139,7 @@ public class AttackState extends NPCState implements State<NPC> {
    */
   private void updateAttackSteering(Ship ship, Ship enemy) {
     //change steering, may be we are close enough sicne we are in the arrive steering
-    if(isInAttackDistance(ship, enemy)) {
+    if(isInAttackingDistance(ship, enemy)) {
       if(ship.getDistanceTo(enemy) < ship.shipProfile.attackDistance - 100)  {
         SteeringManager.setFleeSteering(ship.steerableComponent, enemy.steerableComponent);
       }

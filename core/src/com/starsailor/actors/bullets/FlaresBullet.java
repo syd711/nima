@@ -5,11 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.util.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -29,29 +26,19 @@ public class FlaresBullet extends Bullet {
   }
 
   @Override
-  protected void create() {
-    List<Bullet> bullets = new ArrayList<>();
-    for(int i = 0; i < weaponProfile.bulletCount - 1; i++) {
-      Bullet b = new FlaresBullet(weaponProfile, owner, target);
-      bullets.add(b);
-      EntityManager.getInstance().add(b);
-    }
-    bullets.add(this);
+  public void create() {
+    Body bb = bodyComponent.body;
+    Random r = new Random();
+    int angleDegree = r.nextInt((180 - (-180))) + (-180);
 
-    for(com.starsailor.actors.bullets.Bullet b : bullets) {
-      Body bb = b.bodyComponent.body;
-      Random r = new Random();
-      int angleDegree = r.nextInt((180 - (-180))) + (-180);
+    float angle = (float) Math.toRadians(angleDegree);
+    Vector2 force = new Vector2();
+    force.x = (float) Math.cos(angle);
+    force.y = (float) Math.sin(angle);
+    force = force.scl(weaponProfile.forceFactor);
 
-      float angle = (float) Math.toRadians(angleDegree);
-      Vector2 force = new Vector2();
-      force.x = (float) Math.cos(angle);
-      force.y = (float) Math.sin(angle);
-      force = force.scl(weaponProfile.forceFactor);
-
-      bb.applyForceToCenter(force, true);
-      bb.applyTorque(weaponProfile.torque, true);
-    }
+    bb.applyForceToCenter(force, true);
+    bb.applyTorque(weaponProfile.torque, true);
   }
 
   @Override

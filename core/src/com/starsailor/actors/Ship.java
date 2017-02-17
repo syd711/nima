@@ -163,7 +163,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    *
    * @return
    */
-  private boolean isInDefaultState() {
+  public boolean isInDefaultState() {
     State currentState = getStateMachine().getCurrentState();
     return currentState.equals(getDefaultState());
   }

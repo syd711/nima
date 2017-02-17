@@ -1,0 +1,27 @@
+{
+  "name" : "Rocket",
+  "category" : "secondary",
+  "sound" : "laser",
+  "damage" : 20,
+  "bulletCount" : 3,
+  "bulletDelay" : 200,
+  "forceFactor" : 3.5,
+  "impactFactor" : 10,
+  "rechargeTimeMillis" : 2700,
+  "activationDistance" : 50,
+  "steeringData" : {
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 2.0,
+    "maxLinearAcceleration" : 2.0,
+    "maxAngularSpeed" : 1.0,
+    "maxAngularAcceleration" : 1.0
+  },
+  "bodyData" : {
+    "density" : 1.2,
+    "linearDamping" : 1,
+    "angularDamping" : 10,
+    "width" : 2.8,
+    "height" : 15,
+    "sensor" : true
+  }
+}

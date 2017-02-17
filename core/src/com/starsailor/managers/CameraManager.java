@@ -43,8 +43,10 @@ public class CameraManager {
   }
 
   public void shake(float intensity, float duration) {
-    this.shakeIntensity = intensity;
-    this.duration = duration;
+    if(Settings.getInstance().cameraShaking) {
+      this.shakeIntensity = intensity;
+      this.duration = duration;
+    }
   }
 
   public void update(float deltaTime) {

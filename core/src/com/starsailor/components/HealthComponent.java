@@ -26,15 +26,16 @@ public class HealthComponent extends SpriteComponent {
     return health * 100 / maxHealth;
   }
 
-  public void setActive(boolean active) {
-    if(active) {
-      addSprite(HEALTHBG);
-      addSprite(HEALTHFG);
-    }
-    else {
-      removeSprite(HEALTHBG);
-      removeSprite(HEALTHFG);
-    }
+  @Override
+  protected void activate() {
+    addSprite(HEALTHBG);
+    addSprite(HEALTHFG);
+  }
+
+  @Override
+  protected void deactivate() {
+    removeSprite(HEALTHBG);
+    removeSprite(HEALTHFG);
   }
 
   @Override

@@ -42,6 +42,15 @@ public class DataEntities {
     if(shipProfile == null) {
       throw new UnsupportedOperationException("No ship profile found for '" + profile + "'");
     }
+    if(shipProfile.attackDistance <= 0) {
+      throw new UnsupportedOperationException(profile + " does not define a attackDistance");
+    }
+    if(shipProfile.shootDistance <= 0) {
+      throw new UnsupportedOperationException(profile + " does not define a shootDistance");
+    }
+    if(shipProfile.retreatDistance <= 0) {
+      throw new UnsupportedOperationException(profile + " does not define a retreatDistance");
+    }
     return shipProfile;
   }
 }

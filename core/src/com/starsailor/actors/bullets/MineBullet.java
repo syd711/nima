@@ -16,7 +16,7 @@ public class MineBullet extends Bullet {
   }
 
   @Override
-  protected void create() {
+  public void create() {
     //apply initial force to the mine
     Body bulletBody = bodyComponent.body;
     Body ownerBody = owner.bodyComponent.body;

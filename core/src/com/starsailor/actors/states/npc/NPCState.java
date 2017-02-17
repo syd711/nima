@@ -3,7 +3,7 @@ package com.starsailor.actors.states.npc;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.bullets.BulletFactory;
+import com.starsailor.managers.BulletManager;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 
@@ -58,14 +58,57 @@ abstract public class NPCState {
 
   /**
    * Returns true if the enemy is in attack range of the ship
-   *
-   * @param ship
-   * @param enemy
    */
-  protected boolean isInAttackDistance(Ship ship, Ship enemy) {
+  protected boolean isInAttackingDistance(Ship ship, Ship enemy) {
     float attackDistance = ship.shipProfile.attackDistance;
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy < attackDistance;
+  }
+
+  /**
+   * Returns true if the enemy is in shooting range of the ship
+   */
+  protected boolean isInShootingDistance(Ship ship, Ship enemy) {
+    float attackDistance = ship.shipProfile.shootDistance;
+    float distanceToEnemy = ship.getDistanceTo(enemy);
+    return distanceToEnemy < attackDistance;
+  }
+
+  /**
+   * Returns true if the enemy is in retreating range of the ship
+   */
+  protected boolean isInRetreatingDistance(Ship ship, Ship enemy) {
+    float retreatDistance = ship.shipProfile.retreatDistance;
+    float distanceToEnemy = ship.getDistanceTo(enemy);
+    return distanceToEnemy > retreatDistance;
+  }
+
+  /**
+   * Returns true of the whole group is in retreating distance,
+   * so the enemy is out of range and the group returns to the default state.
+   */
+  protected boolean isGroupInRetreatingDistance(Ship ship, Ship enemy) {
+    List<Ship> members = ship.formationComponent.getMembers();
+    for(Ship member : members) {
+      if(!isInRetreatingDistance(member, enemy)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected boolean iAmTheOnlyOneNotInDefaultState(Ship ship) {
+    List<Ship> members = ship.formationComponent.getMembers();
+    for(Ship member : members) {
+      if(member.equals(ship)) {
+        continue;
+      }
+
+      if(!ship.isInDefaultState()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -89,7 +132,7 @@ abstract public class NPCState {
   /**
    * Checks if the bullet that is currently targeted for the given ship can be defended by another weapon.
    *
-   * @param ship         the ship that wants to defend itself
+   * @param ship        the ship that wants to defend itself
    * @param enemyBullet the enemy bullet that should be defended
    */
   protected List<WeaponProfile> getChargedDefensiveWeaponsFor(Ship ship, Bullet enemyBullet) {
@@ -132,21 +175,11 @@ abstract public class NPCState {
   }
 
   /**
-   * Fires a bullet using the active weapon profile
-   */
-  private void fireAtTarget(Ship attacker, Ship attacking, WeaponProfile weaponProfile) {
-    BulletFactory.create(attacker, attacking, weaponProfile);
-  }
-
-  /**
    * Fires all weapons of the given weapon profile list
-   * @param attacker
-   * @param attacking
-   * @param weaponProfiles
    */
   protected void fireWeapons(Ship attacker, Ship attacking, List<WeaponProfile> weaponProfiles) {
     for(WeaponProfile chargedWeapon : weaponProfiles) {
-      fireAtTarget(attacker, attacking, chargedWeapon);
+      BulletManager.getInstance().create(attacker, attacking, chargedWeapon);
     }
   }
 }

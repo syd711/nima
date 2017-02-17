@@ -20,7 +20,7 @@ public class PhaserBullet extends Bullet {
   }
 
   @Override
-  protected void create() {
+  public void create() {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;

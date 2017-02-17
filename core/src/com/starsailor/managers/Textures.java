@@ -5,7 +5,7 @@ package com.starsailor.managers;
  */
 public enum Textures {
   //weapon sprites
-  LASER, MISSILE,
+  LASER, MISSILE, ROCKET,
   PHASER, PHASER_1, PHASER_2, PHASER_3,
   MINE, FLARES,
 

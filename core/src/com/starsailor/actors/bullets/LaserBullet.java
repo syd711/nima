@@ -19,7 +19,7 @@ public class LaserBullet extends Bullet {
   }
 
   @Override
-  protected void create() {
+  public void create() {
     Vector2 from = Box2dUtil.toBox2Vector(owner.getCenter());
     Vector2 to = Box2dUtil.toBox2Vector(target.getCenter());
     float radianAngle = Box2dUtil.getBox2dAngle(from, to);

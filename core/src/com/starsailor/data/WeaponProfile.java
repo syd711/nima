@@ -5,7 +5,7 @@ package com.starsailor.data;
  */
 public class WeaponProfile {
   public enum Types {
-    LASER, MISSILE, PHASER, MINE, FLARES
+    LASER, MISSILE, PHASER, MINE, FLARES, ROCKET
   }
 
   public enum Category {
@@ -19,7 +19,10 @@ public class WeaponProfile {
   public float forceFactor;
   public float torque;
   public float impactFactor;
-  public int bulletCount;
+
+  //for bullets
+  public int bulletCount = 1;
+  public float bulletDelay = 0;
 
   public String name;
   public String sound;

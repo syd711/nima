@@ -165,7 +165,7 @@
   <object id="70" name="Pirate 1" type="Route" x="1794" y="577" width="52" height="52">
    <ellipse/>
   </object>
-  <object id="73" name="Pirate 1" type="Route" x="1674" y="117" width="52" height="52">
+  <object id="73" name="Pirate 1" type="Route" x="1624" y="243" width="52" height="52">
    <properties>
     <property name="fraction" value="klingonen"/>
     <property name="shipProfile" value="pirate"/>

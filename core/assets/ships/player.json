@@ -5,7 +5,9 @@
   "scale" : 0.13,
   "health" : 100,
   "attackDistance" : 600,
-  "weapons" : ["laser","missile","phaser","mine","flares"],
+  "shootDistance" : 500,
+  "retreatDistance" : 900,
+  "weapons" : ["laser","missile","rocket","phaser","mine","flares"],
   "shield" : "plasma",
   "bodyData" : {
     "angularDamping" : 1.8,

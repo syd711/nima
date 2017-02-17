@@ -11,26 +11,19 @@ import static com.starsailor.managers.Textures.SELECTION;
  */
 public class SelectionComponent extends SpriteComponent {
 
-  private boolean selected = false;
-
   @Override
   public void reset() {
     super.reset();
-    this.selected = false;
   }
 
-  public void setSelected(boolean b) {
-    this.selected = b;
-    if(selected) {
-      addSprite(SELECTION);
-    }
-    else {
-      removeSprite(SELECTION);
-    }
+  @Override
+  protected void activate() {
+    addSprite(SELECTION);
   }
 
-  public boolean isSelected() {
-    return selected;
+  @Override
+  protected void deactivate() {
+    removeSprite(SELECTION);
   }
 
   @Override

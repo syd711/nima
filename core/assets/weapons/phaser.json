@@ -4,6 +4,6 @@
   "sound" : "laser",
   "damage" : 0.01,
   "impactFactor" : 2,
-  "durationMillis" : 3000,
+  "durationMillis" : 2000,
   "rechargeTimeMillis" : 6000
 }

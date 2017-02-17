@@ -67,7 +67,7 @@ abstract public class Bullet extends GameEntity {
   /**
    * Create components, etc.
    */
-  abstract protected void create();
+  abstract public void create();
 
   /**
    * Called by the bullet system to update the bullet

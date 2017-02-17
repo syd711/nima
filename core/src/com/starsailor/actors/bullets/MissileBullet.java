@@ -39,7 +39,7 @@ public class MissileBullet extends Bullet implements EntityListener {
   }
 
   @Override
-  protected void create() {
+  public void create() {
     //add dependency tracking for the target
     EntityManager.getInstance().addEntityListener(this);
 

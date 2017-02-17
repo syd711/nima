@@ -54,12 +54,12 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public void setSelected(boolean b) {
-    selectionComponent.setSelected(b);
+    selectionComponent.setActive(b);
   }
 
   @Override
   public boolean isSelected() {
-    return selectionComponent.isSelected();
+    return selectionComponent.isActive();
   }
 
   public void setRoute(Route route) {

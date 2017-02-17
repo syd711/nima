@@ -5,7 +5,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -163,6 +162,7 @@ public class Game extends ApplicationAdapter {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     CameraManager.getInstance().update(deltaTime);
+    BulletManager.getInstance().update(deltaTime);
 
     Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(PPM, PPM, 0);
     batch.setProjectionMatrix(camera.combined);
@@ -195,9 +195,6 @@ public class Game extends ApplicationAdapter {
 
     //update engine after world.step for saver body removal
     entityManager.update();
-
-    //update message handling
-    MessageManager.getInstance().update();
   }
 
   /**

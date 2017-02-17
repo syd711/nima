@@ -42,14 +42,17 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
       return;
     }
 
+    //check if all enemies are out of range, btw. all members are in default state
+    if(iAmTheOnlyOneNotInDefaultState(npc)) {
+      npc.switchToDefaultState();
+      return;
+    }
+
     //check max distance to all enemies
     for(Ship filteredMember : filteredMembers) {
       float distanceTo = npc.getDistanceTo(filteredMember);
+      //simply use the duplicate attack distance
       float shootingDistanceWithOffset = bullet.owner.shipProfile.attackDistance * 2;
-      if(shootingDistanceWithOffset <= 0) {
-        throw new UnsupportedOperationException(bullet.owner + " does not define a attackDistance");
-      }
-
       if(distanceTo > shootingDistanceWithOffset) {
         npc.steerableComponent.setBehavior(null);
       }

@@ -115,6 +115,7 @@ public class SteeringManager {
     faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);
 
     Arrive<Vector2> arriveSB = new Arrive<>(sourceSteering, targetSteering);
+    arriveSB.setLimiter(new LinearLimiter(3, 3));
     arriveSB.setTimeToTarget(0.1f);
     arriveSB.setArrivalTolerance(0.2f);
     arriveSB.setDecelerationRadius(10);

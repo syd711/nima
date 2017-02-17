@@ -17,6 +17,8 @@ public class SpriteComponent implements Component, Poolable {
 
   private Map<Textures, SpriteItem> sprites = new LinkedHashMap<>();
 
+  private boolean active = false;
+
   @Override
   public void reset() {
     sprites.clear();
@@ -51,6 +53,35 @@ public class SpriteComponent implements Component, Poolable {
   }
 
 
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    if(active != this.active) {
+      if(active) {
+        activate();
+      }
+      else {
+        deactivate();
+      }
+    }
+    this.active = active;
+  }
+
+  /**
+   * To be implemented for subclasses, ensured that it is only called when not activated yet
+   */
+  protected void activate() {
+    //add or remove sprites
+  }
+
+  /**
+   * To be implemented for subclasses, ensured that it is only called when activated
+   */
+  protected void deactivate() {
+    //add or remove sprites
+  }
 
   /**
    * Empty method that may be overwritten by a subclass to update
