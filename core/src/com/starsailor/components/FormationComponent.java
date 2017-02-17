@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,5 +46,22 @@ public class FormationComponent implements Component, Pool.Poolable {
     result.addAll(formationOwner.formationComponent.members);
     result.add(formationOwner);
     return result;
+  }
+
+  @Nullable
+  public Ship getNearestMemberTo(Ship ship) {
+    List<Ship> members = getMembers();
+    Ship nearest = null;
+    for(Ship member : members) {
+      if(nearest == null) {
+        nearest = member;
+        continue;
+      }
+
+      if(nearest.getDistanceTo(ship) > member.getDistanceTo(ship)) {
+        nearest = member;
+      }
+    }
+    return nearest;
   }
 }

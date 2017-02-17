@@ -106,17 +106,21 @@ public class BulletManager {
     Iterator<Ship> iterator = members.iterator();
     Ship nextTarget = null;
     long time = System.currentTimeMillis();
+    long shootingTime = time + weaponProfile.bulletDelay;
 
-    System.out.println("Current time " + new Date());
-    for(int i = 0; i < bulletCount; i++) {
+    //queue primary target first
+    QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponProfile, shootingTime);
+    delayedBulletsStack.add(queuedBullet);
+
+    for(int i = 1; i < bulletCount; i++) {
       if(!iterator.hasNext()) {
         iterator = members.iterator();
       }
 
       nextTarget = iterator.next();
-      long shootingTime = time + weaponProfile.bulletDelay*i;
-      System.out.println(new Date(shootingTime));
-      QueuedBullet queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
+      shootingTime = time + weaponProfile.bulletDelay*(i+1);
+
+      queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
       delayedBulletsStack.add(queuedBullet);
     }
   }

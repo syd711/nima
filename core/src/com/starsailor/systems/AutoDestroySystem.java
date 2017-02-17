@@ -3,15 +3,13 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.NPC;
-import com.starsailor.actors.Route;
-import com.starsailor.actors.Ship;
+import com.starsailor.actors.*;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.bullets.PhaserBullet;
 import com.starsailor.components.GameEntityComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.Settings;
 
 import java.util.List;
@@ -43,7 +41,8 @@ public class AutoDestroySystem extends IteratingSystem {
     else if(gameEntity instanceof Route) {
       //TODO
     }
-    else if(gameEntity instanceof Ship) {
+
+    if(gameEntity instanceof Ship) {
       Ship ship = (Ship) entity;
 
       if(ship.isMarkedForDestroy()) {
@@ -62,9 +61,20 @@ public class AutoDestroySystem extends IteratingSystem {
         }
       }
     }
-    else if(gameEntity instanceof NPC) {
+
+    if(gameEntity instanceof NPC) {
       NPC npc = (NPC) entity;
 
+      if(npc.isMarkedForDestroy()) {
+        //check if we can auto-select the next member of the group
+        boolean selected = npc.selectionComponent.isActive();
+        if(selected) {
+          Ship member = npc.formationComponent.getNearestMemberTo(Player.getInstance());
+          if(member != null) {
+            SelectionManager.getInstance().setSelection((Selectable) member);
+          }
+        }
+      }
     }
   }
 }
