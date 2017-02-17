@@ -3,14 +3,14 @@
   "category" : "defensive",
   "sound" : "laser",
   "bulletCount" : 5,
-  "forceFactor" : 3.1,
-  "torque" : 10,
-  "rechargeTimeMillis" : 2450,
+  "forceFactor" : 0.4,
+  "torque" : 0.2,
+  "rechargeTimeMillis" : 3450,
   "bodyData" : {
-    "angularDamping" : 0.6,
+    "angularDamping" : 2,
     "linearDamping" : 3.3,
     "density" : 0.1,
-    "radius" : 16,
+    "radius" : 8,
     "sensor" : true
   },
   "steeringData" : {

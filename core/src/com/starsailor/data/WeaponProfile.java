@@ -22,7 +22,7 @@ public class WeaponProfile {
 
   //for bullets
   public int bulletCount = 1;
-  public float bulletDelay = 0;
+  public long bulletDelay = 0;
 
   public String name;
   public String sound;

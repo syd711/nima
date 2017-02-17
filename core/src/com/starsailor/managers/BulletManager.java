@@ -4,10 +4,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.*;
 import com.starsailor.data.WeaponProfile;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Creates new bullets.
@@ -110,13 +107,16 @@ public class BulletManager {
     Ship nextTarget = null;
     long time = System.currentTimeMillis();
 
+    System.out.println("Current time " + new Date());
     for(int i = 0; i < bulletCount; i++) {
       if(!iterator.hasNext()) {
         iterator = members.iterator();
       }
 
       nextTarget = iterator.next();
-      QueuedBullet queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, (long) (time + weaponProfile.bulletDelay));
+      long shootingTime = time + weaponProfile.bulletDelay*i;
+      System.out.println(new Date(shootingTime));
+      QueuedBullet queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
       delayedBulletsStack.add(queuedBullet);
     }
   }
