@@ -16,6 +16,7 @@ import com.starsailor.managers.Particles;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +68,17 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
 
   public ShieldProfile getShield() {
     return shipProfile.shieldProfile;
+  }
+
+  public List<WeaponProfile> getChargedWeapons() {
+    List<WeaponProfile> result = new ArrayList<>();
+    for(WeaponProfile weapon : getWeapons()) {
+      boolean charged = shootingComponent.isCharged(weapon);
+      if(charged) {
+        result.add(weapon);
+      }
+    }
+    return result;
   }
 
   public List<WeaponProfile> getWeapons() {

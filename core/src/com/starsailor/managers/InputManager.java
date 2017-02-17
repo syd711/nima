@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
 import com.starsailor.GameState;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.Selectable;
+import com.starsailor.actors.Ship;
+import com.starsailor.util.Debugger;
 import com.starsailor.util.GraphicsUtil;
 
 /**
@@ -49,6 +52,13 @@ public class InputManager implements InputProcessor {
     }
     else if(keycode == Input.Keys.S) {
       System.out.println(Player.getInstance().getStateMachine().getCurrentState());
+      return true;
+    }
+    else if(keycode == Input.Keys.D) {
+      Selectable selection = SelectionManager.getInstance().getSelection();
+      if(selection != null) {
+        Debugger.log((Ship) selection);
+      }
       return true;
     }
     else if(keycode == Input.Keys.Q) {

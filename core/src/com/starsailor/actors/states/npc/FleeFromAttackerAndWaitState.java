@@ -56,6 +56,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
       if(distanceTo > shootingDistanceWithOffset) {
         npc.steerableComponent.setBehavior(null);
       }
+      //TODO what if enemy comes by?
     }
   }
 

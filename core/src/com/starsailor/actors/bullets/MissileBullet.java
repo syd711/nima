@@ -121,18 +121,22 @@ public class MissileBullet extends Bullet implements EntityListener {
     for(Entity e : entitiesFor) {
       Bullet b = (Bullet) e;
       //filter
-      if(!b.owner.equals(this.owner)
-          && b.weaponProfile.type.equals(WeaponProfile.Types.FLARES)
-          && b.bodyComponent.body.isActive()) {
+      if(!b.owner.equals(this.owner) //not from the same ship
+          && b.weaponProfile.type.equals(WeaponProfile.Types.FLARES) //is a flare
+          && b.bodyComponent.body.isActive()) { //body is still active
         flares.add(b);
       }
     }
 
     Bullet nearest = null;
-    float nearestDistance = 10000;
     for(Bullet flare : flares) {
+      if(nearest == null) {
+        nearest = flare;
+        continue;
+      }
+
       float distance = flare.bodyComponent.distanceTo(bodyComponent.body);
-      if(distance < nearestDistance) {
+      if(distance < nearest.bodyComponent.distanceTo(bodyComponent.body)) {
         nearest = flare;
       }
     }

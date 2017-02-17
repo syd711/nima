@@ -3,8 +3,8 @@ package com.starsailor.actors.states.npc;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.managers.BulletManager;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.EntityManager;
 
 import javax.annotation.Nullable;
@@ -104,7 +104,7 @@ abstract public class NPCState {
         continue;
       }
 
-      if(!ship.isInDefaultState()) {
+      if(!member.isInDefaultState()) {
         return false;
       }
     }
@@ -140,13 +140,9 @@ abstract public class NPCState {
     List<WeaponProfile.Types> defensiveWeapons = enemyBullet.getDefensiveWeapons();
     for(WeaponProfile.Types defensiveWeapon : defensiveWeapons) {
       //find matching weapon for the given ship
-      List<WeaponProfile> weaponProfiles = ship.shipProfile.weaponProfiles;
-      for(WeaponProfile weaponProfile : weaponProfiles) {
+      for(WeaponProfile weaponProfile : ship.getChargedWeapons()) {
         if(weaponProfile.type.equals(defensiveWeapon)) {
-          boolean charged = ship.shootingComponent.isCharged(weaponProfile);
-          if(charged) {
-            result.add(weaponProfile);
-          }
+          result.add(weaponProfile);
         }
       }
     }
@@ -161,15 +157,12 @@ abstract public class NPCState {
    */
   protected List<WeaponProfile> getChargedWeaponsForCategory(Ship ship, WeaponProfile.Category weaponCategory) {
     List<WeaponProfile> result = new ArrayList<>();
-    for(WeaponProfile weapon : ship.getWeapons()) {
+    for(WeaponProfile weapon : ship.getChargedWeapons()) {
       if(!weapon.getCategory().equals(weaponCategory)) {
         continue;
       }
 
-      boolean charged = ship.shootingComponent.isCharged(weapon);
-      if(charged) {
-        result.add(weapon);
-      }
+      result.add(weapon);
     }
     return result;
   }

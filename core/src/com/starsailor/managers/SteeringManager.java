@@ -98,7 +98,7 @@ public class SteeringManager {
 
     BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(sourceSteering);
     blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
-    blendedSteering.add(faceSB, 1f);
+    blendedSteering.add(faceSB, 0.5f);
     blendedSteering.add(collisionAvoidanceSB, 1f);
 
     sourceSteering.setBehavior(blendedSteering);
@@ -106,23 +106,18 @@ public class SteeringManager {
 
   public static void setAttackSteering(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
     //we use a smaller collision avoidance here!
-    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius()/2 * MPP);
+    Box2dRadiusProximity proximity = new Box2dRadiusProximity(sourceSteering, world, sourceSteering.getBoundingRadius() * MPP);
     CollisionAvoidance<Vector2> collisionAvoidanceSB = new CollisionAvoidance<Vector2>(sourceSteering, proximity);
 
-    final Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);
-    faceSB.setTimeToTarget(0.01f);
-    faceSB.setAlignTolerance(0.0001f);
-    faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 120);
-
     Arrive<Vector2> arriveSB = new Arrive<>(sourceSteering, targetSteering);
-    arriveSB.setLimiter(new LinearLimiter(sourceSteering.getMaxLinearAcceleration(), sourceSteering.getMaxLinearAcceleration()));
+    arriveSB.setLimiter(new LinearLimiter(sourceSteering.getMaxLinearAcceleration(), sourceSteering.getMaxLinearSpeed()));
     arriveSB.setTimeToTarget(0.1f);
     arriveSB.setArrivalTolerance(0.2f);
     arriveSB.setDecelerationRadius(10);
 
     BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(sourceSteering);
     blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
-    blendedSteering.add(faceSB, 1f);
+    blendedSteering.add(getFace(sourceSteering, targetSteering), 1f);
     blendedSteering.add(collisionAvoidanceSB, 1f);
     blendedSteering.add(arriveSB, 0.31f);
 
@@ -143,9 +138,12 @@ public class SteeringManager {
   }
 
   public static void setFleeSteering(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
-    Flee<Vector2> fleeSB= new Flee<>(sourceSteering, targetSteering);
-    fleeSB.setLimiter(new LinearLimiter(sourceSteering.getMaxLinearAcceleration(), sourceSteering.getMaxLinearSpeed()));
-    sourceSteering.setBehavior(fleeSB);
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<>(sourceSteering);
+    blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    blendedSteering.add(getFlee(sourceSteering, targetSteering), 1f);
+    blendedSteering.add(getFace(sourceSteering, targetSteering), 0.5f);
+
+    sourceSteering.setBehavior(blendedSteering);
   }
 
   public static void setFollowClickTargetSteering(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
@@ -166,14 +164,28 @@ public class SteeringManager {
 
   //------------------ Helper -------------------------------------
 
+  private static Flee<Vector2> getFlee(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
+    Flee<Vector2> fleeSB = new Flee<>(sourceSteering, targetSteering);
+    fleeSB.setLimiter(new LinearLimiter(sourceSteering.getMaxLinearAcceleration(), sourceSteering.getMaxLinearSpeed()));
+    return fleeSB;
+  }
+
   private static RaycastObstacleAvoidance<Vector2> getRayCastCollider(SteerableComponent sourceSteering) {
     CentralRayWithWhiskersConfiguration<Vector2> rayConfiguration = new CentralRayWithWhiskersConfiguration<>(sourceSteering, 300 * MPP,
         100 * MPP, 55 * MathUtils.degreesToRadians);
     RaycastCollisionDetector<Vector2> raycastCollisionDetector = new Box2dRaycastCollisionDetector(sourceSteering.getBody());
     RaycastObstacleAvoidance<Vector2> raycastObstacleAvoidanceSB = new RaycastObstacleAvoidance<>(sourceSteering, rayConfiguration,
-        raycastCollisionDetector, 1000*MPP);
+        raycastCollisionDetector, 1000 * MPP);
 
     return raycastObstacleAvoidanceSB;
+  }
+
+  private static Face<Vector2> getFace(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
+    Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);
+    faceSB.setTimeToTarget(10f);
+    faceSB.setAlignTolerance(0.001f);
+    faceSB.setDecelerationRadius(MathUtils.degreesToRadians * 180);
+    return faceSB;
   }
 
   private static CollisionAvoidance<Vector2> getCollisionAvoidance(SteerableComponent sourceSteering) {

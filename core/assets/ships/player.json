@@ -10,7 +10,7 @@
   "weapons" : ["laser","missile","rocket","phaser","mine","flares"],
   "shield" : "plasma",
   "bodyData" : {
-    "angularDamping" : 1.8,
+    "angularDamping" : 3,
     "linearDamping" : 6,
     "density" : 1
   },

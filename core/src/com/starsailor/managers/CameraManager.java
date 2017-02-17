@@ -23,6 +23,7 @@ public class CameraManager {
   private float shakeIntensity;
   private float duration;
   private float elapsed;
+  private String zoom;
 
   //force singleton
   private CameraManager() {
@@ -50,7 +51,6 @@ public class CameraManager {
   }
 
   public void update(float deltaTime) {
-
     float x = Math.round(positionComponent.x);
     float y = Math.round(positionComponent.y);
 
@@ -128,5 +128,9 @@ public class CameraManager {
     }
 
     return false;
+  }
+
+  public float getZoom() {
+    return camera.zoom;
   }
 }

@@ -5,8 +5,8 @@
   "damage" : 20,
   "bulletCount" : 3,
   "bulletDelay" : 200,
-  "forceFactor" : 3.5,
-  "impactFactor" : 10,
+  "forceFactor" : 5,
+  "impactFactor" : 2,
   "rechargeTimeMillis" : 2700,
   "activationDistance" : 50,
   "steeringData" : {
@@ -17,7 +17,7 @@
     "maxAngularAcceleration" : 1.0
   },
   "bodyData" : {
-    "density" : 1.2,
+    "density" : 1.8,
     "linearDamping" : 1,
     "angularDamping" : 10,
     "width" : 2.8,
