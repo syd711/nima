@@ -46,6 +46,10 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
 
     //apply additional route tracking point
     Route route = getRoute(routeName);
+    if(route == null) {
+      throw new UnsupportedOperationException("'" + mapObject.getName() + "'s route was not found: '" + routeName + "'");
+    }
+
     ShipProfile ship = DataEntities.getShip(shipProfile);
 
     route.addMember(ship, centeredPosition, NPCStates.forName(defaultStateName));
