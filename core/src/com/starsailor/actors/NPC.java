@@ -2,13 +2,16 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.states.npc.NPCStates;
+import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.states.npc.*;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.managers.SelectionManager;
+
+import java.util.List;
 
 /**
  * Common superclass for all NPC.
@@ -52,6 +55,16 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
+  public void applyDamageFor(Bullet bullet) {
+    boolean destroyed = updateDamage(bullet);
+    //player is also a ship, so we skip here
+    if(!destroyed) {
+      moveToBattleState();
+      updateAttackState(bullet);
+    }
+  }
+
+  @Override
   protected State getDefaultState() {
     return defaultState;
   }
@@ -73,6 +86,72 @@ public class NPC extends Ship implements Selectable {
 
   public void setRoute(Route route) {
     this.route = route;
+  }
+
+  // ---------------- Helper ------------------------------------------------------
+
+  public void switchToBattleState() {
+    ShipProfile.Types type = shipProfile.getType();
+    switch(type) {
+      case MERCHANT: {
+        getStateMachine().changeState(new FleeFromAttackerAndWaitState());
+        break;
+      }
+      case CRUSADER: {
+        getStateMachine().changeState(new AttackState());
+        break;
+      }
+      case PIRATE: {
+        getStateMachine().changeState(new AttackState());
+        break;
+      }
+      default: {
+        getStateMachine().changeState(new AttackState());
+        break;
+      }
+    }
+  }
+
+  /**
+   * Switches this entity to the attacked state if not already there.
+   */
+  public void moveToBattleState() {
+    if(isInDefaultState()) {
+      switchToBattleState();
+
+      //notify all members that 'we' are attacked
+      List<Ship> groupMembers = formationComponent.getMembers();
+      for(Ship formationMember : groupMembers) {
+        ((NPC)formationMember).moveToBattleState();
+      }
+    }
+  }
+
+  private State createDefaultState() {
+    ShipProfile.Types type = shipProfile.getType();
+    switch(type) {
+      case PIRATE: {
+        return new RoutedSeekAndDestroyState();
+      }
+      case CRUSADER: {
+        return new GuardState();
+      }
+      default: {
+        return new RouteState();
+      }
+    }
+  }
+
+  /**
+   * Updates the last bullet for the attack state
+   *
+   * @param bullet the attacker bullet
+   */
+  private void updateAttackState(Bullet bullet) {
+    State currentState = getStateMachine().getCurrentState();
+    if(currentState instanceof AttackState) {
+      ((AttackState) getStateMachine().getCurrentState()).hitBy(bullet);
+    }
   }
 
   @Override

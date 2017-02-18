@@ -10,7 +10,6 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,19 +18,6 @@ import java.util.List;
 public class AttackState extends NPCState implements State<NPC> {
   private List<Ship> attackingGroupMembers;
 
-  public AttackState(Ship enemy) {
-    this.attackingGroupMembers = enemy.formationComponent.getMembers();
-  }
-
-  public AttackState(Bullet bullet) {
-    if(bullet.wasFriendlyFire()) {
-      this.attackingGroupMembers = Collections.emptyList();
-    }
-    else {
-      this.attackingGroupMembers = bullet.owner.formationComponent.getMembers();
-    }
-  }
-
   /**
    * Called for each additional hit
    *
@@ -39,18 +25,26 @@ public class AttackState extends NPCState implements State<NPC> {
    */
   public void hitBy(Bullet bullet) {
     if(!bullet.wasFriendlyFire()) {
+      //remember all enemy members of the group to shoot at
       List<Ship> members = bullet.owner.formationComponent.getMembers();
       for(Ship member : members) {
         if(!this.attackingGroupMembers.contains(member)) {
           this.attackingGroupMembers.add(member);
         }
       }
+
+      //then update the attack state of all my friends
+
     }
   }
 
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered AttackState");
+    npc.setStateVisible(true);
+
+    Ship nearestEnemy = findNearestEnemy(npc);
+    attackingGroupMembers = nearestEnemy.formationComponent.getMembers();
   }
 
   @Override

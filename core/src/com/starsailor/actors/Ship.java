@@ -6,8 +6,6 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.states.npc.AttackState;
-import com.starsailor.actors.states.npc.AttackedState;
 import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
@@ -89,14 +87,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * Applies the damage to the shield or the ship health.
    *
    * @param bullet the damage to apply for the shield or health.
-   * @return True if the damage destroyed this entity.
    */
   public void applyDamageFor(Bullet bullet) {
     boolean destroyed = updateDamage(bullet);
-    if(!destroyed) {
-      moveToAttackedState(bullet);
-      updateAttackState(bullet);
-    }
+    //player is also a ship, so we skip here
   }
 
   public boolean isEnemyOf(Ship ship) {
@@ -183,34 +177,5 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public boolean isInDefaultState() {
     State currentState = getStateMachine().getCurrentState();
     return currentState.equals(getDefaultState());
-  }
-
-  /**
-   * Switches this entity to the attacked state if not already there.
-   *
-   * @param bullet the attacker bullet
-   */
-  private void moveToAttackedState(Bullet bullet) {
-    if(isInDefaultState()) {
-      getStateMachine().changeState(new AttackedState(bullet));
-
-      //notify all members that 'we' are attacked
-      List<Ship> groupMembers = formationComponent.getMembers();
-      for(Ship formationMember : groupMembers) {
-        formationMember.moveToAttackedState(bullet);
-      }
-    }
-  }
-
-  /**
-   * Updates the last bullet for the attack state
-   *
-   * @param bullet the attacker bullet
-   */
-  private void updateAttackState(Bullet bullet) {
-    State currentState = getStateMachine().getCurrentState();
-    if(currentState instanceof AttackState) {
-      ((AttackState) getStateMachine().getCurrentState()).hitBy(bullet);
-    }
   }
 }
