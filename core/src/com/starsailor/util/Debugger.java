@@ -3,16 +3,42 @@ package com.starsailor.util;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.Route;
 import com.starsailor.actors.Ship;
+import com.starsailor.managers.EntityManager;
+
+import java.util.List;
 
 /**
  * Just for debugging purposes
  */
 public class Debugger {
 
-  public static void log(Ship ship) {
+  public static void log() {
     StringBuilder builder = new StringBuilder("\n");
-    builder.append("===============================================================================================\n");
+
+    List<GameEntity> entities = EntityManager.getInstance().getEntities(GameEntity.class);
+    for(GameEntity entity : entities) {
+      if(entity instanceof Ship) {
+        logShip(builder, (Ship) entity);
+      }
+      else if(entity instanceof Route) {
+        logRoute(builder, (Route) entity);
+      }
+    }
+
+    System.out.println(builder.toString());
+  }
+
+  private static void logRoute(StringBuilder builder, Route route) {
+    builder.append("= Route =======================================================================================\n");
+    builder.append(route.getName() + "\n");
+    builder.append("-----------------------------------------------------------------------------------------------\n");
+  }
+
+  private static void logShip(StringBuilder builder, Ship ship) {
+    builder.append("= Ship ========================================================================================\n");
     builder.append(ship.toString() + "\n");
     builder.append("-----------------------------------------------------------------------------------------------\n");
     SteeringBehavior<Vector2> behavior = ship.steerableComponent.getBehavior();
@@ -34,8 +60,7 @@ public class Debugger {
 
     builder.append(" - Max Linear Acceleration: " + ship.steerableComponent.getMaxLinearAcceleration() + "\n");
     builder.append(" - Max Linear Speed: " + ship.steerableComponent.getMaxLinearSpeed() + "\n");
-    builder.append("===============================================================================================\n");
-
-    System.out.println(builder.toString());
+    builder.append("-----------------------------------------------------------------------------------------------\n");
+    builder.append("\n");
   }
 }
