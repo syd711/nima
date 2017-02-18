@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="7">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -93,5 +93,14 @@
  </layer>
  <objectgroup name="collision"/>
  <objectgroup name="lights"/>
- <objectgroup name="data"/>
+ <objectgroup name="data">
+  <object id="6" name="Pirate 2" type="Pirate" x="1186.5" y="386.5" width="71" height="71">
+   <properties>
+    <property name="fraction" value="klingonen"/>
+    <property name="shipProfile" value="pirate"/>
+    <property name="state" value="SeekAndDestroy"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>
