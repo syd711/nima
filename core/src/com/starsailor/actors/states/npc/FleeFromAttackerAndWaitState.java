@@ -7,15 +7,22 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.SteeringManager;
 
+import java.util.List;
+
 /**
  * Let the give npc follow its route.
  */
 public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC> {
+  private List<Ship> attackingGroupMembers;
+
+  public FleeFromAttackerAndWaitState(Ship enemy) {
+    attackingGroupMembers = enemy.formationComponent.getMembers();
+  }
 
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered FleeFromAttackerState");
-    Ship nearestEnemy = findNearestEnemy(npc);
+    Ship nearestEnemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
     SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
   }
 
@@ -28,7 +35,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
     }
 
     //check max distance to all enemies
-    Ship nearestEnemy = findNearestEnemy(npc);
+    Ship nearestEnemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
     float distanceTo = npc.getDistanceTo(nearestEnemy);
     //simply use the duplicate attack distance
     float shootingDistanceWithOffset = nearestEnemy.shipProfile.attackDistance * 2;

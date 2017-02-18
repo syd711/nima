@@ -1,6 +1,7 @@
 package com.starsailor.actors.states.npc;
 
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.data.WeaponProfile;

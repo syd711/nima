@@ -5,7 +5,6 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.Ship;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.managers.SteeringManager;
 
@@ -22,10 +21,6 @@ public class RouteState extends NPCState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    Ship nearestEnemy = findNearestEnemy(npc);
-    if(nearestEnemy != null && isInAttackingDistance(npc, nearestEnemy)) {
-      npc.switchToBattleState();
-    }
   }
 
   @Override

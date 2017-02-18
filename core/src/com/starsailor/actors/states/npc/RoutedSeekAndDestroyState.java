@@ -24,7 +24,7 @@ public class RoutedSeekAndDestroyState extends NPCState implements State<NPC> {
   public void update(NPC npc) {
     Ship nearestEnemy = findNearestEnemy(npc);
     if(nearestEnemy != null && isInAttackingDistance(npc, nearestEnemy)) {
-      npc.switchToBattleState();
+      npc.switchToBattleState(nearestEnemy);
     }
   }
 

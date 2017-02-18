@@ -18,6 +18,10 @@ import java.util.List;
 public class AttackState extends NPCState implements State<NPC> {
   private List<Ship> attackingGroupMembers;
 
+  public AttackState(Ship enemy) {
+    attackingGroupMembers = enemy.formationComponent.getMembers();
+  }
+
   /**
    * Called for each additional hit
    *
@@ -42,9 +46,6 @@ public class AttackState extends NPCState implements State<NPC> {
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered AttackState");
     npc.setStateVisible(true);
-
-    Ship nearestEnemy = findNearestEnemy(npc);
-    attackingGroupMembers = nearestEnemy.formationComponent.getMembers();
   }
 
   @Override

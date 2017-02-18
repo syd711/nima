@@ -59,7 +59,7 @@ public class NPC extends Ship implements Selectable {
     boolean destroyed = updateDamage(bullet);
     //player is also a ship, so we skip here
     if(!destroyed) {
-      moveToBattleState();
+      moveToBattleState(bullet.owner);
       updateAttackState(bullet);
     }
   }
@@ -90,23 +90,23 @@ public class NPC extends Ship implements Selectable {
 
   // ---------------- Helper ------------------------------------------------------
 
-  public void switchToBattleState() {
+  public void switchToBattleState(Ship enemy) {
     ShipProfile.Types type = shipProfile.getType();
     switch(type) {
       case MERCHANT: {
-        getStateMachine().changeState(new FleeFromAttackerAndWaitState());
+        getStateMachine().changeState(new FleeFromAttackerAndWaitState(enemy));
         break;
       }
       case CRUSADER: {
-        getStateMachine().changeState(new AttackState());
+        getStateMachine().changeState(new AttackState(enemy));
         break;
       }
       case PIRATE: {
-        getStateMachine().changeState(new AttackState());
+        getStateMachine().changeState(new AttackState(enemy));
         break;
       }
       default: {
-        getStateMachine().changeState(new AttackState());
+        getStateMachine().changeState(new AttackState(enemy));
         break;
       }
     }
@@ -114,30 +114,16 @@ public class NPC extends Ship implements Selectable {
 
   /**
    * Switches this entity to the attacked state if not already there.
+   * @param owner
    */
-  public void moveToBattleState() {
+  public void moveToBattleState(Ship owner) {
     if(isInDefaultState()) {
-      switchToBattleState();
+      switchToBattleState(owner);
 
       //notify all members that 'we' are attacked
       List<Ship> groupMembers = formationComponent.getMembers();
       for(Ship formationMember : groupMembers) {
-        ((NPC)formationMember).moveToBattleState();
-      }
-    }
-  }
-
-  private State createDefaultState() {
-    ShipProfile.Types type = shipProfile.getType();
-    switch(type) {
-      case PIRATE: {
-        return new RoutedSeekAndDestroyState();
-      }
-      case CRUSADER: {
-        return new GuardState();
-      }
-      default: {
-        return new RouteState();
+        ((NPC)formationMember).moveToBattleState(owner);
       }
     }
   }
