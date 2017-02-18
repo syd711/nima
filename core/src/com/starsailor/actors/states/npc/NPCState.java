@@ -121,6 +121,11 @@ abstract public class NPCState {
   protected Bullet findEnemyBulletTargetedFor(Ship ship) {
     List<Bullet> bullets = EntityManager.getInstance().getEntities(Bullet.class);
     for(Bullet bullet : bullets) {
+      //ignore the bullets that currently hit the ship
+      if(bullet.isMarkedForDestroy()) {
+        continue;
+      }
+
       //one is enough
       if(bullet.target.equals(ship)) {
         return bullet;

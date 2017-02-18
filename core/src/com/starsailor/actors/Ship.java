@@ -92,9 +92,11 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * @return True if the damage destroyed this entity.
    */
   public void applyDamageFor(Bullet bullet) {
-    moveToAttackedState(bullet);
-    updateAttackState(bullet);
-    updateDamage(bullet);
+    boolean destroyed = updateDamage(bullet);
+    if(!destroyed) {
+      moveToAttackedState(bullet);
+      updateAttackState(bullet);
+    }
   }
 
   public boolean isEnemyOf(Ship ship) {
@@ -145,8 +147,9 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
    * Updates shield and health damage for the given bullet
    *
    * @param bullet the attacker's bullet
+   * @return true if this ship has been destroyed
    */
-  protected void updateDamage(Bullet bullet) {
+  protected boolean updateDamage(Bullet bullet) {
     BulletDamageComponent damageComponent = bullet.getComponent(BulletDamageComponent.class);
     float damage = damageComponent.damage;
     float damageOffset = damage; //the additional value to substract from health
@@ -161,7 +164,9 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
         particleComponent.enabled = true;
       }
       destroy();
+      return true;
     }
+    return false;
   }
 
   //------------ To be implemented ------------------------------------------------------------------------

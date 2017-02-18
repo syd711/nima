@@ -40,9 +40,6 @@ public class MissileBullet extends Bullet implements EntityListener {
 
   @Override
   public void create() {
-    //add dependency tracking for the target
-    EntityManager.getInstance().addEntityListener(this);
-
     //apply initial force to the missile
     Body bulletBody = bodyComponent.body;
     Body ownerBody = owner.bodyComponent.body;
@@ -59,6 +56,9 @@ public class MissileBullet extends Bullet implements EntityListener {
 
     bulletBody.applyForceToCenter(force, true);
     getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
+
+    //add dependency tracking for the target
+    EntityManager.getInstance().addEntityListener(this);
   }
 
   @Override

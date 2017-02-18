@@ -4,10 +4,10 @@
   "sound" : "laser",
   "bulletCount" : 5,
   "forceFactor" : 0.4,
-  "torque" : 0.2,
-  "rechargeTimeMillis" : 3450,
+  "torque" : 0.7,
+  "rechargeTimeMillis" : 5450,
   "bodyData" : {
-    "angularDamping" : 2,
+    "angularDamping" : 1.4,
     "linearDamping" : 3.3,
     "density" : 0.1,
     "radius" : 8,
