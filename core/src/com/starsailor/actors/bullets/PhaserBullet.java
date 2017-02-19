@@ -34,12 +34,12 @@ public class PhaserBullet extends Bullet {
   public void update() {
     //check if shooting must be stopped
     if(isExhausted()) {
-      markForDestroy();
+      destroy();
       return;
     }
 
     if(target.isMarkedForDestroy()) {
-      markForDestroy();
+      destroy();
       return;
     }
 
@@ -75,5 +75,11 @@ public class PhaserBullet extends Bullet {
   @Override
   public void collide(Bullet bullet, Vector2 position) {
 
+  }
+
+  //------------------- Helper -------------------------------
+  private void destroy() {
+    markForDestroy();
+    remove(AnimationComponent.class);
   }
 }
