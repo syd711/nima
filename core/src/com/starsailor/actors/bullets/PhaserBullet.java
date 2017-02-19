@@ -38,7 +38,7 @@ public class PhaserBullet extends Bullet {
       return;
     }
 
-    if(target.isMarkedForDestroy()) {
+    if(owner.isMarkedForDestroy() || target.isMarkedForDestroy()) {
       destroy();
       return;
     }
