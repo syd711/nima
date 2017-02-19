@@ -52,7 +52,7 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
 
     ShipProfile ship = DataEntities.getShip(shipProfile);
 
-    route.addMember(ship, centeredPosition, NPCStates.forName(defaultStateName));
+    route.addMember(mapObject.getName(), ship, centeredPosition, NPCStates.forName(defaultStateName));
     Gdx.app.log(this.getClass().getName(), "Added ship for route '" + routeName + "'");
   }
 

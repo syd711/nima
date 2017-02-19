@@ -40,8 +40,8 @@ public class Route extends GameEntity {
    return true;
   }
 
-  public void addMember(ShipProfile ship, Vector2 centeredPosition, State state) {
-    members.add(new RouteMember(ship, centeredPosition, state));
+  public void addMember(String name, ShipProfile ship, Vector2 centeredPosition, State state) {
+    members.add(new RouteMember(name, ship, centeredPosition, state));
   }
 
   public String getName() {
@@ -49,11 +49,13 @@ public class Route extends GameEntity {
   }
 
   public class RouteMember {
+    public String name;
     public ShipProfile shipProfile;
     public Vector2 position;
     public State state;
 
-    public RouteMember(ShipProfile ship, Vector2 centeredPosition, State state) {
+    public RouteMember(String name, ShipProfile ship, Vector2 centeredPosition, State state) {
+      this.name = name;
       this.shipProfile = ship;
       this.position = centeredPosition;
       this.state = state;

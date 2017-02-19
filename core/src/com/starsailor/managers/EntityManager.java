@@ -4,6 +4,7 @@ import box2dLight.RayHandler;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
@@ -12,6 +13,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.StatefulComponent;
 import com.starsailor.data.DataEntities;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.render.TiledMultiMapRenderer;
@@ -63,6 +65,9 @@ public class EntityManager implements EntityListener {
     BattleSystem npcSystem = new BattleSystem();
     engine.addSystem(npcSystem);
 
+    SpineUpdateSystem spineSystem = new SpineUpdateSystem();
+    engine.addSystem(spineSystem);
+
     BulletSystem bulletSystem = new BulletSystem();
     engine.addSystem(bulletSystem);
 
@@ -77,9 +82,6 @@ public class EntityManager implements EntityListener {
 
     StateMachineSystem stateMachineSystem = new StateMachineSystem();
     engine.addSystem(stateMachineSystem);
-
-    SpineUpdateSystem spineSystem = new SpineUpdateSystem();
-    engine.addSystem(spineSystem);
 
     SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
     engine.addSystem(spriteRenderSystem);
@@ -164,8 +166,13 @@ public class EntityManager implements EntityListener {
           engine.removeEntityListener((EntityListener) entity);
         }
 
+        StatefulComponent statefulComponent = entity.getComponent(StatefulComponent.class);
+        if(statefulComponent != null) {
+          MessageManager.getInstance().removeListener(statefulComponent.stateMachine);
+        }
+
         engine.removeEntity(entity);
-        Gdx.app.log(this.toString(), "Destroyed " + entity);
+//        Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
       destroyEntities.clear();
 
@@ -182,13 +189,6 @@ public class EntityManager implements EntityListener {
 
   @Override
   public void entityRemoved(Entity removedEntity) {
-    //if a ship is destroyed we have to ensure that it is removed from the list of member for all other members
-//    if(removedEntity instanceof Ship) {
-//      List<NPC> groupMembers = ((Ship) removedEntity).formationComponent.getMembers();
-//      for(NPC groupMember : groupMembers) {
-//        groupMember.formationComponent.getMembers().remove(removedEntity);
-//      }
-//    }
   }
 
 

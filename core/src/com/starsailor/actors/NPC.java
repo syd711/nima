@@ -1,6 +1,7 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.npc.*;
@@ -27,8 +28,8 @@ public class NPC extends Ship implements Selectable {
   //not necessarily set
   private Route route;
 
-  public NPC(ShipProfile profile, State<NPC> defaultState, Vector2 position) {
-    super(profile, position);
+  public NPC(String name, ShipProfile profile, State<NPC> defaultState, Vector2 position) {
+    super(name, profile, position);
     this.shipProfile = profile;
     this.defaultState = defaultState;
   }
@@ -60,7 +61,6 @@ public class NPC extends Ship implements Selectable {
     //player is also a ship, so we skip here
     if(!destroyed) {
       moveToBattleState(bullet.owner);
-      updateAttackState(bullet);
     }
   }
 
@@ -90,23 +90,31 @@ public class NPC extends Ship implements Selectable {
 
   // ---------------- Helper ------------------------------------------------------
 
-  public void switchToBattleState(Ship enemy) {
-    ShipProfile.Types type = shipProfile.getType();
+  public void switchGroupToBattleState(Ship enemy) {
+    List<Ship> members = formationComponent.getMembers();
+    for(Ship member : members) {
+      switchToBattleState(member, enemy);
+    }
+  }
+
+  private void switchToBattleState(Ship ship, Ship enemy) {
+    ShipProfile.Types type = ship.shipProfile.getType();
+    StateMachine stateMachine = ship.getStateMachine();
     switch(type) {
       case MERCHANT: {
-        getStateMachine().changeState(new FleeFromAttackerAndWaitState(enemy));
+        stateMachine.changeState(new FleeFromAttackerAndWaitState(enemy));
         break;
       }
       case CRUSADER: {
-        getStateMachine().changeState(new AttackState(enemy));
+        stateMachine.changeState(new AttackState(enemy));
         break;
       }
       case PIRATE: {
-        getStateMachine().changeState(new AttackState(enemy));
+        stateMachine.changeState(new AttackState(enemy));
         break;
       }
       default: {
-        getStateMachine().changeState(new AttackState(enemy));
+        stateMachine.changeState(new AttackState(enemy));
         break;
       }
     }
@@ -118,7 +126,7 @@ public class NPC extends Ship implements Selectable {
    */
   public void moveToBattleState(Ship owner) {
     if(isInDefaultState()) {
-      switchToBattleState(owner);
+      switchGroupToBattleState(owner);
 
       //notify all members that 'we' are attacked
       List<Ship> groupMembers = formationComponent.getMembers();
@@ -128,20 +136,8 @@ public class NPC extends Ship implements Selectable {
     }
   }
 
-  /**
-   * Updates the last bullet for the attack state
-   *
-   * @param bullet the attacker bullet
-   */
-  private void updateAttackState(Bullet bullet) {
-    State currentState = getStateMachine().getCurrentState();
-    if(currentState instanceof AttackState) {
-      ((AttackState) getStateMachine().getCurrentState()).hitBy(bullet);
-    }
-  }
-
   @Override
   public String toString() {
-    return "NPC '" + shipProfile.name + "'";
+    return "NPC '" + name + "' (" + shipProfile.name + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
   }
 }

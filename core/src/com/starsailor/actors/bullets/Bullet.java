@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
 import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
@@ -49,6 +50,10 @@ abstract public class Bullet extends GameEntity {
     playFiringSound();
   }
 
+  /**
+   * Returns true if this bullet has hit an actual enemy
+   * and not accidently a member of a friendly formation.
+   */
   public boolean wasFriendlyFire() {
     if(actualHit == null) {
       return false;
@@ -201,5 +206,18 @@ abstract public class Bullet extends GameEntity {
 
   public void setActualHit(Ship actualHit) {
     this.actualHit = actualHit;
+  }
+
+  /**
+   * Checks if this bullet hit a groupmember of the given npc.
+   */
+  public boolean attackedMemberOf(NPC npc) {
+    List<Ship> members = target.formationComponent.getMembers();
+    for(Ship enemyMember : members) {
+      if(enemyMember.equals(npc)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -22,6 +22,8 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered FleeFromAttackerState");
+    npc.setStateVisible(true);
+
     Ship nearestEnemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
     SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
   }

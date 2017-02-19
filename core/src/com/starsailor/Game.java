@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -163,6 +164,7 @@ public class Game extends ApplicationAdapter {
 
     CameraManager.getInstance().update(deltaTime);
     BulletManager.getInstance().update(deltaTime);
+    MessageManager.getInstance().update();
 
     Matrix4 debugMatrix = batch.getProjectionMatrix().cpy().scale(PPM, PPM, 0);
     batch.setProjectionMatrix(camera.combined);

@@ -37,12 +37,14 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public ShipProfile shipProfile;
 
   private Box2dLocation location;
+  protected String name;
 
   //only used during initializing
   private Vector2 position;
 
-  public Ship(ShipProfile profile, Vector2 position) {
+  public Ship(String name, ShipProfile profile, Vector2 position) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
+    this.name = name;
     this.shipProfile = profile;
     this.position = position;
   }

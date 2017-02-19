@@ -113,14 +113,14 @@
   <object id="7" name="Pirate 1" type="Route" x="1160" y="330" width="52" height="52">
    <ellipse/>
   </object>
-  <object id="8" name="Klingonen Route 1" type="Route" x="154" y="810" width="48" height="48">
+  <object id="8" name="Klingonen Route 1" type="Route" x="24" y="836" width="48" height="48">
    <properties>
     <property name="fraction" value="klingonen"/>
-    <property name="shipProfile" value="merchant"/>
+    <property name="shipProfile" value="crusader"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="9" name="Klingonen Guard 1" type="RouteMember" x="214" y="600" width="32" height="32">
+  <object id="9" name="Klingonen Guard 1" type="RouteMember" x="50" y="634" width="32" height="32">
    <properties>
     <property name="route" value="Klingonen Route 1"/>
     <property name="shipProfile" value="crusader"/>
@@ -128,7 +128,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="10" name="Klingonen Guard 2" type="RouteMember" x="212" y="1042" width="32" height="32">
+  <object id="10" name="Klingonen Guard 2" type="RouteMember" x="30" y="1074" width="32" height="32">
    <properties>
     <property name="route" value="Klingonen Route 1"/>
     <property name="shipProfile" value="crusader"/>
@@ -136,7 +136,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="11" name="Klingonen Guard 3" type="RouteMember" x="380" y="840" width="32" height="32">
+  <object id="11" name="Klingonen Guard 3" type="RouteMember" x="212" y="838" width="32" height="32">
    <properties>
     <property name="route" value="Klingonen Route 1"/>
     <property name="shipProfile" value="crusader"/>

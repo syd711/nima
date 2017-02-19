@@ -27,7 +27,7 @@ public class NPCFactory {
     State state = stateForProfile(shipProfile);
 
     //create route owner first
-    NPC routedNPC = new NPC(shipProfile, state, position);
+    NPC routedNPC = new NPC(route.getName(), shipProfile, state, position);
     routedNPC.setRoute(route);
     routedNPC.createComponents(fraction);
     routedNPC.formationComponent.formationOwner = routedNPC;
@@ -38,7 +38,9 @@ public class NPCFactory {
     //add route members
     for(Route.RouteMember member : route.members) {
       State memberState = stateForProfile(member.shipProfile);
-      NPC npc = new NPC(member.shipProfile, memberState, member.position);
+      String name = member.name;
+
+      NPC npc = new NPC(name, member.shipProfile, memberState, member.position);
       npc.createComponents(fraction);
       npc.formationComponent.formationOwner = routedNPC;
 
@@ -51,14 +53,9 @@ public class NPCFactory {
 
   /**
    * Used for wandering ships, therefore we don't have a fix route here
-   * @param shipProfile
-   * @param state
-   * @param fraction
-   * @param position
-   * @return
    */
-  public static NPC createPirate(ShipProfile shipProfile, State state, Fraction fraction, Vector2 position) {
-    NPC npc = new NPC(shipProfile, state, position);
+  public static NPC createPirate(String name, ShipProfile shipProfile, State state, Fraction fraction, Vector2 position) {
+    NPC npc = new NPC(name, shipProfile, state, position);
     npc.createComponents(fraction);
     npc.formationComponent.formationOwner = npc;
     npc.getStateMachine().changeState(state);

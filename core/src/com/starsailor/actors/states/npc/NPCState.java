@@ -23,8 +23,11 @@ abstract public class NPCState {
    * use all instances of ships to find the nearest target for an attack
    */
   @Nullable
-  protected Ship findNearestEnemy(NPC npc) {
+  protected Ship findNearestEnemy(NPC npc, boolean withoutPlayer) {
     List<Ship> entities = EntityManager.getInstance().getEntities(Ship.class);
+    if(withoutPlayer) {
+      entities.remove(Player.getInstance());
+    }
     return findNearestEnemyOfGroup(npc, entities);
   }
 
@@ -39,19 +42,25 @@ abstract public class NPCState {
   protected Ship findNearestEnemyOfGroup(NPC npc, List<? extends Ship> group) {
     Ship enemy = null;
     for(Ship ship : group) {
+      //may all ship entities have passed here, so we filter for ships of another fraction
       if(!ship.isEnemyOf(npc)) {
         continue;
       }
 
+      //initial state skip
       float distanceToEnemy = ship.getDistanceTo(npc);
-      if(distanceToEnemy != 0) {
-        if(enemy == null) {
-          enemy = ship;
-        }
-        //may another ship is closer?
-        else if(distanceToEnemy < ship.getDistanceTo(enemy)) {
-          enemy = ship;
-        }
+      if(distanceToEnemy == 0) {
+        continue;
+      }
+
+      if(enemy == null) {
+        enemy = ship;
+        continue;
+      }
+
+      //may another ship is closer?
+      if(distanceToEnemy < enemy.getDistanceTo(npc)) {
+        enemy = ship;
       }
     }
     return enemy;
@@ -179,6 +188,21 @@ abstract public class NPCState {
   protected void fireWeapons(Ship attacker, Ship attacking, List<WeaponProfile> weaponProfiles) {
     for(WeaponProfile chargedWeapon : weaponProfiles) {
       BulletManager.getInstance().create(attacker, attacking, chargedWeapon);
+    }
+  }
+
+  /**
+   * Updates the list of current enemy for the bullet that has hit the ship.
+   *
+   * @param bullet       the bullet that has hit the ship
+   * @param enemyTargets the current list of enemies
+   */
+  protected void updateEnemyList(Bullet bullet, List<Ship> enemyTargets) {
+    List<Ship> members = bullet.owner.formationComponent.getMembers();
+    for(Ship member : members) {
+      if(!enemyTargets.contains(member)) {
+        enemyTargets.add(member);
+      }
     }
   }
 }

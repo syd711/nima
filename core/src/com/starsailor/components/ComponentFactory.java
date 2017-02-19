@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.fma.Formation;
 import com.badlogic.gdx.ai.fma.FreeSlotAssignmentStrategy;
 import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -21,6 +22,7 @@ import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
+import com.starsailor.messaging.Messages;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.box2d.BodyGenerator;
@@ -149,6 +151,8 @@ public class ComponentFactory {
   public static StatefulComponent addStatefulComponent(Entity entity) {
     StatefulComponent component = createComponent(StatefulComponent.class);
     component.stateMachine = new StackStateMachine<>(entity);
+    MessageManager.getInstance().addListener(component.stateMachine, Messages.ATTACKED);
+    MessageManager.getInstance().addListener(component.stateMachine, Messages.ATTACK);
     entity.add(component);
     return component;
   }
