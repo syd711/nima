@@ -41,6 +41,7 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
     if(bullet.owner.equals(bullet2.owner)) {
       return;
     }
+    //TODO no particle effect yet
     bullet.collide(bullet2, position);
   }
 
