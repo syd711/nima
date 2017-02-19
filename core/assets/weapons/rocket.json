@@ -1,9 +1,9 @@
 {
   "name" : "Rocket",
-  "category" : "secondary",
+  "category" : "primary",
   "sound" : "laser",
-  "damage" : 20,
-  "bulletCount" : 3,
+  "damage" : 5,
+  "bulletCount" : 2,
   "bulletDelay" : 200,
   "forceFactor" : 5,
   "impactFactor" : 2,

@@ -20,12 +20,14 @@ public class PhaserBullet extends Bullet {
   }
 
   @Override
-  public void create() {
+  public boolean create() {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;
     animationComponent = ComponentFactory.addAnimationComponent(this, Textures.PHASER, Textures.PHASER_1, Textures.PHASER_2, Textures.PHASER_3);
     animationComponent.setWrappedRepeat();
+
+    return true;
   }
 
   @Override

@@ -19,7 +19,7 @@ public class LaserBullet extends Bullet {
   }
 
   @Override
-  public void create() {
+  public boolean create() {
     Vector2 from = Box2dUtil.toBox2Vector(owner.getCenter());
     Vector2 to = Box2dUtil.toBox2Vector(target.getCenter());
     float radianAngle = Box2dUtil.getBox2dAngle(from, to);
@@ -37,6 +37,8 @@ public class LaserBullet extends Bullet {
     float speedFactor = weaponProfile.forceFactor;
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
+
+    return true;
   }
 
   @Override

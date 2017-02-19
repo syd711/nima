@@ -7,7 +7,7 @@
   "attackDistance" : 600,
   "shootDistance" : 500,
   "retreatDistance" : 900,
-  "weapons" : ["laser", "phaser", "flares"],
+  "weapons" : ["laser", "phaser", "missile", "rocket", "flares"],
   "shield" : "energie",
   "bodyData" : {
     "angularDamping" : 1.8,

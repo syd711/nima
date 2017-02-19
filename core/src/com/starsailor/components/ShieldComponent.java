@@ -3,6 +3,7 @@ package com.starsailor.components;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 
 import static com.starsailor.managers.Textures.SHIELDBG;
@@ -24,6 +25,14 @@ public class ShieldComponent extends SpriteComponent {
     super.reset();
     this.maxHealth = 0;
     this.health = 0;
+    this.body = null;
+  }
+
+  public void destroy() {
+    if(body != null) {
+      Game.world.destroyBody(body);
+      body = null;
+    }
   }
 
 

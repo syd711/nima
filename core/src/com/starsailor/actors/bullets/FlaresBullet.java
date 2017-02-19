@@ -26,7 +26,7 @@ public class FlaresBullet extends Bullet {
   }
 
   @Override
-  public void create() {
+  public boolean create() {
     Body bb = bodyComponent.body;
     Random r = new Random();
     int angleDegree = r.nextInt((180 - (-180))) + (-180);
@@ -39,6 +39,8 @@ public class FlaresBullet extends Bullet {
 
     bb.applyForceToCenter(force, true);
     bb.applyTorque(weaponProfile.torque, true);
+
+    return true;
   }
 
   @Override

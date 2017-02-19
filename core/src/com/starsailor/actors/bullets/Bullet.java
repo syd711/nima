@@ -71,8 +71,9 @@ abstract public class Bullet extends GameEntity {
 
   /**
    * Create components, etc.
+   * @return true if the target body was not destroyed while this bullet was created
    */
-  abstract public void create();
+  abstract public boolean create();
 
   /**
    * Called by the bullet system to update the bullet

@@ -2,13 +2,11 @@ package com.starsailor.actors.bullets;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.ComponentFactory;
-import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
@@ -39,10 +37,13 @@ public class MissileBullet extends Bullet implements EntityListener {
   }
 
   @Override
-  public void create() {
+  public boolean create() {
     //apply initial force to the missile
     Body bulletBody = bodyComponent.body;
     Body ownerBody = owner.bodyComponent.body;
+    if(ownerBody == null) {
+      return false;
+    }
 
     //align bullet with bullet owner
     bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
@@ -59,6 +60,8 @@ public class MissileBullet extends Bullet implements EntityListener {
 
     //add dependency tracking for the target
     EntityManager.getInstance().addEntityListener(this);
+
+    return true;
   }
 
   @Override
@@ -114,22 +117,22 @@ public class MissileBullet extends Bullet implements EntityListener {
 
   // --------------------------  Helper ---------------------
 
+  /**
+   * Returns the nearest flare for this missile.
+   */
   private Bullet findNearestEnemyFlare() {
-    List<Bullet> flares = new ArrayList<>();
+    List<Bullet> result = new ArrayList<>();
     //now check if there are flares to update the target
-    ImmutableArray<Entity> entitiesFor = EntityManager.getInstance().getEntitiesFor(BulletCollisionComponent.class);
-    for(Entity e : entitiesFor) {
-      Bullet b = (Bullet) e;
-      //filter
-      if(!b.owner.equals(this.owner) //not from the same ship
-          && b.weaponProfile.type.equals(WeaponProfile.Types.FLARES) //is a flare
-          && b.bodyComponent.body.isActive()) { //body is still active
-        flares.add(b);
+    List<FlaresBullet> flares = EntityManager.getInstance().getEntities(FlaresBullet.class);
+    for(FlaresBullet flare : flares) {
+      if(!flare.owner.equals(this.owner)
+          && flare.bodyComponent.body.isActive()) { //body is still active
+        result.add(flare);
       }
     }
 
     Bullet nearest = null;
-    for(Bullet flare : flares) {
+    for(Bullet flare : result) {
       if(nearest == null) {
         nearest = flare;
         continue;

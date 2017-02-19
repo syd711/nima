@@ -13,6 +13,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.StatefulComponent;
 import com.starsailor.data.DataEntities;
 import com.starsailor.data.ShipProfile;
@@ -157,9 +158,14 @@ public class EntityManager implements EntityListener {
 
     if(!destroyEntities.isEmpty()) {
       for(Entity entity : destroyEntities) {
-        BodyComponent component = entity.getComponent(BodyComponent.class);
-        if(component != null) {
-          component.destroy();
+        BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
+        if(bodyComponent != null) {
+          bodyComponent.destroy();
+        }
+
+        ShieldComponent shieldComponent = entity.getComponent(ShieldComponent.class);
+        if(shieldComponent != null) {
+          shieldComponent.destroy();
         }
 
         if(entity instanceof EntityListener) {

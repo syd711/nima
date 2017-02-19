@@ -16,10 +16,14 @@ public class MineBullet extends Bullet {
   }
 
   @Override
-  public void create() {
+  public boolean create() {
     //apply initial force to the mine
     Body bulletBody = bodyComponent.body;
     Body ownerBody = owner.bodyComponent.body;
+    if(ownerBody == null) {
+      return false;
+    }
+
     bulletBody.setTransform(bulletBody.getPosition(), ownerBody.getAngle());
 
     float angle = ownerBody.getAngle();
@@ -31,6 +35,8 @@ public class MineBullet extends Bullet {
 
     bulletBody.applyForceToCenter(force, true);
     bulletBody.applyTorque(0.1f, true);
+
+    return false;
   }
 
   @Override

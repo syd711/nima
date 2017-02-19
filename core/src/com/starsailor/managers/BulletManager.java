@@ -4,7 +4,12 @@ import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.*;
 import com.starsailor.data.WeaponProfile;
 
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Creates new bullets.
@@ -13,7 +18,7 @@ public class BulletManager {
 
   private static BulletManager instance;
 
-  private LinkedList<QueuedBullet> delayedBulletsStack = new LinkedList<>();
+  private ConcurrentLinkedQueue<QueuedBullet> delayedBulletsQueue = new ConcurrentLinkedQueue<>();
 
   public static BulletManager getInstance() {
     if(instance == null) {
@@ -81,14 +86,14 @@ public class BulletManager {
    * @param deltaTime
    */
   public void update(float deltaTime) {
-    if(!delayedBulletsStack.isEmpty()) {
+    if(!delayedBulletsQueue.isEmpty()) {
       long time = System.currentTimeMillis();
 
-      List<QueuedBullet> queueCopy = new ArrayList<>(delayedBulletsStack);
+      List<QueuedBullet> queueCopy = new ArrayList<>(delayedBulletsQueue);
       for(QueuedBullet bullet : queueCopy) {
         if(bullet.shootingTime < time) {
           create(bullet.owner, bullet.target, bullet.weaponProfile, true);
-          delayedBulletsStack.remove(bullet);
+          delayedBulletsQueue.remove(bullet);
         }
       }
     }
@@ -110,7 +115,7 @@ public class BulletManager {
 
     //queue primary target first
     QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponProfile, shootingTime);
-    delayedBulletsStack.add(queuedBullet);
+    delayedBulletsQueue.add(queuedBullet);
 
     for(int i = 1; i < bulletCount; i++) {
       if(!iterator.hasNext()) {
@@ -121,17 +126,22 @@ public class BulletManager {
       shootingTime = time + weaponProfile.bulletDelay*(i+1);
 
       queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
-      delayedBulletsStack.add(queuedBullet);
+      delayedBulletsQueue.add(queuedBullet);
     }
+    System.out.println(Thread.currentThread().getName() + ": " + new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(new Date()) + "bullet stack: " + delayedBulletsQueue.size() + " for " + owner);
   }
 
   /**
    * Additonal bullet creation stuff
    */
   private void enableBullet(Bullet bullet, WeaponProfile weaponProfile) {
-    bullet.create();
-    EntityManager.getInstance().add(bullet);
-    bullet.owner.shootingComponent.updateLastBulletTime(weaponProfile);
+    if(bullet.create()) {
+      EntityManager.getInstance().add(bullet);
+      bullet.owner.shootingComponent.updateLastBulletTime(weaponProfile);
+    }
+    else {
+      bullet.markForDestroy();
+    }
   }
 
   class QueuedBullet {
