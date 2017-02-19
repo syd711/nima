@@ -4,9 +4,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.*;
 import com.starsailor.data.WeaponProfile;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -128,7 +126,8 @@ public class BulletManager {
       queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
       delayedBulletsQueue.add(queuedBullet);
     }
-    System.out.println(Thread.currentThread().getName() + ": " + new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(new Date()) + "bullet stack: " + delayedBulletsQueue.size() + " for " + owner);
+
+    owner.shootingComponent.updateLastBulletTime(weaponProfile);
   }
 
   /**

@@ -32,14 +32,19 @@ public class PhaserBullet extends Bullet {
 
   @Override
   public void update() {
-    Vector2 sourcePos = owner.getCenter();
-    Vector2 targetPos = target.getCenter();
-
     //check if shooting must be stopped
     if(isExhausted()) {
       markForDestroy();
       return;
     }
+
+    if(target.isMarkedForDestroy()) {
+      markForDestroy();
+      return;
+    }
+
+    Vector2 sourcePos = owner.getCenter();
+    Vector2 targetPos = target.getCenter();
 
     //calculate angle between two instances
     Vector2 toTarget = new Vector2(targetPos).sub(sourcePos);

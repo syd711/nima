@@ -42,9 +42,13 @@ public class AttackState extends NPCState implements State<NPC> {
       return;
     }
 
-    //-------------- There are enemies -----------------------------
     //there are enemies, so find the nearest one
     Ship enemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
+    //..well, maybe it has been destroyed by another one
+    if(enemy == null) {
+      npc.switchToDefaultState();
+      return;
+    }
 
     //check if the enemy is out of range
     if(isGroupInRetreatingDistance(npc, enemy)) {//TODO never give up?

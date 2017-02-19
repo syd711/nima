@@ -221,4 +221,11 @@ abstract public class Bullet extends GameEntity {
     }
     return false;
   }
+
+  /**
+   * Returns the body distance to the given bullet.
+   */
+  public float getDistanceTo(Bullet anotherBullet) {
+    return bodyComponent.body.getPosition().dst(anotherBullet.bodyComponent.body.getPosition());
+  }
 }

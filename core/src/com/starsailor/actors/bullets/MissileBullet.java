@@ -79,10 +79,16 @@ public class MissileBullet extends Bullet implements EntityListener {
       //by default the target body is what we aim for
       Body targetBody = target.bodyComponent.body;
 
-      //check for flares
-      Bullet nearestEnemyFlare = findNearestEnemyFlare();
-      if(nearestEnemyFlare != null) {
-        targetBody = nearestEnemyFlare.bodyComponent.body;
+      //maybe the target has already been destroyed
+      if(!target.isMarkedForDestroy()) {
+        //check for flares
+        Bullet nearestEnemyFlare = findNearestForeignFlare();
+        if(nearestEnemyFlare != null) {
+          //attack flare if the distance is shorter
+          if(target.getDistanceTo(this) > this.getDistanceTo(nearestEnemyFlare)) {
+            targetBody = nearestEnemyFlare.bodyComponent.body;
+          }
+        }
       }
 
       //may it has been destroyed during flying
@@ -95,7 +101,6 @@ public class MissileBullet extends Bullet implements EntityListener {
         bodyComponent.body.setLinearDamping(0);
         bodyComponent.body.setLinearVelocity(linearVelocity);
       }
-
     }
   }
 
@@ -120,7 +125,7 @@ public class MissileBullet extends Bullet implements EntityListener {
   /**
    * Returns the nearest flare for this missile.
    */
-  private Bullet findNearestEnemyFlare() {
+  private Bullet findNearestForeignFlare() {
     List<Bullet> result = new ArrayList<>();
     //now check if there are flares to update the target
     List<FlaresBullet> flares = EntityManager.getInstance().getEntities(FlaresBullet.class);

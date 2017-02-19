@@ -123,6 +123,15 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   }
 
   /**
+   * Returns the body distance to bullet
+   */
+  public float getDistanceTo(Bullet bullet) {
+    Vector2 position1 = bodyComponent.body.getPosition();
+    Vector2 position2 = bullet.bodyComponent.body.getPosition();
+    return position1.dst(position2);
+  }
+
+  /**
    * Enable the shild component and the visual elements for it
    */
   public void setStateVisible(boolean enabled) {
