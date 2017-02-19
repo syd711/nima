@@ -11,10 +11,7 @@ import com.starsailor.Game;
 import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
-import com.starsailor.components.BodyComponent;
-import com.starsailor.components.ComponentFactory;
-import com.starsailor.components.ShieldComponent;
-import com.starsailor.components.StatefulComponent;
+import com.starsailor.components.*;
 import com.starsailor.data.DataEntities;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.render.TiledMultiMapRenderer;
@@ -168,6 +165,11 @@ public class EntityManager implements EntityListener {
           shieldComponent.destroy();
         }
 
+        SteerableComponent steerableComponent = entity.getComponent(SteerableComponent.class);
+        if(steerableComponent != null) {
+          steerableComponent.destroy();
+        }
+
         if(entity instanceof EntityListener) {
           engine.removeEntityListener((EntityListener) entity);
         }
@@ -178,6 +180,7 @@ public class EntityManager implements EntityListener {
         }
 
         engine.removeEntity(entity);
+
 //        Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
       destroyEntities.clear();

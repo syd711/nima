@@ -1,7 +1,7 @@
 package com.starsailor.systems;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.RouteComponent;
@@ -16,7 +16,7 @@ public class RouteSystem extends PauseableIteratingSystem {
     super(Family.all(RouteComponent.class).get());
   }
 
-  public void process(Entity entity, float deltaTime) {
+  public void process(GameEntity entity, float deltaTime) {
     Route route = (Route) entity;
     if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteStates.IDLE)) {
       route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIPS);

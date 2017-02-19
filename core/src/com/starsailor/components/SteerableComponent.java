@@ -32,6 +32,9 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private Body body;
   private boolean independentFacing;
 
+  //TODO mmh, just to handle NP on destroy
+  private Vector2 lastPosition;
+
   public void init(Body body, SteeringData steeringData, boolean independentFacing) {
     this.body = body;
     this.independentFacing = independentFacing;
@@ -213,7 +216,10 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   @Override
   public Vector2 getPosition() {
-    return body.getPosition();
+    if(body != null) {
+      lastPosition = body.getPosition();
+    }
+    return lastPosition;
   }
 
   @Override
@@ -259,5 +265,9 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   public void setIndependetFacing(boolean independetFacing) {
     this.independentFacing = independetFacing;
+  }
+
+  public void destroy() {
+    this.body = null;
   }
 }

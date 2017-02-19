@@ -3,7 +3,7 @@
   "category" : "primary",
   "sound" : "laser",
   "damage" : 5,
-  "bulletCount" : 3,
+  "bulletCount" : 13,
   "bulletDelay" : 200,
   "forceFactor" : 5,
   "impactFactor" : 2,

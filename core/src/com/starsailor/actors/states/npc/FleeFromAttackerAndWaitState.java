@@ -24,7 +24,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
     Gdx.app.log(getClass().getName(), npc + " entered FleeFromAttackerState");
     npc.setStateVisible(true);
 
-    Ship nearestEnemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
+    Ship nearestEnemy = npc.findNearestEnemyOfGroup(attackingGroupMembers);
     SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
   }
 
@@ -37,7 +37,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
     }
 
     //check max distance to all enemies
-    Ship nearestEnemy = findNearestEnemyOfGroup(npc, attackingGroupMembers);
+    Ship nearestEnemy = npc.findNearestEnemyOfGroup(attackingGroupMembers);
     float distanceTo = npc.getDistanceTo(nearestEnemy);
     //simply use the duplicate attack distance
     float shootingDistanceWithOffset = nearestEnemy.shipProfile.attackDistance * 2;

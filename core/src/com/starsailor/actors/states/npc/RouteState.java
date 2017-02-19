@@ -25,7 +25,7 @@ public class RouteState extends NPCState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-    Ship nearestEnemy = findNearestEnemy(npc, true);
+    Ship nearestEnemy = npc.findNearestEnemy(true);
     if(nearestEnemy != null && isInAttackingDistance(npc, nearestEnemy)) {
       npc.switchGroupToBattleState(nearestEnemy);
     }

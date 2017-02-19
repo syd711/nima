@@ -10,10 +10,12 @@ import com.starsailor.components.*;
 import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.Particles;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,6 +147,54 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public void switchToDefaultState() {
     getStateMachine().changeState(getDefaultState());
     shieldComponent.setActive(false);
+  }
+
+  /**
+   * Used for search and destroy.
+   * Instead of search for the next enemy of an enemy group, we
+   * use all instances of ships to find the nearest target for an attack
+   */
+  @Nullable
+  public Ship findNearestEnemy(boolean withoutPlayer) {
+    List<Ship> entities = EntityManager.getInstance().getEntities(Ship.class);
+    if(withoutPlayer) {
+      entities.remove(Player.getInstance());
+    }
+    return findNearestEnemyOfGroup(entities);
+  }
+
+
+  /**
+   * Returns another ship that is inside the closest attack range and an enemy.
+   * The entities "attackDistance" is used for this which means
+   * that the ship itself has not necessarily a weapon in shooting range.
+   */
+  @Nullable
+  public Ship findNearestEnemyOfGroup(List<? extends Ship> group) {
+    Ship enemy = null;
+    for(Ship ship : group) {
+      //may all ship entities have passed here, so we filter for ships of another fraction
+      if(!ship.isEnemyOf(this)) {
+        continue;
+      }
+
+      //initial state skip
+      float distanceToEnemy = ship.getDistanceTo(this);
+      if(distanceToEnemy == 0) {
+        continue;
+      }
+
+      if(enemy == null) {
+        enemy = ship;
+        continue;
+      }
+
+      //may another ship is closer?
+      if(distanceToEnemy < enemy.getDistanceTo(this)) {
+        enemy = ship;
+      }
+    }
+    return enemy;
   }
 
 

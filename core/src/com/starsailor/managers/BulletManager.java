@@ -90,7 +90,11 @@ public class BulletManager {
       List<QueuedBullet> queueCopy = new ArrayList<>(delayedBulletsQueue);
       for(QueuedBullet bullet : queueCopy) {
         if(bullet.shootingTime < time) {
-          create(bullet.owner, bullet.target, bullet.weaponProfile, true);
+          //only create if there still alive
+          if(!bullet.owner.isMarkedForDestroy()) {
+            create(bullet.owner, bullet.target, bullet.weaponProfile, true);
+          }
+
           delayedBulletsQueue.remove(bullet);
         }
       }

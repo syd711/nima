@@ -1,9 +1,9 @@
 package com.starsailor.systems;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.NPC;
 import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
@@ -15,7 +15,7 @@ public class BattleSystem extends PauseableIteratingSystem {
     super(Family.all(ShootingComponent.class).get());
   }
 
-  public void process(Entity entity, float deltaTime) {
+  public void process(GameEntity entity, float deltaTime) {
     if(entity instanceof NPC) {
       NPC npc = (NPC) entity;
       updateShooting(npc);

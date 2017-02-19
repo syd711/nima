@@ -1,7 +1,5 @@
 package com.starsailor.actors.states.npc;
 
-import com.starsailor.actors.NPC;
-import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.data.WeaponProfile;
@@ -16,55 +14,6 @@ import java.util.List;
  * Abstract superstate for all npc with different helper methods
  */
 abstract public class NPCState {
-
-  /**
-   * Used for search and destroy.
-   * Instead of search for the next enemy of an enemy group, we
-   * use all instances of ships to find the nearest target for an attack
-   */
-  @Nullable
-  protected Ship findNearestEnemy(NPC npc, boolean withoutPlayer) {
-    List<Ship> entities = EntityManager.getInstance().getEntities(Ship.class);
-    if(withoutPlayer) {
-      entities.remove(Player.getInstance());
-    }
-    return findNearestEnemyOfGroup(npc, entities);
-  }
-
-  /**
-   * Returns another ship that is inside the closest attack range and an enemy.
-   * The entities "attackDistance" is used for this which means
-   * that the ship itself has not necessarily a weapon in shooting range.
-   *
-   * @param npc the npc to search an enemy for
-   */
-  @Nullable
-  protected Ship findNearestEnemyOfGroup(NPC npc, List<? extends Ship> group) {
-    Ship enemy = null;
-    for(Ship ship : group) {
-      //may all ship entities have passed here, so we filter for ships of another fraction
-      if(!ship.isEnemyOf(npc)) {
-        continue;
-      }
-
-      //initial state skip
-      float distanceToEnemy = ship.getDistanceTo(npc);
-      if(distanceToEnemy == 0) {
-        continue;
-      }
-
-      if(enemy == null) {
-        enemy = ship;
-        continue;
-      }
-
-      //may another ship is closer?
-      if(distanceToEnemy < enemy.getDistanceTo(npc)) {
-        enemy = ship;
-      }
-    }
-    return enemy;
-  }
 
   /**
    * Returns true if the enemy is in attack range of the ship

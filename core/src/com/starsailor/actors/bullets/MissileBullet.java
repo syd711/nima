@@ -78,19 +78,21 @@ public class MissileBullet extends Bullet implements EntityListener {
     else {
       //by default the target body is what we aim for
       Body targetBody = target.bodyComponent.body;
-
       //maybe the target has already been destroyed
-      if(!target.isMarkedForDestroy()) {
-        //check for flares
-        Bullet nearestEnemyFlare = findNearestForeignFlare();
-        if(nearestEnemyFlare != null) {
-          //attack flare if the distance is shorter
-          if(target.getDistanceTo(this) > this.getDistanceTo(nearestEnemyFlare)) {
-            targetBody = nearestEnemyFlare.bodyComponent.body;
-          }
-        }
+      if(target.isMarkedForDestroy()) {
+        //select next target then
+        target = this.owner.findNearestEnemy(true);
+        return;
       }
 
+      //check for flares
+      Bullet nearestEnemyFlare = findNearestForeignFlare();
+      if(nearestEnemyFlare != null) {
+        //attack flare if the distance is shorter
+        if(target.getDistanceTo(this) > this.getDistanceTo(nearestEnemyFlare)) {
+          targetBody = nearestEnemyFlare.bodyComponent.body;
+        }
+      }
       //may it has been destroyed during flying
       if(targetBody != null) {
         Box2dUtil.gravity(bodyComponent.body, targetBody, 1.5f);
