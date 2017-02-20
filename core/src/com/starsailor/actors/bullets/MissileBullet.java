@@ -76,14 +76,14 @@ public class MissileBullet extends Bullet implements EntityListener {
       }
     }
     else {
-      //by default the target body is what we aim for
-      Body targetBody = target.bodyComponent.body;
       //maybe the target has already been destroyed
       if(target.isMarkedForDestroy()) {
         //select next target then
         target = this.owner.findNearestEnemy(true);
         return;
       }
+      //by default the target body is what we aim for
+      Body targetBody = target.bodyComponent.body;
 
       //check for flares
       Bullet nearestEnemyFlare = findNearestForeignFlare(true);
