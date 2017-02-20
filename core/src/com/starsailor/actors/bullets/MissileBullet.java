@@ -86,7 +86,7 @@ public class MissileBullet extends Bullet implements EntityListener {
       }
 
       //check for flares
-      Bullet nearestEnemyFlare = findNearestForeignFlare();
+      Bullet nearestEnemyFlare = findNearestForeignFlare(true);
       if(nearestEnemyFlare != null) {
         //attack flare if the distance is shorter
         if(target.getDistanceTo(this) > this.getDistanceTo(nearestEnemyFlare)) {
@@ -127,13 +127,15 @@ public class MissileBullet extends Bullet implements EntityListener {
   /**
    * Returns the nearest flare for this missile.
    */
-  private Bullet findNearestForeignFlare() {
+  private Bullet findNearestForeignFlare(boolean onlyEnemyFlares) {
     List<Bullet> result = new ArrayList<>();
     //now check if there are flares to update the target
     List<FlaresBullet> flares = EntityManager.getInstance().getEntities(FlaresBullet.class);
     for(FlaresBullet flare : flares) {
-      if(!flare.owner.equals(this.owner)
-          && flare.bodyComponent.body.isActive()) { //body is still active
+      if(!flare.owner.equals(this.owner) && flare.bodyComponent.body.isActive()) { //body is still active
+        if(onlyEnemyFlares && owner.formationComponent.getMembers().contains(flare.owner)) {
+          continue;
+        }
         result.add(flare);
       }
     }
@@ -152,7 +154,6 @@ public class MissileBullet extends Bullet implements EntityListener {
     }
     return nearest;
   }
-
 
   //------------------ Auto Destroy ---------------------------------------------
 
