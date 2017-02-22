@@ -1,5 +1,6 @@
 {
   "name" : "Missile",
+  "sprite" : "missile",
   "category" : "secondary",
   "sound" : "laser",
   "damage" : 20,

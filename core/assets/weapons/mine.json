@@ -1,5 +1,6 @@
 {
   "name" : "Mine",
+  "sprite" : "mine",
   "category" : "defensive",
   "sound" : "laser",
   "damage" : 60,

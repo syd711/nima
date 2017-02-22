@@ -1,5 +1,6 @@
 {
   "name" : "Laser",
+  "sprite" : "laser",
   "category" : "primary",
   "sound" : "laser",
   "damage" : 4,

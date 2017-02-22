@@ -125,7 +125,7 @@ abstract public class Bullet extends GameEntity {
    * @param weaponProfile
    */
   protected void createComponents(WeaponProfile weaponProfile) {
-    spriteComponent = ComponentFactory.addSpriteComponent(this, Textures.valueOf(weaponProfile.type.name().toUpperCase()), 90);
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.sprite, 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
@@ -183,7 +183,7 @@ abstract public class Bullet extends GameEntity {
   }
 
   protected SpriteComponent.SpriteItem getSpriteItem() {
-    return spriteComponent.getSprite(Textures.valueOf(weaponProfile.name.toUpperCase()));
+    return spriteComponent.getSprite(weaponProfile.sprite);
   }
 
   public boolean is(WeaponProfile.Types type) {

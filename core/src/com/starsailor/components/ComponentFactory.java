@@ -20,12 +20,13 @@ import com.starsailor.components.collision.*;
 import com.starsailor.data.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.TextureManager;
-import com.starsailor.managers.Textures;
 import com.starsailor.messaging.Messages;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.box2d.Box2dUtil;
+
+import java.util.List;
 
 import static com.starsailor.util.Settings.MPP;
 
@@ -120,7 +121,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpriteComponent addSpriteComponent(Entity entity, Textures sprite, float angle) {
+  public static SpriteComponent addSpriteComponent(Entity entity, String sprite, float angle) {
     SpriteComponent component = createComponent(SpriteComponent.class);
     component.addSprite(sprite, angle);
     entity.add(component);
@@ -226,12 +227,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static AnimationComponent addAnimationComponent(Entity entity, Textures... textures) {
+  public static AnimationComponent addAnimationComponent(Entity entity, String texturePrefix) {
     AnimationComponent component = createComponent(AnimationComponent.class);
-    for(Textures texture : textures) {
-      Texture t = TextureManager.getInstance().getTexture(texture);
-      component.textures.add(t);
-    }
+    List<Texture> textures = TextureManager.getInstance().getTextures(texturePrefix);
+    component.textures.addAll(textures);
     entity.add(component);
     return component;
   }

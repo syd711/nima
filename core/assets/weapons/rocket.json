@@ -1,5 +1,6 @@
 {
   "name" : "Rocket",
+  "sprite" : "rocket",
   "category" : "primary",
   "sound" : "laser",
   "damage" : 3,

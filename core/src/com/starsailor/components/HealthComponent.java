@@ -4,13 +4,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.Ship;
 
-import static com.starsailor.managers.Textures.HEALTHBG;
-import static com.starsailor.managers.Textures.HEALTHFG;
-
 /**
  * Stores the health state
  */
 public class HealthComponent extends SpriteComponent {
+  private final static String HEALTHBG = "healthbg";
+  private final static String HEALTHFG = "healthfg";
+
   public float maxHealth;
   public float health;
 

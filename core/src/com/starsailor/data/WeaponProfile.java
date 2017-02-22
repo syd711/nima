@@ -19,15 +19,20 @@ public class WeaponProfile {
   public float forceFactor;
   public float torque;
   public float impactFactor;
-  public String collisionEffect;
 
   //for bullets
   public int bulletCount = 1;
   public long bulletDelay = 0;
 
+  //profile properties
   public String name;
-  public String sound;
   public String category;
+
+  //audio,visual
+  public String sound;
+  public String collisionEffect;
+  public String sprite;
+
 
   //custom fields depending on the weapon
   public float activationDistance;

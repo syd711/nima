@@ -2,14 +2,12 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Entity;
 import com.starsailor.actors.Ship;
-import com.starsailor.managers.Textures;
-
-import static com.starsailor.managers.Textures.SELECTION;
 
 /**
  * Stores the selection state
  */
 public class SelectionComponent extends SpriteComponent {
+  private final static String SELECTION = "selection";
 
   @Override
   public void reset() {
@@ -29,7 +27,7 @@ public class SelectionComponent extends SpriteComponent {
   @Override
   public void updatePosition(Entity entity) {
     Ship ship = (Ship) entity;
-    SpriteItem sprite = getSprite(Textures.SELECTION);
+    SpriteItem sprite = getSprite(SELECTION);
     if(sprite != null) {
       sprite.setPosition(ship.getCenter(), true);
     }

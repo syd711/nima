@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.starsailor.managers.TextureManager;
-import com.starsailor.managers.Textures;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 public class SpriteComponent implements Component, Poolable {
 
-  private Map<Textures, SpriteItem> sprites = new LinkedHashMap<>();
+  private Map<String, SpriteItem> sprites = new LinkedHashMap<>();
 
   private boolean active = false;
 
@@ -24,11 +23,11 @@ public class SpriteComponent implements Component, Poolable {
     sprites.clear();
   }
 
-  public void addSprite(Textures sprite) {
+  public void addSprite(String sprite) {
     addSprite(sprite, -1);
   }
 
-  public void addSprite(Textures sprite, float angle) {
+  public void addSprite(String sprite, float angle) {
     SpriteItem spriteItem = new SpriteItem(sprite);
     if(sprites.containsKey(sprite)) {
       throw new UnsupportedOperationException("Sprite already exists for this component");
@@ -40,7 +39,7 @@ public class SpriteComponent implements Component, Poolable {
     sprites.put(sprite, spriteItem);
   }
 
-  public SpriteItem getSprite(Textures s) {
+  public SpriteItem getSprite(String s) {
     return sprites.get(s);
   }
 
@@ -48,7 +47,7 @@ public class SpriteComponent implements Component, Poolable {
     return sprites.values();
   }
 
-  public void removeSprite(Textures textures) {
+  public void removeSprite(String textures) {
     sprites.remove(textures);
   }
 
@@ -99,9 +98,9 @@ public class SpriteComponent implements Component, Poolable {
     public Sprite sprite;
     private String name;
 
-    public SpriteItem(Textures spriteEnum) {
-      name = spriteEnum.name();
-      sprite = new Sprite(TextureManager.getInstance().getTexture(spriteEnum));
+    public SpriteItem(String spriteName) {
+      name = spriteName;
+      sprite = new Sprite(TextureManager.getInstance().getTexture(spriteName));
     }
 
     public Sprite getSprite() {

@@ -7,6 +7,7 @@ public class Resources {
 
 
   public static final String TEXTURES = "textures/";
+  public static final String WEAPON_TEXTURES = "textures/weapons/";
   public static final String PARTICLES = "particles/";
 
   public static final String WEAPON_PROFILES = "weapons/";

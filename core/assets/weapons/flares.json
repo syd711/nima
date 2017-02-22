@@ -1,5 +1,6 @@
 {
   "name" : "Flares",
+  "sprite" : "flares",
   "category" : "defensive",
   "sound" : "laser",
   "bulletCount" : 5,

@@ -6,7 +6,6 @@ import com.starsailor.components.AnimationComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
 import com.starsailor.data.WeaponProfile;
-import com.starsailor.managers.Textures;
 
 /**
  * Concrete implementation of a weapon type.
@@ -24,7 +23,7 @@ public class PhaserBullet extends Bullet {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;
-    animationComponent = ComponentFactory.addAnimationComponent(this, Textures.PHASER, Textures.PHASER_1, Textures.PHASER_2, Textures.PHASER_3);
+    animationComponent = ComponentFactory.addAnimationComponent(this, weaponProfile.sprite);
     animationComponent.setWrappedRepeat();
 
     return true;

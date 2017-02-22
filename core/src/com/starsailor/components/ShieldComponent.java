@@ -6,13 +6,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 
-import static com.starsailor.managers.Textures.SHIELDBG;
-import static com.starsailor.managers.Textures.SHIELDFG;
-
 /**
  *
  */
 public class ShieldComponent extends SpriteComponent {
+  private final static String SHIELDBG = "shieldbg";
+  private final static String SHIELDFG = "shieldfg";
+
   public float maxHealth;
   public float health;
   public float rechargeTimeMillis;

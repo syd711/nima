@@ -14,7 +14,6 @@ import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.TextureManager;
-import com.starsailor.managers.Textures;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.Settings;
 
@@ -50,7 +49,7 @@ public class WeaponPanel extends Table {
       add(new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
-          Texture texture = TextureManager.getInstance().getTexture(Textures.HEALTHBG);
+          Texture texture = TextureManager.getInstance().getTexture("healthbg");
 
           float percent = shootingComponent.getChargingState(weaponProfile);
 
