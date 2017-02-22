@@ -33,6 +33,10 @@ allprojects {
     }
 }
 
+project(":editor") {
+    apply plugin: "java"
+}
+
 project(":desktop") {
     apply plugin: "java"
 

@@ -136,7 +136,11 @@ public class Game extends ApplicationAdapter {
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
 
     //shutdown hook to store settings
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> gameSettings.save()));
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      public void run() {
+        gameSettings.save();
+      }
+    });
   }
 
   @Override

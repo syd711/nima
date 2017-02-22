@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.starsailor.util.Resources;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +30,13 @@ public class ParticleManager extends ResourceManager {
   //load when game is created
   public void loadParticles() {
     FileHandle internal = Gdx.files.internal(Resources.PARTICLES);
-    FileHandle[] particleFiles = internal.list((dir, name) -> name.endsWith(".p"));
+    FileHandle[] particleFiles = internal.list(new FilenameFilter() {
+
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".p");
+      }
+    });
 
     for(FileHandle particleFile : particleFiles) {
       ParticleEffect pe = new ParticleEffect();
