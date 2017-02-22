@@ -10,7 +10,6 @@ import com.starsailor.components.ParticleComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.ParticleManager;
-import com.starsailor.managers.Particles;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -20,7 +19,7 @@ import java.util.Map;
  * Rendering system for particle effects
  */
 public class ParticleSystem extends RenderingSystem implements EntityListener {
-  private Map<Particles, ParticleComponent> effects = new LinkedHashMap<>();
+  private Map<String, ParticleComponent> effects = new LinkedHashMap<>();
 
   public ParticleSystem(Batch batch) {
     super(batch, Family.all(ParticleComponent.class).get());
@@ -37,12 +36,12 @@ public class ParticleSystem extends RenderingSystem implements EntityListener {
     if(particleComponent.enabled) {
       ParticleEffectPool.PooledEffect pe = particleComponent.effect;
       pe.setPosition(positionComponent.x, positionComponent.y);
-      effects.put(particleComponent.particle, particleComponent);
+      effects.put(particleComponent.particleEffect, particleComponent);
     }
 
-    Iterator<Map.Entry<Particles, ParticleComponent>> iterator = effects.entrySet().iterator();
+    Iterator<Map.Entry<String, ParticleComponent>> iterator = effects.entrySet().iterator();
     while(iterator.hasNext()) {
-      Map.Entry<Particles, ParticleComponent> next = iterator.next();
+      Map.Entry<String, ParticleComponent> next = iterator.next();
       ParticleComponent pComponent = next.getValue();
       ParticleEffectPool.PooledEffect effect = pComponent.effect;
       effect.draw(batch, deltaTime);
@@ -69,7 +68,7 @@ public class ParticleSystem extends RenderingSystem implements EntityListener {
       ParticleEffectPool.PooledEffect effect = particleComponent.effect;
       ParticleEmitter particleEmitter = effect.getEmitters().get(0);
       if(particleEmitter.isContinuous()) {
-        Particles particle = particleComponent.particle;
+        String particle = particleComponent.particleEffect;
         effects.remove(particle);
         ParticleManager.getInstance().release(particle, effect);
       }

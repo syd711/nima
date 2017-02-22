@@ -11,7 +11,6 @@ import com.starsailor.data.ShieldProfile;
 import com.starsailor.data.ShipProfile;
 import com.starsailor.data.WeaponProfile;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.Particles;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
 
@@ -59,7 +58,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     bodyComponent = ComponentFactory.addBodyComponent(this, shipProfile.bodyData, position);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipProfile.steeringData);
     shootingComponent = ComponentFactory.addShootableComponent(this, shipProfile);
-    particleComponent = ComponentFactory.addParticleComponent(this, Particles.EXPLOSION);
+    particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
     shieldComponent = ComponentFactory.addShieldComponent(this, shipProfile.shieldProfile);
     healthComponent = ComponentFactory.addHealthComponent(this, shipProfile);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);

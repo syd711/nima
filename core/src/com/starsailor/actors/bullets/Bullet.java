@@ -129,7 +129,7 @@ abstract public class Bullet extends GameEntity {
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
-    particleComponent = ComponentFactory.addParticleComponent(this, Particles.valueOf(weaponProfile.name.toUpperCase() + "_BULLET_HIT"));
+    particleComponent = ComponentFactory.addParticleComponent(this, weaponProfile.collisionEffect);
 
     //not all bullets require a body
     if(weaponProfile.bodyData != null) {
@@ -154,8 +154,7 @@ abstract public class Bullet extends GameEntity {
       component.body.applyForceToCenter(force.x, force.y, true);
     }
     else {
-      //TODO e.g. phaser
-      //component.body.applyForceToCenter(force.x, force.y, true);
+      //e.g. phaser don't have a body, so they don't have an impact which is o.k.
     }
   }
 

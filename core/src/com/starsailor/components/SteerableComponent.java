@@ -32,7 +32,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
   private Body body;
   private boolean independentFacing;
 
-  //TODO mmh, just to handle NP on destroy
+  //grr, this is just to avoid NP
   private Vector2 lastPosition;
 
   public void init(Body body, SteeringData steeringData, boolean independentFacing) {

@@ -19,6 +19,7 @@ public class WeaponProfile {
   public float forceFactor;
   public float torque;
   public float impactFactor;
+  public String collisionEffect;
 
   //for bullets
   public int bulletCount = 1;

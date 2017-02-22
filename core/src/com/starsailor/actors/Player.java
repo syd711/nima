@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.states.player.PlayerStates;
+import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.data.ShipProfile;
@@ -64,7 +64,7 @@ public class Player extends Ship {
   public void moveTo(Vector2 worldCoordinates) {
     targetCoordinates = worldCoordinates;
     target = EntityManager.getInstance().getEntityAt(worldCoordinates);
-    getStateMachine().changeState(PlayerStates.FOLLOW_CLICK);
+    getStateMachine().changeState(PlayerState.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
   }
 }

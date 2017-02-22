@@ -16,7 +16,7 @@ public class ParticleManager extends ResourceManager {
   private static final int POOL_SIZE = 5;
   private static ParticleManager instance = new ParticleManager();
 
-  private Map<Particles, ParticleEffectPool> effects = new HashMap<>();
+  private Map<String, ParticleEffectPool> effects = new HashMap<>();
 
   public static ParticleManager getInstance() {
     return instance;
@@ -37,24 +37,24 @@ public class ParticleManager extends ResourceManager {
 
       Gdx.app.log(this.getClass().getName(), "Loaded particle " + particleFile.file().getName());
 
-      String particleName = getEnumName(particleFile);
+      String particleName = particleFile.name().substring(0, particleFile.name().lastIndexOf("."));
       ParticleEffectPool pool = new ParticleEffectPool(pe, 0, POOL_SIZE);
-      effects.put(Particles.valueOf(particleName), pool);
+      effects.put(particleName, pool);
     }
   }
 
   /**
    * Returns the effect for the given particle enum
    */
-  public ParticleEffectPool.PooledEffect getEffect(Particles particle) {
+  public ParticleEffectPool.PooledEffect getEffect(String particle) {
     ParticleEffectPool pool = effects.get(particle);
     if(pool == null) {
-      throw new UnsupportedOperationException("No particle found for " + particle.name());
+      throw new UnsupportedOperationException("No particle found for " + particle);
     }
     return pool.obtain();
   }
 
-  public void release(Particles particle, ParticleEffectPool.PooledEffect effect) {
+  public void release(String particle, ParticleEffectPool.PooledEffect effect) {
     ParticleEffectPool pool = effects.get(particle);
     pool.free(effect);
   }

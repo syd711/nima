@@ -121,7 +121,6 @@ public class Box2dUtil {
 //      if(scalingComponent.isChanging()) {
 //        return;
 //      }
-//      //TODO build state machine and move to routing component
 //      float currentAngle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
 //      Vector2 delta = GraphicsUtil.getDelta(currentAngle, 2f);
 //      Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);

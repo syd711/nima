@@ -6,6 +6,7 @@
   "forceFactor" : 0.9,
   "impactFactor" : 1,
   "rechargeTimeMillis" : 850,
+  "collisionEffect" : "explosion",
   "bodyData" : {
     "density" : 0.1,
     "width" : 10,

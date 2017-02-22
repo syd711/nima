@@ -19,7 +19,6 @@ import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
 import com.starsailor.data.*;
 import com.starsailor.managers.ParticleManager;
-import com.starsailor.managers.Particles;
 import com.starsailor.managers.TextureManager;
 import com.starsailor.managers.Textures;
 import com.starsailor.messaging.Messages;
@@ -219,10 +218,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ParticleComponent addParticleComponent(Entity entity, Particles particles) {
+  public static ParticleComponent addParticleComponent(Entity entity, String particleEffect) {
     ParticleComponent component = createComponent(ParticleComponent.class);
-    component.effect = ParticleManager.getInstance().getEffect(particles);
-    component.particle = particles;
+    component.effect = ParticleManager.getInstance().getEffect(particleEffect);
+    component.particleEffect = particleEffect;
     entity.add(component);
     return component;
   }

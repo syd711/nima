@@ -2,11 +2,6 @@ package com.starsailor.actors.states.player;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
-import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
-import com.badlogic.gdx.ai.steer.behaviors.Face;
-import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
@@ -27,11 +22,11 @@ public class FollowClickState implements State<Player> {
   public void enter(Player player) {
     if(clickTarget == null) {
       clickTarget = new ClickTarget(player.targetCoordinates);
-      SteeringManager.setFollowClickTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
     }
     else {
       clickTarget.update(player.targetCoordinates);
     }
+    SteeringManager.setFollowClickTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
   }
 
 

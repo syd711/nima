@@ -6,6 +6,7 @@
   "forceFactor" : 0.4,
   "torque" : 0.7,
   "rechargeTimeMillis" : 5450,
+  "collisionEffect" : "explosion",
   "bodyData" : {
     "angularDamping" : 1.4,
     "linearDamping" : 3.3,

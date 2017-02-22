@@ -1,117 +1,16 @@
 package com.starsailor.actors.states.player;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.Location;
-import com.starsailor.actors.Player;
-import com.starsailor.components.MapObjectComponent;
-import com.starsailor.managers.EntityManager;
-import com.starsailor.systems.LightSystem;
-import com.starsailor.util.Settings;
 
 /**
- * The different states of an attack.
+ * All states of the player
  */
-public enum PlayerState implements State<Player> {
+public class PlayerState {
 
-
-  IDLE() {
-    @Override
-    public void enter(Player player) {
-      player.steerableComponent.setEnabled(false);
-    }
-
-    @Override
-    public void update(Player player) {
-      Entity targetEntity = player.target;
-      if(targetEntity != null && targetEntity instanceof Location) {
-        player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
-      }
-      else {
-        player.target = null;
-      }
-    }
-  },
-  MOVE_TO_STATION() {
-    @Override
-    public void enter(Player player) {
-      MapObjectComponent mapObjectComponent = player.target.getComponent(MapObjectComponent.class);
-      Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
-      player.moveTo(centeredPosition);
-    }
-
-    @Override
-    public void update(Player player) {
-      updateState(player);
-    }
-  },
-  DOCK_TO_STATION() {
-    @Override
-    public void enter(Player player) {
-      PlayerState previousState = (PlayerState) player.getStateMachine().getPreviousState();
-      if(previousState.equals(MOVE_TO_STATION)) {
-        player.scalingComponent.setTargetValue(Settings.getInstance().docking_target_scale);
-        LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-        lightSystem.fadeOut(true);
-      }
-    }
-
-    @Override
-    public void update(Player player) {
-      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-      if(lightSystem.isOutFaded() && !player.scalingComponent.isChanging()) {
-        player.getStateMachine().changeState(DOCKED);
-      }
-    }
-  },
-  DOCKED() {
-    @Override
-    public void enter(Player player) {
-      player.target = null;
-      EntityManager.getInstance().pauseSystems(true);
-    }
-
-    @Override
-    public void update(Player player) {
-      updateState(player);
-    }
-  },
-  UNDOCK_FROM_STATION() {
-    @Override
-    public void enter(Player player) {
-      player.scalingComponent.setTargetValue(1f);
-      LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
-      lightSystem.fadeOut(false);
-
-      EntityManager.getInstance().pauseSystems(false);
-      player.getStateMachine().changeState(IDLE);
-    }
-
-    @Override
-    public void update(Player player) {
-      updateState(player);
-    }
-  };
-
-  @Override
-  public void enter(Player entity) {
-
-  }
-
-  @Override
-  public void exit(Player entity) {
-
-  }
-
-  @Override
-  public boolean onMessage(Player entity, Telegram telegram) {
-    return false;
-  }
-
-  // ------------------- Helper -----------------------------------
-  private static void updateState(Player player) {
-
-  }
+  public static State FOLLOW_CLICK = new FollowClickState();
+  public static State IDLE = new IdleState();
+  public static State DOCKED = new DockedState();
+  public static State UNDOCK_FROM_STATION = new UndockFromStationState();
+  public static State MOVE_TO_STATION = new MoveToStationState();
+  public static State DOCK_TO_STATION = new DockToStationState();
 }

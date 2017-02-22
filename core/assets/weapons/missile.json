@@ -6,6 +6,7 @@
   "forceFactor" : 12.5,
   "impactFactor" : 10,
   "rechargeTimeMillis" : 2700,
+  "collisionEffect" : "explosion",
   "activationDistance" : 200,
   "steeringData" : {
     "boundingRadius" : 200,
