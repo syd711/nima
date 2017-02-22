@@ -36,10 +36,6 @@ public class SoundManager {
     playSound(filePath, volume, 1.0f, 0.0f);
   }
 
-  //TODO
-  public static void playSoundAtPosition(Sounds sound, float baseVolume, Vector3 sourcePos) {
-
-  }
 
   public static void playSoundAtPosition(String filePath, float baseVolume, Vector3 sourcePos) {
     float boundary = camera.viewportWidth / 2;
@@ -47,7 +43,7 @@ public class SoundManager {
     float distance = camera.position.dst(sourcePos);
     distance = Math.min(distance, boundary);
 
-    playSound(filePath, baseVolume * masterVolume * (1 - distance / boundary), 1.0f, xDistance / boundary);
+//    playSound(filePath, baseVolume * masterVolume * (1 - distance / boundary), 1.0f, xDistance / boundary);
   }
 
   public static void playSound(String filePath, float volume, float pitch, float pan) {

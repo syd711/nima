@@ -164,8 +164,7 @@ abstract public class Bullet extends GameEntity {
    * Fires the firing sound configured in json
    */
   private void playFiringSound() {
-    Sounds sound = Sounds.valueOf(weaponProfile.sound.toUpperCase());
-    SoundManager.playSoundAtPosition(sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
+    SoundManager.playSoundAtPosition(weaponProfile.sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
   }
 
   /**
