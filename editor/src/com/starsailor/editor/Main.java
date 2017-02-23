@@ -1,6 +1,7 @@
 package com.starsailor.editor;
 
 import com.starsailor.editor.resources.ResourceLoader;
+import com.starsailor.editor.ui.MainPane;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -27,7 +28,7 @@ public class Main extends Application {
 //    primaryStage.setFullScreen(true);
 //    primaryStage.setHeight(700);
 //    primaryStage.setWidth(1200);
-    primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new MainKeyEventFilter());
+    primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new com.starsailor.editor.ui.MainKeyEventFilter());
 
     primaryStage.setWidth(primaryScreenBounds.getWidth());
     primaryStage.setHeight(primaryScreenBounds.getHeight());

@@ -1,5 +1,7 @@
-package com.starsailor.editor;
+package com.starsailor.editor.ui;
 
+import com.starsailor.data.GameData;
+import com.starsailor.data.ShipData;
 import com.starsailor.editor.resources.ResourceLoader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,20 +18,19 @@ import javafx.scene.layout.VBox;
  */
 public class MainPane extends BorderPane {
 
+  private final TreePane treePane;
   private Label statusMessage = new Label("");
-
   private Label infoMessage = new Label("");
 
   public MainPane() {
-
     VBox top = new VBox();
     setTop(top);
     SplitPane splitPane = new SplitPane();
     splitPane.setOrientation(Orientation.HORIZONTAL);
-    splitPane.getItems().addAll(new TreePane(), new BorderPane());
-    splitPane.setDividerPositions(0, 0.3);
+    treePane = new TreePane();
+    splitPane.getItems().addAll(treePane, new BorderPane());
+    splitPane.setDividerPositions(0, 0.1);
     setCenter(splitPane);
-
 
     addFooter();
 
@@ -39,8 +40,23 @@ public class MainPane extends BorderPane {
       public void handle(ActionEvent event) {
       }
     });
-    refreshButton.setTooltip(new Tooltip("Katalog neu laden"));
-    toolbar.getItems().add(refreshButton);
+    refreshButton.setTooltip(new Tooltip("Daten neu laden"));
+    Button newButton = new Button("", ResourceLoader.getImageView("new.png"));
+    newButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        TreeItem selection = treePane.getSelection();
+        if(selection != null) {
+          ShipData newChild = new ShipData();
+          TreeItem newNode = new TreeItem<GameData>(newChild);
+          newNode.setExpanded(true);
+          selection.getChildren().add(newNode);
+          treePane.refresh();
+        }
+      }
+    });
+    newButton.setTooltip(new Tooltip("Neuen Unterknoten erzeugen"));
+
+    toolbar.getItems().addAll(refreshButton, new Separator(), newButton);
 
 
     final MenuBar menuBar = new MenuBar();

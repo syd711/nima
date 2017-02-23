@@ -1,4 +1,4 @@
-package com.starsailor.editor;
+package com.starsailor.editor.ui;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

@@ -1,0 +1,25 @@
+{
+  "name" : "ship",
+  "spine" : "ship",
+  "defaultAnimation" : "walk",
+  "scale" : 0.12,
+  "health" : 100,
+  "attackDistance" : 600,
+  "shootDistance" : 500,
+  "retreatDistance" : 900,
+  "weapons" : [],
+  "shield" : "",
+  "children" : [],
+  "bodyData" : {
+    "angularDamping" : 1.8,
+    "linearDamping" : 3,
+    "density" : 1
+  },
+  "steeringData" : {
+    "boundingRadius" : 200,
+    "maxLinearSpeed" : 3,
+    "maxLinearAcceleration" : 3,
+    "maxAngularSpeed" : 4,
+    "maxAngularAcceleration" : 4
+  }
+}

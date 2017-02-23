@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * Access all data models stored in json format.
  */
+@Deprecated
 public class DataEntities {
   /******** Entity Constants *******************************************/
   public static final String SPINE_CENTER_SLOT_NAME = "torso";

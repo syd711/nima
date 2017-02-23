@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Contains all attributes a ship can have.
  */
-public class ShipData {
+public class ShipData extends GameData {
   public enum Types {
     MERCHANT, PIRATE, CRUSADER
   }

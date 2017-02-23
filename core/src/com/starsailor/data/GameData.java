@@ -1,11 +1,20 @@
 package com.starsailor.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Matthias on 23.02.2017.
+ * Superclass for all game data entities
  */
-abstract public class GameData {
+public class GameData {
 
-  abstract public List<GameData> getChildren();
+  private List<GameData> children = new ArrayList<>();
+
+  public List<GameData> getChildren() {
+    return children;
+  }
+
+  public void addChild(GameData gameData) {
+    children.add(gameData);
+  }
 }
