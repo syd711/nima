@@ -22,8 +22,10 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
   private TreeView treeView;
 
   private GameData root;
+  private MainPane mainPane;
 
-  public TreePane() {
+  public TreePane(MainPane mainPane) {
+    this.mainPane = mainPane;
     root = UIController.getInstance().getTreeModel();
     treeRoot = new TreeItem<GameData>(root);
     buildTree(root.getChildren(), treeRoot);
@@ -61,10 +63,15 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
 
   @Override
   public void handle(MouseEvent event) {
-
+    TreeItem selection = getSelection();
+    mainPane.select(selection);
   }
 
   public void refresh() {
     treeView.refresh();
+  }
+
+  public void select(TreeItem newNode) {
+    treeView.getSelectionModel().select(newNode);
   }
 }

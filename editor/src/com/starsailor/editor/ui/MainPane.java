@@ -19,6 +19,8 @@ import javafx.scene.layout.VBox;
 public class MainPane extends BorderPane {
 
   private final TreePane treePane;
+  private final FormPane formPane;
+
   private Label statusMessage = new Label("");
   private Label infoMessage = new Label("");
 
@@ -27,14 +29,22 @@ public class MainPane extends BorderPane {
     setTop(top);
     SplitPane splitPane = new SplitPane();
     splitPane.setOrientation(Orientation.HORIZONTAL);
-    treePane = new TreePane();
-    splitPane.getItems().addAll(treePane, new BorderPane());
+    treePane = new TreePane(this);
+    formPane = new FormPane(this);
+    splitPane.getItems().addAll(treePane, formPane);
     splitPane.setDividerPositions(0, 0.1);
     setCenter(splitPane);
 
     addFooter();
 
     ToolBar toolbar = new ToolBar();
+    Button saveButton = new Button("", ResourceLoader.getImageView("save.png"));
+    saveButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+
+      }
+    });
+
     Button refreshButton = new Button("", ResourceLoader.getImageView("refresh.png"));
     refreshButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
@@ -51,12 +61,13 @@ public class MainPane extends BorderPane {
           newNode.setExpanded(true);
           selection.getChildren().add(newNode);
           treePane.refresh();
+          treePane.select(newNode);
         }
       }
     });
     newButton.setTooltip(new Tooltip("Neuen Unterknoten erzeugen"));
 
-    toolbar.getItems().addAll(refreshButton, new Separator(), newButton);
+    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton);
 
 
     final MenuBar menuBar = new MenuBar();
@@ -91,5 +102,9 @@ public class MainPane extends BorderPane {
     footer.setLeft(infoBox);
     footer.setCenter(statusBox);
     setBottom(footer);
+  }
+
+  public void select(TreeItem selection) {
+    formPane.setData((GameData) selection.getValue());
   }
 }

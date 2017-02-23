@@ -1,5 +1,7 @@
 package com.starsailor.data;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class ShipData extends GameData {
     MERCHANT, PIRATE, CRUSADER
   }
 
+  @Expose
   public String name;
   public String spine;
   public float scale;
