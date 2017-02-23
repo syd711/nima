@@ -7,9 +7,9 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.*;
-import com.starsailor.data.ShieldProfile;
-import com.starsailor.data.ShipProfile;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.ShieldData;
+import com.starsailor.data.ShipData;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.util.Resources;
 import com.starsailor.util.box2d.Box2dLocation;
@@ -35,7 +35,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public FractionComponent fractionComponent;
   public HealthComponent healthComponent;
 
-  public ShipProfile shipProfile;
+  public ShipData shipData;
 
   private Box2dLocation location;
   protected String name;
@@ -43,10 +43,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   //only used during initializing
   private Vector2 position;
 
-  public Ship(String name, ShipProfile profile, Vector2 position) {
+  public Ship(String name, ShipData profile, Vector2 position) {
     super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
     this.name = name;
-    this.shipProfile = profile;
+    this.shipData = profile;
     this.position = position;
   }
 
@@ -55,25 +55,25 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this, shipProfile.bodyData, position);
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipProfile.steeringData);
-    shootingComponent = ComponentFactory.addShootableComponent(this, shipProfile);
+    bodyComponent = ComponentFactory.addBodyComponent(this, shipData.bodyData, position);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.steeringData);
+    shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
-    shieldComponent = ComponentFactory.addShieldComponent(this, shipProfile.shieldProfile);
-    healthComponent = ComponentFactory.addHealthComponent(this, shipProfile);
+    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.shieldData);
+    healthComponent = ComponentFactory.addHealthComponent(this, shipData);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
-    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipProfile.formationDistance);
+    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.formationDistance);
 
     this.location = new Box2dLocation(new Vector2());
   }
 
-  public ShieldProfile getShield() {
-    return shipProfile.shieldProfile;
+  public ShieldData getShield() {
+    return shipData.shieldData;
   }
 
-  public List<WeaponProfile> getChargedWeapons() {
-    List<WeaponProfile> result = new ArrayList<>();
-    for(WeaponProfile weapon : getWeapons()) {
+  public List<WeaponData> getChargedWeapons() {
+    List<WeaponData> result = new ArrayList<>();
+    for(WeaponData weapon : getWeapons()) {
       boolean charged = shootingComponent.isCharged(weapon);
       if(charged) {
         result.add(weapon);
@@ -82,8 +82,8 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     return result;
   }
 
-  public List<WeaponProfile> getWeapons() {
-    return shipProfile.weaponProfiles;
+  public List<WeaponData> getWeapons() {
+    return shipData.weaponDatas;
   }
 
   /**

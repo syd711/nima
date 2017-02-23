@@ -8,7 +8,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.FractionComponent;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.components.StatefulComponent;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Route extends GameEntity {
   private String name;
 
   //the profile is needed here to respawn ships
-  public ShipProfile shipProfile;
+  public ShipData shipData;
 
   public Route(String name) {
     this.name = name;
@@ -40,7 +40,7 @@ public class Route extends GameEntity {
    return true;
   }
 
-  public void addMember(String name, ShipProfile ship, Vector2 centeredPosition, State state) {
+  public void addMember(String name, ShipData ship, Vector2 centeredPosition, State state) {
     members.add(new RouteMember(name, ship, centeredPosition, state));
   }
 
@@ -50,13 +50,13 @@ public class Route extends GameEntity {
 
   public class RouteMember {
     public String name;
-    public ShipProfile shipProfile;
+    public ShipData shipData;
     public Vector2 position;
     public State state;
 
-    public RouteMember(String name, ShipProfile ship, Vector2 centeredPosition, State state) {
+    public RouteMember(String name, ShipData ship, Vector2 centeredPosition, State state) {
       this.name = name;
-      this.shipProfile = ship;
+      this.shipData = ship;
       this.position = centeredPosition;
       this.state = state;
     }

@@ -4,9 +4,8 @@ import com.starsailor.editor.resources.ResourceLoader;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -32,10 +31,10 @@ public class Main extends Application {
 
     primaryStage.setWidth(primaryScreenBounds.getWidth());
     primaryStage.setHeight(primaryScreenBounds.getHeight());
-    Scene scene = new Scene(new BorderPane());
+    Scene scene = new Scene(new MainPane());
+    scene.setFill(Color.OLDLACE);
     scene.getStylesheets().add(ResourceLoader.getResource("theme.css"));
     primaryStage.setScene(scene);
-    primaryStage.getIcons().add(new Image(ResourceLoader.getResource("favicon.png")));
     primaryStage.show();
   }
 }

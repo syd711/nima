@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.*;
 import com.starsailor.components.ShootingComponent;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.TextureManager;
@@ -40,24 +40,24 @@ public class WeaponPanel extends Table {
 
   private void addWeapons() {
 
-    List<WeaponProfile> weapons = Player.getInstance().getWeapons();
+    List<WeaponData> weapons = Player.getInstance().getWeapons();
     ShootingComponent shootingComponent = Player.getInstance().shootingComponent;
     for(int i = 0; i < weapons.size(); i++) {
       final int index = i;
-      WeaponProfile weaponProfile = weapons.get(i);
+      WeaponData weaponData = weapons.get(i);
 
       add(new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
           Texture texture = TextureManager.getInstance().getTexture("healthbg");
 
-          float percent = shootingComponent.getChargingState(weaponProfile);
+          float percent = shootingComponent.getChargingState(weaponData);
 
           batch.draw(texture, getX() + (index * 10), getY() - 50, 50*percent/100, 12);
         }
       });
 
-      TextButton weapon1 = new TextButton(weaponProfile.name, Hud.skin);
+      TextButton weapon1 = new TextButton(weaponData.name, Hud.skin);
       weapon1.setDebug(debug);
       weapon1.setWidth(150);
       weapon1.addListener(new ChangeListener() {
@@ -65,9 +65,9 @@ public class WeaponPanel extends Table {
         public void changed(ChangeEvent event, Actor actor) {
           Selectable selection = SelectionManager.getInstance().getSelection();
           if(selection instanceof NPC) {
-            List<WeaponProfile> chargedWeapons = Player.getInstance().getChargedWeapons();
-            if(chargedWeapons.contains(weaponProfile)) {
-              BulletManager.getInstance().create(Player.getInstance(), (Ship) selection, weaponProfile);
+            List<WeaponData> chargedWeapons = Player.getInstance().getChargedWeapons();
+            if(chargedWeapons.contains(weaponData)) {
+              BulletManager.getInstance().create(Player.getInstance(), (Ship) selection, weaponData);
             }
           }
         }

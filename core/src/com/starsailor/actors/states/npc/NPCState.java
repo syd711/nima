@@ -2,7 +2,7 @@ package com.starsailor.actors.states.npc;
 
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.EntityManager;
 
@@ -19,7 +19,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in attack range of the ship
    */
   protected boolean isInAttackingDistance(Ship ship, Ship enemy) {
-    float attackDistance = ship.shipProfile.attackDistance;
+    float attackDistance = ship.shipData.attackDistance;
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy < attackDistance;
   }
@@ -28,7 +28,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in shooting range of the ship
    */
   protected boolean isInShootingDistance(Ship ship, Ship enemy) {
-    float attackDistance = ship.shipProfile.shootDistance;
+    float attackDistance = ship.shipData.shootDistance;
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy < attackDistance;
   }
@@ -37,7 +37,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in retreating range of the ship
    */
   protected boolean isInRetreatingDistance(Ship ship, Ship enemy) {
-    float retreatDistance = ship.shipProfile.retreatDistance;
+    float retreatDistance = ship.shipData.retreatDistance;
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy > retreatDistance;
   }
@@ -99,14 +99,14 @@ abstract public class NPCState {
    * @param ship        the ship that wants to defend itself
    * @param enemyBullet the enemy bullet that should be defended
    */
-  protected List<WeaponProfile> getChargedDefensiveWeaponsFor(Ship ship, Bullet enemyBullet) {
-    List<WeaponProfile> result = new ArrayList<>();
-    List<WeaponProfile.Types> defensiveWeapons = enemyBullet.getDefensiveWeapons();
-    for(WeaponProfile.Types defensiveWeapon : defensiveWeapons) {
+  protected List<WeaponData> getChargedDefensiveWeaponsFor(Ship ship, Bullet enemyBullet) {
+    List<WeaponData> result = new ArrayList<>();
+    List<WeaponData.Types> defensiveWeapons = enemyBullet.getDefensiveWeapons();
+    for(WeaponData.Types defensiveWeapon : defensiveWeapons) {
       //find matching weapon for the given ship
-      for(WeaponProfile weaponProfile : ship.getChargedWeapons()) {
-        if(weaponProfile.type.equals(defensiveWeapon)) {
-          result.add(weaponProfile);
+      for(WeaponData weaponData : ship.getChargedWeapons()) {
+        if(weaponData.type.equals(defensiveWeapon)) {
+          result.add(weaponData);
         }
       }
     }
@@ -119,9 +119,9 @@ abstract public class NPCState {
    * @param ship           the ship to retrieve the information for
    * @param weaponCategory the category
    */
-  protected List<WeaponProfile> getChargedWeaponsForCategory(Ship ship, WeaponProfile.Category weaponCategory) {
-    List<WeaponProfile> result = new ArrayList<>();
-    for(WeaponProfile weapon : ship.getChargedWeapons()) {
+  protected List<WeaponData> getChargedWeaponsForCategory(Ship ship, WeaponData.Category weaponCategory) {
+    List<WeaponData> result = new ArrayList<>();
+    for(WeaponData weapon : ship.getChargedWeapons()) {
       if(!weapon.getCategory().equals(weaponCategory)) {
         continue;
       }
@@ -134,8 +134,8 @@ abstract public class NPCState {
   /**
    * Fires all weapons of the given weapon profile list
    */
-  protected void fireWeapons(Ship attacker, Ship attacking, List<WeaponProfile> weaponProfiles) {
-    for(WeaponProfile chargedWeapon : weaponProfiles) {
+  protected void fireWeapons(Ship attacker, Ship attacking, List<WeaponData> weaponDatas) {
+    for(WeaponData chargedWeapon : weaponDatas) {
       BulletManager.getInstance().create(attacker, attacking, chargedWeapon);
     }
   }

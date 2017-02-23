@@ -9,7 +9,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.managers.SelectionManager;
 
 import java.util.List;
@@ -28,9 +28,9 @@ public class NPC extends Ship implements Selectable {
   //not necessarily set
   private Route route;
 
-  public NPC(String name, ShipProfile profile, State<NPC> defaultState, Vector2 position) {
+  public NPC(String name, ShipData profile, State<NPC> defaultState, Vector2 position) {
     super(name, profile, position);
-    this.shipProfile = profile;
+    this.shipData = profile;
     this.defaultState = defaultState;
   }
 
@@ -98,7 +98,7 @@ public class NPC extends Ship implements Selectable {
   }
 
   private void switchToBattleState(Ship ship, Ship enemy) {
-    ShipProfile.Types type = ship.shipProfile.getType();
+    ShipData.Types type = ship.shipData.getType();
     StateMachine stateMachine = ship.getStateMachine();
     switch(type) {
       case MERCHANT: {
@@ -138,6 +138,6 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public String toString() {
-    return "NPC '" + name + "' (" + shipProfile.name + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
+    return "NPC '" + name + "' (" + shipData.name + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
   }
 }

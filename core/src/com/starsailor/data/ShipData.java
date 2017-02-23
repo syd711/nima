@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Contains all attributes a ship can have.
  */
-public class ShipProfile {
+public class ShipData {
   public enum Types {
     MERCHANT, PIRATE, CRUSADER
   }
@@ -28,24 +28,24 @@ public class ShipProfile {
 
   //weapons
   public List<String> weapons = new ArrayList<>();
-  public List<WeaponProfile> weaponProfiles = new ArrayList<>();
+  public List<WeaponData> weaponDatas = new ArrayList<>();
 
   //shield
   public String shield;
-  public ShieldProfile shieldProfile;
+  public ShieldData shieldData;
 
   //Steering
   public SteeringData steeringData;
 
-  public ShipProfile.Types getType() {
+  public ShipData.Types getType() {
     return Types.valueOf(name.toUpperCase());
   }
 
-  public void addWeaponProfile(WeaponProfile profile) {
-    if(weaponProfiles == null) {
-      weaponProfiles = new ArrayList<>();
+  public void addWeaponProfile(WeaponData profile) {
+    if(weaponDatas == null) {
+      weaponDatas = new ArrayList<>();
     }
-    weaponProfiles.add(profile);
+    weaponDatas.add(profile);
   }
 
   @Override

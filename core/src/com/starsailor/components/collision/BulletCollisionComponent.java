@@ -56,7 +56,7 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
       }
 
       if(ship instanceof Player) {
-        CameraManager.getInstance().shake(bullet.weaponProfile.impactFactor, 80);
+        CameraManager.getInstance().shake(bullet.weaponData.impactFactor, 80);
       }
     }
   }

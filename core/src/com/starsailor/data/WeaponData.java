@@ -3,7 +3,7 @@ package com.starsailor.data;
 /**
  * Contains all data of a weapon
  */
-public class WeaponProfile {
+public class WeaponData {
   public enum Types {
     LASER, MISSILE, PHASER, MINE, FLARES, ROCKET
   }

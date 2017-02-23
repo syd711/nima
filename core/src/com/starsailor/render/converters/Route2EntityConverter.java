@@ -9,7 +9,7 @@ import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.DataEntities;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
 
@@ -61,8 +61,8 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
 
     //check if the point contains the ship type and therefore the start point
     if(shipProfile != null) {
-      ShipProfile ship = DataEntities.getShip(shipProfile);
-      route.shipProfile = ship;
+      ShipData ship = DataEntities.getShip(shipProfile);
+      route.shipData = ship;
       route.routeComponent.spawnPoint = routePoint;
     }
   }

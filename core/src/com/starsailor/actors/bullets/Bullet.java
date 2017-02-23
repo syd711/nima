@@ -10,7 +10,7 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.*;
 
 import java.util.Collections;
@@ -29,7 +29,7 @@ abstract public class Bullet extends GameEntity {
   public ParticleComponent particleComponent;
   public BodyComponent bodyComponent;
 
-  public WeaponProfile weaponProfile;
+  public WeaponData weaponData;
   public Ship owner;
   public Ship target;
 
@@ -37,15 +37,15 @@ abstract public class Bullet extends GameEntity {
   private long shootingTime = 0;
   private Ship actualHit;
 
-  public Bullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
+  public Bullet(WeaponData weaponData, Ship owner, Ship target) {
     shootingTime = System.currentTimeMillis();
 
-    this.weaponProfile = weaponProfile;
+    this.weaponData = weaponData;
     this.origin = owner.getCenter();
     this.owner = owner;
     this.target = target;
 
-    createComponents(weaponProfile);
+    createComponents(weaponData);
 
     playFiringSound();
   }
@@ -99,7 +99,7 @@ abstract public class Bullet extends GameEntity {
    * Returns the list of weapons that can defend this kind of bullet.
    * @return a list of weapon profiles that may destroy this bullet.
    */
-  public List<WeaponProfile.Types> getDefensiveWeapons() {
+  public List<WeaponData.Types> getDefensiveWeapons() {
     return Collections.emptyList();
   }
 
@@ -122,18 +122,18 @@ abstract public class Bullet extends GameEntity {
 
   /**
    * All default components of a bullet.
-   * @param weaponProfile
+   * @param weaponData
    */
-  protected void createComponents(WeaponProfile weaponProfile) {
-    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponProfile.sprite, 90);
+  protected void createComponents(WeaponData weaponData) {
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponData.sprite, 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
-    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponProfile);
-    particleComponent = ComponentFactory.addParticleComponent(this, weaponProfile.collisionEffect);
+    bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponData);
+    particleComponent = ComponentFactory.addParticleComponent(this, weaponData.collisionEffect);
 
     //not all bullets require a body
-    if(weaponProfile.bodyData != null) {
-      bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponProfile, owner instanceof Player);
+    if(weaponData.bodyData != null) {
+      bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponData, owner instanceof Player);
     }
 
     ComponentFactory.addBulletCollisionComponent(this);
@@ -144,7 +144,7 @@ abstract public class Bullet extends GameEntity {
    */
   public void applyImpactForce(Ship ship, Vector2 position) {
     BodyComponent component = ship.getComponent(BodyComponent.class);
-    float impactFactor = weaponProfile.impactFactor;
+    float impactFactor = weaponData.impactFactor;
 
     if(bodyComponent != null) {
       //use my linear velocity
@@ -164,7 +164,7 @@ abstract public class Bullet extends GameEntity {
    * Fires the firing sound configured in json
    */
   private void playFiringSound() {
-    SoundManager.playSoundAtPosition(weaponProfile.sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
+    SoundManager.playSoundAtPosition(weaponData.sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
   }
 
   /**
@@ -183,11 +183,11 @@ abstract public class Bullet extends GameEntity {
   }
 
   protected SpriteComponent.SpriteItem getSpriteItem() {
-    return spriteComponent.getSprite(weaponProfile.sprite);
+    return spriteComponent.getSprite(weaponData.sprite);
   }
 
-  public boolean is(WeaponProfile.Types type) {
-    return weaponProfile.type.equals(type);
+  public boolean is(WeaponData.Types type) {
+    return weaponData.type.equals(type);
   }
 
   public boolean isOwner(Entity entity) {
@@ -200,7 +200,7 @@ abstract public class Bullet extends GameEntity {
 
   public boolean isExhausted() {
     float current = Game.currentTimeMillis - shootingTime;
-    return current > weaponProfile.durationMillis;
+    return current > weaponData.durationMillis;
   }
 
   public void setActualHit(Ship actualHit) {

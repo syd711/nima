@@ -63,9 +63,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, WeaponProfile weaponProfile, boolean friendly) {
+  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, WeaponData weaponData, boolean friendly) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.createBulletBody(position, weaponProfile, friendly);
+    component.body = BodyGenerator.createBulletBody(position, weaponData, friendly);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
     component.body.setUserData(entity);
     entity.add(component);
@@ -128,9 +128,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShootingComponent addShootableComponent(Entity entity, ShipProfile profile) {
+  public static ShootingComponent addShootableComponent(Entity entity, ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
-    component.setWeaponProfiles(profile.weaponProfiles);
+    component.setWeaponDatas(profile.weaponDatas);
     entity.add(component);
     return component;
   }
@@ -212,9 +212,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BulletDamageComponent addBulletDamageComponent(Entity entity, WeaponProfile weaponProfile) {
+  public static BulletDamageComponent addBulletDamageComponent(Entity entity, WeaponData weaponData) {
     BulletDamageComponent component = createComponent(BulletDamageComponent.class);
-    component.damage = weaponProfile.damage;
+    component.damage = weaponData.damage;
     entity.add(component);
     return component;
   }
@@ -235,13 +235,13 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShieldComponent addShieldComponent(Entity entity, ShieldProfile shieldProfile) {
+  public static ShieldComponent addShieldComponent(Entity entity, ShieldData shieldData) {
     ShieldComponent component = createComponent(ShieldComponent.class);
-    if(shieldProfile != null) {
-      component.health = shieldProfile.health;
-      component.maxHealth = shieldProfile.health;
-      component.damageAbsorptionFactor = shieldProfile.damageAbsorptionFactor;
-      component.rechargeTimeMillis = shieldProfile.rechargeTimeMillis;
+    if(shieldData != null) {
+      component.health = shieldData.health;
+      component.maxHealth = shieldData.health;
+      component.damageAbsorptionFactor = shieldData.damageAbsorptionFactor;
+      component.rechargeTimeMillis = shieldData.rechargeTimeMillis;
     }
     entity.add(component);
     return component;
@@ -263,10 +263,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static HealthComponent addHealthComponent(Entity entity, ShipProfile shipProfile) {
+  public static HealthComponent addHealthComponent(Entity entity, ShipData shipData) {
     HealthComponent component = createComponent(HealthComponent.class);
-    component.maxHealth = shipProfile.health;
-    component.health = shipProfile.health;
+    component.maxHealth = shipData.health;
+    component.health = shipData.health;
     entity.add(component);
     return component;
   }

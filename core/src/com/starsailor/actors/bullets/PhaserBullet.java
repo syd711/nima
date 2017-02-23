@@ -5,7 +5,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.AnimationComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 
 /**
  * Concrete implementation of a weapon type.
@@ -14,8 +14,8 @@ public class PhaserBullet extends Bullet {
 
   private AnimationComponent animationComponent;
 
-  public PhaserBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
-    super(weaponProfile, owner, target);
+  public PhaserBullet(WeaponData weaponData, Ship owner, Ship target) {
+    super(weaponData, owner, target);
   }
 
   @Override
@@ -23,7 +23,7 @@ public class PhaserBullet extends Bullet {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;
-    animationComponent = ComponentFactory.addAnimationComponent(this, weaponProfile.sprite);
+    animationComponent = ComponentFactory.addAnimationComponent(this, weaponData.sprite);
     animationComponent.setWrappedRepeat();
 
     return true;

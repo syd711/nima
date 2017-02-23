@@ -6,7 +6,7 @@ import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Spine;
 import com.starsailor.data.BodyData;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 
 import static com.starsailor.util.Settings.MPP;
 
@@ -107,8 +107,8 @@ public class BodyGenerator {
     return b;
   }
 
-  public static Body createBulletBody(Vector2 position, WeaponProfile weaponProfile, boolean friendly) {
-    BodyData bodyData = weaponProfile.bodyData;
+  public static Body createBulletBody(Vector2 position, WeaponData weaponData, boolean friendly) {
+    BodyData bodyData = weaponData.bodyData;
 
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;

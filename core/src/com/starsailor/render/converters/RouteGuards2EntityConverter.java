@@ -9,7 +9,7 @@ import com.starsailor.actors.Route;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.data.DataEntities;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
 
@@ -50,7 +50,7 @@ public class RouteGuards2EntityConverter extends DefaultMapObjectConverter {
       throw new UnsupportedOperationException("'" + mapObject.getName() + "'s route was not found: '" + routeName + "'");
     }
 
-    ShipProfile ship = DataEntities.getShip(shipProfile);
+    ShipData ship = DataEntities.getShip(shipProfile);
 
     route.addMember(mapObject.getName(), ship, centeredPosition, NPCStates.forName(defaultStateName));
     Gdx.app.log(this.getClass().getName(), "Added ship for route '" + routeName + "'");

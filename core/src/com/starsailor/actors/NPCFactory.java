@@ -6,7 +6,7 @@ import com.starsailor.actors.states.npc.GuardState;
 import com.starsailor.actors.states.npc.RouteState;
 import com.starsailor.actors.states.npc.RoutedSeekAndDestroyState;
 import com.starsailor.components.RouteComponent;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.managers.EntityManager;
 
 /**
@@ -21,13 +21,13 @@ public class NPCFactory {
   public static void createRouteNPCs(Route route) {
     RouteComponent routeComponent = route.routeComponent;
     Vector2 position = routeComponent.spawnPoint.position;
-    ShipProfile shipProfile = route.shipProfile;
+    ShipData shipData = route.shipData;
     Fraction fraction = route.fractionComponent.fraction;
 
-    State state = stateForProfile(shipProfile);
+    State state = stateForProfile(shipData);
 
     //create route owner first
-    NPC routedNPC = new NPC(route.getName(), shipProfile, state, position);
+    NPC routedNPC = new NPC(route.getName(), shipData, state, position);
     routedNPC.setRoute(route);
     routedNPC.createComponents(fraction);
     routedNPC.formationComponent.formationOwner = routedNPC;
@@ -37,10 +37,10 @@ public class NPCFactory {
 
     //add route members
     for(Route.RouteMember member : route.members) {
-      State memberState = stateForProfile(member.shipProfile);
+      State memberState = stateForProfile(member.shipData);
       String name = member.name;
 
-      NPC npc = new NPC(name, member.shipProfile, memberState, member.position);
+      NPC npc = new NPC(name, member.shipData, memberState, member.position);
       npc.createComponents(fraction);
       npc.formationComponent.formationOwner = routedNPC;
 
@@ -54,8 +54,8 @@ public class NPCFactory {
   /**
    * Used for wandering ships, therefore we don't have a fix route here
    */
-  public static NPC createPirate(String name, ShipProfile shipProfile, State state, Fraction fraction, Vector2 position) {
-    NPC npc = new NPC(name, shipProfile, state, position);
+  public static NPC createPirate(String name, ShipData shipData, State state, Fraction fraction, Vector2 position) {
+    NPC npc = new NPC(name, shipData, state, position);
     npc.createComponents(fraction);
     npc.formationComponent.formationOwner = npc;
     npc.getStateMachine().changeState(state);
@@ -65,8 +65,8 @@ public class NPCFactory {
   }
 
   //------------------- Helper --------------------------------------
-  private static State stateForProfile(ShipProfile shipProfile) {
-    ShipProfile.Types type = shipProfile.getType();
+  private static State stateForProfile(ShipData shipData) {
+    ShipData.Types type = shipData.getType();
     switch(type) {
       case PIRATE: {
         return new RoutedSeekAndDestroyState();

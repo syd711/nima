@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.messaging.Messages;
@@ -114,13 +114,13 @@ public class AttackState extends NPCState implements State<NPC> {
    */
   private void fireWeapons(Ship ship, Ship enemy) {
     //the primary weapon attack
-    List<WeaponProfile> primaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.PRIMARY);
+    List<WeaponData> primaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponData.Category.PRIMARY);
     fireWeapons(ship, enemy, primaryChargedWeapons);
 
     //no check if I am a locked target (e.g. missiles firing at me!)
     Bullet enemyBullet = findEnemyBulletTargetedFor(ship);
     if(enemyBullet != null) {
-      List<WeaponProfile> chargedDefensiveWeapons = getChargedDefensiveWeaponsFor(ship, enemyBullet);
+      List<WeaponData> chargedDefensiveWeapons = getChargedDefensiveWeaponsFor(ship, enemyBullet);
       fireWeapons(ship, enemy, chargedDefensiveWeapons);
     }
 
@@ -128,7 +128,7 @@ public class AttackState extends NPCState implements State<NPC> {
     //check shield state
     if(!ship.shieldComponent.isActive()) {
       //fire seconds weapons if there is no shield anymore
-      List<WeaponProfile> secondaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.SECONDARY);
+      List<WeaponData> secondaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponData.Category.SECONDARY);
       fireWeapons(ship, enemy, secondaryChargedWeapons);
     }
     else {
@@ -138,7 +138,7 @@ public class AttackState extends NPCState implements State<NPC> {
 
     float healthPercentage = ship.healthComponent.getPercent();
     if(healthPercentage > 50) {
-      List<WeaponProfile> emergencyChargedWeapons = getChargedWeaponsForCategory(ship, WeaponProfile.Category.EMERGENCY);
+      List<WeaponData> emergencyChargedWeapons = getChargedWeaponsForCategory(ship, WeaponData.Category.EMERGENCY);
       fireWeapons(ship, enemy, emergencyChargedWeapons);
     }
   }
@@ -153,7 +153,7 @@ public class AttackState extends NPCState implements State<NPC> {
   private void updateAttackSteering(Ship ship, Ship enemy) {
     //change steering, may be we are close enough sicne we are in the arrive steering
     if(isInAttackingDistance(ship, enemy)) {
-      if(ship.getDistanceTo(enemy) < ship.shipProfile.attackDistance - 100) {
+      if(ship.getDistanceTo(enemy) < ship.shipData.attackDistance - 100) {
         SteeringManager.setFleeSteering(ship.steerableComponent, enemy.steerableComponent);
       }
       else {

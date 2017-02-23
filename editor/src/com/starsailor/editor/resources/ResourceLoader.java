@@ -13,7 +13,7 @@ public class ResourceLoader {
   
   public static String getResource(String s) {
     try {
-      return new File("resources/" + s).toURI().toString();
+      return new File(s).toURI().toString();
     } catch (Exception e) {
       //TODO Logger.getLogger(ResourceLoader.class.getName()).error("Resource not found: " + s + ": " + e.getMessage());
     }

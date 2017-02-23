@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.ComponentFactory;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.Resources;
@@ -22,15 +22,15 @@ import java.util.List;
  */
 public class MissileBullet extends Bullet implements EntityListener {
 
-  public MissileBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
-    super(weaponProfile, owner, target);
+  public MissileBullet(WeaponData weaponData, Ship owner, Ship target) {
+    super(weaponData, owner, target);
   }
 
   @Override
-  protected void createComponents(WeaponProfile weaponProfile) {
-    super.createComponents(weaponProfile);
+  protected void createComponents(WeaponData weaponData) {
+    super.createComponents(weaponData);
 
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponProfile.steeringData);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponData.steeringData);
     SteeringManager.setMissileSteering(steerableComponent, target.steerableComponent);
     steerableComponent.setIndependetFacing(false);
     steerableComponent.setEnabled(false);
@@ -53,7 +53,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     Vector2 force = new Vector2();
     force.x = (float) Math.cos(angle);
     force.y = (float) Math.sin(angle);
-    force = force.scl(weaponProfile.forceFactor * Game.camera.zoom);
+    force = force.scl(weaponData.forceFactor * Game.camera.zoom);
 
     bulletBody.applyForceToCenter(force, true);
     getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
@@ -71,7 +71,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     if(!steerableComponent.isEnabled()) {
       float distanceToOwner = getDistanceFromOrigin() * Game.camera.zoom;
       //lazy init of the bullet's steering system
-      if(distanceToOwner > weaponProfile.activationDistance && !steerableComponent.isEnabled()) {
+      if(distanceToOwner > weaponData.activationDistance && !steerableComponent.isEnabled()) {
         steerableComponent.setEnabled(true);
       }
     }
@@ -118,8 +118,8 @@ public class MissileBullet extends Bullet implements EntityListener {
   }
 
   @Override
-  public List<WeaponProfile.Types> getDefensiveWeapons() {
-    return Arrays.asList(WeaponProfile.Types.FLARES);
+  public List<WeaponData.Types> getDefensiveWeapons() {
+    return Arrays.asList(WeaponData.Types.FLARES);
   }
 
   // --------------------------  Helper ---------------------

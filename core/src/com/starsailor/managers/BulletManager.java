@@ -2,7 +2,7 @@ package com.starsailor.managers;
 
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.*;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,47 +25,47 @@ public class BulletManager {
     return instance;
   }
 
-  public void create(Ship owner, Ship target, WeaponProfile weaponProfile) {
-    create(owner, target, weaponProfile, false);
+  public void create(Ship owner, Ship target, WeaponData weaponData) {
+    create(owner, target, weaponData, false);
   }
 
-  private void create(Ship owner, Ship target, WeaponProfile weaponProfile, boolean internal) {
-    WeaponProfile.Types type = weaponProfile.type;
-    int bulletCount = weaponProfile.bulletCount;
+  private void create(Ship owner, Ship target, WeaponData weaponData, boolean internal) {
+    WeaponData.Types type = weaponData.type;
+    int bulletCount = weaponData.bulletCount;
 
     Bullet bullet = null;
     switch(type) {
       case LASER: {
-        bullet = new LaserBullet(weaponProfile, owner, target);
+        bullet = new LaserBullet(weaponData, owner, target);
         break;
       }
       case MISSILE: {
-        bullet = new MissileBullet(weaponProfile, owner, target);
+        bullet = new MissileBullet(weaponData, owner, target);
         break;
       }
       case ROCKET: {
         if(!internal) {
-          fireRockets(weaponProfile, owner, target);
+          fireRockets(weaponData, owner, target);
         }
         else {
           //only called via delayed queue
-          bullet = new RocketBullet(weaponProfile, owner, target);
+          bullet = new RocketBullet(weaponData, owner, target);
         }
         break;
       }
       case PHASER: {
-        bullet = new PhaserBullet(weaponProfile, owner, target);
+        bullet = new PhaserBullet(weaponData, owner, target);
         break;
       }
       case MINE: {
-        bullet = new MineBullet(weaponProfile, owner, target);
+        bullet = new MineBullet(weaponData, owner, target);
         break;
       }
       case FLARES: {
-        bullet = new FlaresBullet(weaponProfile, owner, target);
+        bullet = new FlaresBullet(weaponData, owner, target);
         for(int i = 1; i < bulletCount; i++) {
-          Bullet flaresBullet = new FlaresBullet(weaponProfile, owner, target);
-          enableBullet(flaresBullet, weaponProfile);
+          Bullet flaresBullet = new FlaresBullet(weaponData, owner, target);
+          enableBullet(flaresBullet, weaponData);
         }
         break;
       }
@@ -75,7 +75,7 @@ public class BulletManager {
     }
 
     if(bullet != null) {
-      enableBullet(bullet, weaponProfile);
+      enableBullet(bullet, weaponData);
     }
   }
 
@@ -92,7 +92,7 @@ public class BulletManager {
         if(bullet.shootingTime < time) {
           //only create if there still alive
           if(!bullet.owner.isMarkedForDestroy()) {
-            create(bullet.owner, bullet.target, bullet.weaponProfile, true);
+            create(bullet.owner, bullet.target, bullet.weaponData, true);
           }
 
           delayedBulletsQueue.remove(bullet);
@@ -107,16 +107,16 @@ public class BulletManager {
    * Rockets are a little bit more complex.
    * They try to aim for all targets of the enemy group while bullets available.
    */
-  private void fireRockets(WeaponProfile weaponProfile, Ship owner, Ship target) {
-    int bulletCount = weaponProfile.bulletCount;
+  private void fireRockets(WeaponData weaponData, Ship owner, Ship target) {
+    int bulletCount = weaponData.bulletCount;
     List<Ship> members = target.formationComponent.getMembers();
     Iterator<Ship> iterator = members.iterator();
     Ship nextTarget = null;
     long time = System.currentTimeMillis();
-    long shootingTime = time + weaponProfile.bulletDelay;
+    long shootingTime = time + weaponData.bulletDelay;
 
     //queue primary target first
-    QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponProfile, shootingTime);
+    QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponData, shootingTime);
     delayedBulletsQueue.add(queuedBullet);
 
     for(int i = 1; i < bulletCount; i++) {
@@ -125,22 +125,22 @@ public class BulletManager {
       }
 
       nextTarget = iterator.next();
-      shootingTime = time + weaponProfile.bulletDelay*(i+1);
+      shootingTime = time + weaponData.bulletDelay*(i+1);
 
-      queuedBullet = new QueuedBullet(owner, nextTarget, weaponProfile, shootingTime);
+      queuedBullet = new QueuedBullet(owner, nextTarget, weaponData, shootingTime);
       delayedBulletsQueue.add(queuedBullet);
     }
 
-    owner.shootingComponent.updateLastBulletTime(weaponProfile);
+    owner.shootingComponent.updateLastBulletTime(weaponData);
   }
 
   /**
    * Additonal bullet creation stuff
    */
-  private void enableBullet(Bullet bullet, WeaponProfile weaponProfile) {
+  private void enableBullet(Bullet bullet, WeaponData weaponData) {
     if(bullet.create()) {
       EntityManager.getInstance().add(bullet);
-      bullet.owner.shootingComponent.updateLastBulletTime(weaponProfile);
+      bullet.owner.shootingComponent.updateLastBulletTime(weaponData);
     }
     else {
       bullet.markForDestroy();
@@ -150,13 +150,13 @@ public class BulletManager {
   class QueuedBullet {
     Ship owner;
     Ship target;
-    WeaponProfile weaponProfile;
+    WeaponData weaponData;
     long shootingTime;
 
-    public QueuedBullet(Ship owner, Ship target, WeaponProfile weaponProfile, long shootingTime) {
+    public QueuedBullet(Ship owner, Ship target, WeaponData weaponData, long shootingTime) {
       this.owner = owner;
       this.target = target;
-      this.weaponProfile = weaponProfile;
+      this.weaponData = weaponData;
       this.shootingTime = shootingTime;
     }
   }

@@ -3,7 +3,7 @@ package com.starsailor.data;
 /**
  * Shield data
  */
-public class ShieldProfile {
+public class ShieldData {
   public String name;
   public float rechargeTimeMillis;
   public float health;

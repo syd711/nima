@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.SpriteComponent;
-import com.starsailor.data.WeaponProfile;
+import com.starsailor.data.WeaponData;
 import com.starsailor.util.box2d.Box2dUtil;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
@@ -14,8 +14,8 @@ import com.starsailor.util.Settings;
  * Concrete implementation of a weapon type.
  */
 public class LaserBullet extends Bullet {
-  public LaserBullet(WeaponProfile weaponProfile, Ship owner, Ship target) {
-    super(weaponProfile, owner, target);
+  public LaserBullet(WeaponData weaponData, Ship owner, Ship target) {
+    super(weaponData, owner, target);
   }
 
   @Override
@@ -34,7 +34,7 @@ public class LaserBullet extends Bullet {
     float mXDir = -(float) Math.cos(radianAngle);
     float mYDir = -(float) Math.sin(radianAngle);
 
-    float speedFactor = weaponProfile.forceFactor;
+    float speedFactor = weaponData.forceFactor;
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
 

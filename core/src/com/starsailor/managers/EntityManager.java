@@ -13,7 +13,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.*;
 import com.starsailor.data.DataEntities;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.systems.*;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -42,7 +42,7 @@ public class EntityManager implements EntityListener {
 
   private void init(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
     //create player
-    ShipProfile ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
+    ShipData ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
     player = new Player(ship);
     player.createComponents( Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);

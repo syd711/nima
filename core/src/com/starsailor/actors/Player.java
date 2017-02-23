@@ -7,7 +7,7 @@ import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
-import com.starsailor.data.ShipProfile;
+import com.starsailor.data.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.GraphicsUtil;
@@ -25,7 +25,7 @@ public class Player extends Ship {
     return instance;
   }
 
-  public Player(ShipProfile profile) {
+  public Player(ShipData profile) {
     super("Player", profile, null);
     instance = this;
   }
