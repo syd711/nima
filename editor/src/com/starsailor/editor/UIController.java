@@ -30,7 +30,7 @@ public class UIController {
     shipData.setParent(parent);
     shipData.setName("New Ship (" + shipData.getId() + ")");
 
-    BodyData bodyData = new BodyData();
+    BodyData bodyData = new BodyData(parent.getUnextendedBodyData());
     bodyData.setExtendParentData(true);
     shipData.setBodyData(bodyData);
 

@@ -48,7 +48,7 @@ public class FormUtil {
     return group;
   }
 
-  public static Node addBindingFormField(GridPane grid, GameData data, Field field, int row, boolean editable, ChangeListener<String> listener) {
+  public static Node addBindingFormField(GridPane grid, GameData data, Field field, int row, boolean editable) {
     Node editorNode = null;
     try {
       Object value = field.get(data);

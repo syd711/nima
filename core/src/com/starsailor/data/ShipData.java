@@ -199,6 +199,19 @@ public class ShipData extends GameData<ShipData> {
     this.steeringData = steeringData;
   }
 
+  public BodyData getUnextendedBodyData() {
+    if(bodyData.isExtendParentData()) {
+      return getParent().getUnextendedBodyData();
+    }
+    return bodyData;
+  }
+
+  public SteeringData getUnextendedSteeringData() {
+    if(bodyData.isExtendParentData()) {
+      return getParent().getUnextendedBodyData();
+    }
+    return bodyData;
+  }
 
   @Override
   public String toString() {

@@ -27,7 +27,7 @@ public class BodyData extends GameData {
 
   public BodyData(BodyData bodyData) {
     this.linearDamping = bodyData.getLinearDamping();
-    this.angularDamping = bodyData.getLinearDamping();
+    this.angularDamping = bodyData.getAngularDamping();
     this.width = bodyData.getWidth();
     this.height = bodyData.getHeight();
     this.radius = bodyData.getRadius();

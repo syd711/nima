@@ -4,11 +4,13 @@ import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
 import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -58,12 +60,13 @@ public class FormPane extends BorderPane implements ChangeListener {
 
     Field idField = gameData.getClass().getDeclaredField("id");
     idField.setAccessible(true);
-    FormUtil.addBindingFormField(categoryDetailsForm, gameData, idField, index, false, this);
+    FormUtil.addBindingFormField(categoryDetailsForm, gameData, idField, index, false);
     index++;
 
     Field nameField = gameData.getClass().getDeclaredField("name");
     nameField.setAccessible(true);
-    FormUtil.addBindingFormField(categoryDetailsForm, gameData, nameField, index, true, this);
+    TextField textField = (TextField) FormUtil.addBindingFormField(categoryDetailsForm, gameData, nameField, index, true);
+    textField.textProperty().addListener(this);
     index++;
 
     TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, "Model Info", false);
@@ -80,7 +83,7 @@ public class FormPane extends BorderPane implements ChangeListener {
 
     Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
     extendParentDataField.setAccessible(true);
-    CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true, this);
+    CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true);
     checkbox.selectedProperty().addListener(this);
     updateGrid(checkbox);
 
@@ -97,7 +100,7 @@ public class FormPane extends BorderPane implements ChangeListener {
           continue;
         }
 
-        FormUtil.addBindingFormField(categoryDetailsForm, gameData, field, index, true, this);
+        FormUtil.addBindingFormField(categoryDetailsForm, gameData, field, index, true);
         index++;
       }
     }
@@ -134,6 +137,9 @@ public class FormPane extends BorderPane implements ChangeListener {
     if(observable instanceof BooleanProperty) {
       CheckBox checkBox = (CheckBox) ((BooleanProperty) observable).getBean();
       updateGrid(checkBox);
+    }
+    else if(observable instanceof StringProperty) {
+      mainPane.refreshTree();
     }
   }
 

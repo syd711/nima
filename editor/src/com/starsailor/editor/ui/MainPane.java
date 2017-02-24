@@ -52,6 +52,7 @@ public class MainPane extends BorderPane {
     Button refreshButton = new Button("", ResourceLoader.getImageView("refresh.png"));
     refreshButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
+        treePane.refresh();
       }
     });
     refreshButton.setTooltip(new Tooltip("Daten neu laden"));
@@ -138,5 +139,9 @@ public class MainPane extends BorderPane {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void refreshTree() {
+    treePane.refresh();
   }
 }
