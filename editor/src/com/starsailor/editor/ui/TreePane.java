@@ -22,8 +22,8 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
   private TreeView treeView;
 
   private GameData root;
-  private MainPane mainPane;
 
+  private MainPane mainPane;
   public TreePane(MainPane mainPane) {
     this.mainPane = mainPane;
     root = UIController.getInstance().getTreeModel();
@@ -42,6 +42,10 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
     });
 
     setCenter(treeView);
+  }
+
+  public GameData getRoot() {
+    return root;
   }
 
   public TreeItem getSelection() {

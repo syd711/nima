@@ -41,6 +41,8 @@ public class FormPane extends BorderPane implements ChangeListener {
     dynamicForm.getChildren().clear();
 
     if(gameData != null) {
+      createIdSection(gameData);
+
       List<GameData> objects = createSection(gameData);
 
       for(GameData object : objects) {
@@ -49,11 +51,28 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
   }
 
+  private void createIdSection(GameData gameData) throws Exception {
+    GridPane categoryDetailsForm = FormUtil.createFormGrid();
+    int index = 0;
+
+    Field idField = gameData.getClass().getDeclaredField("id");
+    idField.setAccessible(true);
+    FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, idField, index, true, this);
+    index++;
+
+    Field nameField = gameData.getClass().getDeclaredField("name");
+    nameField.setAccessible(true);
+    FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, nameField, index, true, this);
+    index++;
+
+    TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
+    section.setExpanded(true);
+  }
+
   private List<GameData> createSection(GameData gameData) throws Exception {
     List<GameData> objectFields = new ArrayList<>();
     GridPane categoryDetailsForm = FormUtil.createFormGrid();
     int index = 0;
-
 
     Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
     extendParentDataField.setAccessible(true);
@@ -65,9 +84,13 @@ public class FormPane extends BorderPane implements ChangeListener {
       field.setAccessible(true);
       Expose annotation = field.getAnnotation(Expose.class);
       if(annotation != null) {
+        String name = field.getName();
         Object fieldValue = getGameDataValue(field, gameData);
         if(fieldValue instanceof GameData) {
           objectFields.add((GameData) fieldValue);
+          continue;
+        }
+        if(name.equals("name") || name.equals("id")) {
           continue;
         }
 

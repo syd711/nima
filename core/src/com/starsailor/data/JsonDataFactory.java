@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSerializer;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
@@ -35,21 +36,27 @@ abstract public class JsonDataFactory {
 
   public static <T> T loadDataEntity(FileHandle fileHandle, Class<T> entity) {
     T t = loadDataEntity(fileHandle.file(), entity);
-    Gdx.app.log(JsonDataFactory.class.getName(), "Loaded json data " + fileHandle.file().getParent() + "/" + fileHandle.file().getName());
     return t;
   }
 
   public static <T> T saveDataEntity(File file, Object entity) {
+    return saveDataEntity(file, entity, null);
+  }
+
+  public static <T> T saveDataEntity(File file, Object entity, JsonSerializer serializer) {
     try {
-      Gson gson = new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+      GsonBuilder gsonBuilder = new GsonBuilder();
+      if(serializer != null) {
+        gsonBuilder.registerTypeAdapter(entity.getClass(), serializer);
+      }
+      Gson gson = gsonBuilder.setPrettyPrinting().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
       String json = gson.toJson(entity);
       FileWriter writer = new FileWriter(file);
       writer.write(json);
       writer.close();
 
-      Gdx.app.log(JsonDataFactory.class.getName(), "Written " + file.getAbsolutePath());
     } catch (Exception e) {
-      Gdx.app.error(JsonDataFactory.class.getName(), "Error write json file", e);
+      e.printStackTrace();
     }
     return null;
   }
@@ -61,7 +68,7 @@ abstract public class JsonDataFactory {
       JsonReader reader = new JsonReader(fileReader);
       return gson.fromJson(reader, entity);
     } catch (Exception e) {
-      Gdx.app.error(JsonDataFactory.class.getName(), "Error loading json file", e);
+      e.printStackTrace();
     }
     return null;
   }

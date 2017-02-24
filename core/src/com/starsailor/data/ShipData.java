@@ -9,10 +9,12 @@ import java.util.List;
  * Contains all attributes a ship can have.
  */
 public class ShipData extends GameData {
+
   public enum Types {
     MERCHANT, PIRATE, CRUSADER
   }
-
+  @Expose
+  private int id;
   @Expose
   private String name;
   @Expose
@@ -41,12 +43,12 @@ public class ShipData extends GameData {
 
   //weapons
   private List<String> weapons = new ArrayList<>();
-  private List<WeaponData> weaponDatas = new ArrayList<>();
+  private transient List<WeaponData> weaponDatas = new ArrayList<>();
 
   //shield
   @Expose
   private String shield;
-  @Expose
+
   private ShieldData shieldData;
 
   //Steering
@@ -64,7 +66,13 @@ public class ShipData extends GameData {
     weaponDatas.add(profile);
   }
 
+  public int getId() {
+    return id;
+  }
 
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;

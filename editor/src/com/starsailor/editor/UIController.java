@@ -1,6 +1,7 @@
 package com.starsailor.editor;
 
 import com.starsailor.data.*;
+import com.starsailor.editor.util.ShipDataSerializer;
 
 import java.io.File;
 
@@ -18,7 +19,7 @@ public class UIController {
   }
 
   public GameData getTreeModel() {
-    GameData root = new GameData();
+    GameData root = new ShipData();
     GameDataLoader loader = new GameDataLoader(new File("../../core/assets/ships/ships.json"));
     ShipData ships = loader.load(ShipData.class);
     root.addChild(ships);
@@ -36,6 +37,16 @@ public class UIController {
     SteeringData steeringData = new SteeringData();
     steeringData.setExtendParentData(true);
     shipData.setSteeringData(steeringData);
+
+    parent.getChildren().add(shipData);
     return shipData;
+  }
+
+  public void save(GameData root) {
+    File file = new File("g:/temp/ships.json");
+    if(file.exists()) {
+      file.delete();
+    }
+    JsonDataFactory.saveDataEntity(file, root, new ShipDataSerializer());
   }
 }

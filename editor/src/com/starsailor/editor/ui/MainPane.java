@@ -43,7 +43,7 @@ public class MainPane extends BorderPane {
     Button saveButton = new Button("", ResourceLoader.getImageView("save.png"));
     saveButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-
+        UIController.getInstance().save(treePane.getRoot());
       }
     });
 
@@ -78,6 +78,8 @@ public class MainPane extends BorderPane {
           if(delete) {
             TreeItem parent = selection.getParent();
             parent.getChildren().remove(selection);
+            GameData value = (GameData) parent.getValue();
+            value.getChildren().remove(selection.getValue());
             select(null);
           }
         }
