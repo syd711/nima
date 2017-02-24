@@ -128,7 +128,7 @@ public class BodyGenerator {
     }
     else {
       shape = new PolygonShape();
-      ((PolygonShape)shape).setAsBox(bodyData.width * MPP, bodyData.getHeight() * MPP);
+      ((PolygonShape)shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
       fdef.shape = shape;
     }
 

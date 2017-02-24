@@ -51,7 +51,7 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
 
   private void buildTree(List<GameData> children, TreeItem<GameData> parent) {
     for(GameData item : children) {
-      TreeItem<GameData> categoryTreeItem = new TreeItem<>(item, ResourceLoader.getImageView("item"));
+      TreeItem<GameData> categoryTreeItem = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
 //      categoryTreeItem.expandedProperty().addListener(expandListener);
       categoryTreeItem.valueProperty().bind(new SimpleObjectProperty<>(item));
       categoryTreeItem.setExpanded(true);

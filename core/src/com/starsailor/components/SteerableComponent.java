@@ -39,11 +39,11 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
     this.body = body;
     this.independentFacing = independentFacing;
 
-    this.boundingRadius = steeringData.boundingRadius;
-    this.maxLinearSpeed = steeringData.maxLinearSpeed;
-    this.maxLinearAcceleration = steeringData.maxLinearAcceleration;
-    this.maxAngularSpeed = steeringData.maxAngularSpeed;
-    this.maxAngularAcceleration = steeringData.maxAngularAcceleration;
+    this.boundingRadius = steeringData.getBoundingRadius();
+    this.maxLinearSpeed = steeringData.getMaxLinearSpeed();
+    this.maxLinearAcceleration = steeringData.getMaxLinearAcceleration();
+    this.maxAngularSpeed = steeringData.getMaxAngularSpeed();
+    this.maxAngularAcceleration = steeringData.getMaxAngularAcceleration();
 
     this.steeringOutput = new SteeringAcceleration<>(new Vector2());
   }

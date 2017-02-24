@@ -52,29 +52,7 @@ public class GameDataTreeCell extends TreeCell<GameData> {
         setGraphic(textField);
       } else {
         setText(getString());
-//        if(item != null && item.getStatusValue() == 1) {
-//          setStyle("-fx-text-fill:#000;");
-//          if(item.getType() == AbstractModel.TYPE_VARIANT || item.getType() == AbstractModel.TYPE_PRODUCT) {
-//            Product product = (Product) item;
-//            if(!product.isOnStock()) {
-//              setStyle("-fx-text-fill:#cc4444;-fx-font-weight:bold;");
-//            }
-//            else if(product.isForFree() && (product.isVariant() || product.getVariants().isEmpty())) {
-//              setStyle("-fx-text-fill:#cc4444;-fx-font-weight:bold;");
-//            }
-//            else {
-//              setStyle("-fx-text-fill:#000;");
-//            }
-//
-//            if(product.isOnStock() && (product.isVariant() || product.getVariants().isEmpty())) {
-//              setText(getString() + " (" + product.getStock().get() + " auf Lager)");
-//            }
-//          }
-//        }
-//        else {
-//          setStyle("-fx-text-fill:#aaa;-fx-font-weight:normal;");
-//        }
-
+//        setStyle("-fx-text-fill:#000;-fx-font-weight:normal;");
         if(getTreeItem() != null) {
           setGraphic(getTreeItem().getGraphic());
         }

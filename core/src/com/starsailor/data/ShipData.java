@@ -189,6 +189,6 @@ public class ShipData extends GameData {
 
   @Override
   public String toString() {
-    return "Ship Profile '" + spine + "'";
+    return name;
   }
 }

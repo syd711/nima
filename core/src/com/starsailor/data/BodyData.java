@@ -11,7 +11,7 @@ public class BodyData extends GameData {
   @Expose
   private float angularDamping;
   @Expose
-  public int width;
+  private int width;
   @Expose
   private int height;
   @Expose
@@ -67,5 +67,18 @@ public class BodyData extends GameData {
 
   public void setSensor(boolean sensor) {
     this.sensor = sensor;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  @Override
+  public String toString() {
+    return "Body Data";
   }
 }

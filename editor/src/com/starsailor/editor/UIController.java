@@ -1,8 +1,6 @@
 package com.starsailor.editor;
 
-import com.starsailor.data.GameData;
-import com.starsailor.data.GameDataLoader;
-import com.starsailor.data.ShipData;
+import com.starsailor.data.*;
 
 import java.io.File;
 
@@ -25,5 +23,19 @@ public class UIController {
     ShipData ships = loader.load(ShipData.class);
     root.addChild(ships);
     return root;
+  }
+
+  public ShipData newChildFor(ShipData parent) {
+    ShipData shipData = new ShipData();
+    shipData.setName("New Ship");
+
+    BodyData bodyData = new BodyData();
+    bodyData.setExtendParentData(true);
+    shipData.setBodyData(bodyData);
+
+    SteeringData steeringData = new SteeringData();
+    steeringData.setExtendParentData(true);
+    shipData.setSteeringData(steeringData);
+    return shipData;
   }
 }

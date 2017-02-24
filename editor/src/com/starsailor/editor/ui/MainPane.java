@@ -2,7 +2,9 @@ package com.starsailor.editor.ui;
 
 import com.starsailor.data.GameData;
 import com.starsailor.data.ShipData;
+import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
+import com.starsailor.editor.util.FormUtil;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -56,7 +58,7 @@ public class MainPane extends BorderPane {
       public void handle(ActionEvent event) {
         TreeItem selection = treePane.getSelection();
         if(selection != null) {
-          ShipData newChild = new ShipData();
+          ShipData newChild = UIController.getInstance().newChildFor((ShipData) selection.getValue());
           TreeItem newNode = new TreeItem<GameData>(newChild);
           newNode.setExpanded(true);
           selection.getChildren().add(newNode);
@@ -67,7 +69,23 @@ public class MainPane extends BorderPane {
     });
     newButton.setTooltip(new Tooltip("Neuen Unterknoten erzeugen"));
 
-    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton);
+    Button deleteButton = new Button("", ResourceLoader.getImageView("remove.png"));
+    deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        TreeItem selection = treePane.getSelection();
+        if(selection != null) {
+          boolean delete = FormUtil.showConfirmation("Delete Node", "Delete the selection?");
+          if(delete) {
+            TreeItem parent = selection.getParent();
+            parent.getChildren().remove(selection);
+            select(null);
+          }
+        }
+      }
+    });
+    deleteButton.setTooltip(new Tooltip("Knoten löschen"));
+
+    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, deleteButton);
 
 
     final MenuBar menuBar = new MenuBar();
@@ -105,6 +123,16 @@ public class MainPane extends BorderPane {
   }
 
   public void select(TreeItem selection) {
-    formPane.setData((GameData) selection.getValue());
+    try {
+      if(selection != null) {
+        formPane.setData((GameData) selection.getValue());
+      }
+      else {
+        formPane.setData(null);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
