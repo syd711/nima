@@ -40,14 +40,14 @@ abstract public class JsonDataFactory {
   }
 
   public static <T> T saveDataEntity(File file, Object entity) {
-    return saveDataEntity(file, entity, null);
+    return saveDataEntity(file, entity, null, null);
   }
 
-  public static <T> T saveDataEntity(File file, Object entity, JsonSerializer serializer) {
+  public static <T> T saveDataEntity(File file, Object entity, Class clazz, JsonSerializer serializer) {
     try {
       GsonBuilder gsonBuilder = new GsonBuilder();
       if(serializer != null) {
-        gsonBuilder.registerTypeAdapter(entity.getClass(), serializer);
+        gsonBuilder.registerTypeAdapter(clazz, serializer);
       }
       Gson gson = gsonBuilder.setPrettyPrinting().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
       String json = gson.toJson(entity);

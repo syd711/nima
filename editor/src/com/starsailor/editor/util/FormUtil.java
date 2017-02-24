@@ -6,9 +6,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
@@ -49,8 +48,8 @@ public class FormUtil {
     return group;
   }
 
-  public static TextField addBindingFormTextfield(GridPane grid, GameData data, Field field, int row, boolean editable, ChangeListener<String> listener) {
-    TextField textBox = null;
+  public static Node addBindingFormField(GridPane grid, GameData data, Field field, int row, boolean editable, ChangeListener<String> listener) {
+    Node editorNode = null;
     try {
       Object value = field.get(data);
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
@@ -60,7 +59,7 @@ public class FormUtil {
       GridPane.setHalignment(condLabel, HPos.RIGHT);
       GridPane.setConstraints(condLabel, 0, row);
 
-      Node editorNode = null;
+
       if(value instanceof Boolean) {
         CheckBox checkbox = new CheckBox();
         checkbox.setSelected((Boolean) value);
@@ -68,7 +67,7 @@ public class FormUtil {
         editorNode = checkbox;
       }
       else {
-        textBox = new TextField(String.valueOf(value));
+        TextField textBox = new TextField(String.valueOf(value));
         textBox.setEditable(editable);
         gameDataBeanPathAdapter.bindBidirectional(field.getName(), textBox.textProperty());
         editorNode = textBox;
@@ -82,7 +81,7 @@ public class FormUtil {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return textBox;
+    return editorNode;
   }
 
   static String splitCamelCase(String s) {
@@ -94,5 +93,14 @@ public class FormUtil {
         ),
         " "
     );
+  }
+
+  public static void setColorForTitledPane(Node node, Color color) {
+    Node parent = node.getParent();
+    while(!(parent instanceof GridPane)) {
+      parent = parent.getParent();
+    }
+
+    ((Pane)parent).setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 }

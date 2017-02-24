@@ -1,8 +1,10 @@
 package com.starsailor.editor.ui;
 
 import com.starsailor.data.GameData;
+import com.starsailor.data.ShipData;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
+import com.starsailor.editor.util.IdGenerator;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
@@ -17,22 +19,23 @@ import java.util.List;
 /**
  *
  */
-public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
-  private final TreeItem<GameData> treeRoot;
+public class ShipDataTreePane extends BorderPane implements EventHandler<MouseEvent> {
+  private final TreeItem<ShipData> treeRoot;
   private TreeView treeView;
 
-  private GameData root;
+  private ShipData root;
 
   private MainPane mainPane;
-  public TreePane(MainPane mainPane) {
+  public ShipDataTreePane(MainPane mainPane) {
     this.mainPane = mainPane;
     root = UIController.getInstance().getTreeModel();
-    treeRoot = new TreeItem<GameData>(root);
+    treeRoot = new TreeItem<ShipData>(root);
+    treeRoot.setExpanded(true);
     buildTree(root.getChildren(), treeRoot);
 
-    treeView = new TreeView<GameData>();
+    treeView = new TreeView<ShipData>();
     treeView.setOnMouseClicked(this);
-    treeView.setShowRoot(false);
+    treeView.setShowRoot(true);
     treeView.setRoot(treeRoot);
     treeView.setCellFactory(new Callback<TreeView<GameData>, TreeCell<GameData>>() {
       @Override
@@ -53,10 +56,12 @@ public class TreePane extends BorderPane implements EventHandler<MouseEvent> {
   }
 
 
-  private void buildTree(List<GameData> children, TreeItem<GameData> parent) {
-    for(GameData item : children) {
-      TreeItem<GameData> categoryTreeItem = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
-//      categoryTreeItem.expandedProperty().addListener(expandListener);
+  private void buildTree(List<ShipData> children, TreeItem<ShipData> parent) {
+    for(ShipData item : children) {
+      item.setParent(parent.getValue());
+      IdGenerator.getInstance().update(item);
+
+      TreeItem<ShipData> categoryTreeItem = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
       categoryTreeItem.valueProperty().bind(new SimpleObjectProperty<>(item));
       categoryTreeItem.setExpanded(true);
       parent.getChildren().add(categoryTreeItem);

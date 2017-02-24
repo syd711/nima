@@ -8,11 +8,16 @@ import java.util.List;
 /**
  * Contains all attributes a ship can have.
  */
-public class ShipData extends GameData {
+public class ShipData extends GameData<ShipData> {
 
   public enum Types {
     MERCHANT, PIRATE, CRUSADER
   }
+
+  public ShipData(int id) {
+    this.id = id;
+  }
+
   @Expose
   private int id;
   @Expose
@@ -199,4 +204,5 @@ public class ShipData extends GameData {
   public String toString() {
     return name;
   }
+
 }

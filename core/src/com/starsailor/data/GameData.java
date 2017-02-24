@@ -1,24 +1,22 @@
 package com.starsailor.data;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Superclass for all game data entities
  */
-public class GameData {
-  @Expose
+public class GameData<T> {
   private boolean extendParentData;
+  private transient T parent;
 
-  private List<GameData> children = new ArrayList<>();
+  private List<T> children = new ArrayList<>();
 
-  public List<GameData> getChildren() {
+  public List<T> getChildren() {
     return children;
   }
 
-  public void addChild(GameData gameData) {
+  public void addChild(T gameData) {
     children.add(gameData);
   }
 
@@ -29,4 +27,13 @@ public class GameData {
   public void setExtendParentData(boolean extendParentData) {
     this.extendParentData = extendParentData;
   }
+
+  public T getParent() {
+    return parent;
+  }
+
+  public void setParent(T parent) {
+    this.parent = parent;
+  }
+
 }

@@ -20,8 +20,8 @@ import javafx.scene.layout.VBox;
  */
 public class MainPane extends BorderPane {
 
-  private final TreePane treePane;
-  private final FormPane formPane;
+  private final ShipDataTreePane treePane;
+  private final ShipDataFormPane formPane;
 
   private Label statusMessage = new Label("");
   private Label infoMessage = new Label("");
@@ -31,8 +31,10 @@ public class MainPane extends BorderPane {
     setTop(top);
     SplitPane splitPane = new SplitPane();
     splitPane.setOrientation(Orientation.HORIZONTAL);
-    treePane = new TreePane(this);
-    formPane = new FormPane(this);
+    treePane = new ShipDataTreePane(this);
+    treePane.setMaxWidth(800);
+    treePane.setMinWidth(400);
+    formPane = new ShipDataFormPane(this);
     splitPane.getItems().addAll(treePane, formPane);
     splitPane.setDividerPositions(0, 0.1);
     setCenter(splitPane);
@@ -127,7 +129,7 @@ public class MainPane extends BorderPane {
   public void select(TreeItem selection) {
     try {
       if(selection != null) {
-        formPane.setData((GameData) selection.getValue());
+        formPane.setData((ShipData) selection.getValue());
       }
       else {
         formPane.setData(null);

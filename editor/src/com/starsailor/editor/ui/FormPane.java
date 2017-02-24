@@ -3,14 +3,17 @@ package com.starsailor.editor.ui;
 import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
 import com.starsailor.editor.util.FormUtil;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,12 +23,16 @@ import java.util.List;
  *
  */
 public class FormPane extends BorderPane implements ChangeListener {
-
   private VBox dynamicForm;
   private MainPane mainPane;
+  private List<String> ignoredFields;
 
-  public FormPane(MainPane mainPane) {
+  public FormPane(MainPane mainPane, List<String> ignoredFields) {
     this.mainPane = mainPane;
+    this.ignoredFields = new ArrayList<>(ignoredFields);
+    this.ignoredFields.add("id");
+    this.ignoredFields.add("name");
+
     dynamicForm = new VBox();
     dynamicForm.setAlignment(Pos.TOP_CENTER);
     dynamicForm.setFillWidth(true);
@@ -42,12 +49,6 @@ public class FormPane extends BorderPane implements ChangeListener {
 
     if(gameData != null) {
       createIdSection(gameData);
-
-      List<GameData> objects = createSection(gameData);
-
-      for(GameData object : objects) {
-        createSection(object);
-      }
     }
   }
 
@@ -57,26 +58,32 @@ public class FormPane extends BorderPane implements ChangeListener {
 
     Field idField = gameData.getClass().getDeclaredField("id");
     idField.setAccessible(true);
-    FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, idField, index, true, this);
+    FormUtil.addBindingFormField(categoryDetailsForm, gameData, idField, index, false, this);
     index++;
 
     Field nameField = gameData.getClass().getDeclaredField("name");
     nameField.setAccessible(true);
-    FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, nameField, index, true, this);
+    FormUtil.addBindingFormField(categoryDetailsForm, gameData, nameField, index, true, this);
     index++;
 
-    TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
+    TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, "Model Info", false);
     section.setExpanded(true);
   }
 
-  private List<GameData> createSection(GameData gameData) throws Exception {
-    List<GameData> objectFields = new ArrayList<>();
+  protected void createSection(GameData gameData, String title) throws Exception {
+    if(title == null) {
+      title = gameData.toString();
+    }
+
     GridPane categoryDetailsForm = FormUtil.createFormGrid();
     int index = 0;
 
     Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
     extendParentDataField.setAccessible(true);
-    FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, extendParentDataField, index, true, this);
+    CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true, this);
+    checkbox.selectedProperty().addListener(this);
+    updateGrid(checkbox);
+
     index++;
 
     Field[] fields = gameData.getClass().getDeclaredFields();
@@ -86,21 +93,16 @@ public class FormPane extends BorderPane implements ChangeListener {
       if(annotation != null) {
         String name = field.getName();
         Object fieldValue = getGameDataValue(field, gameData);
-        if(fieldValue instanceof GameData) {
-          objectFields.add((GameData) fieldValue);
-          continue;
-        }
-        if(name.equals("name") || name.equals("id")) {
+        if(ignoredFields.contains(name)) {
           continue;
         }
 
-        FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, field, index, true, this);
+        FormUtil.addBindingFormField(categoryDetailsForm, gameData, field, index, true, this);
         index++;
       }
     }
-    TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
+    TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, title, false);
     section.setExpanded(!isExtending(gameData));
-    return objectFields;
   }
 
   private Object getGameDataValue(Field field, GameData gameData) {
@@ -126,8 +128,22 @@ public class FormPane extends BorderPane implements ChangeListener {
     return false;
   }
 
+
   @Override
   public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+    if(observable instanceof BooleanProperty) {
+      CheckBox checkBox = (CheckBox) ((BooleanProperty) observable).getBean();
+      updateGrid(checkBox);
+    }
+  }
 
+  protected void updateGrid(CheckBox checkBox) {
+    boolean selection = checkBox.isSelected();
+    if(selection) {
+      FormUtil.setColorForTitledPane(checkBox, Color.LIGHTGOLDENRODYELLOW);
+    }
+    else {
+      FormUtil.setColorForTitledPane(checkBox, Color.WHITE);
+    }
   }
 }

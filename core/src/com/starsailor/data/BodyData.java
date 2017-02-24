@@ -21,6 +21,20 @@ public class BodyData extends GameData {
   @Expose
   private boolean sensor = false;
 
+  public BodyData() {
+
+  }
+
+  public BodyData(BodyData bodyData) {
+    this.linearDamping = bodyData.getLinearDamping();
+    this.angularDamping = bodyData.getLinearDamping();
+    this.width = bodyData.getWidth();
+    this.height = bodyData.getHeight();
+    this.radius = bodyData.getRadius();
+    this.density = bodyData.getDensity();
+    this.sensor = bodyData.isSensor();
+  }
+
   public float getLinearDamping() {
     return linearDamping;
   }

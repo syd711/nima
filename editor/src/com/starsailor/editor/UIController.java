@@ -1,7 +1,8 @@
 package com.starsailor.editor;
 
 import com.starsailor.data.*;
-import com.starsailor.editor.util.ShipDataSerializer;
+import com.starsailor.editor.util.GameDataSerializer;
+import com.starsailor.editor.util.IdGenerator;
 
 import java.io.File;
 
@@ -18,17 +19,16 @@ public class UIController {
     return instance;
   }
 
-  public GameData getTreeModel() {
-    GameData root = new ShipData();
-    GameDataLoader loader = new GameDataLoader(new File("../../core/assets/ships/ships.json"));
-    ShipData ships = loader.load(ShipData.class);
-    root.addChild(ships);
+  public ShipData getTreeModel() {
+    GameDataLoader loader = new GameDataLoader(new File("G:/temp/ships.json"));
+    ShipData root = loader.load(ShipData.class);
     return root;
   }
 
   public ShipData newChildFor(ShipData parent) {
-    ShipData shipData = new ShipData();
-    shipData.setName("New Ship");
+    ShipData shipData = new ShipData(IdGenerator.getInstance().createId());
+    shipData.setParent(parent);
+    shipData.setName("New Ship (" + shipData.getId() + ")");
 
     BodyData bodyData = new BodyData();
     bodyData.setExtendParentData(true);
@@ -47,6 +47,6 @@ public class UIController {
     if(file.exists()) {
       file.delete();
     }
-    JsonDataFactory.saveDataEntity(file, root, new ShipDataSerializer());
+    JsonDataFactory.saveDataEntity(file, root, GameData.class, new GameDataSerializer());
   }
 }
