@@ -238,10 +238,10 @@ public class ComponentFactory {
   public static ShieldComponent addShieldComponent(Entity entity, ShieldData shieldData) {
     ShieldComponent component = createComponent(ShieldComponent.class);
     if(shieldData != null) {
-      component.health = shieldData.health;
-      component.maxHealth = shieldData.health;
-      component.damageAbsorptionFactor = shieldData.damageAbsorptionFactor;
-      component.rechargeTimeMillis = shieldData.rechargeTimeMillis;
+      component.health = shieldData.getHealth();
+      component.maxHealth = shieldData.getHealth();
+      component.damageAbsorptionFactor = shieldData.getDamageAbsorptionFactor();
+      component.rechargeTimeMillis = shieldData.getRechargeTimeMillis();
     }
     entity.add(component);
     return component;

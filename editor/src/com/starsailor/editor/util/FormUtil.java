@@ -18,14 +18,14 @@ public class FormUtil {
   public static TextField addBindingFormTextfield(GridPane grid, GameData data, Field field, int row, boolean editable, ChangeListener<String> listener) {
     TextField textBox = null;
     try {
-      String value = (String) field.get(data);
+      Object value = field.get(data);
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
       BeanPathAdapter<GameData> gameDataBeanPathAdapter = new BeanPathAdapter<>(data);
 
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
       GridPane.setConstraints(condLabel, 0, row);
-      textBox = new TextField(value);
+      textBox = new TextField(String.valueOf(value));
       textBox.setEditable(editable);
       GridPane.setMargin(textBox, new Insets(5, 5, 5, 10));
       GridPane.setConstraints(textBox, 1, row);

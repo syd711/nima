@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -31,6 +33,14 @@ public class FormPane extends VBox implements ChangeListener {
   public void setData(GameData gameData) {
     dynamicForm.getChildren().clear();
 
+    List<GameData> objects = createSection(gameData);
+    for(GameData object : objects) {
+      createSection(object);
+    }
+  }
+
+  private List<GameData> createSection(GameData gameData) {
+    List<GameData> objectFields = new ArrayList<>();
     GridPane categoryDetailsForm = com.starsailor.editor.util.WidgetFactory.createFormGrid();
     int index = 0;
 
@@ -39,17 +49,30 @@ public class FormPane extends VBox implements ChangeListener {
       field.setAccessible(true);
       Expose annotation = field.getAnnotation(Expose.class);
       if(annotation != null) {
+        Object fieldValue = getFieldValue(field, gameData);
+        if(fieldValue instanceof GameData) {
+          objectFields.add((GameData) fieldValue);
+          continue;
+        }
+
         FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, field, index, true, this);
         index++;
       }
     }
-
-//    WidgetFactory.addBindingFormCheckbox(categoryDetailsForm, "Kategorie aktiviert:", getModel().getStatus(), index++, true, this);
-//    WidgetFactory.addBindingFormTextfield(categoryDetailsForm, "Name:", getModel().getTitle(), index++, true, this);
-//    WidgetFactory.addBindingFormTextarea(categoryDetailsForm, "Titeltext:", getModel().getDetails(), 200, index++, true, this);
-//    WidgetFactory.addBindingFormTextarea(categoryDetailsForm, "Kurzbeschreibung (Bildunterschrift):", getModel().getShortDescription(), index++, true, this);
-
     com.starsailor.editor.util.WidgetFactory.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
+    return objectFields;
+  }
+
+  private Object getFieldValue(Field field, GameData gameData) {
+    try {
+      Object value = field.get(gameData);
+      if(value instanceof GameData) {
+        return value;
+      }
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   @Override

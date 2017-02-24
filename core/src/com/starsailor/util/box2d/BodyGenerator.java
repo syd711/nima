@@ -73,20 +73,20 @@ public class BodyGenerator {
     bdef.position.set(center.x * MPP, center.y * MPP);
     Body b = world.createBody(bdef);
 
-    if(bodyData.linearDamping > 0) {
-      b.setLinearDamping(bodyData.linearDamping);
+    if(bodyData.getLinearDamping() > 0) {
+      b.setLinearDamping(bodyData.getLinearDamping());
     }
     else {
       b.setLinearDamping(4f);
     }
 
-    if(bodyData.angularDamping > 0) {
-      b.setAngularDamping(bodyData.angularDamping);
+    if(bodyData.getAngularDamping() > 0) {
+      b.setAngularDamping(bodyData.getAngularDamping());
     }
 
 
     FixtureDef fdef = new FixtureDef();
-    fdef.density = bodyData.density;
+    fdef.density = bodyData.getDensity();
     fdef.isSensor = sensor;
     fdef.restitution = 0.1f;
     fdef.shape = shape;
@@ -115,28 +115,28 @@ public class BodyGenerator {
     bdef.bullet = true;
     bdef.position.set(position.x * MPP, position.y * MPP);
     Body b = world.createBody(bdef);
-    b.setLinearDamping(bodyData.linearDamping);
-    b.setAngularDamping(bodyData.angularDamping);
+    b.setLinearDamping(bodyData.getLinearDamping());
+    b.setAngularDamping(bodyData.getAngularDamping());
 
     FixtureDef fdef = new FixtureDef();
 
     Shape shape;
-    if(bodyData.radius > 0) {
+    if(bodyData.getRadius() > 0) {
       shape = new CircleShape();
-      shape.setRadius(bodyData.radius * MPP);
+      shape.setRadius(bodyData.getRadius() * MPP);
       fdef.shape = shape;
     }
     else {
       shape = new PolygonShape();
-      ((PolygonShape)shape).setAsBox(bodyData.width * MPP, bodyData.height * MPP);
+      ((PolygonShape)shape).setAsBox(bodyData.width * MPP, bodyData.getHeight() * MPP);
       fdef.shape = shape;
     }
 
     fdef.filter.groupIndex = 0;
-    fdef.isSensor = bodyData.sensor;
+    fdef.isSensor = bodyData.isSensor();
     fdef.density = 0.05f;
-    if(bodyData.density > 0) {
-      fdef.density = bodyData.density;
+    if(bodyData.getDensity() > 0) {
+      fdef.density = bodyData.getDensity();
     }
 
     fdef.friction = 1; //= no sliding along the object
