@@ -44,7 +44,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   private Vector2 position;
 
   public Ship(String name, ShipData profile, Vector2 position) {
-    super(Resources.SPINES + profile.getSpine() + "/" + profile.getSpine(), profile.getDefaultAnimation(), profile.getScale());
+    super(Resources.SPINES + profile.getSpineData().getSpine() + "/" + profile.getSpineData().getSpine(), profile.getSpineData());
     this.name = name;
     this.shipData = profile;
     this.position = position;

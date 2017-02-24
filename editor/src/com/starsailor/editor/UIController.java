@@ -29,14 +29,9 @@ public class UIController {
     ShipData shipData = new ShipData(IdGenerator.getInstance().createId());
     shipData.setParent(parent);
     shipData.setName("New Ship (" + shipData.getId() + ")");
-
-    BodyData bodyData = new BodyData(parent.getUnextendedBodyData());
-    bodyData.setExtendParentData(true);
-    shipData.setBodyData(bodyData);
-
-    SteeringData steeringData = new SteeringData();
-    steeringData.setExtendParentData(true);
-    shipData.setSteeringData(steeringData);
+    shipData.setBodyData(null);
+    shipData.setSteeringData(null);
+    shipData.setSpineData(null);
 
     parent.getChildren().add(shipData);
     return shipData;

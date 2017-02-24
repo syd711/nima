@@ -22,12 +22,6 @@ public class ShipData extends GameData<ShipData> {
   private int id;
   @Expose
   private String name;
-  @Expose
-  private String spine;
-  @Expose
-  private float scale;
-  @Expose
-  private String defaultAnimation;
 
   //Behaviour attributes
   @Expose
@@ -45,6 +39,10 @@ public class ShipData extends GameData<ShipData> {
   //Box2d
   @Expose
   private BodyData bodyData;
+
+  //Spine
+  @Expose
+  private SpineData spineData;
 
   //weapons
   private List<String> weapons = new ArrayList<>();
@@ -85,30 +83,6 @@ public class ShipData extends GameData<ShipData> {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getSpine() {
-    return spine;
-  }
-
-  public void setSpine(String spine) {
-    this.spine = spine;
-  }
-
-  public float getScale() {
-    return scale;
-  }
-
-  public void setScale(float scale) {
-    this.scale = scale;
-  }
-
-  public String getDefaultAnimation() {
-    return defaultAnimation;
-  }
-
-  public void setDefaultAnimation(String defaultAnimation) {
-    this.defaultAnimation = defaultAnimation;
   }
 
   public float getAttackDistance() {
@@ -152,6 +126,9 @@ public class ShipData extends GameData<ShipData> {
   }
 
   public BodyData getBodyData() {
+    if(bodyData == null) {
+      return getParent().getBodyData();
+    }
     return bodyData;
   }
 
@@ -192,6 +169,9 @@ public class ShipData extends GameData<ShipData> {
   }
 
   public SteeringData getSteeringData() {
+    if(steeringData == null) {
+      return getParent().getSteeringData();
+    }
     return steeringData;
   }
 
@@ -199,18 +179,27 @@ public class ShipData extends GameData<ShipData> {
     this.steeringData = steeringData;
   }
 
-  public BodyData getUnextendedBodyData() {
-    if(bodyData.isExtendParentData()) {
-      return getParent().getUnextendedBodyData();
+  public SpineData getSpineData() {
+    if(spineData == null) {
+      return getParent().getSpineData();
     }
-    return bodyData;
+    return spineData;
   }
 
-  public SteeringData getUnextendedSteeringData() {
-    if(bodyData.isExtendParentData()) {
-      return getParent().getUnextendedBodyData();
-    }
-    return bodyData;
+  public void setSpineData(SpineData spineData) {
+    this.spineData = spineData;
+  }
+
+  public boolean isBodyDataExtended() {
+    return bodyData == null;
+  }
+
+  public boolean isSteeringDataExtended() {
+    return steeringData == null;
+  }
+
+  public boolean isSpineDataExtended() {
+    return spineData == null;
   }
 
   @Override

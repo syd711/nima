@@ -73,21 +73,25 @@ public class FormPane extends BorderPane implements ChangeListener {
     section.setExpanded(true);
   }
 
-  protected void createSection(GameData gameData, String title) throws Exception {
+  protected void createSection(GameData gameData, String title, boolean extendable, ChangeListener changeListener) throws Exception {
     if(title == null) {
       title = gameData.toString();
     }
-
-    GridPane categoryDetailsForm = FormUtil.createFormGrid();
     int index = 0;
+    GridPane categoryDetailsForm = FormUtil.createFormGrid();
 
-    Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
-    extendParentDataField.setAccessible(true);
-    CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true);
-    checkbox.selectedProperty().addListener(this);
-    updateGrid(checkbox);
+    if(extendable) {
+      Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
+      extendParentDataField.setAccessible(true);
+      CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true);
+      checkbox.selectedProperty().addListener(this);
+      if(changeListener != null) {
+        checkbox.selectedProperty().addListener(changeListener);
+      }
+      updateGrid(checkbox);
+      index++;
+    }
 
-    index++;
 
     Field[] fields = gameData.getClass().getDeclaredFields();
     for(Field field : fields) {

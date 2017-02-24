@@ -6,6 +6,19 @@ import com.google.gson.annotations.Expose;
  * All attributes required for a steering component
  */
 public class SteeringData extends GameData {
+
+  public SteeringData() {
+
+  }
+
+  public SteeringData(SteeringData steeringData) {
+    this.boundingRadius = steeringData.getBoundingRadius();
+    this.maxLinearSpeed = steeringData.getMaxLinearSpeed();
+    this.maxLinearAcceleration = steeringData.getMaxLinearAcceleration();
+    this.maxAngularSpeed = steeringData.getMaxAngularSpeed();
+    this.maxAngularAcceleration = steeringData.getMaxAngularAcceleration();
+  }
+
   @Expose
   private float boundingRadius = 200;
   @Expose

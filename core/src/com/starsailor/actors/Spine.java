@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.starsailor.data.DataEntities;
+import com.starsailor.data.SpineData;
 import com.starsailor.util.SpineUtil;
 
 import static com.starsailor.util.Settings.MPP;
@@ -18,15 +19,15 @@ abstract public class Spine extends GameEntity {
   public Skeleton skeleton;
   public float jsonScaling;
 
-  public Spine(String path, String defaultAnimation, float scaling) {
-    createSpine(path, defaultAnimation, scaling);
+  public Spine(String path, SpineData spineData) {
+    createSpine(path, spineData);
   }
 
   /**
    * The plain spine creation
    */
-  private void createSpine(String path, String defaultAnimation, float scaling) {
-    this.jsonScaling = scaling;
+  private void createSpine(String path, SpineData spineData) {
+    this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
     TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
@@ -39,8 +40,8 @@ abstract public class Spine extends GameEntity {
 
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
-    if(defaultAnimation != null) {
-      state.setAnimation(0, defaultAnimation, true);
+    if(spineData.getDefaultAnimation() != null) {
+      state.setAnimation(0, spineData.getDefaultAnimation(), true);
     }
   }
 
