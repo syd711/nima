@@ -44,7 +44,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   private Vector2 position;
 
   public Ship(String name, ShipData profile, Vector2 position) {
-    super(Resources.SPINES + profile.spine + "/" + profile.spine, profile.defaultAnimation, profile.scale);
+    super(Resources.SPINES + profile.getSpine() + "/" + profile.getSpine(), profile.getDefaultAnimation(), profile.getScale());
     this.name = name;
     this.shipData = profile;
     this.position = position;
@@ -55,20 +55,20 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
     spineComponent = ComponentFactory.addSpineComponent(this);
-    bodyComponent = ComponentFactory.addBodyComponent(this, shipData.bodyData, position);
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.steeringData);
+    bodyComponent = ComponentFactory.addBodyComponent(this, shipData.getBodyData(), position);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
-    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.shieldData);
+    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getShieldData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
-    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.formationDistance);
+    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getFormationDistance());
 
     this.location = new Box2dLocation(new Vector2());
   }
 
   public ShieldData getShield() {
-    return shipData.shieldData;
+    return shipData.getShieldData();
   }
 
   public List<WeaponData> getChargedWeapons() {
@@ -83,7 +83,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   }
 
   public List<WeaponData> getWeapons() {
-    return shipData.weaponDatas;
+    return shipData.getWeaponDatas();
   }
 
   /**

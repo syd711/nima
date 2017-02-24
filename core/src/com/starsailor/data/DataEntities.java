@@ -25,15 +25,15 @@ public class DataEntities {
     shields = JsonDataFactory.createDataEntities(Resources.SHIELD_PROFILES, ShieldData.class);
 
     for(ShipData shipData : ships.values()) {
-      for(String weapon : shipData.weapons) {
+      for(String weapon : shipData.getWeapons()) {
         WeaponData weaponData = weapons.get(weapon);
         weaponData.type = WeaponData.Types.valueOf(weapon.toUpperCase());
         shipData.addWeaponProfile(weaponData);
       }
 
-      if(shipData.shield != null) {
-        ShieldData shieldData = shields.get(shipData.shield);
-        shipData.shieldData = shieldData;
+      if(shipData.getShield() != null) {
+        ShieldData shieldData = shields.get(shipData.getShield());
+        shipData.setShieldData(shieldData);
       }
     }
   }
@@ -43,13 +43,13 @@ public class DataEntities {
     if(shipData == null) {
       throw new UnsupportedOperationException("No ship profile found for '" + profile + "'");
     }
-    if(shipData.attackDistance <= 0) {
+    if(shipData.getAttackDistance() <= 0) {
       throw new UnsupportedOperationException(profile + " does not define a attackDistance");
     }
-    if(shipData.shootDistance <= 0) {
+    if(shipData.getShootDistance() <= 0) {
       throw new UnsupportedOperationException(profile + " does not define a shootDistance");
     }
-    if(shipData.retreatDistance <= 0) {
+    if(shipData.getRetreatDistance() <= 0) {
       throw new UnsupportedOperationException(profile + " does not define a retreatDistance");
     }
     return shipData;

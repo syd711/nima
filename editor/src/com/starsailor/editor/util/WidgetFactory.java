@@ -1,4 +1,4 @@
-package com.starsailor.editor.ui;
+package com.starsailor.editor.util;
 
 import com.starsailor.editor.resources.ResourceLoader;
 import javafx.application.Platform;
@@ -114,19 +114,20 @@ public class WidgetFactory {
     return condValue;
   }
 
-  public static TextField addBindingFormTextfield(GridPane grid, String label, StringProperty property, int row, boolean editable, ChangeListener<String> listener) {
+  public static TextField addBindingFormTextfield(GridPane grid, String label, String value, int row, boolean editable, ChangeListener<String> listener) {
     Label condLabel = new Label(label);
     GridPane.setHalignment(condLabel, HPos.RIGHT);
     GridPane.setConstraints(condLabel, 0, row);
-    TextField textBox = new TextField(property.get());
-    Bindings.bindBidirectional(property, textBox.textProperty());
-    if(listener != null) {
-      property.addListener(listener);
-    }
+    TextField textBox = new TextField(value);
+//    Bindings.bindBidirectional(property, textBox.textProperty());
+//    if(listener != null) {
+//      property.addListener(listener);
+//    }
     textBox.setEditable(editable);
     GridPane.setMargin(textBox, new Insets(5, 5, 5, 10));
     GridPane.setConstraints(textBox, 1, row);
     grid.getChildren().addAll(condLabel, textBox);
+
     return textBox;
   }
 

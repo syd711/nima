@@ -138,6 +138,6 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public String toString() {
-    return "NPC '" + name + "' (" + shipData.name + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
+    return "NPC '" + name + "' (" + shipData.getName() + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
   }
 }

@@ -40,7 +40,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
     Ship nearestEnemy = npc.findNearestEnemyOfGroup(attackingGroupMembers);
     float distanceTo = npc.getDistanceTo(nearestEnemy);
     //simply use the duplicate attack distance
-    float shootingDistanceWithOffset = nearestEnemy.shipData.attackDistance * 2;
+    float shootingDistanceWithOffset = nearestEnemy.shipData.getAttackDistance() * 2;
     if(distanceTo > shootingDistanceWithOffset) {
       npc.steerableComponent.setBehavior(null);
     }

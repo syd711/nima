@@ -130,7 +130,7 @@ public class ComponentFactory {
 
   public static ShootingComponent addShootableComponent(Entity entity, ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
-    component.setWeaponDatas(profile.weaponDatas);
+    component.setWeaponDatas(profile.getWeaponDatas());
     entity.add(component);
     return component;
   }
@@ -265,8 +265,8 @@ public class ComponentFactory {
 
   public static HealthComponent addHealthComponent(Entity entity, ShipData shipData) {
     HealthComponent component = createComponent(HealthComponent.class);
-    component.maxHealth = shipData.health;
-    component.health = shipData.health;
+    component.maxHealth = shipData.getHealth();
+    component.health = shipData.getHealth();
     entity.add(component);
     return component;
   }

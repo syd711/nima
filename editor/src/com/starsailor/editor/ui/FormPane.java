@@ -2,7 +2,7 @@ package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
-import javafx.beans.property.SimpleStringProperty;
+import com.starsailor.editor.util.FormUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -31,20 +31,15 @@ public class FormPane extends VBox implements ChangeListener {
   public void setData(GameData gameData) {
     dynamicForm.getChildren().clear();
 
-    GridPane categoryDetailsForm = WidgetFactory.createFormGrid();
+    GridPane categoryDetailsForm = com.starsailor.editor.util.WidgetFactory.createFormGrid();
     int index = 0;
 
-    Field[] fields = gameData.getClass().getFields();
+    Field[] fields = gameData.getClass().getDeclaredFields();
     for(Field field : fields) {
+      field.setAccessible(true);
       Expose annotation = field.getAnnotation(Expose.class);
       if(annotation != null) {
-        try {
-          String value = (String) field.get(gameData);
-          SimpleStringProperty property = new SimpleStringProperty(value);
-          WidgetFactory.addBindingFormTextfield(categoryDetailsForm, field.getName(), property, index , true, this);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        FormUtil.addBindingFormTextfield(categoryDetailsForm, gameData, field, index, true, this);
         index++;
       }
     }
@@ -54,7 +49,7 @@ public class FormPane extends VBox implements ChangeListener {
 //    WidgetFactory.addBindingFormTextarea(categoryDetailsForm, "Titeltext:", getModel().getDetails(), 200, index++, true, this);
 //    WidgetFactory.addBindingFormTextarea(categoryDetailsForm, "Kurzbeschreibung (Bildunterschrift):", getModel().getShortDescription(), index++, true, this);
 
-    WidgetFactory.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
+    com.starsailor.editor.util.WidgetFactory.createSection(dynamicForm, categoryDetailsForm, gameData.toString(), false);
   }
 
   @Override
