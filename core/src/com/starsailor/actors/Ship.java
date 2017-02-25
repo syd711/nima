@@ -59,16 +59,16 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
-    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getShieldData());
+    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
-    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getFormationDistance());
+    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getDistanceData().getFormationDistance());
 
     this.location = new Box2dLocation(new Vector2());
   }
 
   public ShieldData getShield() {
-    return shipData.getShieldData();
+    return shipData.getStatusData().getShieldData();
   }
 
   public List<WeaponData> getChargedWeapons() {
@@ -83,7 +83,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   }
 
   public List<WeaponData> getWeapons() {
-    return shipData.getWeaponDatas();
+    return shipData.getStatusData().getWeaponDatas();
   }
 
   /**

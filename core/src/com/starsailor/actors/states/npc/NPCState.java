@@ -19,7 +19,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in attack range of the ship
    */
   protected boolean isInAttackingDistance(Ship ship, Ship enemy) {
-    float attackDistance = ship.shipData.getAttackDistance();
+    float attackDistance = ship.shipData.getDistanceData().getAttackDistance();
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy < attackDistance;
   }
@@ -28,7 +28,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in shooting range of the ship
    */
   protected boolean isInShootingDistance(Ship ship, Ship enemy) {
-    float attackDistance = ship.shipData.getShootDistance();
+    float attackDistance = ship.shipData.getDistanceData().getShootDistance();
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy < attackDistance;
   }
@@ -37,7 +37,7 @@ abstract public class NPCState {
    * Returns true if the enemy is in retreating range of the ship
    */
   protected boolean isInRetreatingDistance(Ship ship, Ship enemy) {
-    float retreatDistance = ship.shipData.getRetreatDistance();
+    float retreatDistance = ship.shipData.getDistanceData().getRetreatDistance();
     float distanceToEnemy = ship.getDistanceTo(enemy);
     return distanceToEnemy > retreatDistance;
   }

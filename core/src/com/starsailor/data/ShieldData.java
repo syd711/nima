@@ -5,30 +5,20 @@ import com.google.gson.annotations.Expose;
 /**
  * Shield data
  */
-public class ShieldData extends GameData {
-  @Expose
-  private String name;
-  @Expose
-  private float rechargeTimeMillis;
+public class ShieldData extends GameDataWithId<ShieldData> {
   @Expose
   private float health;
   @Expose
   private float damageAbsorptionFactor;
 
-  public String getName() {
-    return name;
+  public ShieldData(int id) {
+    super(id, null);
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public float getRechargeTimeMillis() {
-    return rechargeTimeMillis;
-  }
-
-  public void setRechargeTimeMillis(float rechargeTimeMillis) {
-    this.rechargeTimeMillis = rechargeTimeMillis;
+  public ShieldData(int id, ShieldData shieldData) {
+    super(id, shieldData.getName());
+    this.health = shieldData.getHealth();
+    this.damageAbsorptionFactor = shieldData.getDamageAbsorptionFactor();
   }
 
   public float getHealth() {
@@ -45,10 +35,5 @@ public class ShieldData extends GameData {
 
   public void setDamageAbsorptionFactor(float damageAbsorptionFactor) {
     this.damageAbsorptionFactor = damageAbsorptionFactor;
-  }
-
-  @Override
-  public String toString() {
-    return name;
   }
 }

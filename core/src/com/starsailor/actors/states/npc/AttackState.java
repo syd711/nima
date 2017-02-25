@@ -153,7 +153,7 @@ public class AttackState extends NPCState implements State<NPC> {
   private void updateAttackSteering(Ship ship, Ship enemy) {
     //change steering, may be we are close enough sicne we are in the arrive steering
     if(isInAttackingDistance(ship, enemy)) {
-      if(ship.getDistanceTo(enemy) < ship.shipData.getAttackDistance() - 100) {
+      if(ship.getDistanceTo(enemy) < ship.shipData.getDistanceData().getAttackDistance() - 100) {
         SteeringManager.setFleeSteering(ship.steerableComponent, enemy.steerableComponent);
       }
       else {

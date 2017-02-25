@@ -2,12 +2,14 @@ package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
+import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,10 @@ public class FormPane extends BorderPane implements ChangeListener {
   private VBox dynamicForm;
   private MainPane mainPane;
   private List<String> ignoredFields;
+
+  public FormPane(MainPane mainPane) {
+    this(mainPane, new ArrayList<>());
+  }
 
   public FormPane(MainPane mainPane, List<String> ignoredFields) {
     this.mainPane = mainPane;
@@ -58,12 +65,12 @@ public class FormPane extends BorderPane implements ChangeListener {
     GridPane categoryDetailsForm = FormUtil.createFormGrid();
     int index = 0;
 
-    Field idField = gameData.getClass().getDeclaredField("id");
+    Field idField = FormUtil.getField(gameData.getClass(),"id");
     idField.setAccessible(true);
     FormUtil.addBindingFormField(categoryDetailsForm, gameData, idField, index, false);
     index++;
 
-    Field nameField = gameData.getClass().getDeclaredField("name");
+    Field nameField = FormUtil.getField(gameData.getClass(),"name");
     nameField.setAccessible(true);
     TextField textField = (TextField) FormUtil.addBindingFormField(categoryDetailsForm, gameData, nameField, index, true);
     textField.textProperty().addListener(this);
@@ -81,7 +88,7 @@ public class FormPane extends BorderPane implements ChangeListener {
     GridPane categoryDetailsForm = FormUtil.createFormGrid();
 
     if(extendable) {
-      Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
+      Field extendParentDataField = FormUtil.getField(gameData.getClass(), "extendParentData");
       extendParentDataField.setAccessible(true);
       CheckBox checkbox = (CheckBox)FormUtil.addBindingFormField(categoryDetailsForm, gameData, extendParentDataField, index, true);
       checkbox.selectedProperty().addListener(this);
@@ -104,7 +111,10 @@ public class FormPane extends BorderPane implements ChangeListener {
           continue;
         }
 
-        FormUtil.addBindingFormField(categoryDetailsForm, gameData, field, index, true);
+        Node editor = getCustomEditor(categoryDetailsForm, gameData, field, index);
+        if(editor == null) {
+          FormUtil.addBindingFormField(categoryDetailsForm, gameData, field, index, true);
+        }
         index++;
       }
     }
@@ -126,7 +136,7 @@ public class FormPane extends BorderPane implements ChangeListener {
 
   private Boolean isExtending(GameData gameData) {
     try {
-      Field extendParentDataField = gameData.getClass().getSuperclass().getDeclaredField("extendParentData");
+      Field extendParentDataField = FormUtil.getField(gameData.getClass(), "extendParentData");
       extendParentDataField.setAccessible(true);
       return (Boolean) extendParentDataField.get(gameData);
     } catch (Exception e) {
@@ -156,4 +166,16 @@ public class FormPane extends BorderPane implements ChangeListener {
       FormUtil.setColorForTitledPane(checkBox, Color.WHITE);
     }
   }
+
+  public Node getCustomEditor(GridPane grid, GameData data, Field field, int row) {
+    if(field.getName().equals("spine")) {
+      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/spines/"), null);
+    }
+    else if(field.getName().equals("shield")) {
+      List<GameData> entries = UIController.getInstance().getShields();
+      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+    }
+    return null;
+  }
+
 }

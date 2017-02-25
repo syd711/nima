@@ -1,6 +1,6 @@
 package com.starsailor.editor.util;
 
-import com.starsailor.data.ShipData;
+import com.starsailor.data.GameDataWithId;
 
 /**
  *
@@ -14,7 +14,7 @@ public class IdGenerator {
     return instance;
   }
 
-  public void update(ShipData gameData) {
+  public void update(GameDataWithId gameData) {
     if(id < gameData.getId()) {
       id = gameData.getId();
     }

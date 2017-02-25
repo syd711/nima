@@ -25,9 +25,6 @@ public class Editor extends Application {
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setMaxWidth(primaryScreenBounds.getWidth());
     primaryStage.setMaxHeight(primaryScreenBounds.getHeight());
-//    primaryStage.setFullScreen(true);
-//    primaryStage.setHeight(700);
-//    primaryStage.setWidth(1200);
     primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, new com.starsailor.editor.ui.MainKeyEventFilter());
 
     primaryStage.setWidth(primaryScreenBounds.getWidth());

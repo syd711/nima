@@ -7,7 +7,7 @@ import java.util.List;
  * Superclass for all game data entities
  */
 public class GameData<T> {
-  private boolean extendParentData;
+  private transient boolean extendParentData;
   private transient T parent;
 
   private List<T> children = new ArrayList<>();

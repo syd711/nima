@@ -86,7 +86,10 @@ public class BodyGenerator {
 
 
     FixtureDef fdef = new FixtureDef();
-    fdef.density = bodyData.getDensity();
+    fdef.density = 1;
+    if(bodyData.getDensity() > 0) {
+      fdef.density = bodyData.getDensity();
+    }
     fdef.isSensor = sensor;
     fdef.restitution = 0.1f;
     fdef.shape = shape;

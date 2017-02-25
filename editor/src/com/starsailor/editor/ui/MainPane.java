@@ -1,6 +1,7 @@
 package com.starsailor.editor.ui;
 
 import com.starsailor.data.GameData;
+import com.starsailor.data.ShieldData;
 import com.starsailor.data.ShipData;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
@@ -20,22 +21,38 @@ import javafx.scene.layout.VBox;
  */
 public class MainPane extends BorderPane {
 
-  private final ShipDataTreePane treePane;
-  private final ShipDataFormPane formPane;
+  private FormPane formPane;
+  private GameDataTreePane activeTreePane;
+  private final BorderPane formPaneHolder;
+
+
+  private final ShipDataTreePane shipTreePane;
+  private final ShieldDataTreePane shieldTreePane;
 
   private Label statusMessage = new Label("");
   private Label infoMessage = new Label("");
+  private final Button newButton;
+  private final Button deleteButton;
 
   public MainPane() {
     VBox top = new VBox();
     setTop(top);
     SplitPane splitPane = new SplitPane();
     splitPane.setOrientation(Orientation.HORIZONTAL);
-    treePane = new ShipDataTreePane(this);
-    treePane.setMaxWidth(800);
-    treePane.setMinWidth(400);
-    formPane = new ShipDataFormPane(this);
-    splitPane.getItems().addAll(treePane, formPane);
+
+    Accordion treesPane = new Accordion();
+    treesPane.setMaxWidth(800);
+    treesPane.setMinWidth(400);
+
+
+    shipTreePane = new ShipDataTreePane(this);
+    shieldTreePane = new ShieldDataTreePane(this);
+    shieldTreePane.setExpanded(true);
+
+    treesPane.getPanes().addAll(shipTreePane, shieldTreePane);
+
+    formPaneHolder = new BorderPane();
+    splitPane.getItems().addAll(treesPane, formPaneHolder);
     splitPane.setDividerPositions(0, 0.1);
     setCenter(splitPane);
 
@@ -45,37 +62,39 @@ public class MainPane extends BorderPane {
     Button saveButton = new Button("", ResourceLoader.getImageView("save.png"));
     saveButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        UIController.getInstance().save(treePane.getRoot());
+        UIController.getInstance().save();
       }
     });
 
     Button refreshButton = new Button("", ResourceLoader.getImageView("refresh.png"));
     refreshButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        treePane.refresh();
+        shipTreePane.refresh();
       }
     });
     refreshButton.setTooltip(new Tooltip("Daten neu laden"));
-    Button newButton = new Button("", ResourceLoader.getImageView("new.png"));
+    newButton = new Button("", ResourceLoader.getImageView("new.png"));
     newButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        TreeItem selection = treePane.getSelection();
-        if(selection != null) {
-          ShipData newChild = UIController.getInstance().newChildFor((ShipData) selection.getValue());
-          TreeItem newNode = new TreeItem<GameData>(newChild);
-          newNode.setExpanded(true);
-          selection.getChildren().add(newNode);
-          treePane.refresh();
-          treePane.select(newNode);
+        if(activeTreePane != null) {
+          TreeItem selection = activeTreePane.getSelection();
+          if(selection != null) {
+            GameData newChild = UIController.getInstance().newChildFor((GameData) selection.getValue());
+            TreeItem newNode = new TreeItem<GameData>(newChild);
+            newNode.setExpanded(true);
+            selection.getChildren().add(newNode);
+          }
         }
       }
     });
     newButton.setTooltip(new Tooltip("Neuen Unterknoten erzeugen"));
+    newButton.setDisable(true);
 
-    Button deleteButton = new Button("", ResourceLoader.getImageView("remove.png"));
+    deleteButton = new Button("", ResourceLoader.getImageView("remove.png"));
+    deleteButton.setDisable(true);
     deleteButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        TreeItem selection = treePane.getSelection();
+        TreeItem selection = activeTreePane.getSelection();
         if(selection != null) {
           boolean delete = FormUtil.showConfirmation("Delete Node", "Delete the selection?");
           if(delete) {
@@ -83,7 +102,7 @@ public class MainPane extends BorderPane {
             parent.getChildren().remove(selection);
             GameData value = (GameData) parent.getValue();
             value.getChildren().remove(selection.getValue());
-            select(null);
+            select(activeTreePane,null);
           }
         }
       }
@@ -127,21 +146,35 @@ public class MainPane extends BorderPane {
     setBottom(footer);
   }
 
-  public void select(TreeItem selection) {
+  public void select(GameDataTreePane treePane, TreeItem selection) {
+    this.activeTreePane = treePane;
+    this.deleteButton.setDisable(selection == null || selection.getParent() == null);
+    this.newButton.setDisable(selection == null);
+
     try {
       if(selection != null) {
-        formPane.setData((ShipData) selection.getValue());
+        GameData gameData = (GameData) selection.getValue();
+        if(gameData instanceof ShipData) {
+          formPane = new ShipDataFormPane(this);
+          formPaneHolder.setCenter(formPane);
+        }
+        else if(gameData instanceof ShieldData) {
+          formPane = new ShieldDataFormPane(this);
+          formPaneHolder.setCenter(formPane);
+        }
+
+        formPane.setData(gameData);
       }
-      else {
+      else if(formPane != null){
         formPane.setData(null);
       }
 
     } catch (Exception e) {
-      e.printStackTrace();
+      FormUtil.showError("Error during selection: " + e.getMessage(), e);
     }
   }
 
   public void refreshTree() {
-    treePane.refresh();
+    shipTreePane.refresh();
   }
 }

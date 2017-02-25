@@ -130,7 +130,7 @@ public class ComponentFactory {
 
   public static ShootingComponent addShootableComponent(Entity entity, ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
-    component.setWeaponDatas(profile.getWeaponDatas());
+    component.setWeaponDatas(profile.getStatusData().getWeaponDatas());
     entity.add(component);
     return component;
   }
@@ -241,7 +241,6 @@ public class ComponentFactory {
       component.health = shieldData.getHealth();
       component.maxHealth = shieldData.getHealth();
       component.damageAbsorptionFactor = shieldData.getDamageAbsorptionFactor();
-      component.rechargeTimeMillis = shieldData.getRechargeTimeMillis();
     }
     entity.add(component);
     return component;
@@ -265,8 +264,8 @@ public class ComponentFactory {
 
   public static HealthComponent addHealthComponent(Entity entity, ShipData shipData) {
     HealthComponent component = createComponent(HealthComponent.class);
-    component.maxHealth = shipData.getHealth();
-    component.health = shipData.getHealth();
+    component.maxHealth = shipData.getStatusData().getHealth();
+    component.health = shipData.getStatusData().getHealth();
     entity.add(component);
     return component;
   }

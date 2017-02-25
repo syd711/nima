@@ -10,20 +10,21 @@ import java.util.Arrays;
 /**
  *
  */
-public class ShipDataFormPane extends FormPane implements ChangeListener {
+public class ShipDataFormPane extends FormPane {
 
   public ShipDataFormPane(MainPane mainPane) {
-    super(mainPane, Arrays.asList("bodyData", "steeringData", "spineData"));
+    super(mainPane, Arrays.asList("bodyData", "steeringData", "spineData", "distanceData", "statusData"));
   }
 
   @Override
   public void setData(GameData gameData) throws Exception {
     super.setData(gameData);
+    if(gameData == null) {
+      return;
+    }
 
     ShipData shipData = (ShipData) gameData;
     boolean extendable = ((ShipData) gameData).getParent() != null;
-
-    createSection(shipData, "Ship Data", extendable, null);
 
     SpineData spineData = new SpineData(shipData.getSpineData());
     spineData.setExtendParentData(shipData.isSpineDataExtended());
@@ -37,6 +38,23 @@ public class ShipDataFormPane extends FormPane implements ChangeListener {
           }
           else {
             shipData.setSpineData(spineData);
+          }
+        }
+      }
+    });
+
+    StatusData statusData = new StatusData(shipData.getStatusData());
+    statusData.setExtendParentData(shipData.isStatusDataExtended());
+    createSection(statusData, "Status Data", extendable, new ChangeListener() {
+      @Override
+      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        if(observable instanceof BooleanProperty) {
+          boolean selected = (boolean) newValue;
+          if(selected) {
+            shipData.setStatusData(null);
+          }
+          else {
+            shipData.setStatusData(statusData);
           }
         }
       }
@@ -73,6 +91,23 @@ public class ShipDataFormPane extends FormPane implements ChangeListener {
           }
           else {
             shipData.setSteeringData(steeringData);
+          }
+        }
+      }
+    });
+
+    DistanceData distanceData = new DistanceData(shipData.getDistanceData());
+    distanceData.setExtendParentData(shipData.isDistanceDataExtended());
+    createSection(distanceData, "Distance Data", extendable, new ChangeListener() {
+      @Override
+      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        if(observable instanceof BooleanProperty) {
+          boolean selected = (boolean) newValue;
+          if(selected) {
+            shipData.setDistanceData(null);
+          }
+          else {
+            shipData.setDistanceData(distanceData);
           }
         }
       }
