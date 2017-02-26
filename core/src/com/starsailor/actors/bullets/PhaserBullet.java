@@ -23,7 +23,7 @@ public class PhaserBullet extends Bullet {
     //the bullet is already at the target
     positionComponent.setPosition(target.positionComponent.getPosition());
     particleComponent.enabled = true;
-    animationComponent = ComponentFactory.addAnimationComponent(this, weaponData.sprite);
+    animationComponent = ComponentFactory.addAnimationComponent(this, weaponData.getSprite());
     animationComponent.setWrappedRepeat();
 
     return true;

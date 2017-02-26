@@ -125,14 +125,14 @@ abstract public class Bullet extends GameEntity {
    * @param weaponData
    */
   protected void createComponents(WeaponData weaponData) {
-    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponData.sprite, 90);
+    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponData.getSprite(), 90);
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponData);
-    particleComponent = ComponentFactory.addParticleComponent(this, weaponData.collisionEffect);
+    particleComponent = ComponentFactory.addParticleComponent(this, weaponData.getCollisionEffect());
 
     //not all bullets require a body
-    if(weaponData.bodyData != null) {
+    if(weaponData.getBodyData() != null) {
       bodyComponent = ComponentFactory.addBulletBodyComponent(this, owner.getCenter(), weaponData, owner instanceof Player);
     }
 
@@ -144,7 +144,7 @@ abstract public class Bullet extends GameEntity {
    */
   public void applyImpactForce(Ship ship, Vector2 position) {
     BodyComponent component = ship.getComponent(BodyComponent.class);
-    float impactFactor = weaponData.impactFactor;
+    float impactFactor = weaponData.getImpactFactor();
 
     if(bodyComponent != null) {
       //use my linear velocity
@@ -164,7 +164,7 @@ abstract public class Bullet extends GameEntity {
    * Fires the firing sound configured in json
    */
   private void playFiringSound() {
-    SoundManager.playSoundAtPosition(weaponData.sound, 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
+    SoundManager.playSoundAtPosition(weaponData.getSound(), 0.5f, new Vector3(owner.getCenter().x, owner.getCenter().y, 0));
   }
 
   /**
@@ -183,7 +183,7 @@ abstract public class Bullet extends GameEntity {
   }
 
   protected SpriteComponent.SpriteItem getSpriteItem() {
-    return spriteComponent.getSprite(weaponData.sprite);
+    return spriteComponent.getSprite(weaponData.getSprite());
   }
 
   public boolean is(WeaponData.Types type) {
@@ -200,7 +200,7 @@ abstract public class Bullet extends GameEntity {
 
   public boolean isExhausted() {
     float current = Game.currentTimeMillis - shootingTime;
-    return current > weaponData.durationMillis;
+    return current > weaponData.getDurationMillis();
   }
 
   public void setActualHit(Ship actualHit) {

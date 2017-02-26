@@ -30,7 +30,7 @@ public class ShootingComponent implements Component, Poolable {
       lastBulletTime = lastBulletTimes.get(weaponData);
     }
     float current = Game.currentTimeMillis - lastBulletTime;
-    return current > weaponData.rechargeTimeMillis;
+    return current > weaponData.getRechargeTimeMillis();
   }
 
   public void updateLastBulletTime(WeaponData weaponData) {
@@ -42,10 +42,10 @@ public class ShootingComponent implements Component, Poolable {
     if(lastBulletTimes.containsKey(weaponData)) {
       lastBulletTime = lastBulletTimes.get(weaponData);
       float current = Game.currentTimeMillis - lastBulletTime;
-      if(current > weaponData.rechargeTimeMillis) {
+      if(current > weaponData.getRechargeTimeMillis()) {
         return 100;
       }
-      return current * 100 / weaponData.rechargeTimeMillis;
+      return current * 100 / weaponData.getRechargeTimeMillis();
     }
     return 100; //100 percent
   }

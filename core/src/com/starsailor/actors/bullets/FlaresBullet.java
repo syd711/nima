@@ -22,7 +22,7 @@ public class FlaresBullet extends Bullet {
     super.createComponents(weaponData);
 
     //additional steering component
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponData.steeringData);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponData.getSteeringData());
   }
 
   @Override
@@ -35,10 +35,10 @@ public class FlaresBullet extends Bullet {
     Vector2 force = new Vector2();
     force.x = (float) Math.cos(angle);
     force.y = (float) Math.sin(angle);
-    force = force.scl(weaponData.forceFactor);
+    force = force.scl(weaponData.getForceFactor());
 
     bb.applyForceToCenter(force, true);
-    bb.applyTorque(weaponData.torque, true);
+    bb.applyTorque(weaponData.getTorque(), true);
 
     return true;
   }

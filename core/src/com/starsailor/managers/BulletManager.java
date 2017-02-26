@@ -31,7 +31,7 @@ public class BulletManager {
 
   private void create(Ship owner, Ship target, WeaponData weaponData, boolean internal) {
     WeaponData.Types type = weaponData.type;
-    int bulletCount = weaponData.bulletCount;
+    int bulletCount = weaponData.getBulletCount();
 
     Bullet bullet = null;
     switch(type) {
@@ -108,12 +108,12 @@ public class BulletManager {
    * They try to aim for all targets of the enemy group while bullets available.
    */
   private void fireRockets(WeaponData weaponData, Ship owner, Ship target) {
-    int bulletCount = weaponData.bulletCount;
+    int bulletCount = weaponData.getBulletCount();
     List<Ship> members = target.formationComponent.getMembers();
     Iterator<Ship> iterator = members.iterator();
     Ship nextTarget = null;
     long time = System.currentTimeMillis();
-    long shootingTime = time + weaponData.bulletDelay;
+    long shootingTime = time + weaponData.getBulletDelay();
 
     //queue primary target first
     QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponData, shootingTime);
@@ -125,7 +125,7 @@ public class BulletManager {
       }
 
       nextTarget = iterator.next();
-      shootingTime = time + weaponData.bulletDelay*(i+1);
+      shootingTime = time + weaponData.getBulletDelay()*(i+1);
 
       queuedBullet = new QueuedBullet(owner, nextTarget, weaponData, shootingTime);
       delayedBulletsQueue.add(queuedBullet);

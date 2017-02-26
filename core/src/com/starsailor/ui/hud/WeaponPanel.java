@@ -57,7 +57,7 @@ public class WeaponPanel extends Table {
         }
       });
 
-      TextButton weapon1 = new TextButton(weaponData.name, Hud.skin);
+      TextButton weapon1 = new TextButton(weaponData.getName(), Hud.skin);
       weapon1.setDebug(debug);
       weapon1.setWidth(150);
       weapon1.addListener(new ChangeListener() {

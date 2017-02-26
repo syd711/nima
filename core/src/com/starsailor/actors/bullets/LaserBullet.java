@@ -34,7 +34,7 @@ public class LaserBullet extends Bullet {
     float mXDir = -(float) Math.cos(radianAngle);
     float mYDir = -(float) Math.sin(radianAngle);
 
-    float speedFactor = weaponData.forceFactor;
+    float speedFactor = weaponData.getForceFactor();
     Vector2 impulse = new Vector2(speedFactor * mXDir / Settings.PPM, speedFactor * mYDir / Settings.PPM);
     bulletBody.applyLinearImpulse(impulse, bulletBody.getPosition(), true);
 

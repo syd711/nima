@@ -30,7 +30,7 @@ public class MissileBullet extends Bullet implements EntityListener {
   protected void createComponents(WeaponData weaponData) {
     super.createComponents(weaponData);
 
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponData.steeringData);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, weaponData.getSteeringData());
     SteeringManager.setMissileSteering(steerableComponent, target.steerableComponent);
     steerableComponent.setIndependetFacing(false);
     steerableComponent.setEnabled(false);
@@ -53,7 +53,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     Vector2 force = new Vector2();
     force.x = (float) Math.cos(angle);
     force.y = (float) Math.sin(angle);
-    force = force.scl(weaponData.forceFactor * Game.camera.zoom);
+    force = force.scl(weaponData.getForceFactor() * Game.camera.zoom);
 
     bulletBody.applyForceToCenter(force, true);
     getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
@@ -71,7 +71,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     if(!steerableComponent.isEnabled()) {
       float distanceToOwner = getDistanceFromOrigin() * Game.camera.zoom;
       //lazy init of the bullet's steering system
-      if(distanceToOwner > weaponData.activationDistance && !steerableComponent.isEnabled()) {
+      if(distanceToOwner > weaponData.getActivationDistance() && !steerableComponent.isEnabled()) {
         steerableComponent.setEnabled(true);
       }
     }

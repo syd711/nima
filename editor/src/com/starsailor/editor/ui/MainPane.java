@@ -3,6 +3,7 @@ package com.starsailor.editor.ui;
 import com.starsailor.data.GameData;
 import com.starsailor.data.ShieldData;
 import com.starsailor.data.ShipData;
+import com.starsailor.data.WeaponData;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.FormUtil;
@@ -22,10 +23,11 @@ import javafx.scene.layout.VBox;
 public class MainPane extends BorderPane {
 
   private FormPane formPane;
+
   private GameDataTreePane activeTreePane;
   private final BorderPane formPaneHolder;
 
-
+  private final WeaponDataTreePane weaponTreePane;
   private final ShipDataTreePane shipTreePane;
   private final ShieldDataTreePane shieldTreePane;
 
@@ -47,9 +49,10 @@ public class MainPane extends BorderPane {
 
     shipTreePane = new ShipDataTreePane(this);
     shieldTreePane = new ShieldDataTreePane(this);
+    weaponTreePane = new WeaponDataTreePane(this);
     shieldTreePane.setExpanded(true);
 
-    treesPane.getPanes().addAll(shipTreePane, shieldTreePane);
+    treesPane.getPanes().addAll(shipTreePane, shieldTreePane, weaponTreePane);
 
     formPaneHolder = new BorderPane();
     splitPane.getItems().addAll(treesPane, formPaneHolder);
@@ -156,13 +159,15 @@ public class MainPane extends BorderPane {
         GameData gameData = (GameData) selection.getValue();
         if(gameData instanceof ShipData) {
           formPane = new ShipDataFormPane(this);
-          formPaneHolder.setCenter(formPane);
         }
         else if(gameData instanceof ShieldData) {
           formPane = new ShieldDataFormPane(this);
-          formPaneHolder.setCenter(formPane);
+        }
+        else if(gameData instanceof WeaponData) {
+          formPane = new WeaponDataFormPane(this);
         }
 
+        formPaneHolder.setCenter(formPane);
         formPane.setData(gameData);
       }
       else if(formPane != null){
@@ -170,6 +175,7 @@ public class MainPane extends BorderPane {
       }
 
     } catch (Exception e) {
+      e.printStackTrace();
       FormUtil.showError("Error during selection: " + e.getMessage(), e);
     }
   }

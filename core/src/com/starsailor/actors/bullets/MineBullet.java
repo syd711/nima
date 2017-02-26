@@ -31,7 +31,7 @@ public class MineBullet extends Bullet {
     Vector2 force = new Vector2();
     force.x = (float) Math.cos(angle);
     force.y = (float) Math.sin(angle);
-    force = force.scl(weaponData.forceFactor);
+    force = force.scl(weaponData.getForceFactor());
 
     bulletBody.applyForceToCenter(force, true);
     bulletBody.applyTorque(0.1f, true);

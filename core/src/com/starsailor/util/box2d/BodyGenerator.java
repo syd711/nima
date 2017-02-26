@@ -111,7 +111,7 @@ public class BodyGenerator {
   }
 
   public static Body createBulletBody(Vector2 position, WeaponData weaponData, boolean friendly) {
-    BodyData bodyData = weaponData.bodyData;
+    BodyData bodyData = weaponData.getBodyData();
 
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;

@@ -214,7 +214,7 @@ public class ComponentFactory {
 
   public static BulletDamageComponent addBulletDamageComponent(Entity entity, WeaponData weaponData) {
     BulletDamageComponent component = createComponent(BulletDamageComponent.class);
-    component.damage = weaponData.damage;
+    component.damage = weaponData.getDamage();
     entity.add(component);
     return component;
   }

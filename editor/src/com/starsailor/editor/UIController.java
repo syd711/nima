@@ -15,7 +15,7 @@ public class UIController {
 
   private ShipData shipsRoot;
   private ShieldData shieldsRoot;
-  private List<GameData> shields;
+  private WeaponData weaponsData;
 
   private UIController() {
   }
@@ -31,6 +31,15 @@ public class UIController {
     }
 
     return shipsRoot;
+  }
+
+  public WeaponData getWeaponsData() {
+    if(weaponsData == null) {
+      GameDataLoader loader = new GameDataLoader(new File("G:/temp/weapons.json"));
+      weaponsData = loader.load(WeaponData.class);
+    }
+
+    return weaponsData;
   }
 
   public ShieldData getShieldsTreeModel() {
