@@ -1,6 +1,8 @@
 package com.starsailor.editor.util;
 
 import com.starsailor.data.GameData;
+import com.starsailor.data.GameDataWithId;
+import com.starsailor.editor.UIController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,21 +70,30 @@ public class FormUtil {
     return group;
   }
 
-  public static ComboBox addBindingComboBox(GridPane grid, GameData data, Field field, int row, List<GameData> values) {
+  public static ComboBox addBindingComboBox(GridPane grid, GameData data, Field field, int row, List<GameDataWithId> values) {
     try {
-      Object value = field.get(data);
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
-      BeanPathAdapter<GameData> gameDataBeanPathAdapter = new BeanPathAdapter<>(data);
+      String id = (String) field.get(data);
+      GameDataWithId model = UIController.getInstance().getModel(Integer.parseInt(id));
 
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
       GridPane.setConstraints(condLabel, 0, row);
 
       ObservableList<Object> options = FXCollections.observableArrayList(values);
-
       ComboBox comboBox = new ComboBox(options);
-      comboBox.setValue(value);
-//      gameDataBeanPathAdapter.bindBidirectional(field.getName(), comboBox.valueProperty());
+      comboBox.setValue(model);
+      comboBox.valueProperty().addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+          try {
+            GameDataWithId gameDataWithId = (GameDataWithId) newValue;
+            field.set(data, ""+gameDataWithId.getId());
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          }
+        }
+      });
 
       GridPane.setMargin(comboBox, new Insets(5, 5, 5, 10));
       GridPane.setConstraints(comboBox, 1, row);

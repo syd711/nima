@@ -21,6 +21,7 @@ public class SpineData extends GameData {
     this.spine = spineData.getSpine();
     this.scale = spineData.getScale();
     this.defaultAnimation = spineData.getDefaultAnimation();
+    this.setExtendParentData(true);
   }
 
   public String getSpine() {

@@ -25,6 +25,7 @@ public class DistanceData extends GameData {
     this.shootDistance = distanceData.getShootDistance();
     this.retreatDistance = distanceData.getRetreatDistance();
     this.formationDistance = distanceData.getFormationDistance();
+    this.setExtendParentData(true);
   }
 
   public float getAttackDistance() {

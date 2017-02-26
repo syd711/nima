@@ -33,6 +33,7 @@ public class BodyData extends GameData {
     this.radius = bodyData.getRadius();
     this.density = bodyData.getDensity();
     this.sensor = bodyData.isSensor();
+    this.setExtendParentData(true);
   }
 
   public float getLinearDamping() {

@@ -28,6 +28,7 @@ public class StatusData extends GameData {
     this.health = statusData.getHealth();
     this.shield = statusData.getShield();
     this.weapons = new ArrayList<>(statusData.getWeapons());
+    this.setExtendParentData(true);
   }
 
   public void addWeaponProfile(WeaponData profile) {

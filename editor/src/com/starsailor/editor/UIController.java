@@ -43,23 +43,33 @@ public class UIController {
   }
 
 
-  public List<GameData> getShields() {
-    List<GameData> result = new ArrayList<>();
+  public List<GameDataWithId> getShields() {
+    List<GameDataWithId> result = new ArrayList<>();
     collectModels(getShieldsTreeModel(), result);
     return result;
   }
 
-  public List<GameData> getAllModels() {
-    List<GameData> result = new ArrayList<>();
+  public GameDataWithId getModel(int id) {
+    List<GameDataWithId> allModels = getAllModels();
+    for(GameDataWithId model : allModels) {
+      if(model.getId() == id) {
+        return model;
+      }
+    }
+    return null;
+  }
+
+  public List<GameDataWithId> getAllModels() {
+    List<GameDataWithId> result = new ArrayList<>();
     collectModels(getShieldsTreeModel(), result);
     collectModels(getShipsTreeModel(), result);
     return result;
   }
 
-  private void collectModels(GameData gameData, List<GameData> result) {
+  private void collectModels(GameDataWithId gameData, List<GameDataWithId> result) {
     result.add(gameData);
     for(Object child : gameData.getChildren()) {
-      collectModels((GameData) child, result);
+      collectModels((GameDataWithId) child, result);
     }
   }
 

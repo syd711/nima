@@ -17,6 +17,7 @@ public class SteeringData extends GameData {
     this.maxLinearAcceleration = steeringData.getMaxLinearAcceleration();
     this.maxAngularSpeed = steeringData.getMaxAngularSpeed();
     this.maxAngularAcceleration = steeringData.getMaxAngularAcceleration();
+    this.setExtendParentData(true);
   }
 
   @Expose

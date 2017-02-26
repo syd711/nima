@@ -2,6 +2,7 @@ package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
+import com.starsailor.data.GameDataWithId;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
@@ -167,12 +168,12 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
   }
 
-  public Node getCustomEditor(GridPane grid, GameData data, Field field, int row) {
+  public Node getCustomEditor(GridPane grid, GameData data, Field field, int row) throws IllegalAccessException {
     if(field.getName().equals("spine")) {
       return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/spines/"), null);
     }
     else if(field.getName().equals("shield")) {
-      List<GameData> entries = UIController.getInstance().getShields();
+      List<GameDataWithId> entries = UIController.getInstance().getShields();
       return FormUtil.addBindingComboBox(grid, data, field, row, entries);
     }
     return null;
