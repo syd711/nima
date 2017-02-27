@@ -1,0 +1,7 @@
+{
+  "health": 100.0,
+  "damageAbsorptionFactor": 3.0,
+  "name": "Default Shield",
+  "id": 2,
+  "children": []
+}

@@ -23,6 +23,8 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,6 +84,10 @@ public class FormPane extends BorderPane implements ChangeListener {
   }
 
   protected void createSection(GameData gameData, String title, boolean extendable, ChangeListener changeListener) throws Exception {
+    createSection(gameData, title, Collections.emptyList(), extendable, changeListener);
+  }
+
+  protected void createSection(GameData gameData, String title, List<String> ignoredSectionFields, boolean extendable, ChangeListener changeListener) throws Exception {
     if(title == null) {
       title = gameData.toString();
     }
@@ -107,8 +113,7 @@ public class FormPane extends BorderPane implements ChangeListener {
       Expose annotation = field.getAnnotation(Expose.class);
       if(annotation != null) {
         String name = field.getName();
-        Object fieldValue = getGameDataValue(field, gameData);
-        if(ignoredFields.contains(name)) {
+        if(ignoredFields.contains(name) || ignoredSectionFields.contains(name)) {
           continue;
         }
 
@@ -175,6 +180,18 @@ public class FormPane extends BorderPane implements ChangeListener {
     else if(field.getName().equals("shield")) {
       List<GameDataWithId> entries = UIController.getInstance().getShields();
       return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+    }
+    else if(field.getName().equals("sound")) {
+      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/sounds/"), ".wav");
+    }
+    else if(field.getName().equals("collisionEffect")) {
+      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/particles/"), ".p");
+    }
+    else if(field.getName().equals("sprite")) {
+      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/textures/weapons/"), ".png");
+    }
+    else if(field.getName().equals("category")) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Arrays.asList("primary", "secondary", "emergency"));
     }
     return null;
   }

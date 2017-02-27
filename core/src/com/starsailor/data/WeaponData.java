@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
  * Contains all data of a weapon
  */
 public class WeaponData extends GameDataWithId<WeaponData> {
+
   public enum Types {
     LASER, MISSILE, PHASER, MINE, FLARES, ROCKET
   }
@@ -14,12 +15,14 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     PRIMARY, SECONDARY, DEFENSIVE, EMERGENCY
   }
 
-  public Types type;
+  public Types weaponType;
 
   public WeaponData(int id) {
     super(id, null);
   }
 
+  @Expose
+  private String type;
   @Expose
   private float rechargeTimeMillis;
   @Expose
@@ -185,7 +188,20 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     return steeringData == null;
   }
 
-  public Category getCategory() {
-    return Category.valueOf(category.toUpperCase());
+  public String getCategory() {
+    return category;
   }
+
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
 }

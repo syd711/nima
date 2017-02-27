@@ -11,11 +11,11 @@ public class BodyData extends GameData {
   @Expose
   private float angularDamping;
   @Expose
-  private int width;
+  private float width;
   @Expose
-  private int height;
+  private float height;
   @Expose
-  private int radius;
+  private float radius;
   @Expose
   private float density = 1;
   @Expose
@@ -52,19 +52,19 @@ public class BodyData extends GameData {
     this.angularDamping = angularDamping;
   }
 
-  public int getHeight() {
+  public float getHeight() {
     return height;
   }
 
-  public void setHeight(int height) {
+  public void setHeight(float height) {
     this.height = height;
   }
 
-  public int getRadius() {
+  public float getRadius() {
     return radius;
   }
 
-  public void setRadius(int radius) {
+  public void setRadius(float radius) {
     this.radius = radius;
   }
 
@@ -84,11 +84,11 @@ public class BodyData extends GameData {
     this.sensor = sensor;
   }
 
-  public int getWidth() {
+  public float getWidth() {
     return width;
   }
 
-  public void setWidth(int width) {
+  public void setWidth(float width) {
     this.width = width;
   }
 

@@ -27,7 +27,7 @@ public class DataEntities {
     for(ShipData shipData : ships.values()) {
       for(String weapon : shipData.getStatusData().getWeapons()) {
         WeaponData weaponData = weapons.get(weapon);
-        weaponData.type = WeaponData.Types.valueOf(weapon.toUpperCase());
+        weaponData.weaponType = WeaponData.Types.valueOf(weapon.toUpperCase());
         shipData.getStatusData().addWeaponProfile(weaponData);
       }
 

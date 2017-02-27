@@ -14,6 +14,11 @@ public class WeaponDataTreePane<WeaponData> extends GameDataTreePane {
 
   @Override
   protected GameDataWithId<com.starsailor.data.WeaponData> getRoot() {
-    return UIController.getInstance().getWeaponsData();
+    return UIController.getInstance().getGameDataLoader().getWeaponsTreeModel();
+  }
+
+  @Override
+  protected boolean isRootVisible() {
+    return false;
   }
 }

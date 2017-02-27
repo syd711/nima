@@ -13,6 +13,6 @@ public class ShieldDataTreePane<ShieldData> extends GameDataTreePane {
 
   @Override
   protected GameDataWithId getRoot() {
-    return UIController.getInstance().getShieldsTreeModel();
+    return UIController.getInstance().getGameDataLoader().getShieldsTreeModel();
   }
 }

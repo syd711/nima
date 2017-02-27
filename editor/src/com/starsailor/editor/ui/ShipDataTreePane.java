@@ -14,6 +14,6 @@ public class ShipDataTreePane<ShipData> extends GameDataTreePane {
 
   @Override
   protected GameDataWithId<com.starsailor.data.ShipData> getRoot() {
-    return UIController.getInstance().getShipsTreeModel();
+    return UIController.getInstance().getGameDataLoader().getShipsTreeModel();
   }
 }

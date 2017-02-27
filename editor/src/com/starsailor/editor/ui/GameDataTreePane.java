@@ -35,7 +35,7 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
 
     treeView = new TreeView<T>();
     treeView.setOnMouseClicked(this);
-    treeView.setShowRoot(true);
+    treeView.setShowRoot(isRootVisible());
     treeView.setRoot(treeRoot);
     treeView.setCellFactory(new Callback<TreeView<GameData>, TreeCell<GameData>>() {
       @Override
@@ -47,22 +47,28 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
     setContent(treeView);
   }
 
+  protected boolean isRootVisible() {
+    return true;
+  }
+
   public TreeItem getSelection() {
     return (TreeItem) treeView.getSelectionModel().getSelectedItem();
   }
 
 
   private void buildTree(List<T> children, TreeItem<T> parent) {
-    for(T item : children) {
-      item.setParent(parent.getValue());
-      IdGenerator.getInstance().update(item);
+    if(children != null) {
+      for(T item : children) {
+        item.setParent(parent.getValue());
+        IdGenerator.getInstance().update(item);
 
-      TreeItem<T> child = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
-      child.valueProperty().bind(new SimpleObjectProperty<>(item));
-      child.setExpanded(true);
-      parent.getChildren().add(child);
+        TreeItem<T> child = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
+        child.valueProperty().bind(new SimpleObjectProperty<>(item));
+        child.setExpanded(true);
+        parent.getChildren().add(child);
 
-      buildTree(item.getChildren(), child);
+        buildTree(item.getChildren(), child);
+      }
     }
   }
 

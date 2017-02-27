@@ -3,7 +3,6 @@ package com.starsailor.editor;
 import com.starsailor.data.*;
 import com.starsailor.editor.util.IdGenerator;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,53 +12,24 @@ import java.util.List;
 public class UIController {
   private static UIController instance = new UIController();
 
-  private ShipData shipsRoot;
-  private ShieldData shieldsRoot;
-  private WeaponData weaponsData;
+  private GameDataLoader loader;
 
   private UIController() {
+    loader = new GameDataLoader();
   }
 
   public static UIController getInstance() {
     return instance;
   }
 
-  public ShipData getShipsTreeModel() {
-    if(shipsRoot == null) {
-      GameDataLoader loader = new GameDataLoader(new File("G:/temp/ships.json"));
-      shipsRoot = loader.load(ShipData.class);
-    }
-
-    return shipsRoot;
-  }
-
-  public WeaponData getWeaponsData() {
-    if(weaponsData == null) {
-      GameDataLoader loader = new GameDataLoader(new File("G:/temp/weapons.json"));
-      weaponsData = loader.load(WeaponData.class);
-    }
-
-    return weaponsData;
-  }
-
-  public ShieldData getShieldsTreeModel() {
-    if(shieldsRoot == null) {
-      GameDataLoader loader = new GameDataLoader(new File("G:/temp/shields.json"));
-      shieldsRoot = loader.load(ShieldData.class);
-    }
-
-    return shieldsRoot;
-  }
-
-
   public List<GameDataWithId> getShields() {
     List<GameDataWithId> result = new ArrayList<>();
-    collectModels(getShieldsTreeModel(), result);
+    loader.collectModels(loader.getShieldsTreeModel(), result);
     return result;
   }
 
   public GameDataWithId getModel(int id) {
-    List<GameDataWithId> allModels = getAllModels();
+    List<GameDataWithId> allModels = loader.getAllModels();
     for(GameDataWithId model : allModels) {
       if(model.getId() == id) {
         return model;
@@ -68,19 +38,6 @@ public class UIController {
     return null;
   }
 
-  public List<GameDataWithId> getAllModels() {
-    List<GameDataWithId> result = new ArrayList<>();
-    collectModels(getShieldsTreeModel(), result);
-    collectModels(getShipsTreeModel(), result);
-    return result;
-  }
-
-  private void collectModels(GameDataWithId gameData, List<GameDataWithId> result) {
-    result.add(gameData);
-    for(Object child : gameData.getChildren()) {
-      collectModels((GameDataWithId) child, result);
-    }
-  }
 
   public GameData newChildFor(GameData parent) {
     GameData child = null;
@@ -93,20 +50,6 @@ public class UIController {
 
     parent.getChildren().add(child);
     return child;
-  }
-
-  public void save() {
-    File file = new File("g:/temp/ships.json");
-    if(file.exists()) {
-      file.delete();
-    }
-    JsonDataFactory.saveDataEntity(file, getShipsTreeModel());
-
-    file = new File("g:/temp/shields.json");
-    if(file.exists()) {
-      file.delete();
-    }
-    JsonDataFactory.saveDataEntity(file, getShieldsTreeModel());
   }
 
   //----------------------- Helper ----------------------------------------------------------
@@ -128,4 +71,11 @@ public class UIController {
     return shipData;
   }
 
+  public GameDataLoader getGameDataLoader() {
+    return loader;
+  }
+
+  public void save() {
+    loader.save();
+  }
 }

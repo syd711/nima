@@ -1,0 +1,42 @@
+{
+  "distanceData": {
+    "attackDistance": 600.0,
+    "shootDistance": 500.0,
+    "retreatDistance": 900.0,
+    "formationDistance": 0.0,
+    "children": []
+  },
+  "bodyData": {
+    "linearDamping": 3.0,
+    "angularDamping": 1.8,
+    "width": 0.0,
+    "height": 0.0,
+    "radius": 0.0,
+    "density": 1.0,
+    "sensor": false,
+    "children": []
+  },
+  "spineData": {
+    "spine": "player",
+    "scale": 0.12,
+    "defaultAnimation": "walk",
+    "children": []
+  },
+  "statusData": {
+    "shield": "2",
+    "health": 100.0,
+    "weapons": [],
+    "children": []
+  },
+  "steeringData": {
+    "boundingRadius": 200.0,
+    "maxLinearSpeed": 5.0,
+    "maxLinearAcceleration": 3.0,
+    "maxAngularSpeed": 4.0,
+    "maxAngularAcceleration": 4.0,
+    "children": []
+  },
+  "name": "Default Ship",
+  "id": 1,
+  "children": []
+}

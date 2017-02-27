@@ -1,5 +1,6 @@
 package com.starsailor.editor;
 
+import com.starsailor.data.GameDataLoader;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.ui.MainPane;
 import javafx.application.Application;
@@ -21,6 +22,8 @@ public class Editor extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    GameDataLoader.ASSETS_DATA = "../../core/assets/data/";
+
     primaryStage.setTitle("Starsailer Manager");
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
     primaryStage.setMaxWidth(primaryScreenBounds.getWidth());

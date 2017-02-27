@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,41 @@ public class FormUtil {
     return group;
   }
 
+  public static ComboBox addBindingComboBoxWithDefaults(GridPane grid, GameData data, Field field, int row, List<String> values) {
+    try {
+      String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
+      String value = (String) field.get(data);
+      Label condLabel = new Label(label);
+      GridPane.setHalignment(condLabel, HPos.RIGHT);
+      GridPane.setConstraints(condLabel, 0, row);
+
+      ObservableList<Object> options = FXCollections.observableArrayList(values);
+      ComboBox comboBox = new ComboBox(options);
+      comboBox.setValue(value);
+      comboBox.valueProperty().addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+          try {
+            GameDataWithId gameDataWithId = (GameDataWithId) newValue;
+            field.set(data, ""+gameDataWithId.getId());
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          }
+        }
+      });
+
+      GridPane.setMargin(comboBox, new Insets(5, 5, 5, 10));
+      GridPane.setConstraints(comboBox, 1, row);
+      grid.getChildren().addAll(condLabel, comboBox);
+
+      return comboBox;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+
   public static ComboBox addBindingComboBox(GridPane grid, GameData data, Field field, int row, List<GameDataWithId> values) {
     try {
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
@@ -106,6 +142,7 @@ public class FormUtil {
     return null;
   }
 
+
   public static Node addBindingComboBox(GridPane grid, GameData data, Field field, int row, File folder, String suffix) {
     Node editorNode = null;
     try {
@@ -116,7 +153,7 @@ public class FormUtil {
       GridPane.setConstraints(condLabel, 0, row);
 
       ObservableList<String> options =
-          FXCollections.observableArrayList(getFilesAsComboEntries(folder, null));
+          FXCollections.observableArrayList(getFilesAsComboEntries(folder, suffix));
 
       ComboBox comboBox = new ComboBox(options);
       comboBox.setValue(value);
@@ -204,12 +241,22 @@ public class FormUtil {
     if(suffix == null) {
       return getFilesAsComboEntries(folder);
     }
-    return folder.list(new FilenameFilter() {
+
+    String[] list = folder.list(new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
         return name.endsWith(suffix);
       }
     });
+
+    List<String> result = new ArrayList<>();
+    for(String s : list) {
+      if(s.indexOf(".") != -1) {
+        result.add(s.substring(0, s.lastIndexOf(".")));
+      }
+    }
+    return result.toArray(new String[0]);
+
   }
 
   static String splitCamelCase(String s) {
