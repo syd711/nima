@@ -45,7 +45,8 @@
         "children": []
       },
       "name": "Flares",
-      "id": 31000
+      "id": 31000,
+      "children": []
     },
     {
       "type": "Laser",
@@ -137,7 +138,39 @@
         "children": []
       },
       "name": "Missile",
-      "id": 34000
+      "id": 34000,
+      "children": [
+        {
+          "weaponType": "MISSILE",
+          "type": "missile",
+          "rechargeTimeMillis": 2700.0,
+          "durationMillis": 0.0,
+          "damage": 2.0,
+          "forceFactor": 5.0,
+          "torque": 0.0,
+          "impactFactor": 2.0,
+          "bulletCount": 3,
+          "bulletDelay": 210,
+          "category": "primary",
+          "sound": "laser",
+          "collisionEffect": "explosion",
+          "sprite": "rocket",
+          "activationDistance": 200.0,
+          "bodyData": {
+            "linearDamping": 1.0,
+            "angularDamping": 10.0,
+            "width": 1.8,
+            "height": 15.0,
+            "radius": 0.0,
+            "density": 1.2,
+            "sensor": true,
+            "children": []
+          },
+          "name": "Rockets",
+          "id": 35002,
+          "children": []
+        }
+      ]
     },
     {
       "type": "Phaser",

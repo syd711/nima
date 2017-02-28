@@ -14,22 +14,48 @@ public class GameDataLoader {
   public static final String WEAPONS = "weapons";
   public static final String SHIELDS = "shields";
 
-
   private ShipData shipsRoot;
   private ShieldData shieldsRoot;
   private WeaponData weaponsData;
 
 
   public GameDataLoader() {
+  }
 
+
+
+  public GameDataWithId getModel(int id) {
+    List<GameDataWithId> allModels = getAllModels();
+    for(GameDataWithId model : allModels) {
+      if(model.getId() == id) {
+        return model;
+      }
+    }
+    return null;
+  }
+
+  public void load() {
+    //resolve tree
+    List<GameDataWithId> allModels = getAllModels();
+    for(GameDataWithId model : allModels) {
+      if(model instanceof WeaponData) {
+
+      }
+      else if(model instanceof ShipData) {
+
+      }
+      else if(model instanceof ShieldData) {
+
+      }
+    }
   }
 
 
   public List<GameDataWithId> getAllModels() {
     List<GameDataWithId> result = new ArrayList<>();
     collectModels(getShieldsTreeModel(), result);
-    collectModels(getShieldsTreeModel(), result);
     collectModels(getWeaponsTreeModel(), result);
+    collectModels(getShipsTreeModel(), result);
     return result;
   }
 

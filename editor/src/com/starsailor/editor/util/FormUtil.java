@@ -86,8 +86,7 @@ public class FormUtil {
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
           try {
-            GameDataWithId gameDataWithId = (GameDataWithId) newValue;
-            field.set(data, ""+gameDataWithId.getId());
+            field.set(data, ""+newValue);
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
@@ -110,7 +109,7 @@ public class FormUtil {
     try {
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
       String id = (String) field.get(data);
-      GameDataWithId model = UIController.getInstance().getModel(Integer.parseInt(id));
+      GameDataWithId model = UIController.getInstance().getGameDataLoader().getModel(Integer.parseInt(id));
 
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
@@ -201,7 +200,23 @@ public class FormUtil {
       else {
         TextField textBox = new TextField(String.valueOf(value));
         textBox.setEditable(editable);
-        gameDataBeanPathAdapter.bindBidirectional(field.getName(), textBox.textProperty());
+        textBox.textProperty().addListener(new ChangeListener<String>() {
+          @Override
+          public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            try {
+              Object value = newValue;
+              if(field.getType().equals(long.class)) {
+                value = Long.parseLong(newValue);
+              }
+              else if(field.getType().equals(float.class)) {
+                value = Float.parseFloat(newValue);
+              }
+              field.set(data, value);
+            } catch (IllegalAccessException e) {
+              e.printStackTrace();
+            }
+          }
+        });
         editorNode = textBox;
       }
 

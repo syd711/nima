@@ -12,6 +12,10 @@ public class GameData<T> {
 
   private List<T> children = new ArrayList<>();
 
+  public void setChildren(List<T> children) {
+    this.children = children;
+  }
+
   public List<T> getChildren() {
     return children;
   }

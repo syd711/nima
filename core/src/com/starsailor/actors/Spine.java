@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
-import com.starsailor.data.DataEntities;
 import com.starsailor.data.SpineData;
 import com.starsailor.util.SpineUtil;
 
@@ -14,6 +13,8 @@ import static com.starsailor.util.Settings.MPP;
  * Superclass for spine entities
  */
 abstract public class Spine extends GameEntity {
+  public static final String SPINE_CENTER_SLOT_NAME = "torso";
+
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
   public Skeleton skeleton;
@@ -54,7 +55,7 @@ abstract public class Spine extends GameEntity {
   }
 
   public Vector2 getCenter() {
-    Vector2 spineCenter = SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME);
+    Vector2 spineCenter = SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME);
     if(spineCenter == null) {
       throw new UnsupportedOperationException("No center slot found for spine " + this);
     }
@@ -62,7 +63,7 @@ abstract public class Spine extends GameEntity {
   }
 
   public Vector2 getBox2dCenter() {
-    return SpineUtil.getSpineCenter(this, DataEntities.SPINE_CENTER_SLOT_NAME).scl(MPP);
+    return SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME).scl(MPP);
   }
 
 }

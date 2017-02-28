@@ -28,16 +28,6 @@ public class UIController {
     return result;
   }
 
-  public GameDataWithId getModel(int id) {
-    List<GameDataWithId> allModels = loader.getAllModels();
-    for(GameDataWithId model : allModels) {
-      if(model.getId() == id) {
-        return model;
-      }
-    }
-    return null;
-  }
-
 
   public GameData newChildFor(GameData parent) {
     GameData child = null;
@@ -47,9 +37,48 @@ public class UIController {
     else if(parent instanceof ShieldData) {
       child = newShieldData(parent);
     }
+    else if(parent instanceof WeaponData) {
+      WeaponData weaponData = (WeaponData) parent;
+      WeaponData.Types type = WeaponData.Types.valueOf(weaponData.getType().toUpperCase());
+
+      switch(type) {
+        case LASER: {
+          child = newLaserWeaponData(weaponData);
+          break;
+        }
+        case MISSILE: {
+          child = newMissileWeaponData(weaponData);
+          break;
+        }
+        case PHASER: {
+          child = newPhaserWeaponData(weaponData);
+          break;
+        }
+        case MINE: {
+          child = newMineWeaponData(weaponData);
+          break;
+        }
+        case FLARES: {
+          child = newFlaresWeaponData(weaponData);
+          break;
+        }
+      }
+    }
+
+    if(parent.getChildren() == null) {
+      parent.setChildren(new ArrayList());
+    }
 
     parent.getChildren().add(child);
     return child;
+  }
+
+  public GameDataLoader getGameDataLoader() {
+    return loader;
+  }
+
+  public void save() {
+    loader.save();
   }
 
   //----------------------- Helper ----------------------------------------------------------
@@ -71,11 +100,65 @@ public class UIController {
     return shipData;
   }
 
-  public GameDataLoader getGameDataLoader() {
-    return loader;
+  //-- Weapons --
+
+  private GameData newFlaresWeaponData(WeaponData parent) {
+    WeaponData child = new WeaponData(IdGenerator.getInstance().createId(), WeaponData.Types.FLARES);
+    child.setBodyData(new BodyData(parent.getBodyData()));
+    child.setSteeringData(new SteeringData(parent.getSteeringData()));
+    child.setTorque(parent.getTorque());
+
+    applyCommonWeaponData(parent, child);
+    return child;
   }
 
-  public void save() {
-    loader.save();
+  private GameData newMineWeaponData(WeaponData parent) {
+    WeaponData child = new WeaponData(IdGenerator.getInstance().createId(), WeaponData.Types.MINE);
+    child.setBodyData(new BodyData(parent.getBodyData()));
+    child.setActivationDistance(parent.getActivationDistance());
+
+    applyCommonWeaponData(parent, child);
+    return child;
   }
+
+  private GameData newPhaserWeaponData(WeaponData parent) {
+    WeaponData child = new WeaponData(IdGenerator.getInstance().createId(), WeaponData.Types.PHASER);
+
+    applyCommonWeaponData(parent, child);
+    return child;
+  }
+
+  private GameData newMissileWeaponData(WeaponData parent) {
+    WeaponData child = new WeaponData(IdGenerator.getInstance().createId(), WeaponData.Types.MISSILE);
+    child.setBodyData(new BodyData(parent.getBodyData()));
+    child.setSteeringData(new SteeringData(parent.getSteeringData()));
+    child.setActivationDistance(parent.getActivationDistance());
+
+    applyCommonWeaponData(parent, child);
+    return child;
+  }
+
+  private GameData newLaserWeaponData(WeaponData parent) {
+    WeaponData child = new WeaponData(IdGenerator.getInstance().createId(), WeaponData.Types.LASER);
+    child.setBodyData(new BodyData(parent.getBodyData()));
+
+    applyCommonWeaponData(parent, child);
+    return child;
+  }
+
+  private void applyCommonWeaponData(WeaponData parent, WeaponData child) {
+    child.setParent(parent);
+
+    child.setName(parent.getName() + " (" + child.getId() + ")");
+    child.setDamage(parent.getDamage());
+    child.setSprite(parent.getSprite());
+    child.setCategory(parent.getCategory());
+    child.setSound(parent.getSound());
+    child.setBulletCount(parent.getBulletCount());
+    child.setForceFactor(parent.getForceFactor());
+    child.setRechargeTimeMillis(parent.getRechargeTimeMillis());
+    child.setCollisionEffect(parent.getCollisionEffect());
+    child.setImpactFactor(parent.getImpactFactor());
+  }
+
 }

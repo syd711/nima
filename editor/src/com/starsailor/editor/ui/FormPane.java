@@ -128,17 +128,6 @@ public class FormPane extends BorderPane implements ChangeListener {
     section.setExpanded(!isExtending(gameData));
   }
 
-  private Object getGameDataValue(Field field, GameData gameData) {
-    try {
-      Object value = field.get(gameData);
-      if(value instanceof GameData) {
-        return value;
-      }
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
 
   private Boolean isExtending(GameData gameData) {
     try {

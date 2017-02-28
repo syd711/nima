@@ -17,8 +17,10 @@ public class WeaponData extends GameDataWithId<WeaponData> {
 
   public Types weaponType;
 
-  public WeaponData(int id) {
+  public WeaponData(int id, Types type) {
     super(id, null);
+    this.weaponType = type;
+    this.type = type.name().toLowerCase();
   }
 
   @Expose
@@ -165,6 +167,11 @@ public class WeaponData extends GameDataWithId<WeaponData> {
   }
 
   public SteeringData getSteeringData() {
+    if(this.steeringData == null) {
+      if(getParent() != null) {
+        return getParent().getSteeringData();
+      }
+    }
     return steeringData;
   }
 
@@ -173,6 +180,11 @@ public class WeaponData extends GameDataWithId<WeaponData> {
   }
 
   public BodyData getBodyData() {
+    if(this.bodyData == null) {
+      if(getParent() != null) {
+        return getParent().getBodyData();
+      }
+    }
     return bodyData;
   }
 

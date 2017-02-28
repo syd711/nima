@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.starsailor.util.Resources;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +34,12 @@ public class TextureManager extends ResourceManager {
 
   private void loadTexturesFor(String path) {
     FileHandle internal = Gdx.files.internal(path);
-    FileHandle[] particleFiles = internal.list((dir, name) -> name.endsWith(".png"));
+    FileHandle[] particleFiles = internal.list(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".png");
+      }
+    });
 
     for(FileHandle file : particleFiles) {
       Texture texture = new Texture(file);

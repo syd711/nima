@@ -181,6 +181,6 @@ public class MainPane extends BorderPane {
   }
 
   public void refreshTree() {
-    shipTreePane.refresh();
+    activeTreePane.refresh();
   }
 }

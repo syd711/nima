@@ -59,7 +59,7 @@ public class WeaponDataFormPane extends FormPane {
     boolean extendable = ((WeaponData) gameData).getParent().getId() != 30000;
 
 
-    createSection(weaponData, "Bullet Data", getIgnoreListForWeapon(weaponData), extendable, null);
+    createSection(weaponData, "Bullet Data", getIgnoreListForWeapon(weaponData), false, null);
 
     if(weaponData.getBodyData() != null) {
       bodyData = new BodyData(weaponData.getBodyData());
