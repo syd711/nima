@@ -108,9 +108,13 @@ public class GameDataLoader {
   //---------------------- Helper ------------------------------------------------
 
   public void collectModels(GameDataWithId gameData, List<GameDataWithId> result) {
-    result.add(gameData);
-    for(Object child : gameData.getChildren()) {
-      collectModels((GameDataWithId) child, result);
+    if(gameData.getParent() != null) {
+      result.add(gameData);
+    }
+    if(gameData.getChildren() != null) {
+      for(Object child : gameData.getChildren()) {
+        collectModels((GameDataWithId) child, result);
+      }
     }
   }
 

@@ -184,7 +184,6 @@ public class FormUtil {
     try {
       Object value = field.get(data);
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
-      BeanPathAdapter<GameData> gameDataBeanPathAdapter = new BeanPathAdapter<>(data);
 
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
@@ -194,7 +193,16 @@ public class FormUtil {
       if(value instanceof Boolean) {
         CheckBox checkbox = new CheckBox();
         checkbox.setSelected((Boolean) value);
-        gameDataBeanPathAdapter.bindBidirectional(field.getName(), checkbox.selectedProperty());
+        checkbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+          @Override
+          public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            try {
+              field.set(data, newValue);
+            } catch (IllegalAccessException e) {
+              e.printStackTrace();
+            }
+          }
+        });
         editorNode = checkbox;
       }
       else {

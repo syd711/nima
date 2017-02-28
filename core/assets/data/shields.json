@@ -1,7 +1,22 @@
 {
   "health": 100.0,
   "damageAbsorptionFactor": 3.0,
-  "name": "Default Shield",
+  "name": "Default",
   "id": 2,
-  "children": []
+  "children": [
+    {
+      "health": 100.0,
+      "damageAbsorptionFactor": 3.0,
+      "name": "Energie",
+      "id": 35003,
+      "children": []
+    },
+    {
+      "health": 100.0,
+      "damageAbsorptionFactor": 3.0,
+      "name": "Plasma",
+      "id": 35004,
+      "children": []
+    }
+  ]
 }

@@ -17,13 +17,13 @@
     "children": []
   },
   "spineData": {
-    "spine": "player",
+    "spine": "crusader",
     "scale": 0.12,
     "defaultAnimation": "walk",
     "children": []
   },
   "statusData": {
-    "shield": "2",
+    "shield": "35003",
     "health": 100.0,
     "weapons": [],
     "children": []
@@ -38,5 +38,69 @@
   },
   "name": "Default Ship",
   "id": 1,
-  "children": []
+  "children": [
+    {
+      "name": "Crusader",
+      "id": 35005,
+      "children": []
+    },
+    {
+      "bodyData": {
+        "linearDamping": 8.0,
+        "angularDamping": 1.8,
+        "width": 0.0,
+        "height": 0.0,
+        "radius": 0.0,
+        "density": 1.0,
+        "sensor": false,
+        "children": []
+      },
+      "spineData": {
+        "spine": "merchant",
+        "scale": 0.11,
+        "defaultAnimation": "walk",
+        "children": []
+      },
+      "steeringData": {
+        "boundingRadius": 200.0,
+        "maxLinearSpeed": 2.0,
+        "maxLinearAcceleration": 2.0,
+        "maxAngularSpeed": 4.0,
+        "maxAngularAcceleration": 4.0,
+        "children": []
+      },
+      "name": "Merchant",
+      "id": 35006,
+      "children": []
+    },
+    {
+      "bodyData": {
+        "linearDamping": 8.0,
+        "angularDamping": 1.8,
+        "width": 0.0,
+        "height": 0.0,
+        "radius": 0.0,
+        "density": 1.0,
+        "sensor": false,
+        "children": []
+      },
+      "spineData": {
+        "spine": "pirate",
+        "scale": 0.14,
+        "defaultAnimation": "walk",
+        "children": []
+      },
+      "steeringData": {
+        "boundingRadius": 200.0,
+        "maxLinearSpeed": 6.0,
+        "maxLinearAcceleration": 6.0,
+        "maxAngularSpeed": 4.0,
+        "maxAngularAcceleration": 4.0,
+        "children": []
+      },
+      "name": "Pirate",
+      "id": 35007,
+      "children": []
+    }
+  ]
 }
