@@ -114,5 +114,4 @@ public class ShipData extends GameDataWithId<ShipData> {
   public boolean isStatusDataExtended() {
     return statusData == null;
   }
-
 }

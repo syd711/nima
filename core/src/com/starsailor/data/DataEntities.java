@@ -25,11 +25,11 @@ public class DataEntities {
     shields = JsonDataFactory.createDataEntities(Resources.SHIELD_PROFILES, ShieldData.class);
 
     for(ShipData shipData : ships.values()) {
-      for(String weapon : shipData.getStatusData().getWeapons()) {
-        WeaponData weaponData = weapons.get(weapon);
-        weaponData.weaponType = WeaponData.Types.valueOf(weapon.toUpperCase());
-        shipData.getStatusData().addWeaponProfile(weaponData);
-      }
+//      for(String weapon : shipData.getStatusData().getWeapons()) {
+//        WeaponData weaponData = weapons.get(weapon);
+//        weaponData.weaponType = WeaponData.Types.valueOf(weapon.toUpperCase());
+//        shipData.getStatusData().addWeaponProfile(weaponData);
+//      }
 
       if(shipData.getStatusData().getShield() != null) {
         ShieldData shieldData = shields.get(shipData.getStatusData().getShield());

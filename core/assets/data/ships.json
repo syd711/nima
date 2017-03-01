@@ -40,6 +40,16 @@
   "id": 1,
   "children": [
     {
+      "statusData": {
+        "shield": "35003",
+        "health": 100.0,
+        "weapons": [
+          31000,
+          32000,
+          35000
+        ],
+        "children": []
+      },
       "name": "Crusader",
       "id": 35005,
       "children": []
@@ -88,6 +98,15 @@
         "spine": "pirate",
         "scale": 0.14,
         "defaultAnimation": "walk",
+        "children": []
+      },
+      "statusData": {
+        "shield": "35003",
+        "health": 100.0,
+        "weapons": [
+          32000,
+          35000
+        ],
         "children": []
       },
       "steeringData": {

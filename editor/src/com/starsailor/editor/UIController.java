@@ -161,4 +161,11 @@ public class UIController {
     child.setImpactFactor(parent.getImpactFactor());
   }
 
+  public void removeDuplicates(List<GameDataWithId> allEntities, List<GameDataWithId> selection) {
+    for(GameDataWithId weapon : selection) {
+      if(allEntities.contains(weapon)) {
+        allEntities.remove(weapon);
+      }
+    }
+  }
 }

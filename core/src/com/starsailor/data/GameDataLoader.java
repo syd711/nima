@@ -17,11 +17,24 @@ public class GameDataLoader {
   private ShipData shipsRoot;
   private ShieldData shieldsRoot;
   private WeaponData weaponsData;
+  private Object weapons;
 
 
   public GameDataLoader() {
   }
 
+
+
+  public List<GameDataWithId> getGameDataFor(List<Integer> ids) {
+    List<GameDataWithId> result = new ArrayList<>();
+    for(Integer id : ids) {
+      GameDataWithId item = getModel(id);
+      if(item != null) {
+        result.add(item);
+      }
+    }
+    return result;
+  }
 
 
   public GameDataWithId getModel(int id) {
@@ -107,7 +120,7 @@ public class GameDataLoader {
 
   //---------------------- Helper ------------------------------------------------
 
-  public void collectModels(GameDataWithId gameData, List<GameDataWithId> result) {
+  public void collectModels(GameDataWithId gameData, List result) {
     if(gameData.getParent() != null) {
       result.add(gameData);
     }
@@ -118,9 +131,14 @@ public class GameDataLoader {
     }
   }
 
-
   private <T> T load(String name, Class<T> entity) {
     File file = new File(ASSETS_DATA + name + ".json");
     return JsonDataFactory.loadDataEntity(file, entity);
+  }
+
+  public List<WeaponData> getWeapons() {
+   List<WeaponData> result = new ArrayList<>();
+   collectModels(getWeaponsTreeModel(), result);
+   return result;
   }
 }

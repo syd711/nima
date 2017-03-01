@@ -14,8 +14,8 @@ public class StatusData extends GameData {
   private String shield;
   @Expose
   private float health;
-  //@Expose
-  private List<String> weapons = new ArrayList<>();
+  @Expose
+  private List<Integer> weapons = new ArrayList<>();
 
   private ShieldData shieldData;
 
@@ -46,14 +46,6 @@ public class StatusData extends GameData {
     this.weaponDatas = weaponDatas;
   }
 
-  public List<String> getWeapons() {
-    return weapons;
-  }
-
-  public void setWeapons(List<String> weapons) {
-    this.weapons = weapons;
-  }
-
   public float getHealth() {
     return health;
   }
@@ -77,5 +69,13 @@ public class StatusData extends GameData {
 
   public void setShieldData(ShieldData shieldData) {
     this.shieldData = shieldData;
+  }
+
+  public List<Integer> getWeapons() {
+    return weapons;
+  }
+
+  public void setWeapons(List<Integer> weapons) {
+    this.weapons = weapons;
   }
 }

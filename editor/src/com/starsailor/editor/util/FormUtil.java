@@ -8,6 +8,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -69,6 +71,80 @@ public class FormUtil {
     root.getChildren().add(group);
     group.setExpanded(!collapsed);
     return group;
+  }
+
+  public static ListView addListChooser(GridPane grid, GameData data, Field field, int row, List<GameDataWithId> sourceData, List<GameDataWithId> targetData) {
+    try {
+      String label = splitCamelCase(StringUtils.capitalize(field.getName())) + " (source -> target):";
+      List<String> value = (List<String>) field.get(data);
+      Label condLabel = new Label(label);
+      GridPane.setHalignment(condLabel, HPos.RIGHT);
+      GridPane.setConstraints(condLabel, 0, row);
+
+      HBox wrapper = new HBox(10);
+      wrapper.setMaxHeight(160);
+
+      ListView<GameDataWithId> source = new ListView<GameDataWithId>();
+      source.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+      ObservableList<GameDataWithId> available = FXCollections.observableArrayList(sourceData);
+      source.setItems(available);
+
+      ListView<GameDataWithId> target = new ListView<GameDataWithId>();
+      target.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+      ObservableList<GameDataWithId> assignments = FXCollections.observableArrayList(targetData);
+      target.setItems(assignments);
+
+
+      VBox buttons = new VBox(10);
+      Button toRight = new Button("->");
+      toRight.setOnAction(new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent event) {
+          GameDataWithId selectedItem = source.getSelectionModel().getSelectedItem();
+          if(selectedItem != null) {
+            assignments.add(selectedItem);
+            available.remove(selectedItem);
+
+            try {
+              field.set(data, toIdList(assignments));
+            } catch (IllegalAccessException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      });
+
+
+      Button toLeft = new Button("<-");
+      toLeft.setOnAction(new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent event) {
+          GameDataWithId selectedItem = target.getSelectionModel().getSelectedItem();
+          if(selectedItem != null) {
+            assignments.remove(selectedItem);
+            available.add(selectedItem);
+
+            try {
+              field.set(data, toIdList(assignments));
+            } catch (IllegalAccessException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      });
+
+      buttons.getChildren().addAll(toRight, toLeft);
+
+
+      wrapper.getChildren().addAll(source, buttons, target);
+
+      GridPane.setMargin(wrapper, new Insets(5, 5, 5, 10));
+      GridPane.setConstraints(wrapper, 1, row);
+      grid.getChildren().addAll(condLabel, wrapper);
+
+      return target;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public static ComboBox addBindingComboBoxWithDefaults(GridPane grid, GameData data, Field field, int row, List<String> values) {
@@ -280,6 +356,14 @@ public class FormUtil {
     }
     return result.toArray(new String[0]);
 
+  }
+
+  static List<Integer> toIdList(List<GameDataWithId> ids) {
+    List<Integer> result = new ArrayList<>();
+    for(GameDataWithId id : ids) {
+      result.add(id.getId());
+    }
+    return result;
   }
 
   static String splitCamelCase(String s) {

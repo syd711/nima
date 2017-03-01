@@ -3,6 +3,7 @@ package com.starsailor.editor.ui;
 import com.google.gson.annotations.Expose;
 import com.starsailor.data.GameData;
 import com.starsailor.data.GameDataWithId;
+import com.starsailor.data.StatusData;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
@@ -181,6 +182,14 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
     else if(field.getName().equals("category")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Arrays.asList("primary", "secondary", "emergency"));
+    }
+    else if(field.getName().equals("weapons")) {
+      StatusData statusData = (StatusData) data;
+      List<Integer> weaponIds = statusData.getWeapons();
+      List<GameDataWithId> weapons = UIController.getInstance().getGameDataLoader().getGameDataFor(weaponIds);
+      List allWeapons = UIController.getInstance().getGameDataLoader().getWeapons();
+      UIController.getInstance().removeDuplicates(allWeapons, weapons);
+      return FormUtil.addListChooser(grid, data, field, row, allWeapons, weapons);
     }
     return null;
   }

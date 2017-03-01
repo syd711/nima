@@ -11,10 +11,6 @@ public class ShieldData extends GameDataWithId<ShieldData> {
   @Expose
   private float damageAbsorptionFactor;
 
-  public ShieldData(int id) {
-    super(id, null);
-  }
-
   public ShieldData(int id, ShieldData shieldData) {
     super(id, shieldData.getName());
     this.health = shieldData.getHealth();
