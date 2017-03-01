@@ -13,11 +13,12 @@ public class GameDataLoader {
   public static final String SHIPS = "ships";
   public static final String WEAPONS = "weapons";
   public static final String SHIELDS = "shields";
+  public static final String ENTITIES = "entities";
 
   private ShipData shipsRoot;
   private ShieldData shieldsRoot;
   private WeaponData weaponsData;
-  private Object weapons;
+  private DataEntity dataEntityRoot;
 
 
   public GameDataLoader() {
@@ -47,6 +48,7 @@ public class GameDataLoader {
     return null;
   }
 
+  //TODO
   public void load() {
     //resolve tree
     List<GameDataWithId> allModels = getAllModels();
@@ -96,6 +98,13 @@ public class GameDataLoader {
     return shieldsRoot;
   }
 
+  public DataEntity getDataEntityTreeModel() {
+    if(dataEntityRoot == null) {
+      dataEntityRoot = load(ENTITIES, DataEntity.class);
+    }
+
+    return dataEntityRoot;
+  }
 
   public void save() {
     File folder = new File(ASSETS_DATA);
@@ -116,6 +125,12 @@ public class GameDataLoader {
       file.delete();
     }
     JsonDataFactory.saveDataEntity(file, getWeaponsTreeModel());
+
+    file = new File(folder, ENTITIES + ".json");
+    if(file.exists()) {
+      file.delete();
+    }
+    JsonDataFactory.saveDataEntity(file, getDataEntityTreeModel());
   }
 
   //---------------------- Helper ------------------------------------------------

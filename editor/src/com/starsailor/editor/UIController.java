@@ -37,6 +37,9 @@ public class UIController {
     else if(parent instanceof ShieldData) {
       child = newShieldData(parent);
     }
+    else if(parent instanceof DataEntity) {
+      child = newDataEntity(parent);
+    }
     else if(parent instanceof WeaponData) {
       WeaponData weaponData = (WeaponData) parent;
       WeaponData.Types type = WeaponData.Types.valueOf(weaponData.getType().toUpperCase());
@@ -89,6 +92,12 @@ public class UIController {
     shieldData.setExtendParentData(false); //not extendable
     return shieldData;
   }
+
+  private DataEntity newDataEntity(GameData parent) {
+    DataEntity entity = new DataEntity(IdGenerator.getInstance().createId(), (DataEntity) parent);
+    return entity;
+  }
+
 
   private ShipData newShipData(GameData parent) {
     ShipData shipData = new ShipData(IdGenerator.getInstance().createId());

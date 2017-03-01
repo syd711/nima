@@ -1,9 +1,6 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.GameData;
-import com.starsailor.data.ShieldData;
-import com.starsailor.data.ShipData;
-import com.starsailor.data.WeaponData;
+import com.starsailor.data.*;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.FormUtil;
@@ -27,6 +24,7 @@ public class MainPane extends BorderPane {
   private GameDataTreePane activeTreePane;
   private final BorderPane formPaneHolder;
 
+  private final DataEntityTreePane dataEntityTreePane;
   private final WeaponDataTreePane weaponTreePane;
   private final ShipDataTreePane shipTreePane;
   private final ShieldDataTreePane shieldTreePane;
@@ -46,13 +44,13 @@ public class MainPane extends BorderPane {
     treesPane.setMaxWidth(800);
     treesPane.setMinWidth(400);
 
-
+    dataEntityTreePane = new DataEntityTreePane(this);
     shipTreePane = new ShipDataTreePane(this);
     shieldTreePane = new ShieldDataTreePane(this);
     weaponTreePane = new WeaponDataTreePane(this);
     shieldTreePane.setExpanded(true);
 
-    treesPane.getPanes().addAll(shipTreePane, shieldTreePane, weaponTreePane);
+    treesPane.getPanes().addAll(dataEntityTreePane, shipTreePane, shieldTreePane, weaponTreePane);
 
     formPaneHolder = new BorderPane();
     splitPane.getItems().addAll(treesPane, formPaneHolder);
@@ -165,6 +163,9 @@ public class MainPane extends BorderPane {
         }
         else if(gameData instanceof WeaponData) {
           formPane = new WeaponDataFormPane(this);
+        }
+        else if(gameData instanceof DataEntity) {
+          formPane = new DataEntityFormPane(this);
         }
 
         formPaneHolder.setCenter(formPane);
