@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="7">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="8">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -93,5 +93,9 @@
  </layer>
  <objectgroup name="collision"/>
  <objectgroup name="lights"/>
- <objectgroup name="data"/>
+ <objectgroup name="data">
+  <object id="7" name="35009" x="560.606" y="381.818" width="27.2727" height="27.2727">
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>

@@ -1,9 +1,8 @@
 package com.starsailor.model.items;
 
 import com.google.gson.annotations.Expose;
-import com.starsailor.model.GameDataWithId;
 
-public class ShipItem extends GameDataWithId<ShipItem> {
+public class ShipItem extends MapItem<ShipItem> {
 
   public ShipItem(int id, ShipItem parent) {
     super(id, parent.getName());
@@ -14,6 +13,12 @@ public class ShipItem extends GameDataWithId<ShipItem> {
 
   @Expose
   private String shipType;
+
+  @Expose
+  private String formationOwner;
+
+  @Expose
+  private String defaultSteering;
 
 
   public String getFraction() {
@@ -38,8 +43,24 @@ public class ShipItem extends GameDataWithId<ShipItem> {
     this.shipType = shipType;
   }
 
+  public String getFormationOwner() {
+    return formationOwner;
+  }
+
+  public void setFormationOwner(String formationOwner) {
+    this.formationOwner = formationOwner;
+  }
+
   @Override
   public String toString() {
     return getName() + " (" + getFraction() + ")";
+  }
+
+  public String getDefaultSteering() {
+    return defaultSteering;
+  }
+
+  public void setDefaultSteering(String defaultSteering) {
+    this.defaultSteering = defaultSteering;
   }
 }

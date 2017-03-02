@@ -100,7 +100,7 @@ public class GameDataLoader {
     return shieldsRoot;
   }
 
-  public ShipItem getDataEntityTreeModel() {
+  public ShipItem getShipItemsTreeModel() {
     if(shipItemRoot == null) {
       shipItemRoot = load(SHIP_ITEMS, ShipItem.class);
     }
@@ -132,7 +132,7 @@ public class GameDataLoader {
     if(file.exists()) {
       file.delete();
     }
-    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getDataEntityTreeModel());
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShipItemsTreeModel());
   }
 
   //---------------------- Helper ------------------------------------------------

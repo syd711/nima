@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * The fractions of the game
  */
-public enum Fraction {
-  PLAYER, PIRATE, ALOPE, ETYR;
+public enum Steering {
+  GUARD, ROUTE, SEEK_AND_DESTROY;
 
   public static List<String> asStringList() {
-    return Arrays.asList(PIRATE.name(), ALOPE.name(), ETYR.name());
+    return Arrays.asList(GUARD.name(), ROUTE.name(), SEEK_AND_DESTROY.name());
   }
 }

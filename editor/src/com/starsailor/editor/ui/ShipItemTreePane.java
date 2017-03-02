@@ -13,7 +13,7 @@ public class ShipItemTreePane extends GameDataTreePane {
 
   @Override
   protected GameDataWithId getRoot() {
-    return UIController.getInstance().getGameDataLoader().getDataEntityTreeModel();
+    return UIController.getInstance().getGameDataLoader().getShipItemsTreeModel();
   }
 
   @Override

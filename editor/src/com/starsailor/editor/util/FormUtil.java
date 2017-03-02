@@ -202,7 +202,12 @@ public class FormUtil {
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
           try {
             GameDataWithId gameDataWithId = (GameDataWithId) newValue;
-            field.set(data, ""+gameDataWithId.getId());
+            if(gameDataWithId != null) {
+              field.set(data, ""+gameDataWithId.getId());
+            }
+            else {
+              field.set(data, null);
+            }
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }

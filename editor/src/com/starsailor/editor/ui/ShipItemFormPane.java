@@ -16,7 +16,7 @@ public class ShipItemFormPane extends FormPane {
     super.setData(gameData);
 
     if(gameData != null) {
-      createSection(gameData, "Ship Data", gameData.getParent() != null, null);
+      createSection(gameData, "Ship Data", false, null);
     }
   }
 }

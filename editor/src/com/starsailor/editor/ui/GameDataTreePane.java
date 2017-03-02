@@ -1,9 +1,12 @@
 package com.starsailor.editor.ui;
 
+import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.IdGenerator;
 import com.starsailor.model.GameData;
 import com.starsailor.model.GameDataWithId;
+import com.starsailor.model.items.MapItem;
+import com.starsailor.model.items.ShipItem;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TitledPane;
@@ -14,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -48,6 +52,10 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
     setContent(treeView);
   }
 
+  public TreeItem getTreeRoot() {
+    return treeRoot;
+  }
+
   protected boolean isRootVisible() {
     return true;
   }
@@ -74,6 +82,21 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
   }
 
   public static ImageView iconFor(GameData gameData) {
+    if(gameData instanceof ShipItem) {
+      ShipItem shipItem = (ShipItem) gameData;
+      if(shipItem.getDefaultSteering() == null) {
+        return ResourceLoader.getImageView("green.png");
+      }
+    }
+
+    if(gameData instanceof MapItem) {
+      MapItem item = (MapItem) gameData;
+      File tmxFileFor = UIController.getInstance().getTmxFileFor(item);
+      if(tmxFileFor != null) {
+        return ResourceLoader.getImageView("check-green.png");
+      }
+      return ResourceLoader.getImageView("green_hole.png");
+    }
     return ResourceLoader.getImageView("item.png");
   }
 

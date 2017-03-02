@@ -8,6 +8,7 @@ import com.starsailor.model.GameData;
 import com.starsailor.model.ShieldData;
 import com.starsailor.model.ShipData;
 import com.starsailor.model.WeaponData;
+import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
@@ -146,13 +147,17 @@ public class MainPane extends BorderPane {
     tileButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
         TreeItem selection = activeTreePane.getSelection();
-        if(selection != null) {
+        if(selection != null && selection.getValue() instanceof MapItem) {
+          MapItem mapItem = (MapItem) selection.getValue();
           HostServicesDelegate hostServices = HostServicesFactory.getInstance(Editor.INSTANCE);
-          hostServices.showDocument(new File("../../core/assets/maps/main/main_0,0.tmx").getAbsolutePath());
+          File tmxFile = UIController.getInstance().getTmxFileFor(mapItem);
+          if(tmxFile != null) {
+            hostServices.showDocument(tmxFile.getAbsolutePath());
+          }
         }
         else {
           HostServicesDelegate hostServices = HostServicesFactory.getInstance(Editor.INSTANCE);
-          hostServices.showDocument(new File("../../core/assets/maps/main/main_0,0.tmx").getAbsolutePath());
+          hostServices.showDocument(new File(UIController.TMX_FILE_FOLDER, "main_0,0.tmx").getAbsolutePath());
         }
       }
     });
@@ -231,6 +236,19 @@ public class MainPane extends BorderPane {
   }
 
   public void refreshTree() {
+    TreeItem treeRoot = activeTreePane.getTreeRoot();
+    refresh(treeRoot);
     activeTreePane.refresh();
+  }
+
+  private void refresh(TreeItem<GameData> node) {
+    GameData value = node.getValue();
+    node.setValue(null);
+    node.setValue(value);
+    node.setGraphic(GameDataTreePane.iconFor(node.getValue()));
+    for(TreeItem<GameData> gameDataTreeItem : node.getChildren()) {
+      refresh(gameDataTreeItem);
+    }
+
   }
 }

@@ -27,6 +27,9 @@ public class MapConstants {
   // PointLight, DirectionalLight, PositionalLight, ConeLight
   public static final String TYPE_CONE_LIGHT = "ConeLight";
   public static final String TYPE_POINT_LIGHT = "PointLight";
+
+  //TODO fix this
+  @Deprecated
   public static final String TYPE_PLANET = "Planet";
   public static final String TYPE_STATION = "Station";
   public static final String TYPE_ROUTE_POINT = "Route";
@@ -34,13 +37,18 @@ public class MapConstants {
   public static final String TYPE_PIRATE = "Pirate";
 
   // Steering Behaviours represented by states
+  @Deprecated
   public static final String PROPERTY_STATE = "state";
 
+  @Deprecated
   public static final String STATE_SEEK_AND_DESTROY = "SeekAndDestroy";
+  @Deprecated
   public static final String STATE_GUARD = "Guard";
+  @Deprecated
   public static final String STATE_ROUTE = "Route";
 
   //routing attributes
+  @Deprecated
   public static final String PROPERTY_ROUTE = "route";
 
 }

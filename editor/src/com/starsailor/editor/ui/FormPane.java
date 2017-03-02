@@ -2,6 +2,7 @@ package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
 import com.starsailor.actors.Fraction;
+import com.starsailor.actors.Steering;
 import com.starsailor.model.GameData;
 import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.StatusData;
@@ -190,6 +191,14 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
     else if(field.getName().equals("fraction")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
+    }
+    else if(field.getName().equals("defaultSteering")) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.asStringList());
+    }
+    else if(field.getName().equals("formationOwner")) {
+      List<GameDataWithId> entries = UIController.getInstance().getShipItems();
+      entries.add(0, null);
+      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
     }
     else if(field.getName().equals("weapons")) {
       StatusData statusData = (StatusData) data;

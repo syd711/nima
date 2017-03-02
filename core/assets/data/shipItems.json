@@ -7,6 +7,7 @@
     {
       "fraction": "ETYR",
       "shipType": "35006",
+      "defaultSteering": "ROUTE",
       "name": "Merchant 1",
       "id": 35008,
       "children": []
@@ -14,6 +15,8 @@
     {
       "fraction": "ETYR",
       "shipType": "35005",
+      "formationOwner": "35008",
+      "defaultSteering": "GUARD",
       "name": "Crusader 1",
       "id": 35009,
       "children": []
@@ -21,8 +24,10 @@
     {
       "fraction": "ETYR",
       "shipType": "35006",
-      "name": "root",
-      "id": 35010,
+      "formationOwner": "35008",
+      "defaultSteering": "GUARD",
+      "name": "Crusader 2",
+      "id": 35011,
       "children": []
     }
   ]

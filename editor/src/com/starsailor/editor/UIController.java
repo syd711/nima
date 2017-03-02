@@ -2,25 +2,62 @@ package com.starsailor.editor;
 
 import com.starsailor.editor.util.IdGenerator;
 import com.starsailor.model.*;
+import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  */
 public class UIController {
+  public static String TMX_FILE_FOLDER = "../../core/assets/maps/main/";
   private static UIController instance = new UIController();
 
   private GameDataLoader loader;
 
+  private Map<File,String> tmxMaps = new HashMap<>();
+
   private UIController() {
     loader = new GameDataLoader();
+
+    File[] files = new File(TMX_FILE_FOLDER).listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".tmx");
+      }
+    });
+
+    try {
+      for(File file : files) {
+        byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+        String result = new String(encoded, "utf-8");
+        tmxMaps.put(file, result);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public static UIController getInstance() {
     return instance;
+  }
+
+  public File getTmxFileFor(MapItem gameData) {
+    for(Map.Entry<File, String> maps : tmxMaps.entrySet()) {
+      if(maps.getValue().contains("name=\"" + gameData.getId() + "\"")) {
+        return maps.getKey();
+      }
+    }
+    return null;
   }
 
   public List<GameDataWithId> getShields() {
@@ -35,6 +72,11 @@ public class UIController {
     return result;
   }
 
+  public List<GameDataWithId> getShipItems() {
+    List<GameDataWithId> result = new ArrayList<>();
+    loader.collectModels(loader.getShipItemsTreeModel(), result);
+    return result;
+  }
 
   public GameData newChildFor(GameData parent) {
     GameData child = null;
