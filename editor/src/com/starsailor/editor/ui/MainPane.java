@@ -1,10 +1,16 @@
 package com.starsailor.editor.ui;
 
+import com.starsailor.editor.Editor;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.FormUtil;
-import com.starsailor.model.*;
+import com.starsailor.model.GameData;
+import com.starsailor.model.ShieldData;
+import com.starsailor.model.ShipData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.model.items.ShipItem;
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,11 +21,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
+
 /**
  *
  */
 public class MainPane extends BorderPane {
 
+  private final Button tileButton;
   private FormPane formPane;
 
   private GameDataTreePane activeTreePane;
@@ -53,6 +62,8 @@ public class MainPane extends BorderPane {
     shieldTreePane.setExpanded(true);
 
     treesPane.getPanes().addAll(shipItemsTreePane, shipTreePane, shieldTreePane, weaponTreePane);
+    shipItemsTreePane.setExpanded(true);
+    activeTreePane = shipItemsTreePane;
 
     formPaneHolder = new BorderPane();
     splitPane.getItems().addAll(treesPane, formPaneHolder);
@@ -130,7 +141,24 @@ public class MainPane extends BorderPane {
     });
     deleteButton.setTooltip(new Tooltip("Knoten löschen"));
 
-    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, cloneButton, deleteButton);
+    tileButton = new Button("", ResourceLoader.getImageView("open.png"));
+    tileButton.setDisable(false);
+    tileButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        TreeItem selection = activeTreePane.getSelection();
+        if(selection != null) {
+          HostServicesDelegate hostServices = HostServicesFactory.getInstance(Editor.INSTANCE);
+          hostServices.showDocument(new File("../../core/assets/maps/main/main_0,0.tmx").getAbsolutePath());
+        }
+        else {
+          HostServicesDelegate hostServices = HostServicesFactory.getInstance(Editor.INSTANCE);
+          hostServices.showDocument(new File("../../core/assets/maps/main/main_0,0.tmx").getAbsolutePath());
+        }
+      }
+    });
+    tileButton.setTooltip(new Tooltip("Open TileMapEditor"));
+
+    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, cloneButton, deleteButton, new Separator(), tileButton);
 
 
     final MenuBar menuBar = new MenuBar();

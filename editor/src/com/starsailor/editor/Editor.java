@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  *
  */
 public class Editor extends Application {
+  public static Editor INSTANCE;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -22,6 +23,8 @@ public class Editor extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    INSTANCE = this;
+
     GameDataLoader.ASSETS_DATA = "../../core/assets/data/";
 
     primaryStage.setTitle("Starsailer Manager");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="81">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="82">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -126,14 +126,6 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="52" name="Route 1 Guard 1" type="RouteMember" x="121" y="675" width="32" height="32">
-   <properties>
-    <property name="route" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
-    <property name="state" value="Guard"/>
-   </properties>
-   <ellipse/>
-  </object>
   <object id="63" name="Route 1" type="Route" x="970.32" y="508.318" width="43" height="43">
    <properties>
     <property name="dockTime" type="float" value="3000"/>
@@ -162,42 +154,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="75" name="Route 1 Guard 2" type="RouteMember" x="134" y="1008" width="32" height="32">
-   <properties>
-    <property name="route" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
-    <property name="state" value="Guard"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="76" name="Route 1 Guard 3" type="RouteMember" x="440" y="706" width="32" height="32">
-   <properties>
-    <property name="route" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
-    <property name="state" value="Guard"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="77" name="Route 1 Guard 4" type="RouteMember" x="458" y="970" width="32" height="32">
-   <properties>
-    <property name="route" value="Route 1"/>
-    <property name="shipProfile" value="crusader"/>
-    <property name="state" value="Guard"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="79" name="Klingonen Route 1" type="Route" x="1752.5" y="1100.5" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="80" name="Klingonen Route 1" type="Route" x="936.5" y="776.5" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
+  <object id="81" name="30000" x="568" y="808" width="22" height="22">
    <ellipse/>
   </object>
  </objectgroup>
