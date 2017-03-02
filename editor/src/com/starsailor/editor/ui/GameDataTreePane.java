@@ -1,15 +1,16 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.model.GameData;
-import com.starsailor.model.GameDataWithId;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.IdGenerator;
+import com.starsailor.model.GameData;
+import com.starsailor.model.GameDataWithId;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
@@ -62,7 +63,7 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
         item.setParent(parent.getValue());
         IdGenerator.getInstance().update(item);
 
-        TreeItem<T> child = new TreeItem<>(item, ResourceLoader.getImageView("item.png"));
+        TreeItem<T> child = new TreeItem<>(item, iconFor(item));
         child.valueProperty().bind(new SimpleObjectProperty<>(item));
         child.setExpanded(true);
         parent.getChildren().add(child);
@@ -70,6 +71,10 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
         buildTree(item.getChildren(), child);
       }
     }
+  }
+
+  public static ImageView iconFor(GameData gameData) {
+    return ResourceLoader.getImageView("item.png");
   }
 
   @Override
@@ -84,6 +89,8 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
 
   public void select(TreeItem newNode) {
     treeView.getSelectionModel().select(newNode);
+    mainPane.select(this, newNode);
+
   }
 
   abstract protected T getRoot();

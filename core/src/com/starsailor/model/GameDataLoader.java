@@ -15,7 +15,7 @@ public class GameDataLoader {
   public static final String SHIPS = "ships";
   public static final String WEAPONS = "weapons";
   public static final String SHIELDS = "shields";
-  public static final String ENTITIES = "entities";
+  public static final String SHIP_ITEMS = "shipItems";
 
   private ShipData shipsRoot;
   private com.starsailor.model.ShieldData shieldsRoot;
@@ -102,7 +102,7 @@ public class GameDataLoader {
 
   public ShipItem getDataEntityTreeModel() {
     if(shipItemRoot == null) {
-      shipItemRoot = load(ENTITIES, ShipItem.class);
+      shipItemRoot = load(SHIP_ITEMS, ShipItem.class);
     }
 
     return shipItemRoot;
@@ -128,7 +128,7 @@ public class GameDataLoader {
     }
     com.starsailor.model.JsonDataFactory.saveDataEntity(file, getWeaponsTreeModel());
 
-    file = new File(folder, ENTITIES + ".json");
+    file = new File(folder, SHIP_ITEMS + ".json");
     if(file.exists()) {
       file.delete();
     }

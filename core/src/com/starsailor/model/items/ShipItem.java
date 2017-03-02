@@ -37,4 +37,9 @@ public class ShipItem extends GameDataWithId<ShipItem> {
   public void setShipType(String shipType) {
     this.shipType = shipType;
   }
+
+  @Override
+  public String toString() {
+    return getName() + " (" + getFraction() + ")";
+  }
 }

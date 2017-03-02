@@ -83,9 +83,10 @@ public class MainPane extends BorderPane {
           TreeItem selection = activeTreePane.getSelection();
           if(selection != null) {
             GameData newChild = UIController.getInstance().newChildFor((GameData) selection.getValue());
-            TreeItem newNode = new TreeItem<GameData>(newChild);
+            TreeItem newNode = new TreeItem<GameData>(newChild, GameDataTreePane.iconFor(newChild));
             newNode.setExpanded(true);
             selection.getChildren().add(newNode);
+            activeTreePane.select(newNode);
           }
         }
       }
@@ -99,8 +100,8 @@ public class MainPane extends BorderPane {
         if(activeTreePane != null) {
           TreeItem selection = activeTreePane.getSelection();
           if(selection != null && selection.getParent() != null) {
-            GameData newChild = UIController.getInstance().newChildFor((GameData) selection.getValue());
-            TreeItem newNode = new TreeItem<GameData>(newChild);
+            GameData newChild = UIController.getInstance().newChildFor((GameData) selection.getParent().getValue());
+            TreeItem newNode = new TreeItem<GameData>(newChild, GameDataTreePane.iconFor(newChild));
             newNode.setExpanded(true);
             selection.getParent().getChildren().add(newNode);
           }

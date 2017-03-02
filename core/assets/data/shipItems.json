@@ -1,0 +1,29 @@
+{
+  "fraction": "ETYR",
+  "shipType": "35006",
+  "name": "root",
+  "id": 40000,
+  "children": [
+    {
+      "fraction": "ETYR",
+      "shipType": "35006",
+      "name": "Merchant 1",
+      "id": 35008,
+      "children": []
+    },
+    {
+      "fraction": "ETYR",
+      "shipType": "35005",
+      "name": "Crusader 1",
+      "id": 35009,
+      "children": []
+    },
+    {
+      "fraction": "ETYR",
+      "shipType": "35006",
+      "name": "root",
+      "id": 35010,
+      "children": []
+    }
+  ]
+}
