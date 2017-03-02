@@ -4,10 +4,7 @@ import com.starsailor.editor.Editor;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.FormUtil;
-import com.starsailor.model.GameData;
-import com.starsailor.model.ShieldData;
-import com.starsailor.model.ShipData;
-import com.starsailor.model.WeaponData;
+import com.starsailor.model.*;
 import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
@@ -23,6 +20,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -88,6 +87,7 @@ public class MainPane extends BorderPane {
       }
     });
     refreshButton.setTooltip(new Tooltip("Daten neu laden"));
+
     newButton = new Button("", ResourceLoader.getImageView("new.png"));
     newButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
@@ -135,7 +135,7 @@ public class MainPane extends BorderPane {
             parent.getChildren().remove(selection);
             GameData value = (GameData) parent.getValue();
             value.getChildren().remove(selection.getValue());
-            select(activeTreePane,null);
+            select(activeTreePane, null);
           }
         }
       }
@@ -163,7 +163,31 @@ public class MainPane extends BorderPane {
     });
     tileButton.setTooltip(new Tooltip("Open TileMapEditor"));
 
-    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, cloneButton, deleteButton, new Separator(), tileButton);
+
+    Button searchButton = new Button("", ResourceLoader.getImageView("search.png"));
+    searchButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+
+        String result = FormUtil.showInputDialog("Search", "Search for an ID or name", "Search");
+        if(result != null && result.length() > 0) {
+          if(activeTreePane != null) {
+            List<GameDataWithId> resultList = new ArrayList<>();
+            GameDataWithId root = activeTreePane.getRoot();
+            UIController.getInstance().getGameDataLoader().collectModels(root, resultList);
+            for(GameDataWithId gameDataWithId : resultList) {
+              if(String.valueOf(gameDataWithId.getId()).startsWith(result) || gameDataWithId.getName().toLowerCase().startsWith(result.toLowerCase())) {
+                activeTreePane.select(gameDataWithId);
+                break;
+              }
+            }
+          }
+        }
+      }
+    });
+    searchButton.setTooltip(new Tooltip("Search"));
+
+    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton,
+        cloneButton, deleteButton, new Separator(), tileButton, new Separator(), searchButton);
 
 
     final MenuBar menuBar = new MenuBar();
@@ -225,7 +249,7 @@ public class MainPane extends BorderPane {
         formPaneHolder.setCenter(formPane);
         formPane.setData(gameData);
       }
-      else if(formPane != null){
+      else if(formPane != null) {
         formPane.setData(null);
       }
 

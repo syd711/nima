@@ -8,6 +8,7 @@ import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
@@ -110,10 +111,26 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
     treeView.refresh();
   }
 
+  public void select(GameDataWithId gameDataWithId) {
+    selectChild(treeRoot, gameDataWithId);
+  }
+
+  private void selectChild(TreeItem<T> node, GameDataWithId gameDataWithId) {
+    if(node.getValue().equals(gameDataWithId)) {
+      select(node);
+    }
+    else {
+      ObservableList<TreeItem<T>> children = node.getChildren();
+      for(TreeItem<T> child : children) {
+        selectChild(child, gameDataWithId);
+      }
+
+    }
+  }
+
   public void select(TreeItem newNode) {
     treeView.getSelectionModel().select(newNode);
     mainPane.select(this, newNode);
-
   }
 
   abstract protected T getRoot();

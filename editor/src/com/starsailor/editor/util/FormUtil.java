@@ -24,11 +24,27 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  */
 public class FormUtil {
+  public static String showInputDialog(String title, String header, String label) {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle(title);
+    dialog.setHeaderText(header);
+    dialog.setContentText(label);
+
+    // Traditional way to get the response value.
+    Optional<String> result = dialog.showAndWait();
+    if (result.isPresent()){
+      return result.get();
+    }
+    return null;
+  }
+
+
   public static void showError(final String message, final Throwable e) {
     Platform.runLater(new Runnable() {
       @Override
