@@ -1,7 +1,7 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.GameData;
-import com.starsailor.data.GameDataWithId;
+import com.starsailor.model.GameData;
+import com.starsailor.model.GameDataWithId;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.IdGenerator;
 import javafx.beans.property.SimpleObjectProperty;

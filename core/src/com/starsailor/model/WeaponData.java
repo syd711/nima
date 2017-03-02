@@ -1,4 +1,4 @@
-package com.starsailor.data;
+package com.starsailor.model;
 
 import com.google.gson.annotations.Expose;
 
@@ -67,7 +67,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
 
   //box2d data
   @Expose
-  private BodyData bodyData;
+  private com.starsailor.model.BodyData bodyData;
 
 
   public float getRechargeTimeMillis() {
@@ -179,7 +179,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     this.steeringData = steeringData;
   }
 
-  public BodyData getBodyData() {
+  public com.starsailor.model.BodyData getBodyData() {
     if(this.bodyData == null) {
       if(getParent() != null) {
         return getParent().getBodyData();
@@ -188,7 +188,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     return bodyData;
   }
 
-  public void setBodyData(BodyData bodyData) {
+  public void setBodyData(com.starsailor.model.BodyData bodyData) {
     this.bodyData = bodyData;
   }
 

@@ -1,7 +1,7 @@
 package com.starsailor.editor.util;
 
-import com.starsailor.data.GameData;
-import com.starsailor.data.GameDataWithId;
+import com.starsailor.model.GameData;
+import com.starsailor.model.GameDataWithId;
 import com.starsailor.editor.UIController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -184,8 +184,6 @@ public class FormUtil {
   public static ComboBox addBindingComboBox(GridPane grid, GameData data, Field field, int row, List<GameDataWithId> values) {
     try {
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
-      String id = (String) field.get(data);
-      GameDataWithId model = UIController.getInstance().getGameDataLoader().getModel(Integer.parseInt(id));
 
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
@@ -193,7 +191,12 @@ public class FormUtil {
 
       ObservableList<Object> options = FXCollections.observableArrayList(values);
       ComboBox comboBox = new ComboBox(options);
-      comboBox.setValue(model);
+
+      String id = (String) field.get(data);
+      if(id != null) {
+        GameDataWithId model = UIController.getInstance().getGameDataLoader().getModel(Integer.parseInt(id));
+        comboBox.setValue(model);
+      }
       comboBox.valueProperty().addListener(new ChangeListener() {
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {

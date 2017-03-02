@@ -8,7 +8,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SteerableComponent;
-import com.starsailor.data.SteeringData;
+import com.starsailor.model.SteeringData;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.box2d.Box2dUtil;
 

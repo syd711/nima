@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.ComponentFactory;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.Resources;

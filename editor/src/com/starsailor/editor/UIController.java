@@ -1,7 +1,8 @@
 package com.starsailor.editor;
 
-import com.starsailor.data.*;
 import com.starsailor.editor.util.IdGenerator;
+import com.starsailor.model.*;
+import com.starsailor.model.items.ShipItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,12 @@ public class UIController {
     return result;
   }
 
+  public List<GameDataWithId> getShips() {
+    List<GameDataWithId> result = new ArrayList<>();
+    loader.collectModels(loader.getShipsTreeModel(), result);
+    return result;
+  }
+
 
   public GameData newChildFor(GameData parent) {
     GameData child = null;
@@ -37,7 +44,7 @@ public class UIController {
     else if(parent instanceof ShieldData) {
       child = newShieldData(parent);
     }
-    else if(parent instanceof DataEntity) {
+    else if(parent instanceof ShipItem) {
       child = newDataEntity(parent);
     }
     else if(parent instanceof WeaponData) {
@@ -93,8 +100,12 @@ public class UIController {
     return shieldData;
   }
 
-  private DataEntity newDataEntity(GameData parent) {
-    DataEntity entity = new DataEntity(IdGenerator.getInstance().createId(), (DataEntity) parent);
+  private ShipItem newDataEntity(GameData parent) {
+    ShipItem entity = new ShipItem(IdGenerator.getInstance().createId(), (ShipItem) parent);
+    entity.setParent((ShipItem) parent);
+    entity.setExtendParentData(true);
+    entity.setFraction(((ShipItem) parent).getFraction());
+    entity.setShipType(((ShipItem) parent).getShipType());
     return entity;
   }
 

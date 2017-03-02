@@ -7,7 +7,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.NPC;
 import com.starsailor.components.ShieldComponent;
 import com.starsailor.components.ShootingComponent;
-import com.starsailor.data.BodyData;
+import com.starsailor.model.BodyData;
 import com.starsailor.util.box2d.BodyGenerator;
 
 public class BattleSystem extends PauseableIteratingSystem {

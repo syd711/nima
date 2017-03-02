@@ -1,6 +1,6 @@
 package com.starsailor.util;
 
-import com.starsailor.data.JsonDataFactory;
+import com.starsailor.model.JsonDataFactory;
 
 import java.io.File;
 

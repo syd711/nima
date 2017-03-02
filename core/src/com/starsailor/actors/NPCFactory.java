@@ -6,7 +6,7 @@ import com.starsailor.actors.states.npc.GuardState;
 import com.starsailor.actors.states.npc.RouteState;
 import com.starsailor.actors.states.npc.RoutedSeekAndDestroyState;
 import com.starsailor.components.RouteComponent;
-import com.starsailor.data.ShipData;
+import com.starsailor.model.ShipData;
 import com.starsailor.managers.EntityManager;
 
 /**

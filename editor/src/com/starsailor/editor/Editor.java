@@ -1,6 +1,6 @@
 package com.starsailor.editor;
 
-import com.starsailor.data.GameDataLoader;
+import com.starsailor.model.GameDataLoader;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.ui.MainPane;
 import javafx.application.Application;

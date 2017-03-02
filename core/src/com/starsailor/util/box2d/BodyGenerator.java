@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Spine;
-import com.starsailor.data.BodyData;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.BodyData;
+import com.starsailor.model.WeaponData;
 
 import static com.starsailor.util.Settings.MPP;
 

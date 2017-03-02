@@ -7,7 +7,7 @@ import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
-import com.starsailor.data.ShipData;
+import com.starsailor.model.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.util.GraphicsUtil;

@@ -1,4 +1,4 @@
-package com.starsailor.data;
+package com.starsailor.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

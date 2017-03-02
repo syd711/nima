@@ -8,8 +8,8 @@ import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RouteComponent;
-import com.starsailor.data.DataEntities;
-import com.starsailor.data.ShipData;
+import com.starsailor.model.DataEntities;
+import com.starsailor.model.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
 

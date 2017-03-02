@@ -17,7 +17,6 @@ import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
 import com.starsailor.components.collision.*;
-import com.starsailor.data.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.TextureManager;
 import com.starsailor.messaging.Messages;
@@ -63,7 +62,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, WeaponData weaponData, boolean friendly) {
+  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, com.starsailor.model.WeaponData weaponData, boolean friendly) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createBulletBody(position, weaponData, friendly);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
@@ -72,7 +71,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Spine spine, BodyData bodyData, Vector2 position) {
+  public static BodyComponent addBodyComponent(Spine spine, com.starsailor.model.BodyData bodyData, Vector2 position) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createSpineBody(Game.world, spine, bodyData);
     component.body.setUserData(spine);
@@ -128,7 +127,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShootingComponent addShootableComponent(Entity entity, ShipData profile) {
+  public static ShootingComponent addShootableComponent(Entity entity, com.starsailor.model.ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
     component.setWeaponDatas(profile.getStatusData().getWeaponDatas());
     entity.add(component);
@@ -141,7 +140,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SteerableComponent addSteerableComponent(Entity entity, Body body, SteeringData steeringData) {
+  public static SteerableComponent addSteerableComponent(Entity entity, Body body, com.starsailor.model.SteeringData steeringData) {
     SteerableComponent component = createComponent(SteerableComponent.class);
     component.init(body, steeringData, true);
     entity.add(component);
@@ -212,7 +211,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BulletDamageComponent addBulletDamageComponent(Entity entity, WeaponData weaponData) {
+  public static BulletDamageComponent addBulletDamageComponent(Entity entity, com.starsailor.model.WeaponData weaponData) {
     BulletDamageComponent component = createComponent(BulletDamageComponent.class);
     component.damage = weaponData.getDamage();
     entity.add(component);
@@ -235,7 +234,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShieldComponent addShieldComponent(Entity entity, ShieldData shieldData) {
+  public static ShieldComponent addShieldComponent(Entity entity, com.starsailor.model.ShieldData shieldData) {
     ShieldComponent component = createComponent(ShieldComponent.class);
     if(shieldData != null) {
       component.health = shieldData.getHealth();
@@ -262,7 +261,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static HealthComponent addHealthComponent(Entity entity, ShipData shipData) {
+  public static HealthComponent addHealthComponent(Entity entity, com.starsailor.model.ShipData shipData) {
     HealthComponent component = createComponent(HealthComponent.class);
     component.maxHealth = shipData.getStatusData().getHealth();
     component.health = shipData.getStatusData().getHealth();

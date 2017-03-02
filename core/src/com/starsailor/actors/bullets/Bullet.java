@@ -10,7 +10,7 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.managers.*;
 
 import java.util.Collections;

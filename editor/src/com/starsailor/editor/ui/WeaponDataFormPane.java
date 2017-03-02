@@ -1,9 +1,9 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.BodyData;
-import com.starsailor.data.GameData;
-import com.starsailor.data.SteeringData;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.BodyData;
+import com.starsailor.model.GameData;
+import com.starsailor.model.SteeringData;
+import com.starsailor.model.WeaponData;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

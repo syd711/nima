@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
-import com.starsailor.data.SpineData;
+import com.starsailor.model.SpineData;
 import com.starsailor.util.SpineUtil;
 
 import static com.starsailor.util.Settings.MPP;

@@ -3,7 +3,7 @@ package com.starsailor.actors.bullets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.util.box2d.Box2dUtil;
 import com.starsailor.util.Resources;
 

@@ -8,7 +8,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.FractionComponent;
 import com.starsailor.components.RouteComponent;
 import com.starsailor.components.StatefulComponent;
-import com.starsailor.data.ShipData;
+import com.starsailor.model.ShipData;
 
 import java.util.ArrayList;
 import java.util.List;

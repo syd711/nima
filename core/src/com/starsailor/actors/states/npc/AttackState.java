@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.messaging.Messages;

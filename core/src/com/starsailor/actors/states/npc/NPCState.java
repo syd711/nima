@@ -2,7 +2,7 @@ package com.starsailor.actors.states.npc;
 
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.EntityManager;
 

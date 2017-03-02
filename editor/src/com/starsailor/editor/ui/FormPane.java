@@ -1,9 +1,10 @@
 package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
-import com.starsailor.data.GameData;
-import com.starsailor.data.GameDataWithId;
-import com.starsailor.data.StatusData;
+import com.starsailor.actors.Fraction;
+import com.starsailor.model.GameData;
+import com.starsailor.model.GameDataWithId;
+import com.starsailor.model.StatusData;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
@@ -126,7 +127,7 @@ public class FormPane extends BorderPane implements ChangeListener {
       }
     }
     TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, title, false);
-    section.setExpanded(!isExtending(gameData));
+//    section.setExpanded(!isExtending(gameData));
   }
 
 
@@ -171,6 +172,10 @@ public class FormPane extends BorderPane implements ChangeListener {
       List<GameDataWithId> entries = UIController.getInstance().getShields();
       return FormUtil.addBindingComboBox(grid, data, field, row, entries);
     }
+    else if(field.getName().equals("shipType")) {
+      List<GameDataWithId> entries = UIController.getInstance().getShips();
+      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+    }
     else if(field.getName().equals("sound")) {
       return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/sounds/"), ".wav");
     }
@@ -182,6 +187,9 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
     else if(field.getName().equals("category")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Arrays.asList("primary", "secondary", "emergency"));
+    }
+    else if(field.getName().equals("fraction")) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
     }
     else if(field.getName().equals("weapons")) {
       StatusData statusData = (StatusData) data;

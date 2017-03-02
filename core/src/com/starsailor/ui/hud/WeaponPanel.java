@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.*;
 import com.starsailor.components.ShootingComponent;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.TextureManager;

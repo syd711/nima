@@ -1,6 +1,6 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.*;
+import com.starsailor.model.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

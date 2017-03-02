@@ -1,4 +1,6 @@
-package com.starsailor.data;
+package com.starsailor.model;
+
+import com.starsailor.model.items.ShipItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,9 +18,9 @@ public class GameDataLoader {
   public static final String ENTITIES = "entities";
 
   private ShipData shipsRoot;
-  private ShieldData shieldsRoot;
+  private com.starsailor.model.ShieldData shieldsRoot;
   private WeaponData weaponsData;
-  private DataEntity dataEntityRoot;
+  private ShipItem shipItemRoot;
 
 
   public GameDataLoader() {
@@ -59,7 +61,7 @@ public class GameDataLoader {
       else if(model instanceof ShipData) {
 
       }
-      else if(model instanceof ShieldData) {
+      else if(model instanceof com.starsailor.model.ShieldData) {
 
       }
     }
@@ -90,20 +92,20 @@ public class GameDataLoader {
     return weaponsData;
   }
 
-  public ShieldData getShieldsTreeModel() {
+  public com.starsailor.model.ShieldData getShieldsTreeModel() {
     if(shieldsRoot == null) {
-      shieldsRoot = load(SHIELDS, ShieldData.class);
+      shieldsRoot = load(SHIELDS, com.starsailor.model.ShieldData.class);
     }
 
     return shieldsRoot;
   }
 
-  public DataEntity getDataEntityTreeModel() {
-    if(dataEntityRoot == null) {
-      dataEntityRoot = load(ENTITIES, DataEntity.class);
+  public ShipItem getDataEntityTreeModel() {
+    if(shipItemRoot == null) {
+      shipItemRoot = load(ENTITIES, ShipItem.class);
     }
 
-    return dataEntityRoot;
+    return shipItemRoot;
   }
 
   public void save() {
@@ -112,25 +114,25 @@ public class GameDataLoader {
     if(file.exists()) {
       file.delete();
     }
-    JsonDataFactory.saveDataEntity(file, getShipsTreeModel());
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShipsTreeModel());
 
     file = new File(folder, SHIELDS + ".json");
     if(file.exists()) {
       file.delete();
     }
-    JsonDataFactory.saveDataEntity(file, getShieldsTreeModel());
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShieldsTreeModel());
 
     file = new File(folder, WEAPONS + ".json");
     if(file.exists()) {
       file.delete();
     }
-    JsonDataFactory.saveDataEntity(file, getWeaponsTreeModel());
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getWeaponsTreeModel());
 
     file = new File(folder, ENTITIES + ".json");
     if(file.exists()) {
       file.delete();
     }
-    JsonDataFactory.saveDataEntity(file, getDataEntityTreeModel());
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getDataEntityTreeModel());
   }
 
   //---------------------- Helper ------------------------------------------------
@@ -148,7 +150,7 @@ public class GameDataLoader {
 
   private <T> T load(String name, Class<T> entity) {
     File file = new File(ASSETS_DATA + name + ".json");
-    return JsonDataFactory.loadDataEntity(file, entity);
+    return com.starsailor.model.JsonDataFactory.loadDataEntity(file, entity);
   }
 
   public List<WeaponData> getWeapons() {

@@ -1,6 +1,6 @@
 package com.starsailor.editor.util;
 
-import com.starsailor.data.GameDataWithId;
+import com.starsailor.model.GameDataWithId;
 
 /**
  *

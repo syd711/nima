@@ -2,7 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
-import com.starsailor.data.SteeringData;
+import com.starsailor.model.SteeringData;
 
 /**
  * Model for a tracking point of a route.

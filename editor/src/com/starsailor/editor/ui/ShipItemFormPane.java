@@ -5,9 +5,9 @@ import com.starsailor.model.GameData;
 /**
  *
  */
-public class ShieldDataFormPane extends FormPane {
+public class ShipItemFormPane extends FormPane {
 
-  public ShieldDataFormPane(MainPane mainPane) {
+  public ShipItemFormPane(MainPane mainPane) {
     super(mainPane);
   }
 
@@ -16,8 +16,7 @@ public class ShieldDataFormPane extends FormPane {
     super.setData(gameData);
 
     if(gameData != null) {
-      createSection(gameData, "Shield Data", false, this);
+      createSection(gameData, "Ship Data", gameData.getParent() != null, null);
     }
-
   }
 }

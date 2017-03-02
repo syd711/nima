@@ -1,7 +1,7 @@
 package com.starsailor.actors.bullets;
 
 import com.starsailor.actors.Ship;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 
 /**
  * Concrete implementation of a weapon type.

@@ -1,7 +1,7 @@
 package com.starsailor.editor.util;
 
 import com.google.gson.*;
-import com.starsailor.data.GameData;
+import com.starsailor.model.GameData;
 
 import java.lang.reflect.Type;
 

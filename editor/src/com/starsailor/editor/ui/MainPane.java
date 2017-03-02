@@ -1,9 +1,10 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.*;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.util.FormUtil;
+import com.starsailor.model.*;
+import com.starsailor.model.items.ShipItem;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,7 +25,7 @@ public class MainPane extends BorderPane {
   private GameDataTreePane activeTreePane;
   private final BorderPane formPaneHolder;
 
-  private final DataEntityTreePane dataEntityTreePane;
+  private final ShipItemTreePane shipItemsTreePane;
   private final WeaponDataTreePane weaponTreePane;
   private final ShipDataTreePane shipTreePane;
   private final ShieldDataTreePane shieldTreePane;
@@ -33,6 +34,7 @@ public class MainPane extends BorderPane {
   private Label infoMessage = new Label("");
   private final Button newButton;
   private final Button deleteButton;
+  private final Button cloneButton;
 
   public MainPane() {
     VBox top = new VBox();
@@ -44,13 +46,13 @@ public class MainPane extends BorderPane {
     treesPane.setMaxWidth(800);
     treesPane.setMinWidth(400);
 
-    dataEntityTreePane = new DataEntityTreePane(this);
+    shipItemsTreePane = new ShipItemTreePane(this);
     shipTreePane = new ShipDataTreePane(this);
     shieldTreePane = new ShieldDataTreePane(this);
     weaponTreePane = new WeaponDataTreePane(this);
     shieldTreePane.setExpanded(true);
 
-    treesPane.getPanes().addAll(dataEntityTreePane, shipTreePane, shieldTreePane, weaponTreePane);
+    treesPane.getPanes().addAll(shipItemsTreePane, shipTreePane, shieldTreePane, weaponTreePane);
 
     formPaneHolder = new BorderPane();
     splitPane.getItems().addAll(treesPane, formPaneHolder);
@@ -91,6 +93,23 @@ public class MainPane extends BorderPane {
     newButton.setTooltip(new Tooltip("Neuen Unterknoten erzeugen"));
     newButton.setDisable(true);
 
+    cloneButton = new Button("", ResourceLoader.getImageView("plus.png"));
+    cloneButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        if(activeTreePane != null) {
+          TreeItem selection = activeTreePane.getSelection();
+          if(selection != null && selection.getParent() != null) {
+            GameData newChild = UIController.getInstance().newChildFor((GameData) selection.getValue());
+            TreeItem newNode = new TreeItem<GameData>(newChild);
+            newNode.setExpanded(true);
+            selection.getParent().getChildren().add(newNode);
+          }
+        }
+      }
+    });
+    cloneButton.setTooltip(new Tooltip("Create Clone"));
+    cloneButton.setDisable(true);
+
     deleteButton = new Button("", ResourceLoader.getImageView("remove.png"));
     deleteButton.setDisable(true);
     deleteButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -110,7 +129,7 @@ public class MainPane extends BorderPane {
     });
     deleteButton.setTooltip(new Tooltip("Knoten löschen"));
 
-    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, deleteButton);
+    toolbar.getItems().addAll(saveButton, new Separator(), refreshButton, new Separator(), newButton, cloneButton, deleteButton);
 
 
     final MenuBar menuBar = new MenuBar();
@@ -151,6 +170,7 @@ public class MainPane extends BorderPane {
     this.activeTreePane = treePane;
     this.deleteButton.setDisable(selection == null || selection.getParent() == null);
     this.newButton.setDisable(selection == null);
+    this.cloneButton.setDisable(selection == null || selection.getParent() == null);
 
     try {
       if(selection != null) {
@@ -164,8 +184,8 @@ public class MainPane extends BorderPane {
         else if(gameData instanceof WeaponData) {
           formPane = new WeaponDataFormPane(this);
         }
-        else if(gameData instanceof DataEntity) {
-          formPane = new DataEntityFormPane(this);
+        else if(gameData instanceof ShipItem) {
+          formPane = new ShipItemFormPane(this);
         }
 
         formPaneHolder.setCenter(formPane);

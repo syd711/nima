@@ -5,7 +5,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.AnimationComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.collision.BulletCollisionComponent;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 
 /**
  * Concrete implementation of a weapon type.

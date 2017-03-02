@@ -1,6 +1,6 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.GameDataWithId;
+import com.starsailor.model.GameDataWithId;
 import com.starsailor.editor.UIController;
 
 /**

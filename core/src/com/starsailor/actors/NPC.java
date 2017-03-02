@@ -9,7 +9,7 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
-import com.starsailor.data.ShipData;
+import com.starsailor.model.ShipData;
 import com.starsailor.managers.SelectionManager;
 
 import java.util.List;

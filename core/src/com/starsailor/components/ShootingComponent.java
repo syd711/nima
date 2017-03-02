@@ -3,7 +3,7 @@ package com.starsailor.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.starsailor.Game;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 
 import java.util.ArrayList;
 import java.util.HashMap;

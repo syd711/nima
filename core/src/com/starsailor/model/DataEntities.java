@@ -1,4 +1,4 @@
-package com.starsailor.data;
+package com.starsailor.model;
 
 import com.starsailor.util.Resources;
 

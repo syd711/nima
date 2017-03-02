@@ -2,7 +2,7 @@ package com.starsailor.managers;
 
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.*;
-import com.starsailor.data.WeaponData;
+import com.starsailor.model.WeaponData;
 
 import java.util.ArrayList;
 import java.util.Iterator;

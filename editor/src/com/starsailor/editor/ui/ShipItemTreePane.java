@@ -1,14 +1,14 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.GameDataWithId;
+import com.starsailor.model.GameDataWithId;
 import com.starsailor.editor.UIController;
 
 /**
  *
  */
-public class DataEntityTreePane<DataEntity> extends GameDataTreePane {
-  public DataEntityTreePane(MainPane mainPane) {
-    super(mainPane, "Data Entity");
+public class ShipItemTreePane extends GameDataTreePane {
+  public ShipItemTreePane(MainPane mainPane) {
+    super(mainPane, "Ships");
   }
 
   @Override

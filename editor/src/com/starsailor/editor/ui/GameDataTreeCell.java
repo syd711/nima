@@ -1,6 +1,6 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.data.GameData;
+import com.starsailor.model.GameData;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
