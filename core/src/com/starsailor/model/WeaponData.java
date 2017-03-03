@@ -201,6 +201,10 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     return category;
   }
 
+  public Category getCategoryType() {
+    return Category.valueOf(getCategory().toUpperCase());
+  }
+
   public void setCategory(String category) {
     this.category = category;
   }

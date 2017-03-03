@@ -226,6 +226,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   //------------ To be implemented ------------------------------------------------------------------------
 
   abstract protected State getDefaultState();
+  abstract protected State getBattleState();
 
   //------------- Helper ----------------------------------------------------------------------------------
 

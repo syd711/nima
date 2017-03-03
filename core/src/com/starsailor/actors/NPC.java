@@ -83,6 +83,11 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
+  public State<NPC> getBattleState() {
+    return battleState;
+  }
+
+  @Override
   public SelectionComponent getSelectionComponent() {
     return selectionComponent;
   }
@@ -104,17 +109,23 @@ public class NPC extends Ship implements Selectable {
   // ---------------- Helper ------------------------------------------------------
 
   public void switchGroupToBattleState(Ship enemy) {
+    switchToBattleState(enemy);
+
     List<Ship> members = formationComponent.getMembers();
     for(Ship member : members) {
-      switchToBattleState(member, enemy);
+      if(member.equals(this)) {
+        continue;
+      }
+      //TODO mpf
+      ((NPC)member).switchToBattleState(enemy);
     }
   }
 
-  private void switchToBattleState(Ship ship, Ship enemy) {
+  public void switchToBattleState(Ship enemy) {
     if(battleState instanceof BattleState) {
       ((BattleState)battleState).updateEnemy(enemy);
     }
-    ship.getStateMachine().changeState(battleState);
+    getStateMachine().changeState(getBattleState());
   }
 
   /**

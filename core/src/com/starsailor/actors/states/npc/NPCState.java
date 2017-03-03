@@ -135,7 +135,7 @@ abstract public class NPCState {
   protected List<WeaponData> getChargedWeaponsForCategory(Ship ship, WeaponData.Category weaponCategory) {
     List<WeaponData> result = new ArrayList<>();
     for(WeaponData weapon : ship.getChargedWeapons()) {
-      if(!weapon.getCategory().equals(weaponCategory)) {
+      if(!weapon.getCategoryType().equals(weaponCategory)) {
         continue;
       }
 

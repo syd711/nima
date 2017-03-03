@@ -50,6 +50,11 @@ public class Player extends Ship {
   }
 
   @Override
+  protected State getBattleState() {
+    return null;
+  }
+
+  @Override
   public void applyDamageFor(Bullet bullet) {
     updateDamage(bullet);
     if(SelectionManager.getInstance().getSelection() == null) {
