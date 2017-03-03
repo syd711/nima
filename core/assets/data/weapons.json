@@ -145,7 +145,7 @@
           "rechargeTimeMillis": 2700.0,
           "durationMillis": 0.0,
           "damage": 2.0,
-          "forceFactor": 5.0,
+          "forceFactor": 7.0,
           "torque": 0.0,
           "impactFactor": 2.0,
           "bulletCount": 3,
@@ -156,12 +156,12 @@
           "sprite": "rocket",
           "activationDistance": 200.0,
           "bodyData": {
-            "linearDamping": 1.0,
+            "linearDamping": 2.0,
             "angularDamping": 10.0,
             "width": 1.8,
             "height": 15.0,
             "radius": 0.0,
-            "density": 1.3,
+            "density": 2.0,
             "sensor": true,
             "children": []
           },

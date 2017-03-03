@@ -91,14 +91,16 @@ public class MissileBullet extends Bullet implements EntityListener {
         //attack flare if the distance is shorter
         if(target.getDistanceTo(this) > this.getDistanceTo(nearestEnemyFlare)) {
           targetBody = nearestEnemyFlare.bodyComponent.body;
+          steerableComponent.setEnabled(false);
         }
       }
       //may it has been destroyed during flying
       if(targetBody != null) {
-        Box2dUtil.gravity(bodyComponent.body, targetBody, 1.5f);
+        Box2dUtil.gravity(bodyComponent.body, targetBody, 1.1f);
         getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
       }
       else {
+        steerableComponent.setEnabled(true);
         Vector2 linearVelocity = bodyComponent.body.getLinearVelocity();
         bodyComponent.body.setLinearDamping(0);
         bodyComponent.body.setLinearVelocity(linearVelocity);
