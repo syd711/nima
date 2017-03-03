@@ -99,7 +99,8 @@ public class GameDataManager {
         List<Integer> weapons = shipData.getStatusData().getWeapons();
         for(Integer weapon : weapons) {
           WeaponData weaponData = (WeaponData) getModel(weapon);
-          shipData.getStatusData().getWeaponDatas().add(weaponData);
+          StatusData statusData = shipData.getStatusData();
+          statusData.addWeaponProfile(weaponData);
         }
 
         int shieldId = shipData.getStatusData().getShield();

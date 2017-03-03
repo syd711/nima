@@ -40,16 +40,12 @@ public class BulletManager {
         break;
       }
       case MISSILE: {
-        bullet = new MissileBullet(weaponData, owner, target);
-        break;
-      }
-      case ROCKET: {
         if(!internal) {
-          fireRockets(weaponData, owner, target);
+          fireMissiles(weaponData, owner, target);
         }
         else {
           //only called via delayed queue
-          bullet = new RocketBullet(weaponData, owner, target);
+          bullet = new MissileBullet(weaponData, owner, target);
         }
         break;
       }
@@ -107,8 +103,11 @@ public class BulletManager {
    * Rockets are a little bit more complex.
    * They try to aim for all targets of the enemy group while bullets available.
    */
-  private void fireRockets(WeaponData weaponData, Ship owner, Ship target) {
+  private void fireMissiles(WeaponData weaponData, Ship owner, Ship target) {
     int bulletCount = weaponData.getBulletCount();
+    if(bulletCount == 0) {
+      bulletCount = 1;
+    }
     List<Ship> members = target.formationComponent.getMembers();
     Iterator<Ship> iterator = members.iterator();
     Ship nextTarget = null;

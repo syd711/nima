@@ -19,7 +19,7 @@ public class StatusData extends GameData {
 
   private ShieldData shieldData;
 
-  private transient List<WeaponData> weaponDatas = new ArrayList<>();
+  private transient List<WeaponData> weaponDatas;
 
   public StatusData(StatusData statusData) {
     this.health = statusData.getHealth();

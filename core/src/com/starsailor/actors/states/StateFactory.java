@@ -19,7 +19,7 @@ public class StateFactory {
         return new GuardState();
       }
       case ROUTE: {
-        return new GuardState();
+        return new RouteState();
       }
       case ATTACK: {
         return new AttackState();
