@@ -3,14 +3,16 @@ package com.starsailor.actors;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.states.StateFactory;
 import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SelectionManager;
-import com.starsailor.model.ShipData;
+import com.starsailor.model.items.ShipItem;
 
 import java.util.List;
 
@@ -29,11 +31,14 @@ public class NPC extends Ship implements Selectable {
   //not necessarily set
   private Route route;
 
-  public NPC(String name, ShipData profile, State<NPC> defaultState, State<NPC> battleState, Vector2 position) {
-    super(name, profile, position);
-    this.shipData = profile;
-    this.defaultState = defaultState;
-    this.battleState = battleState;
+  public NPC(ShipItem shipItem, Vector2 position) {
+    super(shipItem, position);
+
+    Steering defaultSteering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
+    Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
+
+    defaultState = StateFactory.createState(defaultSteering);
+    battleState = StateFactory.createState(battleSteering);
   }
 
   @Override
@@ -47,6 +52,12 @@ public class NPC extends Ship implements Selectable {
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
+  }
+
+  public void updateFormationOwner() {
+    NPC owner = EntityManager.getInstance().getNpc(shipItem.getFormationOwner());
+    formationComponent.formationOwner = owner;
+    owner.formationComponent.addMember(this);
   }
 
   @Override
@@ -124,6 +135,6 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public String toString() {
-    return "NPC '" + name + "' (" + shipData.getName() + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
+    return "NPC '" + shipItem.getName() + "' (" + shipData.getName() + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
   }
 }

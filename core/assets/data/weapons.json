@@ -96,7 +96,7 @@
         "angularDamping": 1.8,
         "width": 0.0,
         "height": 0.0,
-        "radius": 26.0,
+        "radius": 16.0,
         "density": 0.1,
         "sensor": false,
         "children": []

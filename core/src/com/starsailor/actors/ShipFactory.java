@@ -1,9 +1,6 @@
 package com.starsailor.actors;
 
-import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.states.StateFactory;
-import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
@@ -19,7 +16,7 @@ public class ShipFactory {
 
   public static Player createPlayer() {
     ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
-    Player player = new Player(ship.getShipData());
+    Player player = new Player(ship);
     player.createComponents(Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);
     return player;
@@ -33,22 +30,12 @@ public class ShipFactory {
    * @return
    */
   public static NPC createNPC(ShipItem shipItem, Vector2 position) {
-    Steering defaultSteering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
-    Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
-
-    State defaultState = StateFactory.createState(defaultSteering);
-    State battleState = StateFactory.createState(battleSteering);
-
-    NPC npc = new NPC(shipItem.getName(), shipItem.getShipData(), defaultState, battleState, position);
+    NPC npc = new NPC(shipItem, position);
     Route route = getRoute(shipItem);
     if(route != null) {
       npc.setRoute(route);
     }
     npc.createComponents(Fraction.valueOf(shipItem.getFraction().toUpperCase()));
-    npc.formationComponent.formationOwner = npc;
-
-    npc.getStateMachine().changeState(defaultState);
-    EntityManager.getInstance().add(npc);
     return npc;
   }
 

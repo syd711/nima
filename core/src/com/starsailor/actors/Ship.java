@@ -7,11 +7,10 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.*;
-import com.starsailor.model.ShieldData;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.model.ShipData;
 import com.starsailor.model.WeaponData;
-import com.starsailor.managers.EntityManager;
-import com.starsailor.util.Resources;
+import com.starsailor.model.items.ShipItem;
 import com.starsailor.util.box2d.Box2dLocation;
 
 import javax.annotation.Nullable;
@@ -36,17 +35,17 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public HealthComponent healthComponent;
 
   public ShipData shipData;
+  protected ShipItem shipItem;
 
   private Box2dLocation location;
-  protected String name;
 
   //only used during initializing
   private Vector2 position;
 
-  public Ship(String name, ShipData profile, Vector2 position) {
-    super(Resources.SPINES + profile.getSpineData().getSpine() + "/" + profile.getSpineData().getSpine(), profile.getSpineData());
-    this.name = name;
-    this.shipData = profile;
+  public Ship(ShipItem shipItem, Vector2 position) {
+    super(shipItem.getShipData().getSpineData().getSpinePath(),  shipItem.getShipData().getSpineData());
+    this.shipItem = shipItem;
+    this.shipData = shipItem.getShipData();
     this.position = position;
   }
 
@@ -63,12 +62,13 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
     formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getDistanceData().getFormationDistance());
+    formationComponent.formationOwner = this;
 
     this.location = new Box2dLocation(new Vector2());
   }
 
-  public ShieldData getShield() {
-    return shipData.getStatusData().getShieldData();
+  public int getItemId() {
+    return shipItem.getId();
   }
 
   public List<WeaponData> getChargedWeapons() {

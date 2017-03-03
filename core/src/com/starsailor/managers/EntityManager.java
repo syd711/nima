@@ -8,6 +8,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.ShipFactory;
 import com.starsailor.components.*;
@@ -240,5 +241,15 @@ public class EntityManager implements EntityListener {
       }
     }
     return false;
+  }
+
+  public NPC getNpc(int itemId) {
+    List<NPC> entities = getEntities(NPC.class);
+    for(NPC entity : entities) {
+      if(entity.getItemId() == itemId) {
+        return entity;
+      }
+    }
+    return null;
   }
 }

@@ -5,10 +5,14 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.ShipFactory;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
 import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.render.TiledMapFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Initializes the map positions of route stations.
@@ -16,6 +20,7 @@ import com.starsailor.render.TiledMapFragment;
 public class MapObject2ShipConverter extends DefaultMapObjectConverter {
 
   private boolean enabled;
+  private List<NPC> newEntities = new ArrayList<>();
 
   public MapObject2ShipConverter(boolean enabled) {
     this.enabled = enabled;
@@ -47,8 +52,19 @@ public class MapObject2ShipConverter extends DefaultMapObjectConverter {
         Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
 
         NPC npc = ShipFactory.createNPC(shipItem, centeredPosition);
-        Gdx.app.log(this.getClass().getName(), "Added '" + npc + "'");
+        newEntities.add(npc);
+        Gdx.app.log(this.getClass().getName(), "Created '" + npc + "'");
       }
     }
+  }
+
+  @Override
+  public void finalize() {
+    for(NPC npc : newEntities) {
+      npc.switchToDefaultState();
+      EntityManager.getInstance().add(npc);
+      Gdx.app.log(this.getClass().getName(), "Added '" + npc + "'");
+    }
+    newEntities.clear();
   }
 }

@@ -26,9 +26,10 @@
     },
     {
       "fraction": "ETYR",
-      "shipType": 35006,
+      "shipType": 35005,
       "formationOwner": 35008,
       "defaultSteering": "GUARD",
+      "battleSteering": "ATTACK",
       "name": "Crusader 2",
       "id": 35011,
       "children": []

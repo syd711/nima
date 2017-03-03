@@ -15,6 +15,9 @@ public class GuardState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered GuardState");
+    if(npc.formationComponent.formationOwner.equals(npc)) {
+      npc.updateFormationOwner();
+    }
     SteeringManager.setGuardSteering(npc);
   }
 

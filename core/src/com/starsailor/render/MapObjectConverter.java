@@ -54,6 +54,8 @@ abstract public class MapObjectConverter {
 
   public abstract void convertEllipse(TiledMapFragment mapFragment, EllipseMapObject mapObject);
 
+  public void finalize() {};
+
   /**
    * Called for every map object when the map is destroyed.
    * @param mapFragment the map fragment that has been evicted from cache

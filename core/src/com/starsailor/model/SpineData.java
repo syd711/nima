@@ -1,6 +1,7 @@
 package com.starsailor.model;
 
 import com.google.gson.annotations.Expose;
+import com.starsailor.util.Resources;
 
 /**
  * Spine informations
@@ -46,5 +47,9 @@ public class SpineData extends GameData {
 
   public void setDefaultAnimation(String defaultAnimation) {
     this.defaultAnimation = defaultAnimation;
+  }
+
+  public String getSpinePath() {
+    return Resources.SPINES + getSpine() + "/" + getSpine();
   }
 }

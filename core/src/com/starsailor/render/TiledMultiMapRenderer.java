@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.starsailor.Game;
 import com.starsailor.util.Settings;
 
 import java.util.ArrayList;
@@ -192,6 +191,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
               objectConverter.convertMapObject(cachedMap, mapObject);
             }
           }
+          objectConverter.finalize();
         }
 
         for(MapChangeListener mapChangeListener : mapChangeListeners) {
