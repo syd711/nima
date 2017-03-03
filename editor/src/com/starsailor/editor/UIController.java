@@ -1,16 +1,18 @@
 package com.starsailor.editor;
 
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.starsailor.editor.util.IdGenerator;
 import com.starsailor.managers.GameDataManager;
 import com.starsailor.model.*;
 import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
+import com.starsailor.util.TMXParser;
 
 import java.io.File;
-import java.util.*;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,27 +23,26 @@ public class UIController {
 
   private GameDataManager dataManager;
 
-  private Map<File,TiledMap> tmxMaps = new HashMap<>();
+  private Map<File,TMXParser> tmxMaps = new HashMap<>();
 
   private UIController() {
     dataManager = GameDataManager.getInstance();
 
-//    File[] files = new File(TMX_FILE_FOLDER).listFiles(new FilenameFilter() {
-//      @Override
-//      public boolean accept(File dir, String name) {
-//        return name.endsWith(".tmx");
-//      }
-//    });
-//
-//    try {
-//      for(File file : files) {
-//        FileHandleResolver resolver = new ExternalFileHandleResolver();
-//        TiledMap map = new TmxMapLoader(resolver).load(file.getAbsolutePath());
-//        tmxMaps.put(file, map);
-//      }
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
+    File[] files = new File(TMX_FILE_FOLDER).listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".tmx");
+      }
+    });
+
+    try {
+      for(File file : files) {
+        TMXParser tmxParser = new TMXParser(file);
+        tmxMaps.put(file, tmxParser);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public static UIController getInstance() {
@@ -49,24 +50,22 @@ public class UIController {
   }
 
   public File getTmxFileFor(MapItem gameData) {
-    for(Map.Entry<File, TiledMap> maps : tmxMaps.entrySet()) {
-      TiledMap map = maps.getValue();
-      Iterator<MapLayer> iterator = map.getLayers().iterator();
-      while(iterator.hasNext()) {
-        MapLayer layer = iterator.next();
-        Iterator<MapObject> objectIterator = layer.getObjects().iterator();
-        while(objectIterator.hasNext()) {
-          MapObject mapObject = objectIterator.next();
-          if(mapObject.getName().toLowerCase().startsWith(gameData.getName().toLowerCase())) {
-            return maps.getKey();
-          }
-          if(mapObject.getName().toLowerCase().startsWith(String.valueOf(gameData.getId()))) {
-            return maps.getKey();
-          }
-        }
+    for(Map.Entry<File, TMXParser> parsers : tmxMaps.entrySet()) {
+      TMXParser parser = parsers.getValue();
+      if(parser.contains(gameData)) {
+        return parser.getFile();
       }
     }
     return null;
+  }
+
+  public List<String> getRoutes() {
+    List<String> routeNames = new ArrayList<>();
+    for(Map.Entry<File, TMXParser> parsers : tmxMaps.entrySet()) {
+      TMXParser parser = parsers.getValue();
+      parser.findRoutes(routeNames);
+    }
+    return routeNames;
   }
 
   public List<GameDataWithId> getShields() {

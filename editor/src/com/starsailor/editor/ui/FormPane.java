@@ -189,6 +189,11 @@ public class FormPane extends BorderPane implements ChangeListener {
     else if(field.getName().equals("category")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Arrays.asList("primary", "secondary", "emergency"));
     }
+    else if(field.getName().equals("route")) {
+      List<String> routes = UIController.getInstance().getRoutes();
+      routes.add(0, null);
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, routes);
+    }
     else if(field.getName().equals("fraction")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
     }
