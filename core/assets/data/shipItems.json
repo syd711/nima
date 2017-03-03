@@ -30,9 +30,40 @@
       "formationOwner": 35008,
       "defaultSteering": "GUARD",
       "battleSteering": "ATTACK",
-      "name": "Crusader 2",
+      "name": "Crusader 1 for Merchant 1",
       "id": 35011,
-      "children": []
+      "children": [
+        {
+          "fraction": "ETYR",
+          "shipType": 35005,
+          "formationOwner": 35008,
+          "defaultSteering": "GUARD",
+          "battleSteering": "ATTACK",
+          "name": "Crusader 2 for Merchant 1",
+          "id": 35014,
+          "children": []
+        },
+        {
+          "fraction": "ETYR",
+          "shipType": 35005,
+          "formationOwner": 35008,
+          "defaultSteering": "GUARD",
+          "battleSteering": "ATTACK",
+          "name": "Crusader 3 for Merchant 1",
+          "id": 35015,
+          "children": []
+        },
+        {
+          "fraction": "ETYR",
+          "shipType": 35005,
+          "formationOwner": 35008,
+          "defaultSteering": "GUARD",
+          "battleSteering": "ATTACK",
+          "name": "Crusader 4 for Merchant 1",
+          "id": 35016,
+          "children": []
+        }
+      ]
     }
   ]
 }

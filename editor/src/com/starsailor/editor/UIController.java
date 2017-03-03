@@ -97,7 +97,7 @@ public class UIController {
       child = newShieldData(parent);
     }
     else if(parent instanceof ShipItem) {
-      child = newDataEntity(parent);
+      child = newShipItem(parent);
     }
     else if(parent instanceof WeaponData) {
       WeaponData weaponData = (WeaponData) parent;
@@ -177,12 +177,15 @@ public class UIController {
     return shieldData;
   }
 
-  private ShipItem newDataEntity(GameData parent) {
+  private ShipItem newShipItem(GameData parent) {
     ShipItem entity = new ShipItem(IdGenerator.getInstance().createId(), (ShipItem) parent);
     entity.setParent((ShipItem) parent);
     entity.setExtendParentData(true);
     entity.setFraction(((ShipItem) parent).getFraction());
     entity.setShipType(((ShipItem) parent).getShipType());
+    entity.setBattleSteering(((ShipItem) parent).getBattleSteering());
+    entity.setDefaultSteering(((ShipItem) parent).getDefaultSteering());
+    entity.setFormationOwner(((ShipItem) parent).getFormationOwner());
     return entity;
   }
 

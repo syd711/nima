@@ -267,8 +267,6 @@ public class MainPane extends BorderPane {
 
   private void refresh(TreeItem<GameData> node) {
     GameData value = node.getValue();
-    node.setValue(null);
-    node.setValue(value);
     node.setGraphic(GameDataTreePane.iconFor(node.getValue()));
     for(TreeItem<GameData> gameDataTreeItem : node.getChildren()) {
       refresh(gameDataTreeItem);

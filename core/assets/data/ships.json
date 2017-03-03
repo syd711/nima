@@ -3,7 +3,7 @@
     "attackDistance": 600.0,
     "shootDistance": 500.0,
     "retreatDistance": 900.0,
-    "formationDistance": 0.0,
+    "formationDistance": 170.0,
     "children": []
   },
   "bodyData": {
@@ -99,13 +99,21 @@
         ],
         "children": []
       },
+      "steeringData": {
+        "boundingRadius": 200.0,
+        "maxLinearSpeed": 5.0,
+        "maxLinearAcceleration": 3.0,
+        "maxAngularSpeed": 4.0,
+        "maxAngularAcceleration": 4.0,
+        "children": []
+      },
       "name": "Crusader",
       "id": 35005,
       "children": []
     },
     {
       "bodyData": {
-        "linearDamping": 8.0,
+        "linearDamping": 12.0,
         "angularDamping": 1.8,
         "width": 0.0,
         "height": 0.0,

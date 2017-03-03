@@ -182,6 +182,8 @@ public class FormUtil {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
+
+          data.setExtendParentData(false);
         }
       });
 
@@ -228,6 +230,8 @@ public class FormUtil {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
+
+          data.setExtendParentData(false);
         }
       });
 
@@ -265,6 +269,8 @@ public class FormUtil {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
+
+          data.setExtendParentData(false);
         }
       });
       editorNode = comboBox;
@@ -324,6 +330,8 @@ public class FormUtil {
             } catch (IllegalAccessException e) {
               e.printStackTrace();
             }
+
+            data.setExtendParentData(false);
           }
         });
         editorNode = textBox;

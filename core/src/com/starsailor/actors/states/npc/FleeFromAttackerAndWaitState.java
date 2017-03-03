@@ -30,14 +30,19 @@ public class FleeFromAttackerAndWaitState extends BattleState {
 
     //check max distance to all enemies
     Ship nearestEnemy = npc.findNearestEnemyOfGroup(getEnemies());
-    float distanceTo = npc.getDistanceTo(nearestEnemy);
-    //simply use the duplicate attack distance
-    float shootingDistanceWithOffset = nearestEnemy.shipData.getDistanceData().getAttackDistance() * 2;
-    if(distanceTo > shootingDistanceWithOffset) {
-      npc.steerableComponent.setBehavior(null);
+    if(nearestEnemy != null) {
+      float distanceTo = npc.getDistanceTo(nearestEnemy);
+      //simply use the duplicate attack distance
+      float shootingDistanceWithOffset = nearestEnemy.shipData.getDistanceData().getAttackDistance() * 2;
+      if(distanceTo > shootingDistanceWithOffset) {
+        npc.steerableComponent.setBehavior(null);
+      }
+      else if(npc.steerableComponent.getBehavior() == null) {
+        SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
+      }
     }
-    else if(npc.steerableComponent.getBehavior() == null) {
-      SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
+    else {
+      npc.switchToDefaultState();
     }
   }
 
