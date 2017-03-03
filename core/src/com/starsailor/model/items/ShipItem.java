@@ -16,7 +16,7 @@ public class ShipItem extends MapItem<ShipItem> {
   private int shipType;
 
   @Expose
-  private String formationOwner;
+  private int formationOwner;
 
   @Expose
   private String defaultSteering;
@@ -53,11 +53,11 @@ public class ShipItem extends MapItem<ShipItem> {
     this.shipType = shipType;
   }
 
-  public String getFormationOwner() {
+  public int getFormationOwner() {
     return formationOwner;
   }
 
-  public void setFormationOwner(String formationOwner) {
+  public void setFormationOwner(int formationOwner) {
     this.formationOwner = formationOwner;
   }
 
