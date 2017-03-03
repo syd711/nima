@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="82">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="88">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -114,47 +114,41 @@
  <objectgroup name="data">
   <object id="38" name="Route 1" type="Route" x="332.5" y="833.5" width="43" height="43">
    <properties>
-    <property name="fraction" value="ferengi"/>
-    <property name="shipProfile" value="merchant"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="39" name="Route 1" type="Route" x="543.197" y="380.409" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="63" name="Route 1" type="Route" x="970.32" y="508.318" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="64" name="Route 1" type="Route" x="1212.68" y="810.258" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="66" name="Route 1" type="Route" x="1063.29" y="1022.02" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="67" name="Route 1" type="Route" x="582.258" y="1123.83" width="43" height="43">
-   <properties>
-    <property name="dockTime" type="float" value="3000"/>
-    <property name="dockable" type="bool" value="true"/>
+    <property name="index" type="int" value="1"/>
    </properties>
    <ellipse/>
   </object>
   <object id="81" name="35008" x="568" y="808" width="22" height="22">
+   <ellipse/>
+  </object>
+  <object id="83" name="Route 1" type="Route" x="539.833" y="385.167" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="2"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="84" name="Route 1" type="Route" x="983.833" y="499.833" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="85" name="Route 1" type="Route" x="1207.83" y="823.833" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="4"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="86" name="Route 1" type="Route" x="1079.83" y="1015.83" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="87" name="Route 1" type="Route" x="595.833" y="1147.83" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="6"/>
+   </properties>
    <ellipse/>
   </object>
  </objectgroup>

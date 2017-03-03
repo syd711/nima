@@ -1,19 +1,16 @@
 package com.starsailor.editor;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.starsailor.editor.util.IdGenerator;
+import com.starsailor.managers.GameDataManager;
 import com.starsailor.model.*;
 import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
 
 import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -22,29 +19,29 @@ public class UIController {
   public static String TMX_FILE_FOLDER = "../../core/assets/maps/main/";
   private static UIController instance = new UIController();
 
-  private GameDataLoader loader;
+  private GameDataManager dataManager;
 
-  private Map<File,String> tmxMaps = new HashMap<>();
+  private Map<File,TiledMap> tmxMaps = new HashMap<>();
 
   private UIController() {
-    loader = new GameDataLoader();
+    dataManager = GameDataManager.getInstance();
 
-    File[] files = new File(TMX_FILE_FOLDER).listFiles(new FilenameFilter() {
-      @Override
-      public boolean accept(File dir, String name) {
-        return name.endsWith(".tmx");
-      }
-    });
-
-    try {
-      for(File file : files) {
-        byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-        String result = new String(encoded, "utf-8");
-        tmxMaps.put(file, result);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+//    File[] files = new File(TMX_FILE_FOLDER).listFiles(new FilenameFilter() {
+//      @Override
+//      public boolean accept(File dir, String name) {
+//        return name.endsWith(".tmx");
+//      }
+//    });
+//
+//    try {
+//      for(File file : files) {
+//        FileHandleResolver resolver = new ExternalFileHandleResolver();
+//        TiledMap map = new TmxMapLoader(resolver).load(file.getAbsolutePath());
+//        tmxMaps.put(file, map);
+//      }
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
   }
 
   public static UIController getInstance() {
@@ -52,9 +49,21 @@ public class UIController {
   }
 
   public File getTmxFileFor(MapItem gameData) {
-    for(Map.Entry<File, String> maps : tmxMaps.entrySet()) {
-      if(maps.getValue().contains("name=\"" + gameData.getId() + "\"")) {
-        return maps.getKey();
+    for(Map.Entry<File, TiledMap> maps : tmxMaps.entrySet()) {
+      TiledMap map = maps.getValue();
+      Iterator<MapLayer> iterator = map.getLayers().iterator();
+      while(iterator.hasNext()) {
+        MapLayer layer = iterator.next();
+        Iterator<MapObject> objectIterator = layer.getObjects().iterator();
+        while(objectIterator.hasNext()) {
+          MapObject mapObject = objectIterator.next();
+          if(mapObject.getName().toLowerCase().startsWith(gameData.getName().toLowerCase())) {
+            return maps.getKey();
+          }
+          if(mapObject.getName().toLowerCase().startsWith(String.valueOf(gameData.getId()))) {
+            return maps.getKey();
+          }
+        }
       }
     }
     return null;
@@ -62,19 +71,19 @@ public class UIController {
 
   public List<GameDataWithId> getShields() {
     List<GameDataWithId> result = new ArrayList<>();
-    loader.collectModels(loader.getShieldsTreeModel(), result);
+    dataManager.collectModels(dataManager.getShieldsTreeModel(), result);
     return result;
   }
 
   public List<GameDataWithId> getShips() {
     List<GameDataWithId> result = new ArrayList<>();
-    loader.collectModels(loader.getShipsTreeModel(), result);
+    dataManager.collectModels(dataManager.getShipsTreeModel(), result);
     return result;
   }
 
   public List<GameDataWithId> getShipItems() {
     List<GameDataWithId> result = new ArrayList<>();
-    loader.collectModels(loader.getShipItemsTreeModel(), result);
+    dataManager.collectModels(dataManager.getShipItemsTreeModel(), result);
     return result;
   }
 
@@ -125,12 +134,12 @@ public class UIController {
     return child;
   }
 
-  public GameDataLoader getGameDataLoader() {
-    return loader;
+  public GameDataManager getGameDataLoader() {
+    return dataManager;
   }
 
   public void save() {
-    loader.save();
+    dataManager.save();
   }
 
   //----------------------- Helper ----------------------------------------------------------

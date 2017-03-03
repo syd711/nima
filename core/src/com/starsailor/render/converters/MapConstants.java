@@ -7,7 +7,6 @@ public class MapConstants {
 
   public static final String PROPERTY_OBJECT_TYPE = "type";
 
-  public static final String PROPERTY_SHIP_PROFILE = "shipProfile";
   public static final String PROPERTY_DOCKABLE = "dockable";
   public static final String PROPERTY_DOCK_TIME = "dockTime";
   public static final String PROPERTY_FRACTION = "fraction";
@@ -24,31 +23,18 @@ public class MapConstants {
   //used to store the body of an entity temporary to the map object
   public static final String PROPERTY_BOX2D_BODY = "body";
 
+  //route point position
+  public static final String PROPERTY_INDEX = "index";
+
   // PointLight, DirectionalLight, PositionalLight, ConeLight
   public static final String TYPE_CONE_LIGHT = "ConeLight";
   public static final String TYPE_POINT_LIGHT = "PointLight";
+  public static final String TYPE_ROUTE = "Route";
 
   //TODO fix this
   @Deprecated
   public static final String TYPE_PLANET = "Planet";
   public static final String TYPE_STATION = "Station";
-  public static final String TYPE_ROUTE_POINT = "Route";
-  public static final String TYPE_ROUTE_MEMBER = "RouteMember";
-  public static final String TYPE_PIRATE = "Pirate";
 
-  // Steering Behaviours represented by states
-  @Deprecated
-  public static final String PROPERTY_STATE = "state";
-
-  @Deprecated
-  public static final String STATE_SEEK_AND_DESTROY = "SeekAndDestroy";
-  @Deprecated
-  public static final String STATE_GUARD = "Guard";
-  @Deprecated
-  public static final String STATE_ROUTE = "Route";
-
-  //routing attributes
-  @Deprecated
-  public static final String PROPERTY_ROUTE = "route";
 
 }

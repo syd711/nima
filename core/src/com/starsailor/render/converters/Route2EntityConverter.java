@@ -4,12 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Route;
 import com.starsailor.actors.RoutePoint;
 import com.starsailor.components.RouteComponent;
-import com.starsailor.model.DataEntities;
-import com.starsailor.model.ShipData;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.render.TiledMapFragment;
 
@@ -29,7 +26,7 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
   @Override
   public boolean isApplicable(TiledMapFragment mapFragment, MapObject mapObject) {
     String type = (String) mapObject.getProperties().get(PROPERTY_OBJECT_TYPE);
-    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_ROUTE_POINT);
+    return type != null && type.equalsIgnoreCase(MapConstants.TYPE_ROUTE);
   }
 
   @Override
@@ -41,30 +38,17 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     String name = mapObject.getName();
 
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
-    String shipProfile = (String) mapObject.getProperties().get(MapConstants.PROPERTY_SHIP_PROFILE);
     Float dockTime = (Float) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
     Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
-    String fraction = (String) mapObject.getProperties().get(MapConstants.PROPERTY_FRACTION);
 
     //apply additional route tracking point
     Route route = getOrCreateRoute(name);
 
-    if(fraction != null) {
-      route.fractionComponent.fraction = Fraction.valueOf(fraction.toUpperCase());
-    }
-
     RoutePoint routePoint = new RoutePoint();
-    routePoint.position = centeredPosition;
-    routePoint.dockable = dockable != null && dockable;
-    routePoint.dockTime = dockTime;
-    route.routeComponent.routeCoordinates.add(routePoint);
-
-    //check if the point contains the ship type and therefore the start point
-    if(shipProfile != null) {
-      ShipData ship = DataEntities.getShip(shipProfile);
-      route.shipData = ship;
-      route.routeComponent.spawnPoint = routePoint;
-    }
+    routePoint.setPosition(centeredPosition);
+    routePoint.setDockable(dockable != null && dockable);
+    routePoint.setDockTime(dockTime);
+    route.routeComponent.getRoutePoints().add(routePoint);
   }
 
   /**

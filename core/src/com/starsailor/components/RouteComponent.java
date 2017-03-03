@@ -12,7 +12,9 @@ import java.util.List;
  */
 public class RouteComponent implements Component {
 
-  public List<RoutePoint> routeCoordinates = new ArrayList<>();
-  public RoutePoint spawnPoint;
+  private List<RoutePoint> routePoints = new ArrayList<>();
 
+  public List<RoutePoint> getRoutePoints() {
+    return routePoints;
+  }
 }

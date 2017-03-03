@@ -93,9 +93,5 @@
  </layer>
  <objectgroup name="collision"/>
  <objectgroup name="lights"/>
- <objectgroup name="data">
-  <object id="7" name="35009" x="560.606" y="381.818" width="27.2727" height="27.2727">
-   <ellipse/>
-  </object>
- </objectgroup>
+ <objectgroup name="data"/>
 </map>

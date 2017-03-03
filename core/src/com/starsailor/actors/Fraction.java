@@ -10,6 +10,6 @@ public enum Fraction {
   PLAYER, PIRATE, ALOPE, ETYR;
 
   public static List<String> asStringList() {
-    return Arrays.asList(PIRATE.name(), ALOPE.name(), ETYR.name());
+    return Arrays.asList(PLAYER.name(), PIRATE.name(), ALOPE.name(), ETYR.name());
   }
 }

@@ -158,13 +158,12 @@ public class ComponentFactory {
 
   public static RoutingComponent addRoutingComponent(Entity entity, Route route) {
     RoutingComponent component = createComponent(RoutingComponent.class);
-    component.target = route.routeComponent.spawnPoint;
-    component.targets = route.routeComponent.routeCoordinates;
+    component.targets = route.routeComponent.getRoutePoints();
     entity.add(component);
 
     //apply body position to route too
-    BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
-    bodyComponent.body.setTransform(component.target.position.x * MPP, component.target.position.y * MPP, 0);
+//    BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
+//    bodyComponent.body.setTransform(component.getTarget().x * MPP, component.getTarget().y * MPP, 0);
 
     return component;
   }

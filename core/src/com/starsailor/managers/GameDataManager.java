@@ -1,16 +1,26 @@
-package com.starsailor.model;
+package com.starsailor.managers;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.starsailor.model.GameDataWithId;
+import com.starsailor.model.ShieldData;
+import com.starsailor.model.ShipData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.model.items.ShipItem;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Used to load the json data model
  */
-public class GameDataLoader {
-  public static String ASSETS_DATA = "./assets/data/";
+public class GameDataManager {
+  public static String ASSETS_FOLDER = "./assets/";
 
   public static final String SHIPS = "ships";
   public static final String WEAPONS = "weapons";
@@ -18,15 +28,44 @@ public class GameDataLoader {
   public static final String SHIP_ITEMS = "shipItems";
 
   private ShipData shipsRoot;
-  private com.starsailor.model.ShieldData shieldsRoot;
+  private ShieldData shieldsRoot;
   private WeaponData weaponsData;
   private ShipItem shipItemRoot;
 
+  private static GameDataManager instance = new GameDataManager();
 
-  public GameDataLoader() {
+  private GameDataManager() {
   }
 
+  public static GameDataManager getInstance() {
+    return instance;
+  }
 
+  public void loadMapObjects() {
+    File[] files = getMapsFolder().listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".tmx");
+      }
+    });
+
+    try {
+      for(File file : files) {
+        TiledMap map = new TmxMapLoader().load(file.getAbsolutePath());
+        Iterator<MapLayer> iterator = map.getLayers().iterator();
+        while(iterator.hasNext()) {
+          MapLayer layer = iterator.next();
+          Iterator<MapObject> objectIterator = layer.getObjects().iterator();
+          while(objectIterator.hasNext()) {
+            MapObject mapObject = objectIterator.next();
+
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public List<GameDataWithId> getGameDataFor(List<Integer> ids) {
     List<GameDataWithId> result = new ArrayList<>();
@@ -52,6 +91,8 @@ public class GameDataLoader {
 
   //TODO
   public void load() {
+    loadMapObjects();
+
     //resolve tree
     List<GameDataWithId> allModels = getAllModels();
     for(GameDataWithId model : allModels) {
@@ -59,10 +100,14 @@ public class GameDataLoader {
 
       }
       else if(model instanceof ShipData) {
-
+        ShipData shipData = (ShipData) model;
       }
-      else if(model instanceof com.starsailor.model.ShieldData) {
-
+      else if(model instanceof ShieldData) {
+        ShieldData shieldData = (ShieldData) model;
+      }
+      else if(model instanceof ShipItem) {
+        ShipItem shipItem = (ShipItem) model;
+        shipItem.setShipData((ShipData) getModel(Integer.parseInt(shipItem.getShipType())));
       }
     }
   }
@@ -73,6 +118,7 @@ public class GameDataLoader {
     collectModels(getShieldsTreeModel(), result);
     collectModels(getWeaponsTreeModel(), result);
     collectModels(getShipsTreeModel(), result);
+    collectModels(getShipItemsTreeModel(), result);
     return result;
   }
 
@@ -109,7 +155,7 @@ public class GameDataLoader {
   }
 
   public void save() {
-    File folder = new File(ASSETS_DATA);
+    File folder = new File(ASSETS_FOLDER);
     File file = new File(folder, SHIPS + ".json");
     if(file.exists()) {
       file.delete();
@@ -137,6 +183,15 @@ public class GameDataLoader {
 
   //---------------------- Helper ------------------------------------------------
 
+  private File getMapsFolder() {
+    return new File(ASSETS_FOLDER + "maps/main/");
+  }
+
+  private File getDataFolder() {
+    return new File(ASSETS_FOLDER + "data/");
+  }
+
+
   public void collectModels(GameDataWithId gameData, List result) {
     if(gameData.getParent() != null) {
       result.add(gameData);
@@ -149,7 +204,7 @@ public class GameDataLoader {
   }
 
   private <T> T load(String name, Class<T> entity) {
-    File file = new File(ASSETS_DATA + name + ".json");
+    File file = new File(ASSETS_FOLDER + name + ".json");
     return com.starsailor.model.JsonDataFactory.loadDataEntity(file, entity);
   }
 

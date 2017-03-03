@@ -1,6 +1,7 @@
 package com.starsailor.model.items;
 
 import com.google.gson.annotations.Expose;
+import com.starsailor.model.ShipData;
 
 public class ShipItem extends MapItem<ShipItem> {
 
@@ -19,6 +20,12 @@ public class ShipItem extends MapItem<ShipItem> {
 
   @Expose
   private String defaultSteering;
+
+  @Expose
+  private String route;
+
+  //real data
+  private ShipData shipData;
 
 
   public String getFraction() {
@@ -62,5 +69,21 @@ public class ShipItem extends MapItem<ShipItem> {
 
   public void setDefaultSteering(String defaultSteering) {
     this.defaultSteering = defaultSteering;
+  }
+
+  public ShipData getShipData() {
+    return shipData;
+  }
+
+  public void setShipData(ShipData shipData) {
+    this.shipData = shipData;
+  }
+
+  public String getRoute() {
+    return route;
+  }
+
+  public void setRoute(String route) {
+    this.route = route;
   }
 }

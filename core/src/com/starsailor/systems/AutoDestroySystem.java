@@ -39,7 +39,7 @@ public class AutoDestroySystem extends IteratingSystem {
       }
     }
     else if(gameEntity instanceof Route) {
-      //TODO
+      //TODO auto enable and disable of routes
     }
 
     if(gameEntity instanceof Ship) {

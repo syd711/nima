@@ -1,6 +1,6 @@
 package com.starsailor.editor;
 
-import com.starsailor.model.GameDataLoader;
+import com.starsailor.managers.GameDataManager;
 import com.starsailor.editor.resources.ResourceLoader;
 import com.starsailor.editor.ui.MainPane;
 import javafx.application.Application;
@@ -25,7 +25,7 @@ public class Editor extends Application {
   public void start(Stage primaryStage) throws Exception {
     INSTANCE = this;
 
-    GameDataLoader.ASSETS_DATA = "../../core/assets/data/";
+    GameDataManager.ASSETS_FOLDER = "../../core/assets/data/";
 
     primaryStage.setTitle("Starsailer Manager");
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();

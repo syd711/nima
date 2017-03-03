@@ -8,12 +8,9 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.states.player.PlayerState;
+import com.starsailor.actors.ShipFactory;
 import com.starsailor.components.*;
-import com.starsailor.model.DataEntities;
-import com.starsailor.model.ShipData;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.systems.*;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -42,10 +39,7 @@ public class EntityManager implements EntityListener {
 
   private void init(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
     //create player
-    ShipData ship = DataEntities.getShip(DataEntities.SHIP_PLAYER);
-    player = new Player(ship);
-    player.createComponents( Fraction.PLAYER);
-    player.getStateMachine().changeState(PlayerState.IDLE);
+    player = ShipFactory.createPlayer();
     engine.addEntity(player);
 
     ScalingSystem scalingSystem = new ScalingSystem();

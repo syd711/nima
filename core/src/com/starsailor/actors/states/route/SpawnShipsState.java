@@ -2,7 +2,7 @@ package com.starsailor.actors.states.route;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.starsailor.actors.NPCFactory;
+import com.starsailor.actors.ShipFactory;
 import com.starsailor.actors.Route;
 
 /**
@@ -11,7 +11,7 @@ import com.starsailor.actors.Route;
 public class SpawnShipsState implements State<Route> {
   @Override
   public void enter(Route route) {
-    NPCFactory.createRouteNPCs(route);
+    ShipFactory.createRouteNPCs(route);
   }
 
   @Override

@@ -10,15 +10,57 @@ import com.starsailor.model.SteeringData;
  */
 public class RoutePoint extends GameEntity {
   //steering defaults
-  public SteeringData steeringData = new SteeringData();
-  
-  public Vector2 position;
-  public boolean dockable;
-  public Float dockTime;
+  private SteeringData steeringData = new SteeringData();
+
+  private Vector2 position;
+  private boolean dockable;
+  private int index;
+  private Float dockTime;
 
   public RoutePoint() {
     ComponentFactory.addRoutePointCollisionComponent(this);
   }
+
+  public SteeringData getSteeringData() {
+    return steeringData;
+  }
+
+  public void setSteeringData(SteeringData steeringData) {
+    this.steeringData = steeringData;
+  }
+
+  public Vector2 getPosition() {
+    return position;
+  }
+
+  public void setPosition(Vector2 position) {
+    this.position = position;
+  }
+
+  public boolean isDockable() {
+    return dockable;
+  }
+
+  public void setDockable(boolean dockable) {
+    this.dockable = dockable;
+  }
+
+  public int getIndex() {
+    return index;
+  }
+
+  public void setIndex(int index) {
+    this.index = index;
+  }
+
+  public Float getDockTime() {
+    return dockTime;
+  }
+
+  public void setDockTime(Float dockTime) {
+    this.dockTime = dockTime;
+  }
+
 
   @Override
   public String toString() {

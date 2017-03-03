@@ -102,7 +102,6 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(settings.npcs_enabled));
-    tiledMapRenderer.addMapObjectConverter(new RouteGuards2EntityConverter(settings.npcs_enabled));
     tiledMapRenderer.fullScan(Settings.WORLD_WIDTH, Settings.WORLD_HEIGHT);
     tiledMapRenderer.removeAllObjectConverters();
 
@@ -116,7 +115,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2ConeLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2PointLightConverter(rayHandler));
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
-    tiledMapRenderer.addMapObjectConverter(new Pirate2EntityConverter(settings.npcs_enabled));
+    tiledMapRenderer.addMapObjectConverter(new MapObject2ShipConverter(settings.npcs_enabled));
 
     //init player
     Player player = entityManager.getPlayer();
