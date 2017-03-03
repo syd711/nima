@@ -64,6 +64,17 @@
           "children": []
         }
       ]
+    },
+    {
+      "fraction": "ALOPE",
+      "shipType": 35005,
+      "formationOwner": 0,
+      "defaultSteering": "SEEK_AND_DESTROY",
+      "battleSteering": "SEEK_AND_DESTROY",
+      "route": "Route 1",
+      "name": "Crusader",
+      "id": 35017,
+      "children": []
     }
   ]
 }

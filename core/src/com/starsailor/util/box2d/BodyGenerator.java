@@ -62,7 +62,7 @@ public class BodyGenerator {
     PolygonShape shape = new PolygonShape();
     float scaling = spine.jsonScaling;
     shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
-    return spineBody(shape, world, bodyData, spine, false);
+    return spineBody(shape, world, bodyData, spine, bodyData.isSensor());
   }
 
   private static Body spineBody(Shape shape, World world, BodyData bodyData, Spine spine, boolean sensor) {

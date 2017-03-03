@@ -101,7 +101,7 @@
       },
       "steeringData": {
         "boundingRadius": 200.0,
-        "maxLinearSpeed": 5.0,
+        "maxLinearSpeed": 3.0,
         "maxLinearAcceleration": 3.0,
         "maxAngularSpeed": 4.0,
         "maxAngularAcceleration": 4.0,
@@ -119,7 +119,7 @@
         "height": 0.0,
         "radius": 0.0,
         "density": 1.0,
-        "sensor": false,
+        "sensor": true,
         "children": []
       },
       "spineData": {

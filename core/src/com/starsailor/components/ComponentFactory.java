@@ -247,8 +247,9 @@ public class ComponentFactory {
   public static FormationComponent addFormationComponent(Entity entity, SteerableComponent formationOwnerSteering, float distance) {
     FormationComponent component = createComponent(FormationComponent.class);
     FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
-    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance*MPP);
-    component.formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
+    DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance * MPP);
+    Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
+    component.formation = formation;
     entity.add(component);
     return component;
   }

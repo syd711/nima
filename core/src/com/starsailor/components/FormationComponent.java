@@ -28,7 +28,9 @@ public class FormationComponent implements Component, Pool.Poolable {
   }
 
   public void updateFormation() {
-    formation.updateSlots();
+    if(!members.isEmpty()) {
+      formation.updateSlots();
+    }
   }
 
   public void addMember(FormationMember member) {
