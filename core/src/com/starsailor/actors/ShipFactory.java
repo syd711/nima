@@ -8,7 +8,6 @@ import com.starsailor.actors.states.npc.RoutedSeekAndDestroyState;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
-import com.starsailor.model.ShipData;
 import com.starsailor.model.items.ShipItem;
 
 import java.util.List;
@@ -17,10 +16,11 @@ import java.util.List;
  * Handling the initialization problem of npc
  */
 public class ShipFactory {
+  private final static int PLAYER_ID = 35013;
 
   public static Player createPlayer() {
-    ShipData ship = (ShipData) GameDataManager.getInstance().getModel(0);
-    Player player = new Player(ship);
+    ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
+    Player player = new Player(ship.getShipData());
     player.createComponents( Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);
     return player;
@@ -35,15 +35,15 @@ public class ShipFactory {
   public static NPC createNPC(ShipItem shipItem, Vector2 position) {
     State state = stateFor(shipItem);
     NPC npc = new NPC(shipItem.getName(), shipItem.getShipData(), state, position);
+    Route route = getRoute(shipItem);
+    if(route != null) {
+      npc.setRoute(route);
+    }
     npc.createComponents(Fraction.valueOf(shipItem.getFraction().toUpperCase()));
     npc.formationComponent.formationOwner = npc;
+
     npc.getStateMachine().changeState(state);
-
     EntityManager.getInstance().add(npc);
-
-    Route route = getRoute(shipItem);
-    //TODO
-
     return npc;
   }
 

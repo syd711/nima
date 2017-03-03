@@ -67,6 +67,8 @@ public class Game extends ApplicationAdapter {
     Locale locale = new Locale(Locale.getDefault().getLanguage());
     bundle = I18NBundle.createBundle(baseFileHandle, locale);
 
+    GameDataManager.getInstance().load();
+
     gameState = new StackStateMachine<>(this, GameState.RESUME);
 
     //load particle effects
