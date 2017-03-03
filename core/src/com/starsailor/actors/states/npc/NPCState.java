@@ -56,6 +56,19 @@ abstract public class NPCState {
     return true;
   }
 
+  protected boolean iAmTheOnlyFormationMember(Ship ship) {
+    List<Ship> members = ship.formationComponent.getMembers();
+    for(Ship member : members) {
+      if(member.equals(ship)) {
+        continue;
+      }
+
+      return false;
+    }
+    return true;
+  }
+
+
   protected boolean iAmTheOnlyOneNotInDefaultState(Ship ship) {
     List<Ship> members = ship.formationComponent.getMembers();
     for(Ship member : members) {

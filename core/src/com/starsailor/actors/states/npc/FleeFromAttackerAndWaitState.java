@@ -23,7 +23,7 @@ public class FleeFromAttackerAndWaitState extends BattleState {
   @Override
   public void update(NPC npc) {
     //check if all enemies are out of range, btw. all members are in default state
-    if(iAmTheOnlyOneNotInDefaultState(npc)) {
+    if(iAmTheOnlyOneNotInDefaultState(npc) && !iAmTheOnlyFormationMember(npc)) {
       npc.switchToDefaultState();
       return;
     }
