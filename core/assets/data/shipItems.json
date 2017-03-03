@@ -15,6 +15,7 @@
       "fraction": "ETYR",
       "shipType": 35006,
       "defaultSteering": "ROUTE",
+      "battleSteering": "FLEE",
       "route": "Route 1",
       "name": "Merchant 1",
       "id": 35008,
