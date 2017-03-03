@@ -11,7 +11,7 @@ import java.util.List;
 public class StatusData extends GameData {
   //shield
   @Expose
-  private String shield;
+  private int shield;
   @Expose
   private float health;
   @Expose
@@ -20,9 +20,6 @@ public class StatusData extends GameData {
   private ShieldData shieldData;
 
   private transient List<WeaponData> weaponDatas = new ArrayList<>();
-
-  public StatusData() {
-  }
 
   public StatusData(StatusData statusData) {
     this.health = statusData.getHealth();
@@ -55,11 +52,11 @@ public class StatusData extends GameData {
   }
 
 
-  public String getShield() {
+  public int getShield() {
     return shield;
   }
 
-  public void setShield(String shield) {
+  public void setShield(int shield) {
     this.shield = shield;
   }
 

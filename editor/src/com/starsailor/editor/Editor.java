@@ -25,7 +25,7 @@ public class Editor extends Application {
   public void start(Stage primaryStage) throws Exception {
     INSTANCE = this;
 
-    GameDataManager.ASSETS_FOLDER = "../../core/assets/data/";
+    GameDataManager.ASSETS_FOLDER = "../../core/assets/";
 
     primaryStage.setTitle("Starsailer Manager");
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();

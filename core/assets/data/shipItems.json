@@ -1,19 +1,19 @@
 {
   "fraction": "ETYR",
-  "shipType": "35006",
+  "shipType": 35006,
   "name": "root",
   "id": 40000,
   "children": [
     {
       "fraction": "PLAYER",
-      "shipType": "35012",
+      "shipType": 35012,
       "name": "Player",
       "id": 35013,
       "children": []
     },
     {
       "fraction": "ETYR",
-      "shipType": "35006",
+      "shipType": 35006,
       "defaultSteering": "ROUTE",
       "route": "Route 1",
       "name": "Merchant 1",
@@ -22,7 +22,7 @@
     },
     {
       "fraction": "ETYR",
-      "shipType": "35006",
+      "shipType": 35006,
       "formationOwner": "35008",
       "defaultSteering": "GUARD",
       "name": "Crusader 2",

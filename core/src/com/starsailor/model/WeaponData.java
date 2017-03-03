@@ -15,11 +15,8 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     PRIMARY, SECONDARY, DEFENSIVE, EMERGENCY
   }
 
-  public Types weaponType;
-
   public WeaponData(int id, Types type) {
     super(id, null);
-    this.weaponType = type;
     this.type = type.name().toLowerCase();
   }
 
@@ -216,4 +213,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     this.type = type;
   }
 
+  public Types getWeaponType() {
+    return Types.valueOf(getType().toUpperCase());
+  }
 }

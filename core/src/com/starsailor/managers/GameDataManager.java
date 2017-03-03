@@ -96,13 +96,24 @@ public class GameDataManager {
       }
       else if(model instanceof ShipData) {
         ShipData shipData = (ShipData) model;
+        List<Integer> weapons = shipData.getStatusData().getWeapons();
+        for(Integer weapon : weapons) {
+          WeaponData weaponData = (WeaponData) getModel(weapon);
+          shipData.getStatusData().getWeaponDatas().add(weaponData);
+        }
+
+        int shieldId = shipData.getStatusData().getShield();
+        if(shieldId > 0) {
+          ShieldData shieldData = (ShieldData) getModel(shieldId);
+          shipData.getStatusData().setShieldData(shieldData);
+        }
       }
       else if(model instanceof ShieldData) {
         ShieldData shieldData = (ShieldData) model;
       }
       else if(model instanceof ShipItem) {
         ShipItem shipItem = (ShipItem) model;
-        shipItem.setShipData((ShipData) getModel(Integer.parseInt(shipItem.getShipType())));
+        shipItem.setShipData((ShipData) getModel(shipItem.getShipType()));
       }
     }
   }
@@ -147,33 +158,6 @@ public class GameDataManager {
     }
 
     return shipItemRoot;
-  }
-
-  public void save() {
-    File folder = new File(ASSETS_FOLDER);
-    File file = new File(folder, SHIPS + ".json");
-    if(file.exists()) {
-      file.delete();
-    }
-    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShipsTreeModel());
-
-    file = new File(folder, SHIELDS + ".json");
-    if(file.exists()) {
-      file.delete();
-    }
-    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShieldsTreeModel());
-
-    file = new File(folder, WEAPONS + ".json");
-    if(file.exists()) {
-      file.delete();
-    }
-    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getWeaponsTreeModel());
-
-    file = new File(folder, SHIP_ITEMS + ".json");
-    if(file.exists()) {
-      file.delete();
-    }
-    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getShipItemsTreeModel());
   }
 
   //---------------------- Helper ------------------------------------------------

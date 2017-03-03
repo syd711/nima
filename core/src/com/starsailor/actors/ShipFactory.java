@@ -2,9 +2,8 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.actors.states.npc.GuardState;
-import com.starsailor.actors.states.npc.RouteState;
-import com.starsailor.actors.states.npc.RoutedSeekAndDestroyState;
+import com.starsailor.actors.states.StateFactory;
+import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
@@ -21,20 +20,26 @@ public class ShipFactory {
   public static Player createPlayer() {
     ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
     Player player = new Player(ship.getShipData());
-    player.createComponents( Fraction.PLAYER);
+    player.createComponents(Fraction.PLAYER);
     player.getStateMachine().changeState(PlayerState.IDLE);
     return player;
   }
 
   /**
    * Common factory method for creating an npc based on the manager and map data
+   *
    * @param shipItem the ship data from the database
    * @param position the position on the map
    * @return
    */
   public static NPC createNPC(ShipItem shipItem, Vector2 position) {
-    State state = stateFor(shipItem);
-    NPC npc = new NPC(shipItem.getName(), shipItem.getShipData(), state, position);
+    Steering defaultSteering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
+    Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
+
+    State defaultState = StateFactory.createState(defaultSteering);
+    State battleState = StateFactory.createState(battleSteering);
+
+    NPC npc = new NPC(shipItem.getName(), shipItem.getShipData(), defaultState, battleState, position);
     Route route = getRoute(shipItem);
     if(route != null) {
       npc.setRoute(route);
@@ -42,7 +47,7 @@ public class ShipFactory {
     npc.createComponents(Fraction.valueOf(shipItem.getFraction().toUpperCase()));
     npc.formationComponent.formationOwner = npc;
 
-    npc.getStateMachine().changeState(state);
+    npc.getStateMachine().changeState(defaultState);
     EntityManager.getInstance().add(npc);
     return npc;
   }
@@ -50,8 +55,10 @@ public class ShipFactory {
 
   /**
    * Used for route entities to spawn the hole group
+   *
    * @param route
    */
+  //TODO
   @Deprecated
   public static void createRouteNPCs(Route route) {
 //    RouteComponent routeComponent = route.routeComponent;
@@ -98,20 +105,5 @@ public class ShipFactory {
       }
     }
     return null;
-  }
-
-  private static State stateFor(ShipItem shipItem) {
-    Steering steering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
-    switch(steering) {
-      case SEEK_AND_DESTROY: {
-        return new RoutedSeekAndDestroyState();
-      }
-      case GUARD: {
-        return new GuardState();
-      }
-      default: {
-        return new RouteState();
-      }
-    }
   }
 }

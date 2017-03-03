@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.starsailor.managers.GameDataManager.*;
+
 /**
  *
  */
@@ -137,8 +139,33 @@ public class UIController {
     return dataManager;
   }
 
+
+
   public void save() {
-    dataManager.save();
+    File folder = new File( GameDataManager.ASSETS_FOLDER + "data/");
+    File file = new File(folder, SHIPS + ".json");
+    if(file.exists()) {
+      file.delete();
+    }
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getGameDataLoader().getShipsTreeModel());
+
+    file = new File(folder, SHIELDS + ".json");
+    if(file.exists()) {
+      file.delete();
+    }
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getGameDataLoader().getShieldsTreeModel());
+
+    file = new File(folder, WEAPONS + ".json");
+    if(file.exists()) {
+      file.delete();
+    }
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getGameDataLoader().getWeaponsTreeModel());
+
+    file = new File(folder, SHIP_ITEMS + ".json");
+    if(file.exists()) {
+      file.delete();
+    }
+    com.starsailor.model.JsonDataFactory.saveDataEntity(file, getGameDataLoader().getShipItemsTreeModel());
   }
 
   //----------------------- Helper ----------------------------------------------------------

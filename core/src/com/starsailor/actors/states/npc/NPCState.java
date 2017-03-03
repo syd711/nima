@@ -105,7 +105,7 @@ abstract public class NPCState {
     for(WeaponData.Types defensiveWeapon : defensiveWeapons) {
       //find matching weapon for the given ship
       for(WeaponData weaponData : ship.getChargedWeapons()) {
-        if(weaponData.weaponType.equals(defensiveWeapon)) {
+        if(weaponData.getWeaponType().equals(defensiveWeapon)) {
           result.add(weaponData);
         }
       }

@@ -141,7 +141,6 @@
       "id": 34000,
       "children": [
         {
-          "weaponType": "MISSILE",
           "type": "missile",
           "rechargeTimeMillis": 2700.0,
           "durationMillis": 0.0,

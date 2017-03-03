@@ -1,30 +1,22 @@
 package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.SteeringManager;
 
-import java.util.List;
-
 /**
  * Let the give npc follow its route.
  */
-public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC> {
-  private List<Ship> attackingGroupMembers;
-
-  public FleeFromAttackerAndWaitState(Ship enemy) {
-    attackingGroupMembers = enemy.formationComponent.getMembers();
-  }
+public class FleeFromAttackerAndWaitState extends BattleState {
 
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered FleeFromAttackerState");
     npc.setStateVisible(true);
 
-    Ship nearestEnemy = npc.findNearestEnemyOfGroup(attackingGroupMembers);
+    Ship nearestEnemy = npc.findNearestEnemyOfGroup(getEnemies());
     SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
   }
 
@@ -37,7 +29,7 @@ public class FleeFromAttackerAndWaitState extends NPCState implements State<NPC>
     }
 
     //check max distance to all enemies
-    Ship nearestEnemy = npc.findNearestEnemyOfGroup(attackingGroupMembers);
+    Ship nearestEnemy = npc.findNearestEnemyOfGroup(getEnemies());
     float distanceTo = npc.getDistanceTo(nearestEnemy);
     //simply use the duplicate attack distance
     float shootingDistanceWithOffset = nearestEnemy.shipData.getDistanceData().getAttackDistance() * 2;

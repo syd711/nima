@@ -23,7 +23,7 @@
     "children": []
   },
   "statusData": {
-    "shield": "35003",
+    "shield": 35003,
     "health": 100.0,
     "weapons": [],
     "children": []
@@ -64,7 +64,7 @@
         "children": []
       },
       "statusData": {
-        "shield": "35003",
+        "shield": 35003,
         "health": 100.0,
         "weapons": [
           31000,
@@ -90,7 +90,7 @@
     },
     {
       "statusData": {
-        "shield": "35003",
+        "shield": 35003,
         "health": 100.0,
         "weapons": [
           31000,
@@ -150,7 +150,7 @@
         "children": []
       },
       "statusData": {
-        "shield": "35003",
+        "shield": 35003,
         "health": 100.0,
         "weapons": [
           32000,

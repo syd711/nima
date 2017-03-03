@@ -7,9 +7,9 @@ import java.util.List;
  * The fractions of the game
  */
 public enum Steering {
-  GUARD, ROUTE, SEEK_AND_DESTROY;
+  GUARD, ROUTE, SEEK_AND_DESTROY, FLEE, ATTACK;
 
   public static List<String> asStringList() {
-    return Arrays.asList(GUARD.name(), ROUTE.name(), SEEK_AND_DESTROY.name());
+    return Arrays.asList(GUARD.name(), ROUTE.name(), SEEK_AND_DESTROY.name(), FLEE.name(), ATTACK.name());
   }
 }

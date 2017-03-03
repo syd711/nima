@@ -208,9 +208,10 @@ public class FormUtil {
       ObservableList<Object> options = FXCollections.observableArrayList(values);
       ComboBox comboBox = new ComboBox(options);
 
-      String id = (String) field.get(data);
-      if(id != null) {
-        GameDataWithId model = UIController.getInstance().getGameDataLoader().getModel(Integer.parseInt(id));
+      Object value = field.get(data);
+      if(value != null) {
+        int id = (int) value;
+        GameDataWithId model = UIController.getInstance().getGameDataLoader().getModel(id);
         comboBox.setValue(model);
       }
       comboBox.valueProperty().addListener(new ChangeListener() {
@@ -219,7 +220,7 @@ public class FormUtil {
           try {
             GameDataWithId gameDataWithId = (GameDataWithId) newValue;
             if(gameDataWithId != null) {
-              field.set(data, ""+gameDataWithId.getId());
+              field.set(data, gameDataWithId.getId());
             }
             else {
               field.set(data, null);

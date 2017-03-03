@@ -1,27 +1,20 @@
 package com.starsailor.actors.states.npc;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.model.WeaponData;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.messaging.Messages;
+import com.starsailor.model.WeaponData;
 
 import java.util.List;
 
 /**
  *
  */
-public class AttackState extends NPCState implements State<NPC> {
-  private List<Ship> attackingGroupMembers;
-
-  public AttackState(Ship enemy) {
-    attackingGroupMembers = enemy.formationComponent.getMembers();
-  }
+public class AttackState extends BattleState {
 
   @Override
   public void enter(NPC npc) {
@@ -32,7 +25,7 @@ public class AttackState extends NPCState implements State<NPC> {
   @Override
   public void update(NPC npc) {
     //update the list of active enemies, maybe one was destroyed
-    attackingGroupMembers = EntityManager.getInstance().filterAliveEntities(attackingGroupMembers);
+    List<Ship> attackingGroupMembers = getEnemies();
 
     //check if there are more attackers first
     if(attackingGroupMembers.isEmpty()) {
@@ -91,20 +84,6 @@ public class AttackState extends NPCState implements State<NPC> {
   }
 
   //------------- Helper---------------------------------
-
-  /**
-   * Updates the list of enemies depending from whom the bullet was fired
-   * @param npc the attacked npc
-   * @param bullet
-   * @return true if the bullet was meant for this npc
-   */
-  private boolean updateStateForBullet(NPC npc, Bullet bullet) {
-    if(bullet.attackedMemberOf(npc)) {
-      updateEnemyList(bullet, attackingGroupMembers);
-      return true;
-    }
-    return false;
-  }
 
   /**
    * Fires available weapons depending on the state of the ship

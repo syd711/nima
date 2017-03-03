@@ -30,7 +30,7 @@ public class BulletManager {
   }
 
   private void create(Ship owner, Ship target, WeaponData weaponData, boolean internal) {
-    WeaponData.Types type = weaponData.weaponType;
+    WeaponData.Types type = weaponData.getWeaponType();
     int bulletCount = weaponData.getBulletCount();
 
     Bullet bullet = null;

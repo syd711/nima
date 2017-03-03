@@ -200,6 +200,9 @@ public class FormPane extends BorderPane implements ChangeListener {
     else if(field.getName().equals("defaultSteering")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.asStringList());
     }
+    else if(field.getName().equals("battleSteering")) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.asStringList());
+    }
     else if(field.getName().equals("formationOwner")) {
       List<GameDataWithId> entries = UIController.getInstance().getShipItems();
       entries.add(0, null);

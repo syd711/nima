@@ -6,11 +6,6 @@ import com.google.gson.annotations.Expose;
  * Contains all attributes a ship can have.
  */
 public class ShipData extends GameDataWithId<ShipData> {
-
-  public enum Types {
-    MERCHANT, PIRATE, CRUSADER
-  }
-
   public ShipData(int id) {
     super(id, null);
   }
@@ -34,11 +29,6 @@ public class ShipData extends GameDataWithId<ShipData> {
   //Steering
   @Expose
   private SteeringData steeringData;
-
-  @Deprecated
-  public ShipData.Types getType() {
-    return null;
-  }
 
   public BodyData getBodyData() {
     if(bodyData == null) {

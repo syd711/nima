@@ -1,16 +1,16 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.states.npc.*;
+import com.starsailor.actors.states.npc.BattleState;
+import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
-import com.starsailor.model.ShipData;
 import com.starsailor.managers.SelectionManager;
+import com.starsailor.model.ShipData;
 
 import java.util.List;
 
@@ -24,14 +24,16 @@ public class NPC extends Ship implements Selectable {
   public NPCCollisionComponent collisionComponent;
 
   private State<NPC> defaultState;
+  private State<NPC> battleState;
 
   //not necessarily set
   private Route route;
 
-  public NPC(String name, ShipData profile, State<NPC> defaultState, Vector2 position) {
+  public NPC(String name, ShipData profile, State<NPC> defaultState, State<NPC> battleState, Vector2 position) {
     super(name, profile, position);
     this.shipData = profile;
     this.defaultState = defaultState;
+    this.battleState = battleState;
   }
 
   @Override
@@ -98,26 +100,10 @@ public class NPC extends Ship implements Selectable {
   }
 
   private void switchToBattleState(Ship ship, Ship enemy) {
-    ShipData.Types type = ship.shipData.getType();
-    StateMachine stateMachine = ship.getStateMachine();
-    switch(type) {
-      case MERCHANT: {
-        stateMachine.changeState(new FleeFromAttackerAndWaitState(enemy));
-        break;
-      }
-      case CRUSADER: {
-        stateMachine.changeState(new AttackState(enemy));
-        break;
-      }
-      case PIRATE: {
-        stateMachine.changeState(new AttackState(enemy));
-        break;
-      }
-      default: {
-        stateMachine.changeState(new AttackState(enemy));
-        break;
-      }
+    if(battleState instanceof BattleState) {
+      ((BattleState)battleState).updateEnemy(enemy);
     }
+    ship.getStateMachine().changeState(battleState);
   }
 
   /**

@@ -187,7 +187,7 @@ abstract public class Bullet extends GameEntity {
   }
 
   public boolean is(WeaponData.Types type) {
-    return weaponData.weaponType.equals(type);
+    return weaponData.getWeaponType().equals(type);
   }
 
   public boolean isOwner(Entity entity) {

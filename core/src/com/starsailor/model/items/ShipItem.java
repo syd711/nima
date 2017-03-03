@@ -13,13 +13,16 @@ public class ShipItem extends MapItem<ShipItem> {
   private String fraction;
 
   @Expose
-  private String shipType;
+  private int shipType;
 
   @Expose
   private String formationOwner;
 
   @Expose
   private String defaultSteering;
+
+  @Expose
+  private String battleSteering;
 
   @Expose
   private String route;
@@ -39,14 +42,14 @@ public class ShipItem extends MapItem<ShipItem> {
     this.fraction = fraction;
   }
 
-  public String getShipType() {
-    if(shipType == null) {
+  public int getShipType() {
+    if(shipType <= 0) {
       return getParent().getShipType();
     }
     return shipType;
   }
 
-  public void setShipType(String shipType) {
+  public void setShipType(int shipType) {
     this.shipType = shipType;
   }
 
@@ -85,5 +88,13 @@ public class ShipItem extends MapItem<ShipItem> {
 
   public void setRoute(String route) {
     this.route = route;
+  }
+
+  public String getBattleSteering() {
+    return battleSteering;
+  }
+
+  public void setBattleSteering(String battleSteering) {
+    this.battleSteering = battleSteering;
   }
 }
