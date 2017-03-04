@@ -225,7 +225,7 @@ public class FormUtil {
               field.set(data, gameDataWithId.getId());
             }
             else {
-              field.set(data, null);
+              field.set(data, 0);
             }
           } catch (IllegalAccessException e) {
             e.printStackTrace();

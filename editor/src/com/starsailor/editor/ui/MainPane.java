@@ -59,7 +59,6 @@ public class MainPane extends BorderPane {
     shipTreePane = new ShipDataTreePane(this);
     shieldTreePane = new ShieldDataTreePane(this);
     weaponTreePane = new WeaponDataTreePane(this);
-    shieldTreePane.setExpanded(true);
 
     treesPane.getPanes().addAll(shipItemsTreePane, shipTreePane, shieldTreePane, weaponTreePane);
     shipItemsTreePane.setExpanded(true);
@@ -260,7 +259,7 @@ public class MainPane extends BorderPane {
   }
 
   public void reloadTree() {
-    UIController.getInstance().getGameDataLoader().invalidate();
+    UIController.getInstance().getGameDataLoader().invalidateShipItems();
     activeTreePane.reload();
   }
 

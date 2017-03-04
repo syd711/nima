@@ -27,6 +27,9 @@ public class ShipItem extends MapItem<ShipItem> {
   @Expose
   private String route;
 
+  @Expose
+  private boolean followRouteRabbit;
+
   //real data
   private ShipData shipData;
 
@@ -96,5 +99,13 @@ public class ShipItem extends MapItem<ShipItem> {
 
   public void setBattleSteering(String battleSteering) {
     this.battleSteering = battleSteering;
+  }
+
+  public boolean isFollowRouteRabbit() {
+    return followRouteRabbit;
+  }
+
+  public void setFollowRouteRabbit(boolean followRouteRabbit) {
+    this.followRouteRabbit = followRouteRabbit;
   }
 }

@@ -58,10 +58,7 @@ public class GameDataManager {
 //    }
   }
 
-  public void invalidate() {
-    shipsRoot = null;
-    shieldsRoot = null;
-    weaponsData = null;
+  public void invalidateShipItems() {
     shipItemRoot = null;
   }
 
