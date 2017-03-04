@@ -40,11 +40,12 @@ public class Route2EntityConverter extends DefaultMapObjectConverter {
     Vector2 centeredPosition = (Vector2) mapObject.getProperties().get(MapConstants.PROPERTY_CENTERED_POSITION);
     Float dockTime = (Float) mapObject.getProperties().get(MapConstants.PROPERTY_DOCK_TIME);
     Boolean dockable = (Boolean) mapObject.getProperties().get(MapConstants.PROPERTY_DOCKABLE);
+    Integer index = (Integer) mapObject.getProperties().get(MapConstants.PROPERTY_INDEX);
 
     //apply additional route tracking point
     Route route = getOrCreateRoute(name);
 
-    RoutePoint routePoint = new RoutePoint();
+    RoutePoint routePoint = new RoutePoint(index);
     routePoint.setPosition(centeredPosition);
     routePoint.setDockable(dockable != null && dockable);
     routePoint.setDockTime(dockTime);

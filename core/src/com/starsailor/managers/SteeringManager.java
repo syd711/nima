@@ -51,7 +51,7 @@ public class SteeringManager {
 
   public static void setRouteSteering(NPC npc) {
     RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
-    Array<Vector2> wayPoints = routingComponent.getWayPoints();
+    Array<Vector2> wayPoints = routingComponent.getWayPoints(npc.getCenter());
 
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 

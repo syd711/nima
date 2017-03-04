@@ -112,7 +112,7 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
-  <object id="38" name="Route 1" type="Route" x="332.5" y="833.5" width="43" height="43">
+  <object id="38" name="Route 1" type="Route" x="1194.5" y="1161.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="1"/>
    </properties>
@@ -121,19 +121,19 @@
   <object id="81" name="35008" x="378.667" y="1022.67" width="22" height="22">
    <ellipse/>
   </object>
-  <object id="83" name="Route 1" type="Route" x="991.833" y="642.5" width="43" height="43">
+  <object id="83" name="Route 1" type="Route" x="635.833" y="810.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="2"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="84" name="Route 1" type="Route" x="989.167" y="518.5" width="43" height="43">
+  <object id="84" name="Route 1" type="Route" x="1639.17" y="646.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="3"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="87" name="Route 1" type="Route" x="1306.5" y="1159.83" width="43" height="43">
+  <object id="87" name="Route 1" type="Route" x="1764.5" y="1097.83" width="43" height="43">
    <properties>
     <property name="index" type="int" value="6"/>
    </properties>

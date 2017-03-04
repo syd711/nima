@@ -17,7 +17,8 @@ public class RoutePoint extends GameEntity {
   private int index;
   private Float dockTime;
 
-  public RoutePoint() {
+  public RoutePoint(Integer index) {
+    this.index = index;
     ComponentFactory.addRoutePointCollisionComponent(this);
   }
 
@@ -61,9 +62,8 @@ public class RoutePoint extends GameEntity {
     this.dockTime = dockTime;
   }
 
-
   @Override
   public String toString() {
-    return "Route Point " + position;
+    return "Route Point " + index + " " + position;
   }
 }
