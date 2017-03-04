@@ -58,6 +58,13 @@ public class GameDataManager {
 //    }
   }
 
+  public void invalidate() {
+    shipsRoot = null;
+    shieldsRoot = null;
+    weaponsData = null;
+    shipItemRoot = null;
+  }
+
   public List<GameDataWithId> getGameDataFor(List<Integer> ids) {
     List<GameDataWithId> result = new ArrayList<>();
     for(Integer id : ids) {

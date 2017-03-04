@@ -25,7 +25,7 @@ import java.util.List;
  *
  */
 abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledPane implements EventHandler<MouseEvent> {
-  private final TreeItem<T> treeRoot;
+  private TreeItem<T> treeRoot;
   private TreeView treeView;
 
   private T root;
@@ -34,11 +34,9 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
   public GameDataTreePane(MainPane mainPane, String title) {
     setText(title);
     this.mainPane = mainPane;
-    root = getRoot();
-    treeRoot = new TreeItem<T>(root);
-    treeRoot.setExpanded(true);
-    buildTree(root.getChildren(), treeRoot);
 
+
+    refresh();
     treeView = new TreeView<T>();
     treeView.setOnMouseClicked(this);
     treeView.setShowRoot(isRootVisible());
@@ -108,7 +106,17 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
   }
 
   public void refresh() {
-    treeView.refresh();
+    root = getRoot();
+    if(treeRoot == null) {
+      treeRoot = new TreeItem<T>(root);
+    }
+    else {
+      treeRoot.getChildren().clear();
+      treeRoot.setValue(root);
+    }
+
+    treeRoot.setExpanded(true);
+    buildTree(root.getChildren(), treeRoot);
   }
 
   public void select(GameDataWithId gameDataWithId) {
