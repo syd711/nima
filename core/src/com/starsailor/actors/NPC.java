@@ -26,7 +26,7 @@ public class NPC extends Ship implements Selectable {
   public NPCCollisionComponent collisionComponent;
 
   private State<NPC> defaultState;
-  private State<NPC> battleState;
+  private BattleState battleState;
 
   //not necessarily set
   private Route route;
@@ -38,7 +38,7 @@ public class NPC extends Ship implements Selectable {
     Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
 
     defaultState = StateFactory.createState(defaultSteering);
-    battleState = StateFactory.createState(battleSteering);
+    battleState = (BattleState) StateFactory.createState(battleSteering);
   }
 
   @Override
@@ -68,12 +68,42 @@ public class NPC extends Ship implements Selectable {
     }
   }
 
+  /**
+   * Switches this entity to the attacked state if not already there.
+   *
+   * @param enemy the enemy ship that has been fired or detected
+   */
+  public void switchToBattleState(Ship enemy) {
+    if(isInDefaultState()) {
+      //update the battle state since it is only updated, not recreated
+      getBattleState().updateEnemyList(enemy);
+      //then switch to the state...
+      getStateMachine().changeState(getBattleState());
+
+      //...and notify all members that 'we' are attacked
+      List<Ship> groupMembers = formationComponent.getMembers();
+      for(Ship formationMember : groupMembers) {
+        if(!formationMember.equals(this)) {
+          ((NPC) formationMember).switchToBattleState(enemy);
+        }
+      }
+    }
+    else if(isInBattleState()) {
+      getBattleState().updateEnemyList(enemy);
+      List<Ship> groupMembers = formationComponent.getMembers();
+      for(Ship formationMember : groupMembers) {
+        if(!formationMember.equals(this)) {
+          formationMember.getBattleState().updateEnemyList(enemy);
+        }
+      }
+    }
+  }
+
   @Override
   public void applyDamageFor(Bullet bullet) {
     boolean destroyed = updateDamage(bullet);
-    //player is also a ship, so we skip here
     if(!destroyed) {
-      moveToBattleState(bullet.owner);
+      switchToBattleState(bullet.owner);
     }
   }
 
@@ -83,7 +113,7 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
-  public State<NPC> getBattleState() {
+  public BattleState getBattleState() {
     return battleState;
   }
 
@@ -108,41 +138,6 @@ public class NPC extends Ship implements Selectable {
 
   // ---------------- Helper ------------------------------------------------------
 
-  public void switchGroupToBattleState(Ship enemy) {
-    switchToBattleState(enemy);
-
-    List<Ship> members = formationComponent.getMembers();
-    for(Ship member : members) {
-      if(member.equals(this)) {
-        continue;
-      }
-      //TODO mpf
-      ((NPC)member).switchToBattleState(enemy);
-    }
-  }
-
-  public void switchToBattleState(Ship enemy) {
-    if(battleState instanceof BattleState) {
-      ((BattleState)battleState).updateEnemy(enemy);
-    }
-    getStateMachine().changeState(getBattleState());
-  }
-
-  /**
-   * Switches this entity to the attacked state if not already there.
-   * @param owner
-   */
-  public void moveToBattleState(Ship owner) {
-    if(isInDefaultState()) {
-      switchGroupToBattleState(owner);
-
-      //notify all members that 'we' are attacked
-      List<Ship> groupMembers = formationComponent.getMembers();
-      for(Ship formationMember : groupMembers) {
-        ((NPC)formationMember).moveToBattleState(owner);
-      }
-    }
-  }
 
   @Override
   public String toString() {

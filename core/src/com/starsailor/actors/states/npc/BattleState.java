@@ -6,20 +6,30 @@ import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.managers.EntityManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  */
 abstract public class BattleState extends NPCState implements State<NPC> {
-  private List<Ship> attackingGroupMembers;
+  private List<Ship> attackingGroupMembers = new ArrayList<>();
 
-  public void updateEnemy(Ship enemy) {
-    attackingGroupMembers = enemy.formationComponent.getMembers();
+  public void updateEnemyList(Ship enemy) {
+    List<Ship> members = enemy.formationComponent.getMembers();
+    for(Ship member : members) {
+      if(!attackingGroupMembers.contains(member)) {
+        attackingGroupMembers.add(member);
+      }
+    }
   }
 
+  /**
+   * Returns the list of active enemies
+   * @return
+   */
   protected List<Ship> getEnemies() {
-    attackingGroupMembers = EntityManager.getInstance().filterAliveEntities(attackingGroupMembers);
+    EntityManager.getInstance().filterAliveEntities(attackingGroupMembers);
     return attackingGroupMembers;
   }
 
@@ -30,8 +40,9 @@ abstract public class BattleState extends NPCState implements State<NPC> {
    * @return true if the bullet was meant for this npc
    */
   protected boolean updateStateForBullet(NPC npc, Bullet bullet) {
+    //does this bullet concern me?
     if(bullet.attackedMemberOf(npc)) {
-      updateEnemyList(bullet, attackingGroupMembers);
+      updateEnemyList(bullet.owner);
       return true;
     }
     return false;

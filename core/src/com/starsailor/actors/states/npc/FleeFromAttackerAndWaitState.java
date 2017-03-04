@@ -17,7 +17,12 @@ public class FleeFromAttackerAndWaitState extends BattleState {
     npc.setStateVisible(true);
 
     Ship nearestEnemy = npc.findNearestEnemyOfGroup(getEnemies());
-    SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
+    if(nearestEnemy != null) {
+      SteeringManager.setFleeSteering(npc.steerableComponent, nearestEnemy.steerableComponent);
+    }
+    else {
+      npc.switchToDefaultState();
+    }
   }
 
   @Override

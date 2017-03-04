@@ -8,6 +8,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.ShipFactory;
@@ -17,6 +18,7 @@ import com.starsailor.systems.*;
 import com.starsailor.util.box2d.Box2dUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -223,17 +225,21 @@ public class EntityManager implements EntityListener {
     return result;
   }
 
-  public <T> List<T> filterAliveEntities(List<T> list) {
-    List<T> result = new ArrayList<T>();
-    for(T entity : list) {
-      if(isAliveEntity(entity)) {
-        result.add(entity);
+  public void filterAliveEntities(List list) {
+    Iterator iterator = list.iterator();
+    while(iterator.hasNext()) {
+      Object next = iterator.next();
+      if(!isAliveEntity(next)) {
+        iterator.remove();
       }
     }
-    return result;
   }
 
   public <T> boolean isAliveEntity(T entity) {
+    if(((GameEntity)entity).isMarkedForDestroy()) {
+      return false;
+    }
+
     ImmutableArray<Entity> entities = engine.getEntities();
     for(Entity e : entities) {
       if(e.equals(entity)) {

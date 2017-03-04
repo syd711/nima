@@ -326,8 +326,11 @@ public class FormUtil {
               else if(field.getType().equals(float.class)) {
                 value = Float.parseFloat(newValue);
               }
+              else if(field.getType().equals(float.class)) {
+                value = Integer.parseInt(newValue);
+              }
               field.set(data, value);
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
               e.printStackTrace();
             }
 

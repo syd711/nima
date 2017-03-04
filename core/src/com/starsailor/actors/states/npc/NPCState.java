@@ -152,19 +152,4 @@ abstract public class NPCState {
       BulletManager.getInstance().create(attacker, attacking, chargedWeapon);
     }
   }
-
-  /**
-   * Updates the list of current enemy for the bullet that has hit the ship.
-   *
-   * @param bullet       the bullet that has hit the ship
-   * @param enemyTargets the current list of enemies
-   */
-  protected void updateEnemyList(Bullet bullet, List<Ship> enemyTargets) {
-    List<Ship> members = bullet.owner.formationComponent.getMembers();
-    for(Ship member : members) {
-      if(!enemyTargets.contains(member)) {
-        enemyTargets.add(member);
-      }
-    }
-  }
 }

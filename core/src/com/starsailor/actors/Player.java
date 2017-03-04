@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
@@ -50,7 +51,7 @@ public class Player extends Ship {
   }
 
   @Override
-  protected State getBattleState() {
+  protected BattleState getBattleState() {
     return null;
   }
 

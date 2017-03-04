@@ -42,7 +42,7 @@ abstract public class Spine extends GameEntity {
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
     if(spineData.getDefaultAnimation() != null) {
-      state.setAnimation(0, spineData.getDefaultAnimation(), true);
+//      state.setAnimation(0, spineData.getDefaultAnimation(), true);
     }
   }
 

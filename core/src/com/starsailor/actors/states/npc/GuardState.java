@@ -25,7 +25,7 @@ public class GuardState extends NPCState implements State<NPC> {
   public void update(NPC npc) {
     Ship nearestEnemy = npc.findNearestEnemy(true);
     if(nearestEnemy != null && isInAttackingDistance(npc, nearestEnemy)) {
-      npc.switchGroupToBattleState(nearestEnemy);
+      npc.switchToBattleState(nearestEnemy);
     }
   }
 

@@ -6,8 +6,10 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.components.*;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.model.ShieldData;
 import com.starsailor.model.ShipData;
 import com.starsailor.model.WeaponData;
 import com.starsailor.model.items.ShipItem;
@@ -69,6 +71,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
 
   public int getItemId() {
     return shipItem.getId();
+  }
+
+  public ShieldData getShield() {
+    return shipData.getStatusData().getShieldData();
   }
 
   public List<WeaponData> getChargedWeapons() {
@@ -226,7 +232,7 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   //------------ To be implemented ------------------------------------------------------------------------
 
   abstract protected State getDefaultState();
-  abstract protected State getBattleState();
+  abstract protected BattleState getBattleState();
 
   //------------- Helper ----------------------------------------------------------------------------------
 
@@ -238,5 +244,10 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public boolean isInDefaultState() {
     State currentState = getStateMachine().getCurrentState();
     return currentState.equals(getDefaultState());
+  }
+
+  public boolean isInBattleState() {
+    State currentState = getStateMachine().getCurrentState();
+    return currentState.equals(getBattleState());
   }
 }

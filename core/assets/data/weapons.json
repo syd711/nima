@@ -145,7 +145,7 @@
           "rechargeTimeMillis": 2700.0,
           "durationMillis": 0.0,
           "damage": 2.0,
-          "forceFactor": 7.0,
+          "forceFactor": 4.0,
           "torque": 0.0,
           "impactFactor": 2.0,
           "bulletCount": 3,
@@ -154,7 +154,7 @@
           "sound": "laser",
           "collisionEffect": "explosion",
           "sprite": "rocket",
-          "activationDistance": 200.0,
+          "activationDistance": 80.0,
           "bodyData": {
             "linearDamping": 2.0,
             "angularDamping": 10.0,
