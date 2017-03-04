@@ -38,7 +38,7 @@ public class AutoDestroySystem extends IteratingSystem {
         EntityManager.getInstance().destroy(entity);
       }
     }
-    else if(gameEntity instanceof Route) {
+    else if(gameEntity instanceof com.starsailor.actors.route.Route) {
       //TODO auto enable and disable of routes
     }
 

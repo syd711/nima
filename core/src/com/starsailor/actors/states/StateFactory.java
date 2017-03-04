@@ -15,9 +15,6 @@ public class StateFactory {
       case SEEK_AND_DESTROY: {
         return new RoutedSeekAndDestroyState();
       }
-      case GUARD: {
-        return new GuardState();
-      }
       case ROUTE: {
         return new RouteState();
       }

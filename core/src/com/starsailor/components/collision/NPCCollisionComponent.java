@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.NPC;
-import com.starsailor.actors.RoutePoint;
+import com.starsailor.actors.route.RoutePoint;
 import com.starsailor.actors.states.npc.NPCStates;
 
 /**

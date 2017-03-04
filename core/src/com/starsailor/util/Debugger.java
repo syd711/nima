@@ -4,7 +4,7 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.Route;
+import com.starsailor.actors.route.Route;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.EntityManager;
 

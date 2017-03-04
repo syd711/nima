@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.fma.Formation;
 import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.starsailor.actors.FormationOwner;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.Ship;
 
@@ -17,20 +18,25 @@ import java.util.List;
  */
 public class FormationComponent implements Component, Pool.Poolable {
 
-  public Formation<Vector2> formation;
-  public List<NPC> members = new ArrayList<>();
-  public Ship formationOwner;
+  private Formation<Vector2> formation;
 
+  private List<NPC> members = new ArrayList<>();
+  private FormationOwner formationOwner;
   @Override
   public void reset() {
     this.formation = null;
     this.members.clear();
+    this.formationOwner = null;
   }
 
   public void updateFormation() {
     if(!members.isEmpty()) {
       formation.updateSlots();
     }
+  }
+
+  public void setFormation(Formation<Vector2> formation) {
+    this.formation = formation;
   }
 
   public void addMember(FormationMember member) {
@@ -44,9 +50,9 @@ public class FormationComponent implements Component, Pool.Poolable {
   }
 
   public List<Ship> getMembers() {
+    FormationComponent formationComponent = formationOwner.getComponent(FormationComponent.class);
     List<Ship> result = new ArrayList<>();
-    result.addAll(formationOwner.formationComponent.members);
-    result.add(formationOwner);
+    result.addAll(formationComponent.members);
     return result;
   }
 

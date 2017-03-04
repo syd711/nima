@@ -29,7 +29,7 @@ public class NPC extends Ship implements Selectable {
   private BattleState battleState;
 
   //not necessarily set
-  private Route route;
+  private com.starsailor.actors.route.Route route;
 
   public NPC(ShipItem shipItem, Vector2 position) {
     super(shipItem, position);
@@ -44,20 +44,16 @@ public class NPC extends Ship implements Selectable {
   @Override
   public void createComponents(Fraction fraction) {
     super.createComponents(fraction);
+
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
 
     if(this.route != null) {
       routingComponent = ComponentFactory.addRoutingComponent(this, route);
+      formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getDistanceData().getFormationDistance());
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
-  }
-
-  public void updateFormationOwner() {
-    NPC owner = EntityManager.getInstance().getNpc(shipItem.getFormationOwner());
-    formationComponent.formationOwner = owner;
-    owner.formationComponent.addMember(this);
   }
 
   @Override
@@ -132,7 +128,7 @@ public class NPC extends Ship implements Selectable {
     return selectionComponent.isActive();
   }
 
-  public void setRoute(Route route) {
+  public void setRoute(com.starsailor.actors.route.Route route) {
     this.route = route;
   }
 

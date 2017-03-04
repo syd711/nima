@@ -13,9 +13,10 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
+import com.starsailor.actors.FormationOwner;
 import com.starsailor.actors.Fraction;
-import com.starsailor.actors.Route;
 import com.starsailor.actors.Spine;
+import com.starsailor.actors.route.Route;
 import com.starsailor.components.collision.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.TextureManager;
@@ -239,13 +240,13 @@ public class ComponentFactory {
     return component;
   }
 
-  public static FormationComponent addFormationComponent(Entity entity, SteerableComponent formationOwnerSteering, float distance) {
+  public static FormationComponent addFormationComponent(FormationOwner formationOwner, SteerableComponent formationOwnerSteering, float distance) {
     FormationComponent component = createComponent(FormationComponent.class);
     FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
     DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance * MPP);
     Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
-    component.formation = formation;
-    entity.add(component);
+    component.setFormation(formation);
+    formationOwner.add(component);
     return component;
   }
 

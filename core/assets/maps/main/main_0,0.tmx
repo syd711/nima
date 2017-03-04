@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="104">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="107">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -112,25 +112,25 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
-  <object id="38" name="Route 1" type="Route" x="1194.5" y="1161.5" width="43" height="43">
+  <object id="38" name="Route 1" type="Route" x="618.5" y="1149.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="1"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="83" name="Route 1" type="Route" x="635.833" y="810.5" width="43" height="43">
+  <object id="83" name="Route 1" type="Route" x="341.833" y="824.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="2"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="84" name="Route 1" type="Route" x="1639.17" y="646.5" width="43" height="43">
+  <object id="84" name="Route 1" type="Route" x="545.17" y="408.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="3"/>
    </properties>
    <ellipse/>
   </object>
-  <object id="87" name="Route 1" type="Route" x="1764.5" y="1097.83" width="43" height="43">
+  <object id="87" name="Route 1" type="Route" x="1076.5" y="1039.83" width="43" height="43">
    <properties>
     <property name="index" type="int" value="6"/>
    </properties>
@@ -140,6 +140,18 @@
    <ellipse/>
   </object>
   <object id="103" name="35020" x="670" y="930">
+   <ellipse/>
+  </object>
+  <object id="105" name="Route 1" type="Route" x="982.5" y="508.5" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="4"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="106" name="Route 1" type="Route" x="1218.5" y="834.5" width="43" height="43">
+   <properties>
+    <property name="index" type="int" value="5"/>
+   </properties>
    <ellipse/>
   </object>
  </objectgroup>

@@ -63,8 +63,6 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
-    formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getDistanceData().getFormationDistance());
-    formationComponent.formationOwner = this;
 
     this.location = new Box2dLocation(new Vector2());
   }

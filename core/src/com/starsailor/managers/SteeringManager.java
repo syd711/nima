@@ -25,7 +25,7 @@ import static com.starsailor.util.Settings.MPP;
  */
 public class SteeringManager {
 
-  public static void setGuardSteering(NPC npc) {
+  public static void setRouteMemberSteering(NPC npc) {
     SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
 
     Arrive<Vector2> arrive = new Arrive<>(sourceSteering, npc.getTargetLocation());

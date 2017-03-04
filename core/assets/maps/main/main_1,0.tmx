@@ -93,18 +93,5 @@
  </layer>
  <objectgroup name="collision"/>
  <objectgroup name="lights"/>
- <objectgroup name="data">
-  <object id="12" name="Route 1" type="Route" x="544.5" y="372.5" width="43" height="43">
-   <properties>
-    <property name="index" type="int" value="4"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="13" name="Route 1" type="Route" x="1652.5" y="732.5" width="43" height="43">
-   <properties>
-    <property name="index" type="int" value="5"/>
-   </properties>
-   <ellipse/>
-  </object>
- </objectgroup>
+ <objectgroup name="data"/>
 </map>

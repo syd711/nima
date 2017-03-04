@@ -31,7 +31,7 @@ public class ShipFactory {
    */
   public static NPC createNPC(ShipItem shipItem, Vector2 position) {
     NPC npc = new NPC(shipItem, position);
-    Route route = getRoute(shipItem);
+    com.starsailor.actors.route.Route route = getRoute(shipItem);
     if(route != null) {
       npc.setRoute(route);
     }
@@ -47,7 +47,7 @@ public class ShipFactory {
    */
   //TODO
   @Deprecated
-  public static void createRouteNPCs(Route route) {
+  public static void createRouteNPCs(com.starsailor.actors.route.Route route) {
 //    RouteComponent routeComponent = route.routeComponent;
 //    Vector2 position = routeComponent.spawnPoint.position;
 //    ShipData shipData = route.shipData;
@@ -82,10 +82,10 @@ public class ShipFactory {
 
   //------------------- Helper --------------------------------------
 
-  private static Route getRoute(ShipItem shipItem) {
+  private static com.starsailor.actors.route.Route getRoute(ShipItem shipItem) {
     if(shipItem.getRoute() != null) {
-      List<Route> entities = EntityManager.getInstance().getEntities(Route.class);
-      for(Route entity : entities) {
+      List<com.starsailor.actors.route.Route> entities = EntityManager.getInstance().getEntities(com.starsailor.actors.route.Route.class);
+      for(com.starsailor.actors.route.Route entity : entities) {
         if(entity.getName().equals(shipItem.getRoute())) {
           return entity;
         }

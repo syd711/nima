@@ -25,6 +25,39 @@ public class BodyGenerator {
 
   private static World world = Game.world;
 
+  public static Body create(BodyData bodyData, Vector2 worldPosition) {
+    BodyDef bdef = new BodyDef();
+    bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.position.set(Box2dUtil.toBox2Vector(worldPosition));
+    Body b = world.createBody(bdef);
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.filter.categoryBits = WORLD_BITS;
+    fdef.filter.maskBits = MASK_WORLD;
+
+    Shape shape;
+    if(bodyData.getRadius() > 0) {
+      shape = new CircleShape();
+      shape.setRadius(bodyData.getRadius() * MPP);
+      fdef.shape = shape;
+    }
+    else {
+      shape = new PolygonShape();
+      ((PolygonShape)shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
+      fdef.shape = shape;
+    }
+
+    fdef.isSensor = bodyData.isSensor();
+    fdef.density = bodyData.getDensity();
+    fdef.restitution = 0.1f;
+    fdef.shape = shape;
+    b.createFixture(fdef);
+
+    shape.dispose();
+    return b;
+  }
+
+
   public static Body createClickBody(Vector2 clickPoint) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;

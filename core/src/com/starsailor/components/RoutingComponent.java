@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.starsailor.actors.RoutePoint;
+import com.starsailor.actors.route.RoutePoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
