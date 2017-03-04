@@ -102,7 +102,7 @@ public class NPC extends Ship implements Selectable {
   @Override
   public void applyDamageFor(Bullet bullet) {
     boolean destroyed = updateDamage(bullet);
-    if(!destroyed) {
+    if(!destroyed && !bullet.owner.isMarkedForDestroy()) {
       switchToBattleState(bullet.owner);
     }
   }

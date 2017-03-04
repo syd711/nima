@@ -122,7 +122,9 @@ public class MissileBullet extends Bullet implements EntityListener {
 
   @Override
   public void collide(Bullet bullet, Vector2 position) {
-    hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    if(bullet instanceof FlaresBullet) {
+      hitAndDestroyBullet(position, Resources.SOUND_EXPLOSION);
+    }
   }
 
   @Override
