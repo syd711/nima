@@ -2,6 +2,7 @@
   "fraction": "ETYR",
   "shipType": 35006,
   "formationOwner": 0,
+  "followRouteRabbit": false,
   "name": "root",
   "id": 40000,
   "children": [
@@ -9,6 +10,7 @@
       "fraction": "PLAYER",
       "shipType": 35012,
       "formationOwner": 0,
+      "followRouteRabbit": false,
       "name": "Player",
       "id": 35013,
       "children": []
@@ -20,6 +22,7 @@
       "defaultSteering": "ROUTE",
       "battleSteering": "FLEE",
       "route": "Route 1",
+      "followRouteRabbit": false,
       "name": "Merchant 1",
       "id": 35008,
       "children": []
@@ -30,6 +33,7 @@
       "formationOwner": 35008,
       "defaultSteering": "GUARD",
       "battleSteering": "ATTACK",
+      "followRouteRabbit": false,
       "name": "Crusader 1 for Merchant 1",
       "id": 35011,
       "children": [
@@ -39,6 +43,7 @@
           "formationOwner": 35008,
           "defaultSteering": "GUARD",
           "battleSteering": "ATTACK",
+          "followRouteRabbit": false,
           "name": "Crusader 2 for Merchant 1",
           "id": 35014,
           "children": []
@@ -49,6 +54,7 @@
           "formationOwner": 35008,
           "defaultSteering": "GUARD",
           "battleSteering": "ATTACK",
+          "followRouteRabbit": false,
           "name": "Crusader 3 for Merchant 1",
           "id": 35015,
           "children": []
@@ -59,6 +65,7 @@
           "formationOwner": 35008,
           "defaultSteering": "GUARD",
           "battleSteering": "ATTACK",
+          "followRouteRabbit": false,
           "name": "Crusader 4 for Merchant 1",
           "id": 35016,
           "children": []
@@ -66,9 +73,11 @@
         {
           "fraction": "ETYR",
           "shipType": 35005,
-          "formationOwner": 35008,
-          "defaultSteering": "GUARD",
+          "formationOwner": 0,
+          "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
+          "route": "Route 1",
+          "followRouteRabbit": true,
           "name": "Crusader 5 for Merchant 1",
           "id": 35019,
           "children": []
@@ -76,9 +85,11 @@
         {
           "fraction": "ETYR",
           "shipType": 35005,
-          "formationOwner": 35008,
-          "defaultSteering": "GUARD",
+          "formationOwner": 0,
+          "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
+          "route": "Route 1",
+          "followRouteRabbit": true,
           "name": "Crusader 6 for Merchant 1",
           "id": 35020,
           "children": []
@@ -92,6 +103,7 @@
       "defaultSteering": "SEEK_AND_DESTROY",
       "battleSteering": "ATTACK",
       "route": "Route 1",
+      "followRouteRabbit": false,
       "name": "Crusader",
       "id": 35017,
       "children": []

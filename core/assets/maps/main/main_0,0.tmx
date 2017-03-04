@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="102">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="104">
  <tileset firstgid="1" name="image" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.png" width="512" height="512"/>
  </tileset>
@@ -118,9 +118,6 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="81" name="35008" x="378.667" y="1022.67" width="22" height="22">
-   <ellipse/>
-  </object>
   <object id="83" name="Route 1" type="Route" x="635.833" y="810.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="2"/>
@@ -139,25 +136,10 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="88" name="35011" x="142.667" y="942.667" width="22.6667" height="22.6667">
+  <object id="102" name="35019" x="614" y="718">
    <ellipse/>
   </object>
-  <object id="91" name="35014" x="277.333" y="1093.33" width="32" height="32">
-   <ellipse/>
-  </object>
-  <object id="93" name="35015" x="241.333" y="869.333">
-   <ellipse/>
-  </object>
-  <object id="94" name="35016" x="574.667" y="724">
-   <ellipse/>
-  </object>
-  <object id="99" name="35017" x="933.333" y="388">
-   <ellipse/>
-  </object>
-  <object id="100" name="35020" x="375" y="759" width="22" height="22">
-   <ellipse/>
-  </object>
-  <object id="101" name="35019" x="475" y="919" width="22" height="22">
+  <object id="103" name="35020" x="670" y="930">
    <ellipse/>
   </object>
  </objectgroup>
