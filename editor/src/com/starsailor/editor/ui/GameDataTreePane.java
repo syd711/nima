@@ -36,7 +36,7 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
     this.mainPane = mainPane;
 
 
-    refresh();
+    reload();
     treeView = new TreeView<T>();
     treeView.setOnMouseClicked(this);
     treeView.setShowRoot(isRootVisible());
@@ -105,7 +105,7 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
     mainPane.select(this, selection);
   }
 
-  public void refresh() {
+  public void reload() {
     root = getRoot();
     if(treeRoot == null) {
       treeRoot = new TreeItem<T>(root);
@@ -142,4 +142,8 @@ abstract public class GameDataTreePane<T extends GameDataWithId> extends TitledP
   }
 
   abstract protected T getRoot();
+
+  public void refresh() {
+    treeView.refresh();
+  }
 }

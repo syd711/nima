@@ -83,7 +83,7 @@ public class MainPane extends BorderPane {
     Button refreshButton = new Button("", ResourceLoader.getImageView("refresh.png"));
     refreshButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        refreshTree();
+        reloadTree();
       }
     });
     refreshButton.setTooltip(new Tooltip("Daten neu laden"));
@@ -259,8 +259,12 @@ public class MainPane extends BorderPane {
     }
   }
 
-  public void refreshTree() {
+  public void reloadTree() {
     UIController.getInstance().getGameDataLoader().invalidate();
+    activeTreePane.reload();
+  }
+
+  public void refreshTree() {
     activeTreePane.refresh();
   }
 }

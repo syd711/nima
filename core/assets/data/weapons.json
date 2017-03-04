@@ -168,6 +168,43 @@
           "name": "Rockets",
           "id": 35002,
           "children": []
+        },
+        {
+          "type": "missile",
+          "rechargeTimeMillis": 2700.0,
+          "durationMillis": 0.0,
+          "damage": 20.0,
+          "forceFactor": 12.5,
+          "torque": 0.0,
+          "impactFactor": 10.0,
+          "bulletCount": 3,
+          "bulletDelay": 600,
+          "category": "primary",
+          "sound": "laser",
+          "collisionEffect": "explosion",
+          "sprite": "rocket",
+          "activationDistance": 50.0,
+          "steeringData": {
+            "boundingRadius": 200.0,
+            "maxLinearSpeed": 2.0,
+            "maxLinearAcceleration": 2.0,
+            "maxAngularSpeed": 1.0,
+            "maxAngularAcceleration": 1.0,
+            "children": []
+          },
+          "bodyData": {
+            "linearDamping": 1.0,
+            "angularDamping": 10.0,
+            "width": 3.8,
+            "height": 18.0,
+            "radius": 0.0,
+            "density": 3.0,
+            "sensor": true,
+            "children": []
+          },
+          "name": "Slow Rockets",
+          "id": 35018,
+          "children": []
         }
       ]
     },
