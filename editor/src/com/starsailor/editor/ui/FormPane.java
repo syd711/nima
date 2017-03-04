@@ -3,21 +3,23 @@ package com.starsailor.editor.ui;
 import com.google.gson.annotations.Expose;
 import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Steering;
+import com.starsailor.editor.UIController;
+import com.starsailor.editor.util.FormUtil;
 import com.starsailor.model.GameData;
 import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.StatusData;
-import com.starsailor.editor.UIController;
-import com.starsailor.editor.util.FormUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,10 +27,7 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -37,6 +36,8 @@ public class FormPane extends BorderPane implements ChangeListener {
   private VBox dynamicForm;
   private MainPane mainPane;
   private List<String> ignoredFields;
+
+  private static Map<Class,Boolean> collapsedStates = new HashMap<>();
 
   public FormPane(MainPane mainPane) {
     this(mainPane, new ArrayList<>());
@@ -128,7 +129,18 @@ public class FormPane extends BorderPane implements ChangeListener {
       }
     }
     TitledPane section = FormUtil.createSection(dynamicForm, categoryDetailsForm, title, false);
-//    section.setExpanded(!isExtending(gameData));
+    section.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        collapsedStates.put(gameData.getClass(), section.isExpanded());
+      }
+    });
+
+    Boolean expanded = collapsedStates.get(gameData.getClass());
+    if(expanded != null) {
+      section.setExpanded(expanded);
+    }
+
   }
 
 
@@ -198,10 +210,10 @@ public class FormPane extends BorderPane implements ChangeListener {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
     }
     else if(field.getName().equals("defaultSteering")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.asStringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.defaultSteeringList());
     }
     else if(field.getName().equals("battleSteering")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.asStringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.battleSteeringList());
     }
     else if(field.getName().equals("formationOwner")) {
       List<GameDataWithId> entries = UIController.getInstance().getShipItems();
