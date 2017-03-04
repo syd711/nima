@@ -121,7 +121,7 @@
   <object id="81" name="35008" x="378.667" y="1022.67" width="22" height="22">
    <ellipse/>
   </object>
-  <object id="83" name="Route 1" type="Route" x="537.167" y="395.833" width="43" height="43">
+  <object id="83" name="Route 1" type="Route" x="991.833" y="642.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="2"/>
    </properties>
@@ -133,19 +133,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="85" name="Route 1" type="Route" x="1207.83" y="823.833" width="43" height="43">
-   <properties>
-    <property name="index" type="int" value="4"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="86" name="Route 1" type="Route" x="1079.83" y="1015.83" width="43" height="43">
-   <properties>
-    <property name="index" type="int" value="5"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="87" name="Route 1" type="Route" x="595.833" y="1147.83" width="43" height="43">
+  <object id="87" name="Route 1" type="Route" x="1306.5" y="1159.83" width="43" height="43">
    <properties>
     <property name="index" type="int" value="6"/>
    </properties>

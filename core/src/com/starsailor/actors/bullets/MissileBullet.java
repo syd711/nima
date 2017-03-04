@@ -77,11 +77,17 @@ public class MissileBullet extends Bullet implements EntityListener {
     }
     else {
       //maybe the target has already been destroyed
-      if(target.isMarkedForDestroy()) {
+      if(target == null || target.isMarkedForDestroy()) {
         //select next target then
         target = this.owner.findNearestEnemy(true);
+      }
+
+      //TODO not so sure here
+      if(target == null) {
+        destroyWithoutHit();
         return;
       }
+
       //by default the target body is what we aim for
       Body targetBody = target.bodyComponent.body;
 
@@ -125,6 +131,10 @@ public class MissileBullet extends Bullet implements EntityListener {
   }
 
   // --------------------------  Helper ---------------------
+
+  private void destroyWithoutHit() {
+    hitAndDestroyBullet(getPosition(), Resources.SOUND_EXPLOSION);
+  }
 
   /**
    * Returns the nearest flare for this missile.

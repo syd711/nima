@@ -87,7 +87,7 @@ public class BulletManager {
       for(QueuedBullet bullet : queueCopy) {
         if(bullet.shootingTime < time) {
           //only create if there still alive
-          if(!bullet.owner.isMarkedForDestroy()) {
+          if(!bullet.owner.isMarkedForDestroy() && !bullet.target.isMarkedForDestroy()) {
             create(bullet.owner, bullet.target, bullet.weaponData, true);
           }
 

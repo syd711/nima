@@ -12,6 +12,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
 import com.starsailor.model.WeaponData;
 import com.starsailor.managers.*;
+import com.starsailor.util.box2d.Box2dUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +49,13 @@ abstract public class Bullet extends GameEntity {
     createComponents(weaponData);
 
     playFiringSound();
+  }
+
+  protected Vector2 getPosition() {
+    if(this.bodyComponent == null) {
+      throw new UnsupportedOperationException();
+    }
+    return Box2dUtil.toWorldPoint(this.bodyComponent.body.getPosition());
   }
 
   /**
