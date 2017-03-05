@@ -26,9 +26,12 @@ public class RoutingComponent implements Component, Pool.Poolable {
 
   public Array<Vector2> getWayPoints(Vector2 origin) {
     List<Vector2> result = new ArrayList<>();
-    int indexOfClosedPoint = findClosestIndex(targets, origin);
-    int shift = targets.size() - indexOfClosedPoint;
-    rotate(targets, shift);
+    if(origin != null) {
+      int indexOfClosedPoint = findClosestIndex(targets, origin);
+      int shift = targets.size() - indexOfClosedPoint;
+      rotate(targets, shift);
+    }
+
 
     for(RoutePoint point : targets) {
       result.add(new Vector2(point.getPosition()).scl(MPP));

@@ -2,12 +2,13 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.route.Route;
-import com.starsailor.actors.route.RoutePoint;
 import com.starsailor.components.*;
+import com.starsailor.managers.SteeringManager;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.SteeringData;
 import com.starsailor.util.Settings;
 import com.starsailor.util.box2d.BodyGenerator;
+import com.starsailor.util.box2d.Box2dUtil;
 
 import java.util.List;
 
@@ -17,7 +18,6 @@ import java.util.List;
 public class FormationOwner extends GameEntity implements IFormationOwner<Ship> {
   public static final float FORMATION_DISTANCE = 100;
 
-  private PositionComponent positionComponent;
   private BodyComponent bodyComponent;
   private SteerableComponent steerableComponent;
   private FormationComponent formationComponent;
@@ -25,19 +25,20 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
 
   private Route route;
 
-  public FormationOwner(Route route, RoutePoint startPoint) {
+  public FormationOwner(Route route) {
     this.route = route;
+    createComponents();
   }
 
-  public void createComponents(Vector2 start) {
-    positionComponent = ComponentFactory.addPositionComponent(this, false, getBodyData().getHeight() * Settings.PPM);
-    bodyComponent = ComponentFactory.addBodyComponent(this, BodyGenerator.create(getBodyData(), start));
+  private void createComponents() {
+    routingComponent = ComponentFactory.addRoutingComponent(this, route);
+
+    Vector2 origin = routingComponent.getWayPoints(null).get(0);
+    bodyComponent = ComponentFactory.addBodyComponent(this, BodyGenerator.create(getBodyData(), Box2dUtil.toWorldPoint(origin)));
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, getSteeringData());
     formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, FORMATION_DISTANCE);
 
-    if(this.route != null) {
-      routingComponent = ComponentFactory.addRoutingComponent(this, route);
-    }
+    SteeringManager.setRouteRabbitSteering(steerableComponent, routingComponent, origin);
   }
 
   @Override
@@ -64,9 +65,9 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
    */
   private BodyData getBodyData() {
     BodyData bodyData = new BodyData();
-    bodyData.setRadius(50);
+    bodyData.setRadius(30);
     bodyData.setAngularDamping(3);
-    bodyData.setLinearDamping(6);
+    bodyData.setLinearDamping(12);
     bodyData.setSensor(true);
     bodyData.setDensity(5); //make more here since the object is a small dummy
     bodyData.setHeight(10);
@@ -82,8 +83,8 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
   private SteeringData getSteeringData() {
     SteeringData steeringData = new SteeringData();
     steeringData.setBoundingRadius(200);
-    steeringData.setMaxLinearAcceleration(2.0f);
-    steeringData.setMaxLinearSpeed(2f);
+    steeringData.setMaxLinearAcceleration(0.8f);
+    steeringData.setMaxLinearSpeed(0.6f);
     steeringData.setMaxAngularAcceleration(4f);
     steeringData.setMaxAngularSpeed(4f);
     return steeringData;

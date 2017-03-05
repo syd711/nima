@@ -181,10 +181,10 @@ abstract public class Bullet extends GameEntity {
   protected void updateSpritePositionForBody(boolean updateAngle) {
     SpriteComponent.SpriteItem spriteItem = getSpriteItem();
     Sprite bulletSprite = spriteItem.getSprite();
-    positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
-    positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
+    float x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
+    float y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
 
-    spriteItem.setPosition(positionComponent.getPosition(), false);
+    spriteItem.setPosition(new Vector2(x, y), false);
     if(updateAngle) {
       spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
     }

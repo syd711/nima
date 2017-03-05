@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.Player;
-import com.starsailor.util.box2d.Box2dUtil;
 
 /**
  *
@@ -30,10 +29,6 @@ public class PositionComponent implements Component, Pool.Poolable {
 
   public Vector2 getPosition() {
     return new Vector2(x, y);
-  }
-
-  public Vector2 getBox2dPosition() {
-    return Box2dUtil.toBox2Vector(getPosition());
   }
 
   @Override

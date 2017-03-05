@@ -239,6 +239,10 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
 
   //------------- Helper ----------------------------------------------------------------------------------
 
+  public ShipItem getShipItem() {
+    return shipItem;
+  }
+
   /**
    * Return true if the entity is already in a battle state
    *

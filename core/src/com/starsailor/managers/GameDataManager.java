@@ -62,7 +62,7 @@ public class GameDataManager {
     shipItemRoot = null;
   }
 
-  public List<GameDataWithId> getGameDataFor(List<Integer> ids) {
+  public List<GameDataWithId> getModels(List<Integer> ids) {
     List<GameDataWithId> result = new ArrayList<>();
     for(Integer id : ids) {
       GameDataWithId item = getModel(id);

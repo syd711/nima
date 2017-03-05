@@ -49,11 +49,24 @@ public class SteeringManager {
     npc.steerableComponent.setBehavior(blendedSB);
   }
 
-  public static void setRouteSteering(NPC npc) {
-    RoutingComponent routingComponent = npc.getComponent(RoutingComponent.class);
-    Array<Vector2> wayPoints = routingComponent.getWayPoints(npc.getCenter());
+  public static void setRouteRabbitSteering(SteerableComponent sourceSteering, RoutingComponent routingComponent, Vector2 origin) {
+    Array<Vector2> wayPoints = routingComponent.getWayPoints(origin);
 
-    SteerableComponent sourceSteering = npc.getComponent(SteerableComponent.class);
+    LinePath<Vector2> linePath = new LinePath<>(wayPoints, false);
+    FollowPath followPathSB = new FollowPath<>(sourceSteering, linePath, 1);
+    followPathSB.setTimeToTarget(0.1f);
+    followPathSB.setArrivalTolerance(0.01f);
+    followPathSB.setDecelerationRadius(5);
+
+    BlendedSteering<Vector2> blendedSteering = new BlendedSteering<Vector2>(sourceSteering);
+    blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
+    blendedSteering.add(followPathSB, 1f);
+
+    sourceSteering.setBehavior(blendedSteering);
+  }
+
+  public static void setRouteSteering(SteerableComponent sourceSteering, RoutingComponent routingComponent, Vector2 origin) {
+    Array<Vector2> wayPoints = routingComponent.getWayPoints(origin);
 
     LinePath<Vector2> linePath = new LinePath<>(wayPoints, false);
     FollowPath followPathSB = new FollowPath<>(sourceSteering, linePath, 1);

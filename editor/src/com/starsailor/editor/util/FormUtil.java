@@ -182,8 +182,6 @@ public class FormUtil {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
-
-          data.setExtendParentData(false);
         }
       });
 
@@ -225,13 +223,11 @@ public class FormUtil {
               field.set(data, gameDataWithId.getId());
             }
             else {
-              field.set(data, 0);
+              field.set(data, null);
             }
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
-
-          data.setExtendParentData(false);
         }
       });
 
@@ -269,8 +265,6 @@ public class FormUtil {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
-
-          data.setExtendParentData(false);
         }
       });
       editorNode = comboBox;
@@ -326,15 +320,10 @@ public class FormUtil {
               else if(field.getType().equals(float.class)) {
                 value = Float.parseFloat(newValue);
               }
-              else if(field.getType().equals(int.class)) {
-                value = Integer.parseInt(newValue);
-              }
               field.set(data, value);
-            } catch (Exception e) {
+            } catch (IllegalAccessException e) {
               e.printStackTrace();
             }
-
-            data.setExtendParentData(false);
           }
         });
         editorNode = textBox;

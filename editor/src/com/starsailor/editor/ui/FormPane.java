@@ -223,7 +223,7 @@ public class FormPane extends BorderPane implements ChangeListener {
     else if(field.getName().equals("weapons")) {
       StatusData statusData = (StatusData) data;
       List<Integer> weaponIds = statusData.getWeapons();
-      List<GameDataWithId> weapons = UIController.getInstance().getGameDataLoader().getGameDataFor(weaponIds);
+      List<GameDataWithId> weapons = UIController.getInstance().getGameDataLoader().getModels(weaponIds);
       List allWeapons = UIController.getInstance().getGameDataLoader().getWeapons();
       UIController.getInstance().removeDuplicates(allWeapons, weapons);
       return FormUtil.addListChooser(grid, data, field, row, allWeapons, weapons);

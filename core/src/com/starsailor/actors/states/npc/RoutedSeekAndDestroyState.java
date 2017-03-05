@@ -14,7 +14,7 @@ public class RoutedSeekAndDestroyState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered RoutedSeekAndDestroyState");
-    SteeringManager.setRouteSteering(npc);
+    SteeringManager.setRouteSteering(npc.steerableComponent, npc.routingComponent, npc.getCenter());
   }
 
   @Override
