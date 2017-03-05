@@ -5,6 +5,8 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.model.SteeringData;
 
+import static com.starsailor.util.Settings.MPP;
+
 /**
  * Model for a tracking point of a route.
  * This model is an entity although it is never added to Ashley.
@@ -33,6 +35,10 @@ public class RoutePoint extends GameEntity {
 
   public Vector2 getPosition() {
     return position;
+  }
+
+  public Vector2 getBox2dPosition() {
+    return new Vector2(getPosition()).scl(MPP);
   }
 
   public void setPosition(Vector2 position) {

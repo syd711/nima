@@ -24,6 +24,15 @@ public class RoutingComponent implements Component, Pool.Poolable {
     targets = null;
   }
 
+  public RoutePoint getWayPoint(int index) {
+    for(RoutePoint target : targets) {
+      if(target.getIndex() == index) {
+        return target;
+      }
+    }
+    return null;
+  }
+
   public Array<Vector2> getWayPoints(Vector2 origin) {
     List<Vector2> result = new ArrayList<>();
     if(origin != null) {
@@ -48,6 +57,8 @@ public class RoutingComponent implements Component, Pool.Poolable {
       }
     });
   }
+
+  //------------------------ Helper --------------------------------------
 
   private int findClosestIndex(List<RoutePoint> result, Vector2 origin) {
     RoutePoint closestPoint = null;

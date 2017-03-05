@@ -29,7 +29,7 @@ public class Route extends GameEntity {
       return routeFormationOwners.get(routeIndex);
     }
 
-    FormationOwner formationOwner = new FormationOwner(this);
+    FormationOwner formationOwner = new FormationOwner(this, routeIndex);
     routeFormationOwners.put(routeIndex, formationOwner);
     EntityManager.getInstance().add(formationOwner);
     return formationOwner;
