@@ -2,7 +2,7 @@
   "fraction": "ETYR",
   "shipType": 35006,
   "formationOwner": 0,
-  "followRouteRabbit": false,
+  "routeIndex": 0,
   "name": "root",
   "id": 40000,
   "children": [
@@ -10,7 +10,7 @@
       "fraction": "PLAYER",
       "shipType": 35012,
       "formationOwner": 0,
-      "followRouteRabbit": false,
+      "routeIndex": 0,
       "name": "Player",
       "id": 35013,
       "children": []
@@ -22,7 +22,7 @@
       "defaultSteering": "ROUTE",
       "battleSteering": "FLEE",
       "route": "Route 1",
-      "followRouteRabbit": false,
+      "routeIndex": 0,
       "name": "Merchant 1",
       "id": 35008,
       "children": []
@@ -34,7 +34,7 @@
       "defaultSteering": "ROUTE",
       "battleSteering": "ATTACK",
       "route": "Route 1",
-      "followRouteRabbit": false,
+      "routeIndex": 0,
       "name": "Crusader 1 for Merchant 1",
       "id": 35011,
       "children": [
@@ -44,7 +44,7 @@
           "formationOwner": 35008,
           "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
-          "followRouteRabbit": false,
+          "routeIndex": 0,
           "name": "Crusader 2 for Merchant 1",
           "id": 35014,
           "children": []
@@ -55,7 +55,7 @@
           "formationOwner": 35008,
           "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
-          "followRouteRabbit": false,
+          "routeIndex": 0,
           "name": "Crusader 3 for Merchant 1",
           "id": 35015,
           "children": []
@@ -67,7 +67,7 @@
           "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
           "route": "Route 1",
-          "followRouteRabbit": true,
+          "routeIndex": 1,
           "name": "Crusader 4 for Merchant 1",
           "id": 35016,
           "children": []
@@ -79,7 +79,7 @@
           "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
           "route": "Route 1",
-          "followRouteRabbit": true,
+          "routeIndex": 1,
           "name": "Crusader 5 for Merchant 1",
           "id": 35019,
           "children": []
@@ -91,7 +91,7 @@
           "defaultSteering": "ROUTE",
           "battleSteering": "ATTACK",
           "route": "Route 1",
-          "followRouteRabbit": true,
+          "routeIndex": 1,
           "name": "Crusader 6 for Merchant 1",
           "id": 35020,
           "children": []
@@ -105,7 +105,7 @@
       "defaultSteering": "SEEK_AND_DESTROY",
       "battleSteering": "ATTACK",
       "route": "Route 1",
-      "followRouteRabbit": false,
+      "routeIndex": 0,
       "name": "Crusader",
       "id": 35017,
       "children": []

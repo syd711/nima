@@ -206,6 +206,13 @@ public class FormPane extends BorderPane implements ChangeListener {
       routes.add(0, null);
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, routes);
     }
+    else if(field.getName().equals("routeIndex")) {
+      List<String> values = new ArrayList<>();
+      for(int i=0; i<50; i++) {
+        values.add(String.valueOf(i));
+      }
+      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, values);
+    }
     else if(field.getName().equals("fraction")) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
     }

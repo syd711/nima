@@ -166,7 +166,7 @@ public class FormUtil {
   public static ComboBox addBindingComboBoxWithDefaults(GridPane grid, GameData data, Field field, int row, List<String> values) {
     try {
       String label = splitCamelCase(StringUtils.capitalize(field.getName())) + ":";
-      String value = (String) field.get(data);
+      Object value = field.get(data);
       Label condLabel = new Label(label);
       GridPane.setHalignment(condLabel, HPos.RIGHT);
       GridPane.setConstraints(condLabel, 0, row);
@@ -178,7 +178,18 @@ public class FormUtil {
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
           try {
-            field.set(data, ""+newValue);
+            Object value = newValue;
+            if(field.getType().equals(long.class)) {
+              value = Long.parseLong(String.valueOf(newValue));
+            }
+            else if(field.getType().equals(float.class)) {
+              value = Float.parseFloat(String.valueOf(newValue));
+            }
+            else if(field.getType().equals(int.class)) {
+              value = Integer.parseInt(String.valueOf(newValue));
+            }
+            field.set(data, value);
+
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }

@@ -3,7 +3,6 @@ package com.starsailor.actors;
 import com.badlogic.gdx.Gdx;
 import com.starsailor.actors.route.Route;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.model.items.ShipItem;
 
 import java.util.*;
 
@@ -13,33 +12,46 @@ import java.util.*;
 public class NPCLauncher {
 
   public static void launch(List<NPC> items) {
-    Map<String,FormationOwner> routeRabbits = new HashMap<>();
+    List<NPC> singletonList = filterNPCs(items, false);
+    launchUnroutedNPCs(singletonList);
 
-    for(NPC npc : items) {
-      npc.switchToDefaultState();
-      EntityManager.getInstance().add(npc);
-      Gdx.app.log(NPCLauncher.class.getName(), "Added '" + npc + "'");
+    List<NPC> memberList = filterNPCs(items, true);
 
-      ShipItem shipItem = npc.getShipItem();
-      String routeName = shipItem.getRoute();
-      if(routeName != null && shipItem.isFollowRouteRabbit()) {
-        List<Route> entities = EntityManager.getInstance().getEntities(Route.class);
-        for(Route route : entities) {
-          if(route.getName().equals(routeName) && !routeRabbits.containsKey(routeName)) {
-            FormationOwner formationOwner = new FormationOwner(route);
-            routeRabbits.put(routeName, formationOwner);
-          }
-        }
-      }
+    Map<String, FormationOwner> formationOwners = new HashMap<>();
+    List<Route> entities = EntityManager.getInstance().getEntities(Route.class);
+    for(Route route : entities) {
+//      if(route.getName().equals(routeName) && !formationOwners.containsKey(routeName)) {
+//        FormationOwner formationOwner = new FormationOwner(route);
+//        formationOwner.put(routeName, formationOwner);
+//      }
     }
 
-    Collection<FormationOwner> values = routeRabbits.values();
+    Collection<FormationOwner> values = formationOwners.values();
     for(FormationOwner value : values) {
       EntityManager.getInstance().add(value);
     }
   }
 
-  private static void launchRouteRabbit(Route route) {
+  private static List<NPC> filterNPCs(List<NPC> items, boolean followRabbit) {
+    List<NPC> result = new ArrayList<>(items);
+    Iterator<NPC> iterator = result.iterator();
+    while(iterator.hasNext()) {
+      NPC next = iterator.next();
+      if(next.getShipItem().getRouteIndex() == 0 && followRabbit) {
+        iterator.remove();
+      }
+      else if(next.getShipItem().getRouteIndex() > 0 && !followRabbit) {
+        iterator.remove();
+      }
+    }
+    return result;
+  }
 
+  private static void launchUnroutedNPCs(List<NPC> npcs) {
+    for(NPC npc : npcs) {
+      npc.switchToDefaultState();
+      EntityManager.getInstance().add(npc);
+      Gdx.app.log(NPCLauncher.class.getName(), "Added '" + npc + "'");
+    }
   }
 }

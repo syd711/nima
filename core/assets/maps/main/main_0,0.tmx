@@ -112,7 +112,7 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
-  <object id="38" name="Route 1" type="Route" x="498.5" y="1045.5" width="43" height="43">
+  <object id="38" name="Route 1" type="Route" x="318.5" y="681.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="1"/>
    </properties>
@@ -148,7 +148,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="109" name="35011" x="296" y="624">
+  <object id="109" name="35011" x="258" y="566">
    <ellipse/>
   </object>
   <object id="110" name="35019" x="420" y="782">
