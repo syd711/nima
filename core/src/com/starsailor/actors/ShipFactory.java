@@ -1,6 +1,7 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.route.Route;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
@@ -31,7 +32,7 @@ public class ShipFactory {
    */
   public static NPC createNPC(ShipItem shipItem, Vector2 position) {
     NPC npc = new NPC(shipItem, position);
-    com.starsailor.actors.route.Route route = getRoute(shipItem);
+    Route route = getRoute(shipItem);
     if(route != null) {
       npc.setRoute(route);
     }
@@ -84,7 +85,7 @@ public class ShipFactory {
 
   private static com.starsailor.actors.route.Route getRoute(ShipItem shipItem) {
     if(shipItem.getRoute() != null) {
-      List<com.starsailor.actors.route.Route> entities = EntityManager.getInstance().getEntities(com.starsailor.actors.route.Route.class);
+      List<com.starsailor.actors.route.Route> entities = EntityManager.getInstance().getEntities(Route.class);
       for(com.starsailor.actors.route.Route entity : entities) {
         if(entity.getName().equals(shipItem.getRoute())) {
           return entity;

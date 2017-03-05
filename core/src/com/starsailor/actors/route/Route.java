@@ -1,62 +1,45 @@
 package com.starsailor.actors.route;
 
-import com.badlogic.gdx.ai.fsm.StackStateMachine;
-import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.FormationOwner;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RouteComponent;
-import com.starsailor.components.StatefulComponent;
-import com.starsailor.model.ShipData;
+import com.starsailor.managers.EntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a route
  */
 public class Route extends GameEntity {
   public RouteComponent routeComponent;
-  public StatefulComponent statefulComponent;
-
-  private List<RouteMember> members = new ArrayList<>();
 
   private String name;
+
+  private Map<Integer, FormationOwner> routeFormationOwners = new HashMap<>();
 
   public Route(String name) {
     this.name = name;
     routeComponent = ComponentFactory.addRouteComponent(this);
-    statefulComponent = ComponentFactory.addStatefulComponent(this);
-    statefulComponent.stateMachine = new StackStateMachine(this, RouteStates.IDLE);
+  }
+
+  public FormationOwner getOrCreateFormationMember(int routeIndex) {
+    if(routeFormationOwners.containsKey(routeIndex)) {
+      return routeFormationOwners.get(routeIndex);
+    }
+
+    FormationOwner formationOwner = new FormationOwner(this);
+    routeFormationOwners.put(routeIndex, formationOwner);
+    EntityManager.getInstance().add(formationOwner);
+    return formationOwner;
   }
 
   public boolean isActive() {
    return true;
   }
 
-  public void addMember(String name, ShipData ship, Vector2 centeredPosition, State state) {
-    members.add(new RouteMember(name, ship, centeredPosition, state));
-  }
-
   public String getName() {
     return name;
-  }
-
-  /**
-   * We assume that there can be different ships on this route
-   */
-  public class RouteMember {
-    public String name;
-    public ShipData shipData;
-    public Vector2 position;
-    public State state;
-
-    public RouteMember(String name, ShipData ship, Vector2 centeredPosition, State state) {
-      this.name = name;
-      this.shipData = ship;
-      this.position = centeredPosition;
-      this.state = state;
-    }
   }
 }

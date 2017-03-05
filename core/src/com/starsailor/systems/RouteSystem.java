@@ -3,7 +3,6 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.route.Route;
-import com.starsailor.actors.states.route.RouteStates;
 import com.starsailor.components.RouteComponent;
 
 /**
@@ -18,11 +17,6 @@ public class RouteSystem extends PauseableIteratingSystem {
 
   public void process(GameEntity entity, float deltaTime) {
     Route route = (Route) entity;
-    if(route.statefulComponent.stateMachine.getCurrentState().equals(RouteStates.IDLE)) {
-      route.statefulComponent.stateMachine.changeState(RouteStates.SPAWN_SHIPS);
-    }
-    else if(!route.isActive()) {
-      route.statefulComponent.stateMachine.changeState(RouteStates.INACTIVE);
-    }
+   
   }
 }

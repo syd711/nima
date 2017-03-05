@@ -178,7 +178,7 @@ public class EntityManager implements EntityListener {
 
         engine.removeEntity(entity);
 
-//        Gdx.app.log(this.toString(), "Destroyed " + entity);
+        Gdx.app.log(this.toString(), "Destroyed " + entity);
       }
       destroyEntities.clear();
 

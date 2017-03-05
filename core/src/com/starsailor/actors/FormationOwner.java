@@ -6,7 +6,6 @@ import com.starsailor.components.*;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.SteeringData;
-import com.starsailor.util.Settings;
 import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.box2d.Box2dUtil;
 
@@ -49,6 +48,7 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
   @Override
   public void addMember(Ship ship) {
     formationComponent.addMember(ship);
+    ship.setFormationOwner(this);
   }
 
   @Override

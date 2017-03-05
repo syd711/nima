@@ -3,6 +3,7 @@ package com.starsailor.actors;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.route.Route;
 import com.starsailor.actors.states.StateFactory;
 import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.npc.NPCStates;
@@ -28,7 +29,7 @@ public class NPC extends Ship implements Selectable {
   private BattleState battleState;
 
   //not necessarily set
-  private com.starsailor.actors.route.Route route;
+  private Route route;
 
   public NPC(ShipItem shipItem, Vector2 position) {
     super(shipItem, position);
@@ -52,6 +53,7 @@ public class NPC extends Ship implements Selectable {
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
+    switchToDefaultState();
   }
 
   @Override
@@ -126,12 +128,16 @@ public class NPC extends Ship implements Selectable {
     return selectionComponent.isActive();
   }
 
-  public void setRoute(com.starsailor.actors.route.Route route) {
+  public void setRoute(Route route) {
     this.route = route;
   }
 
-  // ---------------- Helper ------------------------------------------------------
+  public Route getRoute() {
+    return route;
+  }
 
+
+  // ---------------- Helper ------------------------------------------------------
 
   @Override
   public String toString() {

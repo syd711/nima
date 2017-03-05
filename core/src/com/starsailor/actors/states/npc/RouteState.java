@@ -14,7 +14,13 @@ public class RouteState extends NPCState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
     Gdx.app.log(getClass().getName(), npc + " entered RouteState");
-    SteeringManager.setRouteSteering(npc.steerableComponent, npc.routingComponent, npc.getCenter());
+    if(npc.getShipItem().getRouteIndex() == 0) {
+      SteeringManager.setRouteSteering(npc.steerableComponent, npc.routingComponent, npc.getCenter());
+    }
+    else {
+      SteeringManager.setRouteMemberSteering(npc);
+    }
+
   }
 
   @Override

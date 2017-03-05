@@ -1,10 +1,11 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.starsailor.actors.route.Route;
 import com.starsailor.managers.EntityManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Adds game entities to the game
@@ -16,19 +17,10 @@ public class NPCLauncher {
     launchUnroutedNPCs(singletonList);
 
     List<NPC> memberList = filterNPCs(items, true);
-
-    Map<String, FormationOwner> formationOwners = new HashMap<>();
-    List<Route> entities = EntityManager.getInstance().getEntities(Route.class);
-    for(Route route : entities) {
-//      if(route.getName().equals(routeName) && !formationOwners.containsKey(routeName)) {
-//        FormationOwner formationOwner = new FormationOwner(route);
-//        formationOwner.put(routeName, formationOwner);
-//      }
-    }
-
-    Collection<FormationOwner> values = formationOwners.values();
-    for(FormationOwner value : values) {
-      EntityManager.getInstance().add(value);
+    for(NPC npc : memberList) {
+      FormationOwner formationOwner = npc.getRoute().getOrCreateFormationMember(npc.getShipItem().getRouteIndex());
+      formationOwner.addMember(npc);
+      EntityManager.getInstance().add(npc);
     }
   }
 
@@ -49,7 +41,6 @@ public class NPCLauncher {
 
   private static void launchUnroutedNPCs(List<NPC> npcs) {
     for(NPC npc : npcs) {
-      npc.switchToDefaultState();
       EntityManager.getInstance().add(npc);
       Gdx.app.log(NPCLauncher.class.getName(), "Added '" + npc + "'");
     }
