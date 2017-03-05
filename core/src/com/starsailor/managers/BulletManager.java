@@ -108,7 +108,7 @@ public class BulletManager {
     if(bulletCount == 0) {
       bulletCount = 1;
     }
-    List<Ship> members = target.formationComponent.getMembers();
+    List<Ship> members = target.getFormationMembers();
     Iterator<Ship> iterator = members.iterator();
     Ship nextTarget = null;
     long time = System.currentTimeMillis();

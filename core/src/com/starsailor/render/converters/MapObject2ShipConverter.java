@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.NPCLauncher;
 import com.starsailor.actors.ShipFactory;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.GameDataManager;
 import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.items.ShipItem;
@@ -60,11 +60,7 @@ public class MapObject2ShipConverter extends DefaultMapObjectConverter {
 
   @Override
   public void finalize() {
-    for(NPC npc : newEntities) {
-      npc.switchToDefaultState();
-      EntityManager.getInstance().add(npc);
-      Gdx.app.log(this.getClass().getName(), "Added '" + npc + "'");
-    }
+    NPCLauncher.launch(new ArrayList<>(newEntities));
     newEntities.clear();
   }
 }

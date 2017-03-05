@@ -2,14 +2,12 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.ai.fma.Formation;
-import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.starsailor.actors.FormationOwner;
-import com.starsailor.actors.NPC;
+import com.starsailor.actors.IFormationMember;
+import com.starsailor.actors.IFormationOwner;
 import com.starsailor.actors.Ship;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +18,12 @@ public class FormationComponent implements Component, Pool.Poolable {
 
   private Formation<Vector2> formation;
 
-  private List<NPC> members = new ArrayList<>();
-  private FormationOwner formationOwner;
+  private List<Ship> members = new ArrayList<>();
+
   @Override
   public void reset() {
     this.formation = null;
     this.members.clear();
-    this.formationOwner = null;
   }
 
   public void updateFormation() {
@@ -39,8 +36,8 @@ public class FormationComponent implements Component, Pool.Poolable {
     this.formation = formation;
   }
 
-  public void addMember(FormationMember member) {
-    members.add((NPC) member);
+  public void addMember(IFormationMember member) {
+    members.add((Ship) member);
     formation.addMember(member);
   }
 
@@ -50,26 +47,10 @@ public class FormationComponent implements Component, Pool.Poolable {
   }
 
   public List<Ship> getMembers() {
-    FormationComponent formationComponent = formationOwner.getComponent(FormationComponent.class);
-    List<Ship> result = new ArrayList<>();
-    result.addAll(formationComponent.members);
-    return result;
+    return members;
   }
 
-  @Nullable
-  public Ship getNearestMemberTo(Ship ship) {
-    List<Ship> members = getMembers();
-    Ship nearest = null;
-    for(Ship member : members) {
-      if(nearest == null) {
-        nearest = member;
-        continue;
-      }
-
-      if(nearest.getDistanceTo(ship) > member.getDistanceTo(ship)) {
-        nearest = member;
-      }
-    }
-    return nearest;
+  public Formation<Vector2> getFormation() {
+    return formation;
   }
 }

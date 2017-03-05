@@ -76,7 +76,7 @@ public class Box2dRaycastCollisionDetector implements RaycastCollisionDetector<V
       }
 
       Ship ship = (Ship) sourceBody.getUserData();
-      if(ship.formationComponent.getMembers().contains(entity)) {
+      if(ship.getFormationMembers().contains(entity)) {
         return fraction;
       }
 

@@ -147,7 +147,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     List<FlaresBullet> flares = EntityManager.getInstance().getEntities(FlaresBullet.class);
     for(FlaresBullet flare : flares) {
       if(!flare.owner.equals(this.owner) && flare.bodyComponent.body.isActive()) { //body is still active
-        if(onlyEnemyFlares && owner.formationComponent.getMembers().contains(flare.owner)) {
+        if(onlyEnemyFlares && owner.getFormationMembers().contains(flare.owner)) {
           continue;
         }
         result.add(flare);

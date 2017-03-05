@@ -47,7 +47,7 @@ abstract public class NPCState {
    * so the enemy is out of range and the group returns to the default state.
    */
   protected boolean isGroupInRetreatingDistance(Ship ship, Ship enemy) {
-    List<Ship> members = ship.formationComponent.getMembers();
+    List<Ship> members = ship.getFormationMembers();
     for(Ship member : members) {
       if(!isInRetreatingDistance(member, enemy)) {
         return false;
@@ -57,7 +57,7 @@ abstract public class NPCState {
   }
 
   protected boolean iAmTheOnlyFormationMember(Ship ship) {
-    List<Ship> members = ship.formationComponent.getMembers();
+    List<Ship> members = ship.getFormationMembers();
     for(Ship member : members) {
       if(member.equals(ship)) {
         continue;
@@ -70,7 +70,7 @@ abstract public class NPCState {
 
 
   protected boolean iAmTheOnlyOneNotInDefaultState(Ship ship) {
-    List<Ship> members = ship.formationComponent.getMembers();
+    List<Ship> members = ship.getFormationMembers();
     for(Ship member : members) {
       if(member.equals(ship)) {
         continue;

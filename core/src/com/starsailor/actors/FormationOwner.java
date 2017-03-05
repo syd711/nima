@@ -9,10 +9,12 @@ import com.starsailor.model.SteeringData;
 import com.starsailor.util.Settings;
 import com.starsailor.util.box2d.BodyGenerator;
 
+import java.util.List;
+
 /**
  * Invisible route rabbit to be followed in a formation
  */
-public class FormationOwner extends GameEntity {
+public class FormationOwner extends GameEntity implements IFormationOwner<Ship> {
   public static final float FORMATION_DISTANCE = 100;
 
   private PositionComponent positionComponent;
@@ -37,6 +39,23 @@ public class FormationOwner extends GameEntity {
       routingComponent = ComponentFactory.addRoutingComponent(this, route);
     }
   }
+
+  @Override
+  public List<Ship> getMembers() {
+    return formationComponent.getMembers();
+  }
+
+  @Override
+  public void addMember(Ship ship) {
+    formationComponent.addMember(ship);
+  }
+
+  @Override
+  public void removeMember(Ship member) {
+    formationComponent.removeMember(member);
+  }
+
+  //-------------------- Helper ---------------------------------------------------
 
   /**
    * The dummy body hard coded
@@ -69,5 +88,4 @@ public class FormationOwner extends GameEntity {
     steeringData.setMaxAngularSpeed(4f);
     return steeringData;
   }
-
 }

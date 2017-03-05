@@ -13,10 +13,13 @@ import com.starsailor.managers.SelectionManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.util.GraphicsUtil;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * The player with all ashley components.
  */
-public class Player extends Ship {
+public class Player extends Ship implements IFormationOwner<Ship> {
   private static Player instance = null;
 
   public Entity target;
@@ -35,9 +38,6 @@ public class Player extends Ship {
   public void createComponents(Fraction fraction) {
     super.createComponents(fraction);
     ComponentFactory.addPlayerCollisionComponent(this);
-
-    //make player always a member of the formationComponent, maybe we get a fellow someday?
-    formationComponent.formationOwner = this;
 
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
@@ -72,5 +72,20 @@ public class Player extends Ship {
     target = EntityManager.getInstance().getEntityAt(worldCoordinates);
     getStateMachine().changeState(PlayerState.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
+  }
+
+  @Override
+  public List<Ship> getMembers() {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public void addMember(Ship ship) {
+    //TODO
+  }
+
+  @Override
+  public void removeMember(Ship member) {
+    //TODO
   }
 }

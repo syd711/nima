@@ -10,7 +10,6 @@ import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
 import com.starsailor.components.SelectionComponent;
 import com.starsailor.components.collision.NPCCollisionComponent;
-import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.model.items.ShipItem;
 
@@ -50,7 +49,6 @@ public class NPC extends Ship implements Selectable {
 
     if(this.route != null) {
       routingComponent = ComponentFactory.addRoutingComponent(this, route);
-      formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, shipData.getDistanceData().getFormationDistance());
     }
 
     getStateMachine().setInitialState(NPCStates.IDLE);
@@ -77,7 +75,7 @@ public class NPC extends Ship implements Selectable {
       getStateMachine().changeState(getBattleState());
 
       //...and notify all members that 'we' are attacked
-      List<Ship> groupMembers = formationComponent.getMembers();
+      List<Ship> groupMembers = getFormationMembers();
       for(Ship formationMember : groupMembers) {
         if(!formationMember.equals(this)) {
           ((NPC) formationMember).switchToBattleState(enemy);
@@ -86,7 +84,7 @@ public class NPC extends Ship implements Selectable {
     }
     else if(isInBattleState()) {
       getBattleState().updateEnemyList(enemy);
-      List<Ship> groupMembers = formationComponent.getMembers();
+      List<Ship> groupMembers = getFormationMembers();
       for(Ship formationMember : groupMembers) {
         if(!formationMember.equals(this)) {
           formationMember.getBattleState().updateEnemyList(enemy);

@@ -16,7 +16,7 @@ abstract public class BattleState extends NPCState implements State<NPC> {
   private List<Ship> attackingGroupMembers = new ArrayList<>();
 
   public void updateEnemyList(Ship enemy) {
-    List<Ship> members = enemy.formationComponent.getMembers();
+    List<Ship> members = enemy.getFormationMembers();
     for(Ship member : members) {
       if(!attackingGroupMembers.contains(member)) {
         attackingGroupMembers.add(member);

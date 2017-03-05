@@ -67,7 +67,7 @@ abstract public class Bullet extends GameEntity {
       return false;
     }
 
-    List<Ship> formationMembers = owner.formationComponent.getMembers();
+    List<Ship> formationMembers = owner.getFormationMembers();
     for(Ship formationMember : formationMembers) {
       //the target may differ from the actual hit
       if(formationMember.equals(actualHit)) {
@@ -219,7 +219,7 @@ abstract public class Bullet extends GameEntity {
    * Checks if this bullet hit a groupmember of the given npc.
    */
   public boolean attackedMemberOf(NPC npc) {
-    List<Ship> members = target.formationComponent.getMembers();
+    List<Ship> members = target.getFormationMembers();
     for(Ship enemyMember : members) {
       if(enemyMember.equals(npc)) {
         return true;

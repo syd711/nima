@@ -55,9 +55,9 @@ public class AutoDestroySystem extends IteratingSystem {
         }
 
         //remove ship from formation
-        Ship formationOwner = ship.formationComponent.formationOwner;
-        if(!formationOwner.equals(ship)) {
-          formationOwner.formationComponent.removeMember(ship);
+        IFormationOwner formationOwner = ship.getFormationOwner();
+        if(formationOwner != null && !formationOwner.equals(ship)) {
+          formationOwner.removeMember(ship);
         }
       }
     }
@@ -70,9 +70,22 @@ public class AutoDestroySystem extends IteratingSystem {
         boolean selected = npc.selectionComponent.isActive();
         if(selected) {
           SelectionManager.getInstance().setSelection(null);
-          Ship member = npc.formationComponent.getNearestMemberTo(Player.getInstance());
-          if(member != null) {
-            SelectionManager.getInstance().setSelection((Selectable) member);
+
+          List<Ship> members = npc.getFormationMembers();
+          Ship nearest = null;
+          for(Ship member : members) {
+            if(nearest == null) {
+              nearest = member;
+              continue;
+            }
+
+            if(nearest.getDistanceTo(npc) > member.getDistanceTo(npc)) {
+              nearest = member;
+            }
+          }
+
+          if(nearest != null) {
+            SelectionManager.getInstance().setSelection((Selectable) nearest);
           }
         }
       }

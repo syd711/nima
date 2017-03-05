@@ -4,10 +4,12 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fma.Formation;
-import com.badlogic.gdx.ai.fma.FreeSlotAssignmentStrategy;
+import com.badlogic.gdx.ai.fma.FormationMember;
+import com.badlogic.gdx.ai.fma.SoftRoleSlotAssignmentStrategy;
 import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
 import com.starsailor.actors.FormationOwner;
 import com.starsailor.actors.Fraction;
+import com.starsailor.actors.Ship;
 import com.starsailor.actors.Spine;
 import com.starsailor.actors.route.Route;
 import com.starsailor.components.collision.*;
@@ -242,10 +245,20 @@ public class ComponentFactory {
 
   public static FormationComponent addFormationComponent(FormationOwner formationOwner, SteerableComponent formationOwnerSteering, float distance) {
     FormationComponent component = createComponent(FormationComponent.class);
-    FreeSlotAssignmentStrategy<Vector2> freeSlotAssignmentStrategy = new FreeSlotAssignmentStrategy<>();
+    SoftRoleSlotAssignmentStrategy.SlotCostProvider<Vector2> slotCostProvider = new SoftRoleSlotAssignmentStrategy.SlotCostProvider<Vector2>() {
+      @Override
+      public float getCost (FormationMember<Vector2> member, int slotNumber) {
+        Ship ship = (Ship)member;
+        float cost = 10000f * 2 * component.getFormation().getSlotAssignmentCount();
+        Location<Vector2> slotTarget = component.getFormation().getSlotAssignmentAt(slotNumber).member.getTargetLocation();
+        return cost + ship.bodyComponent.body.getPosition().dst(slotTarget.getPosition());
+      }
+    };
+    SoftRoleSlotAssignmentStrategy slotAssignmentStrategy = new SoftRoleSlotAssignmentStrategy<>(slotCostProvider);
     DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance * MPP);
-    Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, freeSlotAssignmentStrategy);
+    Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, slotAssignmentStrategy);
     component.setFormation(formation);
+
     formationOwner.add(component);
     return component;
   }

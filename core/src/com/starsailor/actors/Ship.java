@@ -1,6 +1,5 @@
 package com.starsailor.actors;
 
-import com.badlogic.gdx.ai.fma.FormationMember;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.utils.Location;
@@ -17,12 +16,13 @@ import com.starsailor.util.box2d.Box2dLocation;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * The general ship entity which is always a spine.
  */
-abstract public class Ship extends Spine implements FormationMember<Vector2> {
+abstract public class Ship extends Spine implements IFormationMember<Ship> {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public SpineComponent spineComponent;
@@ -32,13 +32,13 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public BodyComponent bodyComponent;
   public ParticleComponent particleComponent;
   public ShieldComponent shieldComponent;
-  public FormationComponent formationComponent;
   public FractionComponent fractionComponent;
   public HealthComponent healthComponent;
 
   public ShipData shipData;
   protected ShipItem shipItem;
 
+  private IFormationOwner formationOwner;
   private Box2dLocation location;
 
   //only used during initializing
@@ -65,6 +65,11 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
     fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
 
     this.location = new Box2dLocation(new Vector2());
+  }
+
+  @Override
+  public void setFormationOwner(IFormationOwner formationOwner) {
+    this.formationOwner = formationOwner;
   }
 
   public int getItemId() {
@@ -247,5 +252,16 @@ abstract public class Ship extends Spine implements FormationMember<Vector2> {
   public boolean isInBattleState() {
     State currentState = getStateMachine().getCurrentState();
     return currentState.equals(getBattleState());
+  }
+
+  public List<Ship> getFormationMembers() {
+    if(formationOwner != null) {
+      return formationOwner.getMembers();
+    }
+    return Arrays.asList(this);
+  }
+
+  public IFormationOwner getFormationOwner() {
+    return formationOwner;
   }
 }
