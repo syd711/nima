@@ -21,10 +21,10 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
   public BodyComponent bodyComponent;
   public SteerableComponent steerableComponent;
   private FormationComponent formationComponent;
+  public StatefulComponent statefulComponent;
   public RoutingComponent routingComponent;
 
   private Route route;
-  private StatefulComponent statefulComponent;
 
   public FormationOwner(Route route, int routePointIndex) {
     this.route = route;
@@ -42,6 +42,18 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
 
     statefulComponent.stateMachine.setInitialState(new IdleState());
     statefulComponent.stateMachine.changeState(new RouteState());
+  }
+
+
+  public boolean isInBattleState() {
+    List<Ship> members = formationComponent.getMembers();
+    for(Ship member : members) {
+      if(member.isInBattleState()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @Override
@@ -98,4 +110,5 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
   public String toString() {
     return "Formation Owner on " + route;
   }
+
 }

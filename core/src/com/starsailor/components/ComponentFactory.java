@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ai.fma.Formation;
 import com.badlogic.gdx.ai.fma.FormationMember;
+import com.badlogic.gdx.ai.fma.FormationMotionModerator;
 import com.badlogic.gdx.ai.fma.SoftRoleSlotAssignmentStrategy;
 import com.badlogic.gdx.ai.fma.patterns.DefensiveCircleFormationPattern;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
@@ -256,9 +257,16 @@ public class ComponentFactory {
     };
     SoftRoleSlotAssignmentStrategy slotAssignmentStrategy = new SoftRoleSlotAssignmentStrategy<>(slotCostProvider);
     DefensiveCircleFormationPattern<Vector2> defensiveCirclePattern = new DefensiveCircleFormationPattern<>(distance * MPP);
-    Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, slotAssignmentStrategy);
-    component.setFormation(formation);
 
+    Formation<Vector2> formation = new Formation<>(formationOwnerSteering, defensiveCirclePattern, slotAssignmentStrategy);
+    formation.setMotionModerator(new FormationMotionModerator<Vector2>() {
+      @Override
+      public void updateAnchorPoint(Location<Vector2> anchor) {
+       SteerableComponent steerableComponent = (SteerableComponent) anchor;
+      }
+    });
+
+    component.setFormation(formation);
     formationOwner.add(component);
     return component;
   }

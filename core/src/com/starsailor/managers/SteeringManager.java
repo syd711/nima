@@ -32,8 +32,8 @@ public class SteeringManager {
     Arrive<Vector2> arrive = new Arrive<>(sourceSteering, npc.getTargetLocation());
     arrive.setLimiter(new LinearLimiter(sourceSteering.getMaxLinearAcceleration(), sourceSteering.getMaxLinearSpeed()));
     arrive.setTimeToTarget(1f);
-    arrive.setArrivalTolerance(0.2f);
-    arrive.setDecelerationRadius(10);
+    arrive.setArrivalTolerance(0.01f);
+    arrive.setDecelerationRadius(5);
 
     LookWhereYouAreGoing lookWhereYouAreGoingSB = new LookWhereYouAreGoing<>(sourceSteering);
     lookWhereYouAreGoingSB.setLimiter(new AngularLimiter(sourceSteering.getMaxAngularAcceleration(), sourceSteering.getMaxAngularSpeed()));

@@ -13,12 +13,14 @@ public class RouteState implements State<FormationOwner> {
   @Override
   public void enter(FormationOwner formationOwner) {
     Gdx.app.log(getClass().getName(), formationOwner + " entered RouteState");
-
     SteeringManager.setFormationOwnerSteering(formationOwner);
   }
 
   @Override
   public void update(FormationOwner formationOwner) {
+    if(formationOwner.isInBattleState()) {
+      formationOwner.statefulComponent.stateMachine.changeState(new IdleState());
+    }
   }
 
   @Override
