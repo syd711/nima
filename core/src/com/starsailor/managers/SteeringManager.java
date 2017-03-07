@@ -63,7 +63,7 @@ public class SteeringManager {
     blendedSteering.setLimiter(NullLimiter.NEUTRAL_LIMITER);
     blendedSteering.add(followPathSB, 1f);
 
-    formationOwner.steerableComponent.setBehavior(blendedSteering);
+    formationOwner.steerableComponent.setBehavior(followPathSB);
   }
 
   public static void setRouteSteering(SteerableComponent sourceSteering, RoutingComponent routingComponent, Vector2 origin) {

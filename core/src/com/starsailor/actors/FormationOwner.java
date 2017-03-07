@@ -20,7 +20,7 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
 
   public BodyComponent bodyComponent;
   public SteerableComponent steerableComponent;
-  private FormationComponent formationComponent;
+  public FormationComponent formationComponent;
   public StatefulComponent statefulComponent;
   public RoutingComponent routingComponent;
 
@@ -43,7 +43,6 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
     statefulComponent.stateMachine.setInitialState(new IdleState());
     statefulComponent.stateMachine.changeState(new RouteState());
   }
-
 
   public boolean isInBattleState() {
     List<Ship> members = formationComponent.getMembers();
@@ -72,6 +71,18 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
     formationComponent.removeMember(member);
   }
 
+  @Override
+  public float getMaxMemberDistance() {
+    float distance = 0;
+    for(Ship ship : getMembers()) {
+      float distanceTo = ship.getDistanceTo(this);
+      if(distanceTo > distance) {
+        distance = distanceTo;
+      }
+    }
+    return distance;
+  }
+
   //-------------------- Helper ---------------------------------------------------
 
   /**
@@ -85,7 +96,7 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
     bodyData.setAngularDamping(3);
     bodyData.setLinearDamping(12);
     bodyData.setSensor(true);
-    bodyData.setDensity(5); //make more here since the object is a small dummy
+    bodyData.setDensity(1); //make more here since the object is a small dummy
     bodyData.setHeight(10);
     bodyData.setWidth(10);
     return bodyData;

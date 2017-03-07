@@ -133,6 +133,14 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
   }
 
   /**
+   * Returns the distance to another ship
+   */
+  public float getDistanceTo(IFormationOwner formationOwner) {
+    BodyComponent component = ((GameEntity) formationOwner).getComponent(BodyComponent.class);
+    return component.getWorldPosition().dst(this.getCenter());
+  }
+
+  /**
    * Returns the body distance to bullet
    */
   public float getDistanceTo(Bullet bullet) {

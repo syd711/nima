@@ -12,4 +12,6 @@ public interface IFormationOwner<T extends IFormationMember> {
   void addMember(T member);
 
   void removeMember(T member);
+
+  float getMaxMemberDistance();
 }

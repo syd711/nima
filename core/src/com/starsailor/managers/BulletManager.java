@@ -115,8 +115,14 @@ public class BulletManager {
     long shootingTime = time + weaponData.getBulletDelay();
 
     //queue primary target first
-    QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponData, shootingTime);
-    delayedBulletsQueue.add(queuedBullet);
+    while(iterator.hasNext()) {
+      nextTarget = iterator.next();
+      if(nextTarget.equals(target)) {
+        QueuedBullet queuedBullet = new QueuedBullet(owner, target, weaponData, shootingTime);
+        delayedBulletsQueue.add(queuedBullet);
+        break;
+      }
+    }
 
     for(int i = 1; i < bulletCount; i++) {
       if(!iterator.hasNext()) {
@@ -126,7 +132,7 @@ public class BulletManager {
       nextTarget = iterator.next();
       shootingTime = time + weaponData.getBulletDelay()*(i+1);
 
-      queuedBullet = new QueuedBullet(owner, nextTarget, weaponData, shootingTime);
+      QueuedBullet queuedBullet = new QueuedBullet(owner, nextTarget, weaponData, shootingTime);
       delayedBulletsQueue.add(queuedBullet);
     }
 

@@ -88,4 +88,9 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   public void removeMember(Ship member) {
     //TODO
   }
+
+  @Override
+  public float getMaxMemberDistance() {
+    return 0;
+  }
 }

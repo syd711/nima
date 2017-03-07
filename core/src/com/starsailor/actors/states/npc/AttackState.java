@@ -29,7 +29,7 @@ public class AttackState extends BattleState {
 
     //check if there are more attackers first
     if(attackingGroupMembers.isEmpty()) {
-      Gdx.app.log(getClass().getName(), npc + " left AttackState, because it's there are no more enemies");
+      Gdx.app.log(getClass().getName(), npc + " left AttackState, because there are no more enemies");
       //..and return to default state
       npc.switchToDefaultState();
       return;

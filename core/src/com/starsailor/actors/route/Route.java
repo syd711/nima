@@ -42,4 +42,9 @@ public class Route extends GameEntity {
   public String getName() {
     return name;
   }
+
+  @Override
+  public String toString() {
+    return "Route '" + getName() + "'";
+  }
 }
