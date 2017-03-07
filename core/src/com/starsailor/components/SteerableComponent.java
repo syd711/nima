@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.model.SteeringData;
-import com.starsailor.util.box2d.Box2dLocation;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
+import com.starsailor.util.box2d.Box2dLocation;
 
 /**
  * AI steerable implementation for box2d bodies.
@@ -76,45 +76,44 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   public void update(float delta) {
     if(isUpdateable()) {
-      if(behavior != null) {
-        behavior.calculateSteering(steeringOutput);
-        applySteering(delta);
-      }
+      behavior.calculateSteering(steeringOutput);
+      applySteering(delta);
     }
   }
 
   private boolean isUpdateable() {
-    return Settings.getInstance().steering_enabled && isEnabled();
+    return Settings.getInstance().steering_enabled && isEnabled() && behavior != null;
   }
 
   private void applySteering(float deltaTime) {
     boolean anyAccelerations = false;
 
     // Update position and linear velocity.
-    if (!steeringOutput.linear.isZero()) {
+    if(!steeringOutput.linear.isZero()) {
       // this method internally scales the force by deltaTime
       body.applyForceToCenter(steeringOutput.linear, true);
       anyAccelerations = true;
     }
 
     // Update orientation and angular velocity
-    if (independentFacing) {
-      if (steeringOutput.angular != 0) {
+    if(independentFacing) {
+      if(steeringOutput.angular != 0) {
         // this method internally scales the torque by deltaTime
         body.applyTorque(steeringOutput.angular, true);
         anyAccelerations = true;
       }
-    } else {
+    }
+    else {
       // If we haven't got any velocity, then we can do nothing.
       Vector2 linVel = getLinearVelocity();
-      if (!linVel.isZero(getZeroLinearSpeedThreshold())) {
+      if(!linVel.isZero(getZeroLinearSpeedThreshold())) {
         float newOrientation = vectorToAngle(linVel);
         body.setAngularVelocity((newOrientation - getAngularVelocity()) * deltaTime); // this is superfluous if independentFacing is always true
         body.setTransform(body.getPosition(), newOrientation);
       }
     }
 
-    if (anyAccelerations) {
+    if(anyAccelerations) {
       // body.activate();
 
       // TODO:
@@ -126,13 +125,13 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
       Vector2 velocity = body.getLinearVelocity();
       float currentSpeedSquare = velocity.len2();
       float maxLinearSpeed = getMaxLinearSpeed();
-      if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-        body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float)Math.sqrt(currentSpeedSquare)));
+      if(currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+        body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
       }
 
       // Cap the angular speed
       float maxAngVelocity = getMaxAngularSpeed();
-      if (body.getAngularVelocity() > maxAngVelocity) {
+      if(body.getAngularVelocity() > maxAngVelocity) {
         body.setAngularVelocity(maxAngVelocity);
       }
     }
@@ -146,7 +145,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   @Override
   public float getAngularVelocity() {
-    return body.getAngularVelocity() ;
+    return body.getAngularVelocity();
   }
 
   @Override
@@ -166,7 +165,7 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   @Override
   public float getZeroLinearSpeedThreshold() {
-    return 0.001f ;
+    return 0.001f;
   }
 
   @Override

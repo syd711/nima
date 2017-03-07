@@ -12,6 +12,7 @@ public class IdleState implements State<FormationOwner> {
   @Override
   public void enter(FormationOwner formationOwner) {
     Gdx.app.log(getClass().getName(), formationOwner + " entered IdleState");
+    formationOwner.steerableComponent.setBehavior(null);
   }
 
   @Override

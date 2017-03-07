@@ -3,6 +3,7 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.IFormationOwner;
 import com.starsailor.components.FormationComponent;
 
 public class FormationSystem extends PauseableIteratingSystem {
@@ -13,6 +14,7 @@ public class FormationSystem extends PauseableIteratingSystem {
   }
 
   public void process(GameEntity entity, float deltaTime) {
+    IFormationOwner formationOwner = (IFormationOwner) entity;
     FormationComponent steerableComponent = steerableMap.get(entity);
     steerableComponent.updateFormation();
   }
