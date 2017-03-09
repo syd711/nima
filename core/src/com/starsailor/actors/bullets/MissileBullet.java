@@ -74,6 +74,11 @@ public class MissileBullet extends Bullet implements EntityListener {
       if(distanceToOwner > weaponData.getActivationDistance() && !steerableComponent.isEnabled()) {
         steerableComponent.setEnabled(true);
       }
+
+      if(this.target.isMarkedForDestroy()) {
+        destroyWithoutHit();
+        return;
+      }
     }
     else {
       //maybe the target has already been destroyed

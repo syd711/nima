@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.starsailor.actors.*;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.bullets.PhaserBullet;
+import com.starsailor.actors.route.Route;
 import com.starsailor.components.GameEntityComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.EntityManager;
@@ -29,17 +30,24 @@ public class AutoDestroySystem extends IteratingSystem {
     //check destroy flag
     if(gameEntity.isMarkedForDestroy()) {
       EntityManager.getInstance().destroy(entity);
+      return;
     }
 
     if(gameEntity instanceof Bullet) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
       float distance = positionComponent.distanceToPlayer();
       if(distance > Settings.getInstance().bullet_auto_destroy_distance) {
-        EntityManager.getInstance().destroy(entity);
+        gameEntity.markForDestroy();
       }
     }
-    else if(gameEntity instanceof com.starsailor.actors.route.Route) {
+    else if(gameEntity instanceof Route) {
       //TODO auto enable and disable of routes
+    }
+    else if(gameEntity instanceof FormationOwner) {
+      FormationOwner formationOwner = (FormationOwner) gameEntity;
+      if(formationOwner.getMembers().isEmpty()) {
+        formationOwner.markForDestroy();
+      }
     }
 
     if(gameEntity instanceof Ship) {
@@ -50,7 +58,7 @@ public class AutoDestroySystem extends IteratingSystem {
         List<PhaserBullet> entities = EntityManager.getInstance().getEntities(PhaserBullet.class);
         for(PhaserBullet phaserBullet : entities) {
           if(phaserBullet.target.equals(ship)) {
-            EntityManager.getInstance().destroy(phaserBullet);
+            gameEntity.markForDestroy();
           }
         }
 
