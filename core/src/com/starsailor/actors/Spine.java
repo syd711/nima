@@ -1,7 +1,5 @@
 package com.starsailor.actors;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
 import com.starsailor.managers.ResourceManager;
@@ -21,25 +19,18 @@ abstract public class Spine extends GameEntity {
   public Skeleton skeleton;
   public float jsonScaling;
 
-  public Spine(String path, SpineData spineData) {
-    createSpine(path, spineData);
+  public Spine(SpineData spineData) {
+    createSpine(spineData);
   }
 
   /**
    * The plain spine creation
    */
-  private void createSpine(String path, SpineData spineData) {
+  private void createSpine(SpineData spineData) {
     this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
-    TextureAtlas atlas = ResourceManager.getInstance().getTextureAtlasAsset(spineData.getSpine());
-    // This loads skeleton JSON data, which is stateless.
-    SkeletonJson json = new SkeletonJson(atlas);
-    json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
-    SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal(path + ".json"));
-
-    SkeletonData asset = ResourceManager.getInstance().getSkeletonData(spineData.getSpine());
-
+    SkeletonData skeletonData = ResourceManager.getInstance().getSkeletonData(spineData.getSpine(), spineData.getScale());
     skeleton = new Skeleton(skeletonData); // Skeleton holds skeleton state (bone positions, slot attachments, etc).
 
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.

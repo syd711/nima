@@ -2,17 +2,19 @@ package com.starsailor.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.SkeletonData;
-import com.esotericsoftware.spine.SkeletonDataLoader;
+import com.esotericsoftware.spine.SkeletonJson;
+import com.google.common.io.Files;
 import com.starsailor.util.Resources;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,8 @@ public class ResourceManager {
   private Map<String,String> textureMapping = new HashMap<>();
   private Map<String,String> textureAtlasMapping = new HashMap<>();
 
+  private Map<String,String> spineJsonMapping = new HashMap<>();
+
   //force singleton
   private ResourceManager() {
   }
@@ -40,7 +44,6 @@ public class ResourceManager {
 
   public void loadAssets() {
     assetManager = new AssetManager();
-    assetManager.setLoader(SkeletonData.class, new SkeletonDataLoader(new InternalFileHandleResolver()));
 
     loadAsset(Resources.TEXTURES, Texture.class, ".png", textureMapping);
     loadAsset(Resources.SPINES, TextureAtlas.class, ".atlas", textureAtlasMapping);
@@ -57,8 +60,14 @@ public class ResourceManager {
     return assetManager.get(textureAtlasMapping.get(name), TextureAtlas.class);
   }
 
-  public SkeletonData getSkeletonData(String name) {
-    return assetManager.get(Resources.SPINES + name + "/" + name + ".json", SkeletonData.class);
+  public SkeletonData getSkeletonData(String name, float jsonScaling) {
+    TextureAtlas atlas = ResourceManager.getInstance().getTextureAtlasAsset(name);
+    // This loads skeleton JSON data, which is stateless.
+    SkeletonJson json = new SkeletonJson(atlas);
+    json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
+
+    String jsonData = spineJsonMapping.get(name);
+    return json.readSkeletonData(name, jsonData);
   }
 
 
@@ -84,13 +93,16 @@ public class ResourceManager {
   //--------------- Helper --------------------------------------------------
 
   private void loadSpines(String spines) {
-    List<FileHandle> files = new ArrayList<>();
-    findAssets(spines, ".atlas", files);
+    try {
+      List<FileHandle> files = new ArrayList<>();
+      findAssets(spines, ".json", files);
 
-    for(FileHandle file : files) {
-      String jsonFile = Resources.SPINES + file.nameWithoutExtension() + "/" + file.nameWithoutExtension() + ".json";
-      SkeletonDataLoader.SkeletonDataLoaderParameter parameter = new SkeletonDataLoader.SkeletonDataLoaderParameter(file.path());
-      assetManager.load(jsonFile, SkeletonData.class, parameter);
+      for(FileHandle file : files) {
+        String skeletonData = Files.toString(file.file(), Charset.defaultCharset());
+        spineJsonMapping.put(file.nameWithoutExtension(), skeletonData);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 

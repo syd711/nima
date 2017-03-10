@@ -45,7 +45,7 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
   private Vector2 position;
 
   public Ship(ShipItem shipItem, Vector2 position) {
-    super(shipItem.getShipData().getSpineData().getSpinePath(),  shipItem.getShipData().getSpineData());
+    super(shipItem.getShipData().getSpineData());
     this.shipItem = shipItem;
     this.shipData = shipItem.getShipData();
     this.position = position;

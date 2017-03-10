@@ -69,6 +69,8 @@ import com.esotericsoftware.spine.attachments.PathAttachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.esotericsoftware.spine.attachments.VertexAttachment;
 
+import java.io.ByteArrayInputStream;
+
 /** Loads skeleton data in the Spine JSON format.
  * <p>
  * See <a href="http://esotericsoftware.com/spine-json-format">Spine JSON format</a> and
@@ -103,12 +105,22 @@ public class SkeletonJson {
 	public SkeletonData readSkeletonData (FileHandle file) {
 		if (file == null) throw new IllegalArgumentException("file cannot be null.");
 
+		JsonValue root = new JsonReader().parse(file);
+		return readSkeletonData(root, file.nameWithoutExtension());
+	}
+
+	public SkeletonData readSkeletonData (String name, String json) {
+		if (json == null) throw new IllegalArgumentException("json cannot be null.");
+
+		JsonValue root = new JsonReader().parse(new ByteArrayInputStream(json.getBytes()));
+		return readSkeletonData(root, name);
+	}
+
+	public SkeletonData readSkeletonData (JsonValue root, String name) {
 		float scale = this.scale;
 
 		SkeletonData skeletonData = new SkeletonData();
-		skeletonData.name = file.nameWithoutExtension();
-
-		JsonValue root = new JsonReader().parse(file);
+		skeletonData.name = name;
 
 		// Skeleton.
 		JsonValue skeletonMap = root.get("skeleton");
