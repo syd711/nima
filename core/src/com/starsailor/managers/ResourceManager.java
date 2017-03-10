@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.SkeletonData;
@@ -29,10 +30,11 @@ public class ResourceManager {
 
   private AssetManager assetManager;
 
-  private Map<String,String> textureMapping = new HashMap<>();
-  private Map<String,String> textureAtlasMapping = new HashMap<>();
+  private Map<String, String> textureMapping = new HashMap<>();
+  private Map<String, String> particleMapping = new HashMap<>();
+  private Map<String, String> textureAtlasMapping = new HashMap<>();
 
-  private Map<String,String> spineJsonMapping = new HashMap<>();
+  private Map<String, String> spineJsonMapping = new HashMap<>();
 
   //force singleton
   private ResourceManager() {
@@ -47,6 +49,7 @@ public class ResourceManager {
 
     loadAsset(Resources.TEXTURES, Texture.class, ".png", textureMapping);
     loadAsset(Resources.SPINES, TextureAtlas.class, ".atlas", textureAtlasMapping);
+    loadAsset(Resources.PARTICLES, ParticleEffect.class, ".p", particleMapping);
     loadSpines(Resources.SPINES);
 
     assetManager.finishLoading();
@@ -54,6 +57,10 @@ public class ResourceManager {
 
   public <T> T getAsset(String name, Class<T> assetType) {
     return assetManager.get(name, assetType);
+  }
+
+  public ParticleEffect getParticleEffect(String name) {
+    return assetManager.get(particleMapping.get(name), ParticleEffect.class);
   }
 
   public TextureAtlas getTextureAtlasAsset(String name) {
@@ -75,12 +82,12 @@ public class ResourceManager {
     return assetManager.get(textureMapping.get(name), Texture.class);
   }
 
-  public List<Texture> getTextureAssets(String prefix) {
+  public List<Texture> getTextureAssets(String suffix) {
     List<Texture> result = new ArrayList<>();
     Array<String> assetNames = assetManager.getAssetNames();
     for(String assetName : assetNames) {
-      if(assetName.startsWith(prefix)) {
-        result.add(getTextureAsset(assetName));
+      if(assetName.endsWith(suffix + ".png")) {
+        result.add(assetManager.get(assetName, Texture.class));
       }
     }
     return result;
@@ -108,9 +115,10 @@ public class ResourceManager {
 
   /**
    * Recursive loading of all assets in the given directory
-   * @param dir the base directory to start with
+   *
+   * @param dir        the base directory to start with
    * @param assetClass the type of asset to load
-   * @param suffix the filename suffix.
+   * @param suffix     the filename suffix.
    * @param mapping
    */
   private void loadAsset(String dir, Class assetClass, String suffix, Map<String, String> mapping) {
@@ -126,7 +134,8 @@ public class ResourceManager {
 
   /**
    * Recursive searching for all assets in the given directory
-   * @param dir the base directory to start with
+   *
+   * @param dir    the base directory to start with
    * @param suffix the filename suffix.
    */
   private void findAssets(String dir, String suffix, List<FileHandle> files) {

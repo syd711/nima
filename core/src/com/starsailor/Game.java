@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.*;
@@ -64,9 +63,6 @@ public class Game extends ApplicationAdapter {
     GameDataManager.getInstance().load();
 
     gameState = new StackStateMachine<>(this, GameState.RESUME);
-
-    //load particle effects
-    ParticleManager.getInstance().loadParticles();
 
     //camera
     camera = new OrthographicCamera();
