@@ -5,7 +5,7 @@ package com.starsailor.util;
  */
 public class Resources {
 
-
+  public static final String I18N = "i18n/";
   public static final String TEXTURES = "textures/";
   public static final String WEAPON_TEXTURES = "textures/weapons/";
   public static final String PARTICLES = "particles/";

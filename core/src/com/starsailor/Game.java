@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,8 +24,6 @@ import com.starsailor.ui.Hud;
 import com.starsailor.util.GameSettings;
 import com.starsailor.util.GameTimer;
 import com.starsailor.util.Settings;
-
-import java.util.Locale;
 
 import static com.starsailor.util.Settings.PPM;
 
@@ -56,16 +53,13 @@ public class Game extends ApplicationAdapter {
 
   public static StateMachine gameState;
 
-  public static I18NBundle bundle;
-
   //quicker access for box2d
   private boolean paused = false;
 
   @Override
   public void create() {
-    FileHandle baseFileHandle = Gdx.files.internal("i18n/bundle");
-    Locale locale = new Locale(Locale.getDefault().getLanguage());
-    bundle = I18NBundle.createBundle(baseFileHandle, locale);
+    //Load assets
+    ResourceManager.getInstance().loadAssets();
 
     GameDataManager.getInstance().load();
 
@@ -73,9 +67,6 @@ public class Game extends ApplicationAdapter {
 
     //load particle effects
     ParticleManager.getInstance().loadParticles();
-
-    //Load assets
-    ResourceManager.getInstance().loadAssets();
 
     //camera
     camera = new OrthographicCamera();

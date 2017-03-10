@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
+import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.SpineData;
 import com.starsailor.util.SpineUtil;
 
@@ -31,7 +32,7 @@ abstract public class Spine extends GameEntity {
     this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
-    TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(path + ".atlas"));
+    TextureAtlas atlas = ResourceManager.getInstance().getAsset(spineData.getSpine(), TextureAtlas.class);
     // This loads skeleton JSON data, which is stateless.
     SkeletonJson json = new SkeletonJson(atlas);
     json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
