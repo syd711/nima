@@ -5,8 +5,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
-import com.starsailor.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +18,11 @@ public class TiledMapFragment {
   private int frameNumberX;
   private int frameNumberY;
 
-  private String filename;
-
   private List<MapObject> mapObjects = new ArrayList<>();
 
-  protected TiledMapFragment(TmxCacheMapLoader loader) {
+  protected TiledMapFragment(int x, int y) {
+    TmxCacheMapLoader loader = new TmxCacheMapLoader(x, y);
     this.map = loader.getMap();
-    this.filename = loader.getFilename();
     this.frameNumberX = loader.getFrameX();
     this.frameNumberY = loader.getFrameY();
 
@@ -47,27 +43,19 @@ public class TiledMapFragment {
   }
 
   public float getXOffset() {
-    return frameNumberX * Settings.FRAME_PIXELS_X;
+    return frameNumberX * TmxSettings.FRAME_PIXELS_X;
   }
 
   public float getYOffset() {
-    return frameNumberY * Settings.FRAME_PIXELS_Y;
+    return frameNumberY * TmxSettings.FRAME_PIXELS_Y;
   }
 
   public TiledMap getMap() {
     return map;
   }
 
-  public String getFilename() {
-    return filename;
-  }
-
   @Override
-  public boolean equals(Object obj) {
-    return getFilename().equals(((TiledMapFragment)obj).getFilename());
-  }
-
-  public void containsCoordinates(List<Vector2> routeCoordinates) {
-
+  public String toString() {
+    return "Map Fragment {" + frameNumberX +"/" + frameNumberY + "}";
   }
 }

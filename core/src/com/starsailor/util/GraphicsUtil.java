@@ -3,6 +3,7 @@ package com.starsailor.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.render.TmxSettings;
 
 /**
  * Common math function to be used.
@@ -31,8 +32,8 @@ public class GraphicsUtil {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
-    float targetX = Settings.START_FRAME_X * Settings.FRAME_PIXELS_X + (w / 2);
-    float targetY = Settings.START_FRAME_Y * Settings.FRAME_PIXELS_Y + (h / 2) + objectHeight / 2;
+    float targetX = TmxSettings.START_FRAME_X * TmxSettings.FRAME_PIXELS_X + (w / 2);
+    float targetY = TmxSettings.START_FRAME_Y * TmxSettings.FRAME_PIXELS_Y + (h / 2) + objectHeight / 2;
     return new Vector2(targetX, targetY);
   }
 

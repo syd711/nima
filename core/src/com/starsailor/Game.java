@@ -19,11 +19,11 @@ import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.*;
 import com.starsailor.render.TiledMultiMapRenderer;
+import com.starsailor.render.TmxSettings;
 import com.starsailor.render.converters.*;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.GameSettings;
 import com.starsailor.util.GameTimer;
-import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
 
 import java.util.Locale;
@@ -74,8 +74,8 @@ public class Game extends ApplicationAdapter {
     //load particle effects
     ParticleManager.getInstance().loadParticles();
 
-    //load sprites
-    TextureManager.getInstance().loadTextures();
+    //Load assets
+    ResourceManager.getInstance().loadAssets();
 
     //camera
     camera = new OrthographicCamera();
@@ -95,7 +95,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
 
-    tiledMapRenderer = new TiledMultiMapRenderer(Resources.MAIN_MAP_FOLDER, Resources.MAIN_MAP_PREFIX, batch);
+    tiledMapRenderer = new TiledMultiMapRenderer(batch);
     //Ashley Entity Engine
     entityManager = EntityManager.create(tiledMapRenderer, rayHandler);
 
@@ -104,7 +104,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObjectPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObjectCenteredPositionConverter());
     tiledMapRenderer.addMapObjectConverter(new Route2EntityConverter(settings.npcs_enabled));
-    tiledMapRenderer.fullScan(Settings.WORLD_WIDTH, Settings.WORLD_HEIGHT);
+    tiledMapRenderer.fullScan();
     tiledMapRenderer.removeAllObjectConverters();
 
 
@@ -176,7 +176,6 @@ public class Game extends ApplicationAdapter {
 
     tiledMapRenderer.setView(camera);
 
-    tiledMapRenderer.preRender();
     tiledMapRenderer.render();
     tiledMapRenderer.postRender();
 
@@ -210,14 +209,15 @@ public class Game extends ApplicationAdapter {
    */
   private void updateActorFrame() {
     float x = positionComponent.x;
-    int actorFrameX = (int) (x / Settings.FRAME_PIXELS_X);
+    int actorFrameX = (int) (x / TmxSettings.FRAME_PIXELS_X);
     float y = positionComponent.y;
-    int actorFrameY = (int) (y / Settings.FRAME_PIXELS_Y);
+    int actorFrameY = (int) (y / TmxSettings.FRAME_PIXELS_Y);
     tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
   }
 
   @Override
   public void dispose() {
+    ResourceManager.getInstance().dispose();
     SoundManager.dispose();
     box2DDebugRenderer.dispose();
     world.dispose();

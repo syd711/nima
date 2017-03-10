@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Loads all particle effects
  */
-public class ParticleManager extends ResourceManager {
+public class ParticleManager {
   private static final int POOL_SIZE = 5;
   private static ParticleManager instance = new ParticleManager();
 

@@ -2,10 +2,11 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.starsailor.managers.TextureManager;
+import com.starsailor.managers.ResourceManager;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -100,7 +101,7 @@ public class SpriteComponent implements Component, Poolable {
 
     public SpriteItem(String spriteName) {
       name = spriteName;
-      sprite = new Sprite(TextureManager.getInstance().getTexture(spriteName));
+      sprite = new Sprite(ResourceManager.getInstance().getAsset(spriteName, Texture.class));
     }
 
     public Sprite getSprite() {

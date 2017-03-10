@@ -3,6 +3,7 @@ package com.starsailor.managers;
 /**
  * Wraps the status, e.g. if paused
  */
+//TODO use for stations
 public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
   private boolean navigating = true;

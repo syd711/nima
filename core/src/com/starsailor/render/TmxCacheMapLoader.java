@@ -26,43 +26,18 @@ public class TmxCacheMapLoader extends TmxMapLoader {
   private FileHandle tmxFile;
   private TmxMapLoader.Parameters parameters;
   private TiledMap map;
-  private boolean dirty;
-  private String filename;
 
   private int frameX;
   private int frameY;
 
-  public TmxCacheMapLoader(String filename, int frameX, int frameY) {
-    this.filename = filename;
+  public TmxCacheMapLoader(int frameX, int frameY) {
     this.frameX = frameX;
     this.frameY = frameY;
 
     TmxMapLoader.Parameters par = new TmxMapLoader.Parameters();
-    load(filename, par);
-
-    Array<FileHandle> textureFiles = this.textureFiles;
-    for(FileHandle textureFile : textureFiles) {
-      String key = textureFile.path();
-      if(!cachedTextures.containsKey(key)) {
-        this.dirty = true;
-      }
-    }
-
-    if(!isDirty()) {
-      createMap();
-    }
-  }
-
-
-  /**
-   * This method must be invoked with a GL context to load the missing
-   * textures for the given tmx map loader
-   */
-  protected void loadUncached() {
-    Gdx.app.log(this.toString(),"Loading uncached map " + getFilename());
+    load(TmxSettings.keyFor(frameX, frameY), par);
 
     TmxMapLoader.Parameters parameters = this.parameters;
-
     for (FileHandle textureFile : textureFiles) {
       //recheck if the file has not been loaded by GDL thread meanwhile
       String key = textureFile.path();
@@ -80,7 +55,7 @@ public class TmxCacheMapLoader extends TmxMapLoader {
   /**
    * Creates the map from the cached textures that have been applied before.
    */
-  protected void createMap() {
+  private void createMap() {
     ImageResolver.DirectImageResolver imageResolver = new ImageResolver.DirectImageResolver(cachedTextures);
     map = loadTilemap(root, tmxFile, imageResolver);
     map.setOwnedResources(cachedTextures.values().toArray());
@@ -103,19 +78,11 @@ public class TmxCacheMapLoader extends TmxMapLoader {
       textureFiles = loadTilesets(root, tmxFile);
       textureFiles.addAll(loadImages(root, tmxFile));
 
-      //we return null since the actual map creation is done in a post processing
+      //we return null since the actual map creation is done in a post processing, see createMap()
       return null;
     } catch (IOException e) {
       throw new GdxRuntimeException("Couldn't load tilemap '" + fileName + "'", e);
     }
-  }
-
-  public boolean isDirty() {
-    return dirty;
-  }
-
-  public String getFilename() {
-    return filename;
   }
 
   public int getFrameX() {

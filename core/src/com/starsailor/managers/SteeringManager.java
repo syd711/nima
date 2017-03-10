@@ -44,7 +44,7 @@ public class SteeringManager {
     BlendedSteering<Vector2> blendedSB = new BlendedSteering<Vector2>(sourceSteering);
     blendedSB.setLimiter(NullLimiter.NEUTRAL_LIMITER);
     blendedSB.add(arrive, 1f);
-    blendedSB.add(getRayCastCollider(sourceSteering), 0.5f);
+    blendedSB.add(getRayCastCollider(sourceSteering), 0.8f);
     blendedSB.add(lookWhereYouAreGoingSB, 0.5f);
 
     npc.steerableComponent.setBehavior(blendedSB);

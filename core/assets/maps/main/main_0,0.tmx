@@ -148,5 +148,14 @@
    </properties>
    <ellipse/>
   </object>
+  <object id="110" name="35019" x="420" y="782">
+   <ellipse/>
+  </object>
+  <object id="111" name="35020" x="452" y="608">
+   <ellipse/>
+  </object>
+  <object id="113" name="35016" x="222" y="684">
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>

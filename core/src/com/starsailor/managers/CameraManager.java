@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.ScreenPositionComponent;
+import com.starsailor.render.TmxSettings;
 import com.starsailor.util.Settings;
 
 import java.util.Random;
@@ -39,8 +40,8 @@ public class CameraManager {
 
     this.screenPositionComponent = player.getComponent(ScreenPositionComponent.class);
     this.positionComponent = player.getComponent(PositionComponent.class);
-    this.worldWidth = Settings.WORLD_WIDTH * Settings.FRAME_PIXELS_X;
-    this.worldHeight = Settings.WORLD_HEIGHT * Settings.FRAME_PIXELS_Y;
+    this.worldWidth = TmxSettings.WORLD_WIDTH * TmxSettings.FRAME_PIXELS_X;
+    this.worldHeight = TmxSettings.WORLD_HEIGHT * TmxSettings.FRAME_PIXELS_Y;
   }
 
   public void shake(float intensity, float duration) {
@@ -71,7 +72,7 @@ public class CameraManager {
 
     //x right
     if(x > (worldWidth - (width / 2))) {
-      centerX = x%Settings.FRAME_PIXELS_X;
+      centerX = x%TmxSettings.FRAME_PIXELS_X;
       keepX = true;
     }
 
@@ -83,7 +84,7 @@ public class CameraManager {
 
     //y top
     if(y > (worldHeight - (height / 2))) {
-      centerY = y%Settings.FRAME_PIXELS_Y;
+      centerY = y%TmxSettings.FRAME_PIXELS_Y;
       keepY = true;
     }
 

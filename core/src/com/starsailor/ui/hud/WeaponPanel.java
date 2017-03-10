@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.*;
 import com.starsailor.components.ShootingComponent;
+import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.WeaponData;
 import com.starsailor.managers.BulletManager;
 import com.starsailor.managers.SelectionManager;
-import com.starsailor.managers.TextureManager;
 import com.starsailor.ui.Hud;
 import com.starsailor.util.Settings;
 
@@ -49,7 +49,7 @@ public class WeaponPanel extends Table {
       add(new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
-          Texture texture = TextureManager.getInstance().getTexture("healthbg");
+          Texture texture = ResourceManager.getInstance().getAsset("healthbg", Texture.class);
 
           float percent = shootingComponent.getChargingState(weaponData);
 

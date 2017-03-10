@@ -28,21 +28,6 @@ public class Settings {
   public static final float MPP = 0.01f;
   public static final float PPM = 100f;
 
-  //starting from 1
-  public final static int WORLD_WIDTH = 2;
-  public final static int WORLD_HEIGHT = 2;
-
-  //starting from 0
-  public final static int START_FRAME_X = 0;
-  public final static int START_FRAME_Y = 0;
-
-
-  /**
-   * Map Settings
-   */
-  public final static int FRAME_PIXELS_X = 1920;
-  public final static int FRAME_PIXELS_Y = 1280;
-
 
   /**
    * Screen Settings

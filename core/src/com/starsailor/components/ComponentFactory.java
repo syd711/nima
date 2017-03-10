@@ -22,7 +22,7 @@ import com.starsailor.actors.Spine;
 import com.starsailor.actors.route.Route;
 import com.starsailor.components.collision.*;
 import com.starsailor.managers.ParticleManager;
-import com.starsailor.managers.TextureManager;
+import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
@@ -226,7 +226,7 @@ public class ComponentFactory {
 
   public static AnimationComponent addAnimationComponent(Entity entity, String texturePrefix) {
     AnimationComponent component = createComponent(AnimationComponent.class);
-    List<Texture> textures = TextureManager.getInstance().getTextures(texturePrefix);
+    List<Texture> textures = ResourceManager.getInstance().getAssets(texturePrefix, Texture.class);
     component.textures.addAll(textures);
     entity.add(component);
     return component;

@@ -52,6 +52,7 @@ public class SoundManager {
 //      sfx.stop();
 //      sfx.dispose();
       }
+      //TODO use asset manager
       sfx = Gdx.audio.newSound(Gdx.files.internal(filePath));
 
 

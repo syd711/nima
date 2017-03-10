@@ -59,7 +59,7 @@ public class MapObject2ShipConverter extends DefaultMapObjectConverter {
   }
 
   @Override
-  public void finalize() {
+  public void finalizeConverter() {
     NPCLauncher.launch(new ArrayList<>(newEntities));
     newEntities.clear();
   }
