@@ -49,7 +49,7 @@ public class WeaponPanel extends Table {
       add(new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
-          Texture texture = ResourceManager.getInstance().getAsset("healthbg", Texture.class);
+          Texture texture = ResourceManager.getInstance().getTextureAsset("healthbg");
 
           float percent = shootingComponent.getChargingState(weaponData);
 

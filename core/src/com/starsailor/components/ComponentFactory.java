@@ -226,7 +226,7 @@ public class ComponentFactory {
 
   public static AnimationComponent addAnimationComponent(Entity entity, String texturePrefix) {
     AnimationComponent component = createComponent(AnimationComponent.class);
-    List<Texture> textures = ResourceManager.getInstance().getAssets(texturePrefix, Texture.class);
+    List<Texture> textures = ResourceManager.getInstance().getTextureAssets(texturePrefix);
     component.textures.addAll(textures);
     entity.add(component);
     return component;

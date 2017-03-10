@@ -32,11 +32,13 @@ abstract public class Spine extends GameEntity {
     this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
-    TextureAtlas atlas = ResourceManager.getInstance().getAsset(spineData.getSpine(), TextureAtlas.class);
+    TextureAtlas atlas = ResourceManager.getInstance().getTextureAtlasAsset(spineData.getSpine());
     // This loads skeleton JSON data, which is stateless.
     SkeletonJson json = new SkeletonJson(atlas);
     json.setScale(jsonScaling); // Load the skeleton at x% the size it was in Spine.
     SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal(path + ".json"));
+
+    SkeletonData asset = ResourceManager.getInstance().getSkeletonData(spineData.getSpine());
 
     skeleton = new Skeleton(skeletonData); // Skeleton holds skeleton state (bone positions, slot attachments, etc).
 
