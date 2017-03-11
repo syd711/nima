@@ -23,10 +23,11 @@ public class ParallaxLayer {
   public void render(Batch batch) {
     batch.begin();
 
-    float offset = (TmxSettings.FRAME_PIXELS_X * 1f) / texture.getWidth();
+    float offsetX = texture.getWidth() / (TmxSettings.FRAME_PIXELS_X * 4f) ;
+    float offsetY = texture.getHeight() / (TmxSettings.FRAME_PIXELS_Y * 4f) ;
 
-    float x = Game.camera.position.x*offset - (TmxSettings.FRAME_PIXELS_X/2*offset);
-    float y = Game.camera.position.y*offset - (TmxSettings.FRAME_PIXELS_Y/2*offset);
+    float x = Game.camera.position.x*offsetX - (TmxSettings.FRAME_PIXELS_X/2*offsetX);
+    float y = Game.camera.position.y*offsetY - (TmxSettings.FRAME_PIXELS_Y/2*offsetY);
 
     drawable.draw(batch, x, y, texture.getWidth(), texture.getHeight());
 

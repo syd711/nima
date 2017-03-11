@@ -108,8 +108,9 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2ShipConverter(settings.npcs_enabled));
 
 
-    tiledMapRenderer.addParallaxLayer("maps/main/black_hole.jpg");
+    tiledMapRenderer.addParallaxLayer("maps/main/parallax_1.jpg");
     tiledMapRenderer.addParallaxLayer("maps/main/parallax_2.png");
+    tiledMapRenderer.addParallaxLayer("maps/main/parallax_3.png");
 
     //init player
     Player player = entityManager.getPlayer();
@@ -169,7 +170,6 @@ public class Game extends ApplicationAdapter {
 
     tiledMapRenderer.setView(camera);
     tiledMapRenderer.render();
-    tiledMapRenderer.postRender();
 
     if(settings.debug) {
       tiledMapRenderer.getBatch().begin();

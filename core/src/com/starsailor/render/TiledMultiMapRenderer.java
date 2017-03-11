@@ -84,15 +84,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     }
   }
 
-
-  public void removeAllObjectConverters() {
-    this.objectConverters.clear();
-  }
-
-  public void addMapObjectConverter(MapObjectConverter mapObjectConverter) {
-    this.objectConverters.add(mapObjectConverter);
-  }
-
   public void setActorFrame(int x, int y) {
     if(this.actorFrameX != x || this.actorFrameY != y) {
       dirty = true;
@@ -101,12 +92,14 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     this.actorFrameY = y;
   }
 
+  // --------------------- Main Render -------------------------------------
+
   @Override
   public void render() {
+    //render the parallax layers first
     for(ParallaxLayer parallaxLayer : parallaxLayers) {
       parallaxLayer.render(getBatch());
     }
-
 
     beginRender();
 
@@ -143,25 +136,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         }
       }
     } //end layer rendering
-  }
 
-  /**
-   * Loads the map for the given coordinates if not loaded yet.
-   */
-  private TiledMapFragment getMapFragment(int x, int y) {
-    //get the map for the current frame
-    String key = TmxSettings.keyFor(x, y);
-
-    if(!actualMaps.containsKey(key)) {
-      TiledMapFragment tiledMapFragment = new TiledMapFragment(x, y);
-      actualMaps.put(key, tiledMapFragment);
-      Gdx.app.log(this.toString(), "Loaded map " + tiledMapFragment);
-    }
-
-    return actualMaps.get(key);
-  }
-
-  public void postRender() {
     endRender();
 
     //listener handling
@@ -172,6 +147,36 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
     actualMaps.clear();
   }
+
+  /**
+   * Loads the map for the given coordinates if not loaded yet.
+   */
+  private TiledMapFragment getMapFragment(int x, int y) {
+    //get the map for the current frame
+    String key = TmxSettings.keyFor(x, y);
+
+    if(!currentMaps.containsKey(key)) {
+      TiledMapFragment tiledMapFragment = new TiledMapFragment(x, y);
+      currentMaps.put(key, tiledMapFragment);
+      Gdx.app.log(this.toString(), "Loaded map " + tiledMapFragment);
+
+    }
+
+    TiledMapFragment mapFragment = currentMaps.get(key);
+    actualMaps.put(key, mapFragment);
+    return mapFragment;
+  }
+
+
+  // --------------- Map Conversion ------------------------------------
+  public void removeAllObjectConverters() {
+    this.objectConverters.clear();
+  }
+
+  public void addMapObjectConverter(MapObjectConverter mapObjectConverter) {
+    this.objectConverters.add(mapObjectConverter);
+  }
+
 
   /**
    * Compares the map that have been rendered
@@ -210,6 +215,8 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     this.currentMaps.clear();
     this.currentMaps.putAll(actualMaps);
   }
+
+  //-------------------- the actual rendering ----------------------------------------
 
   @Override
   public void renderTileLayer(TiledMapTileLayer l) {
