@@ -13,7 +13,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.starsailor.util.Settings;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
@@ -29,10 +32,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private int frameNumberY;
   private TiledMap frameMap;
 
-  private List<MapChangeListener> mapChangeListeners = new ArrayList<>();
   private boolean dirty = true;
 
   private List<MapObjectConverter> objectConverters = new ArrayList<>();
+  private List<ParallaxLayer> parallaxLayers = new ArrayList<>();
 
   private Map<String, TiledMapFragment> currentMaps = new HashMap<>();
   private Map<String, TiledMapFragment> actualMaps = new HashMap<>();
@@ -42,10 +45,19 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
     TiledMapFragment loader = new TiledMapFragment(0, 0);
     setMap(loader.getMap());
+    TmxSettings.init(getMap().getProperties());
 
     TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
     this.frameTilesX = groundLayer.getWidth();
     this.frameTilesY = groundLayer.getHeight();
+  }
+
+  /**
+   * Parallax layers are added from bottom to top.
+   * @param resource the resource key for the layer
+   */
+  public void addParallaxLayer(String resource) {
+    parallaxLayers.add(new ParallaxLayer(resource));
   }
 
   /**
@@ -81,10 +93,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     this.objectConverters.add(mapObjectConverter);
   }
 
-  public void addMapChangeListener(MapChangeListener listener) {
-    this.mapChangeListeners.add(listener);
-  }
-
   public void setActorFrame(int x, int y) {
     if(this.actorFrameX != x || this.actorFrameY != y) {
       dirty = true;
@@ -95,6 +103,11 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
   @Override
   public void render() {
+    for(ParallaxLayer parallaxLayer : parallaxLayers) {
+      parallaxLayer.render(getBatch());
+    }
+
+
     beginRender();
 
     if(Settings.getInstance().debug) {
@@ -122,6 +135,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
               if(l != null && l instanceof TiledMapTileLayer) {
                 renderTileLayer((TiledMapTileLayer) l);
               }
+//              else if(l != null && l instanceof TiledMapImageLayer){
+//                super.renderImageLayer((TiledMapImageLayer) l);
+//              }
             }
           }
         }
@@ -139,6 +155,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     if(!actualMaps.containsKey(key)) {
       TiledMapFragment tiledMapFragment = new TiledMapFragment(x, y);
       actualMaps.put(key, tiledMapFragment);
+      Gdx.app.log(this.toString(), "Loaded map " + tiledMapFragment);
     }
 
     return actualMaps.get(key);
@@ -165,11 +182,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private void updateListeners(Map<String, TiledMapFragment> actualMaps) {
     for(TiledMapFragment mapFragment : currentMaps.values()) {
       if(!actualMaps.containsKey(mapFragment.toString())) {
-        for(MapChangeListener mapChangeListener : mapChangeListeners) {
-          mapChangeListener.mapRemoved(mapFragment);
-          Gdx.app.log(this.toString(), "Removed map " + mapFragment);
-        }
-
         //destroy all map objects after notifying listeners
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = mapFragment.getMapObjects();
@@ -191,11 +203,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
             }
           }
           objectConverter.finalizeConverter();
-        }
-
-        for(MapChangeListener mapChangeListener : mapChangeListeners) {
-          mapChangeListener.mapAdded(mapFragment);
-          Gdx.app.log(this.toString(), "Added map " + mapFragment);
         }
       }
     }

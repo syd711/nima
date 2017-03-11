@@ -25,6 +25,8 @@ public class CameraManager {
   private float duration;
   private float elapsed;
   private String zoom;
+  private boolean keepX;
+  private boolean keepY;
 
   //force singleton
   private CameraManager() {
@@ -55,8 +57,8 @@ public class CameraManager {
     float x = Math.round(positionComponent.x);
     float y = Math.round(positionComponent.y);
 
-    boolean keepX = false;
-    boolean keepY = false;
+    keepX = false;
+    keepY = false;
 
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
@@ -102,6 +104,10 @@ public class CameraManager {
     checkShakeEffect(deltaTime);
 
     camera.update();
+  }
+
+  public boolean isOffset() {
+    return keepX || keepY;
   }
 
 

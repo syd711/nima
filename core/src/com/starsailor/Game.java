@@ -55,6 +55,7 @@ public class Game extends ApplicationAdapter {
   //quicker access for box2d
   private boolean paused = false;
 
+
   @Override
   public void create() {
     //Load assets
@@ -106,6 +107,10 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addMapObjectConverter(new MapObject2StationEntityConverter());
     tiledMapRenderer.addMapObjectConverter(new MapObject2ShipConverter(settings.npcs_enabled));
 
+
+    tiledMapRenderer.addParallaxLayer("maps/main/black_hole.jpg");
+    tiledMapRenderer.addParallaxLayer("maps/main/parallax_2.png");
+
     //init player
     Player player = entityManager.getPlayer();
     positionComponent = player.getComponent(PositionComponent.class);
@@ -129,6 +134,7 @@ public class Game extends ApplicationAdapter {
         gameSettings.save();
       }
     });
+
   }
 
   @Override
@@ -162,7 +168,6 @@ public class Game extends ApplicationAdapter {
     batch.setProjectionMatrix(camera.combined);
 
     tiledMapRenderer.setView(camera);
-
     tiledMapRenderer.render();
     tiledMapRenderer.postRender();
 
