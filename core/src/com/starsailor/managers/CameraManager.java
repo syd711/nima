@@ -24,9 +24,9 @@ public class CameraManager {
   private float shakeIntensity;
   private float duration;
   private float elapsed;
-  private String zoom;
   private boolean keepX;
   private boolean keepY;
+  private float targetZoom = 1;
 
   //force singleton
   private CameraManager() {
@@ -53,7 +53,17 @@ public class CameraManager {
     }
   }
 
+  public void updateTargetZoom(float delta) {
+    targetZoom+=delta;
+  }
+
+  public void setTargetZoom(float zoom) {
+    targetZoom = zoom;
+  }
+
   public void update(float deltaTime) {
+    updateZoom();
+
     float x = Math.round(positionComponent.x);
     float y = Math.round(positionComponent.y);
 
@@ -106,12 +116,10 @@ public class CameraManager {
     camera.update();
   }
 
-  public boolean isOffset() {
-    return keepX || keepY;
-  }
+  // ---------------------- Helper ------------------------------------------------
 
 
-  public boolean checkShakeEffect(float delta) {
+  private boolean checkShakeEffect(float delta) {
     // Only shake when required.
     if(elapsed*1000 < duration) {
       // Calculate the amount of shake based on how long it has been shaking already
@@ -137,7 +145,12 @@ public class CameraManager {
     return false;
   }
 
-  public float getZoom() {
-    return camera.zoom;
+  private void updateZoom() {
+    if(camera.zoom < targetZoom) {
+      camera.zoom+=0.005;
+    }
+    if(camera.zoom > targetZoom) {
+      camera.zoom-=0.005;
+    }
   }
 }
