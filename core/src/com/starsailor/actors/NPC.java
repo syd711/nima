@@ -14,8 +14,6 @@ import com.starsailor.components.collision.NPCCollisionComponent;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.model.items.ShipItem;
 
-import java.util.List;
-
 /**
  * Common superclass for all NPC.
  * We assume that they are instances of Spine.
@@ -61,37 +59,6 @@ public class NPC extends Ship implements Selectable {
     super.switchToDefaultState();
     if(selectionComponent.isActive()) {
       SelectionManager.getInstance().setSelection(null);
-    }
-  }
-
-  /**
-   * Switches this entity to the attacked state if not already there.
-   *
-   * @param enemy the enemy ship that has been fired or detected
-   */
-  public void switchToBattleState(Ship enemy) {
-    if(isInDefaultState()) {
-      //update the battle state since it is only updated, not recreated
-      getBattleState().updateEnemyList(enemy);
-      //then switch to the state...
-      getStateMachine().changeState(getBattleState());
-
-      //...and notify all members that 'we' are attacked
-      List<Ship> groupMembers = getFormationMembers();
-      for(Ship formationMember : groupMembers) {
-        if(!formationMember.equals(this)) {
-          ((NPC) formationMember).switchToBattleState(enemy);
-        }
-      }
-    }
-    else if(isInBattleState()) {
-      getBattleState().updateEnemyList(enemy);
-      List<Ship> groupMembers = getFormationMembers();
-      for(Ship formationMember : groupMembers) {
-        if(!formationMember.equals(this)) {
-          formationMember.getBattleState().updateEnemyList(enemy);
-        }
-      }
     }
   }
 

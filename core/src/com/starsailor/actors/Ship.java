@@ -165,6 +165,39 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
     shieldComponent.setActive(false);
   }
 
+
+
+  /**
+   * Switches this entity to the attacked state if not already there.
+   *
+   * @param enemy the enemy ship that has been fired or detected
+   */
+  public void switchToBattleState(Ship enemy) {
+    if(isInDefaultState()) {
+      //update the battle state since it is only updated, not recreated
+      getBattleState().updateEnemyList(enemy);
+      //then switch to the state...
+      getStateMachine().changeState(getBattleState());
+
+      //...and notify all members that 'we' are attacked
+      List<Ship> groupMembers = getFormationMembers();
+      for(Ship formationMember : groupMembers) {
+        if(!formationMember.equals(this)) {
+          formationMember.switchToBattleState(enemy);
+        }
+      }
+    }
+    else if(isInBattleState()) {
+      getBattleState().updateEnemyList(enemy);
+      List<Ship> groupMembers = getFormationMembers();
+      for(Ship formationMember : groupMembers) {
+        if(!formationMember.equals(this)) {
+          formationMember.getBattleState().updateEnemyList(enemy);
+        }
+      }
+    }
+  }
+
   /**
    * Used for search and destroy.
    * Instead of search for the next enemy of an enemy group, we

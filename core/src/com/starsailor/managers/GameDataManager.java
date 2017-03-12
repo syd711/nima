@@ -84,7 +84,6 @@ public class GameDataManager {
     return null;
   }
 
-  //TODO
   public void load() {
     loadMapObjects();
     load(getWeaponsTreeModel());
