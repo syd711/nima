@@ -12,8 +12,8 @@ public class TmxSettings {
   public final static int WORLD_HEIGHT = 4;
 
   //starting from 0
-  public final static int START_FRAME_X = 3;
-  public final static int START_FRAME_Y = 2;
+  public final static int START_FRAME_X = 0;
+  public final static int START_FRAME_Y = 0;
 
   /**
    * Map Settings
