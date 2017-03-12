@@ -27,7 +27,7 @@ public class BodyComponent implements Component, Pool.Poolable {
   }
 
   public void setWorldPosition(Vector2 worldPosition) {
-    Vector2 pos = Box2dUtil.toBox2Vector(worldPosition.scl(1/Game.camera.zoom));
+    Vector2 pos = Box2dUtil.toBox2Vector(worldPosition);
     body.setTransform(pos.x, pos.y, body.getAngle());
   }
 
