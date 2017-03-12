@@ -13,13 +13,16 @@ public class TmxSettings {
 
   //starting from 0
   public final static int START_FRAME_X = 3;
-  public final static int START_FRAME_Y = 3;
+  public final static int START_FRAME_Y = 2;
 
   /**
    * Map Settings
    */
   public static int FRAME_PIXELS_X = 0;
   public static int FRAME_PIXELS_Y = 0;
+
+  public static int WORLD_PIXELS_X = 0;
+  public static int WORLD_PIXELS_Y = 0;
 
   public static void init(MapProperties mapProperties) {
     int width = (int) mapProperties.get("width");
@@ -30,6 +33,9 @@ public class TmxSettings {
 
     FRAME_PIXELS_X = width * tileWidth;
     FRAME_PIXELS_Y = height * tileHeight;
+
+    WORLD_PIXELS_X = FRAME_PIXELS_X * WORLD_WIDTH;
+    WORLD_PIXELS_Y = FRAME_PIXELS_Y * WORLD_HEIGHT;
   }
 
 
