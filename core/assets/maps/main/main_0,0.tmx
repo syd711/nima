@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="116">
  <tileset firstgid="1" name="planets" tilewidth="32" tileheight="32" tilecount="325" columns="25">
-  <image source="planets.png" width="808" height="423"/>
+  <image source="../planets.png" width="808" height="423"/>
  </tileset>
  <layer name="entities" width="60" height="40">
   <data encoding="csv">
