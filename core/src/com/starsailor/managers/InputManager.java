@@ -62,12 +62,12 @@ public class InputManager implements InputProcessor {
     }
     else if(keycode == Input.Keys.PLUS) {
       if(Game.camera.zoom != 1) {
-        Game.camera.zoom-=0.2;
+        CameraManager.getInstance().updateTargetZoom(-0.2f);
       }
       return true;
     }
     else if(keycode == Input.Keys.MINUS) {
-      Game.camera.zoom+=0.2;
+      CameraManager.getInstance().updateTargetZoom(0.2f);
       return true;
     }
     else if(keycode == Input.Keys.P) {
