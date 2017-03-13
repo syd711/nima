@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * The general ship entity which is always a spine.
  */
-abstract public class Ship extends Spine implements IFormationMember<Ship> {
+abstract public class Ship extends GameEntity implements IFormationMember<Ship> {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public ScalingComponent scalingComponent;
@@ -33,6 +33,7 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
   public ShieldComponent shieldComponent;
   public FractionComponent fractionComponent;
   public HealthComponent healthComponent;
+  public SpineComponent spineComponent;
 
   public ShipData shipData;
   protected ShipItem shipItem;
@@ -44,13 +45,14 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
   private Vector2 position;
 
   public Ship(ShipItem shipItem, Vector2 position) {
-    super(shipItem.getShipData().getSpineData());
     this.shipItem = shipItem;
     this.shipData = shipItem.getShipData();
     this.position = position;
   }
 
-  public void createComponents(Fraction fraction) {
+  public void createComponents() {
+    spineComponent = ComponentFactory.addSpineComponent(this, shipItem.getShipData().getSpineData());
+
     scalingComponent = ComponentFactory.addScalingComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
@@ -61,9 +63,21 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
     shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
-    fractionComponent = ComponentFactory.createFractionComponent(this, fraction);
+    fractionComponent = ComponentFactory.createFractionComponent(this, Fraction.valueOf(shipItem.getFraction().toUpperCase()));
 
     this.location = new Box2dLocation(new Vector2());
+  }
+
+  public float getHeight() {
+    return spineComponent.getHeight();
+  }
+
+  public float getWidth() {
+    return spineComponent.getWidth();
+  }
+
+  public Vector2 getCenter() {
+    return spineComponent.getCenter();
   }
 
   @Override

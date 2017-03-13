@@ -1,39 +1,10 @@
 package com.starsailor.util;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.esotericsoftware.spine.Slot;
-import com.esotericsoftware.spine.attachments.Attachment;
-import com.esotericsoftware.spine.attachments.RegionAttachment;
-import com.starsailor.actors.Spine;
-
 /**
  * Utilities for handling spines.
  */
 public class SpineUtil {
 
-  /**
-   * Returns the center of the spine by search for
-   * a slot with the given name and returning it's first position vertice.
-   */
-  public static Vector2 getSpineCenter(Spine spine, String slotName) {
-    Array<Slot> drawOrder = spine.skeleton.getDrawOrder();
-    boolean premultipliedAlpha = false;
-    for(int i = 0, n = drawOrder.size; i < n; i++) {
-      Slot slot = drawOrder.get(i);
-      Attachment attachment = slot.getAttachment();
-      if(attachment instanceof RegionAttachment) {
-        RegionAttachment regionAttachment = (RegionAttachment) attachment;
-        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-        //TODO not exact enough
-        String name = slot.getData().getName();
-        if(slotName.equals(name)) {
-          return new Vector2(vertices[0], vertices[1]);
-        }
-      }
-    }
-    return null;
-  }
 
 
 //  public static float[] convertSpine2Box2dVertices(float[] vertices) {

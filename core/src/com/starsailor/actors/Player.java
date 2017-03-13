@@ -35,8 +35,8 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   }
 
   @Override
-  public void createComponents(Fraction fraction) {
-    super.createComponents(fraction);
+  public void createComponents() {
+    super.createComponents();
     ComponentFactory.addPlayerCollisionComponent(this);
 
     //position player

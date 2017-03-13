@@ -18,13 +18,14 @@ import com.starsailor.Game;
 import com.starsailor.actors.FormationOwner;
 import com.starsailor.actors.Fraction;
 import com.starsailor.actors.Ship;
-import com.starsailor.actors.Spine;
 import com.starsailor.actors.route.Route;
 import com.starsailor.components.collision.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
+import com.starsailor.model.BodyData;
 import com.starsailor.model.SpineData;
+import com.starsailor.model.WeaponData;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.box2d.BodyGenerator;
@@ -67,7 +68,7 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, com.starsailor.model.WeaponData weaponData, boolean friendly) {
+  public static BodyComponent addBulletBodyComponent(Entity entity, Vector2 position, WeaponData weaponData, boolean friendly) {
     BodyComponent component = createComponent(BodyComponent.class);
     component.body = BodyGenerator.createBulletBody(position, weaponData, friendly);
     component.body.setTransform(Box2dUtil.toBox2Vector(position), component.body.getAngle());
@@ -76,24 +77,24 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Spine spine, com.starsailor.model.BodyData bodyData, Vector2 position) {
+  public static BodyComponent addBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
     BodyComponent component = createComponent(BodyComponent.class);
-    component.body = BodyGenerator.createSpineBody(Game.world, spine, bodyData);
-    component.body.setUserData(spine);
+    component.body = BodyGenerator.createSpineBody(Game.world, ship, bodyData);
+    component.body.setUserData(ship);
 
     if(position != null) {
       Vector2 box2dPos = Box2dUtil.toBox2Vector(position);
       component.body.setTransform(box2dPos, component.body.getAngle());
     }
 
-    spine.add(component);
+    ship.add(component);
     return component;
   }
 
-  public static ScalingComponent addScalingComponent(Spine spine) {
+  public static ScalingComponent addScalingComponent(Entity entity) {
     ScalingComponent component = createComponent(ScalingComponent.class);
     component.init(1f);
-    spine.add(component);
+    entity.add(component);
     return component;
   }
 
@@ -103,10 +104,10 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpineComponent addSpineComponent(Spine spine, SpineData spineData) {
-    SpineComponent component = createComponent(SpineComponent.class);
+  public static SpineComponent addSpineComponent(Entity entity, SpineData spineData) {
+    SpineComponent component = new SpineComponent(spineData);
     component.setSpineData(spineData);
-    spine.add(component);
+    entity.add(component);
     return component;
   }
 

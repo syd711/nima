@@ -18,7 +18,7 @@ public class ShipFactory {
   public static Player createPlayer() {
     ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
     Player player = new Player(ship);
-    player.createComponents(Fraction.PLAYER);
+    player.createComponents();
     player.getStateMachine().changeState(PlayerState.IDLE);
     return player;
   }
@@ -36,7 +36,7 @@ public class ShipFactory {
     if(route != null) {
       npc.setRoute(route);
     }
-    npc.createComponents(Fraction.valueOf(shipItem.getFraction().toUpperCase()));
+    npc.createComponents();
     return npc;
   }
 

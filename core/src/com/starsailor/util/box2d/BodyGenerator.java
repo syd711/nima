@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.Spine;
+import com.starsailor.actors.Ship;
+import com.starsailor.components.SpineComponent;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.WeaponData;
 
@@ -80,26 +81,28 @@ public class BodyGenerator {
     return b;
   }
 
-  public static Body createShieldBody(World world, Spine spine, BodyData bodyData) {
+  public static Body createShieldBody(World world, Ship ship, BodyData bodyData) {
+    SpineComponent spineComponent = ship.getComponent(SpineComponent.class);
     CircleShape shape = new CircleShape();
-    float scaling = spine.jsonScaling;
-    float radius = (spine.skeleton.getData().getHeight() + 320) * scaling / 2;
+    float scaling = spineComponent.getJsonScaling();
+    float radius = (spineComponent.getSkeleton().getData().getHeight() + 320) * scaling / 2;
     shape.setRadius(radius * MPP);
-    return spineBody(shape, world, bodyData, spine, true);
+    return spineBody(shape, world, bodyData, ship, true);
   }
 
   /**
    * Creates the Box2d body for the given spine
    */
-  public static Body createSpineBody(World world, Spine spine, BodyData bodyData) {
+  public static Body createSpineBody(World world, Ship ship, BodyData bodyData) {
+    SpineComponent spineComponent = ship.getComponent(SpineComponent.class);
     PolygonShape shape = new PolygonShape();
-    float scaling = spine.jsonScaling - 0.02f; //TODO better body
-    shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
-    return spineBody(shape, world, bodyData, spine, bodyData.isSensor());
+    float scaling = spineComponent.getJsonScaling() - 0.02f; //TODO better body
+    shape.setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP, spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);
+    return spineBody(shape, world, bodyData, ship, bodyData.isSensor());
   }
 
-  private static Body spineBody(Shape shape, World world, BodyData bodyData, Spine spine, boolean sensor) {
-    Vector2 center = spine.getCenter();
+  private static Body spineBody(Shape shape, World world, BodyData bodyData, Ship ship, boolean sensor) {
+    Vector2 center = ship.getCenter();
 
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
@@ -127,7 +130,7 @@ public class BodyGenerator {
     fdef.restitution = 0.1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;
-    if(spine instanceof Player) {
+    if(ship instanceof Player) {
       fdef.filter.categoryBits = PLAYER_BITS;
       fdef.filter.maskBits = MASK_PLAYER;
     }

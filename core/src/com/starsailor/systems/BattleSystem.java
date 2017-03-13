@@ -10,6 +10,8 @@ import com.starsailor.components.ShootingComponent;
 import com.starsailor.model.BodyData;
 import com.starsailor.util.box2d.BodyGenerator;
 
+import static com.starsailor.util.Settings.MPP;
+
 public class BattleSystem extends PauseableIteratingSystem {
   public BattleSystem() {
     super(Family.all(ShootingComponent.class).get());
@@ -44,7 +46,7 @@ public class BattleSystem extends PauseableIteratingSystem {
       }
       Body body = npc.shieldComponent.body;
       body.setUserData(npc);
-      body.setTransform(npc.getBox2dCenter(), body.getAngle());
+      body.setTransform(npc.getCenter().scl(MPP), body.getAngle());
     }
     else {
       if(npc.shieldComponent.body != null) {

@@ -8,6 +8,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.SpineComponent;
 import com.starsailor.components.SteerableComponent;
 import com.starsailor.model.SteeringData;
 import com.starsailor.managers.SteeringManager;
@@ -21,7 +22,8 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void enter(Player player) {
-    player.setAnimation(SpineShipAnimations.Move);
+    SpineComponent spineComponent = player.getComponent(SpineComponent.class);
+    spineComponent.setAnimation(SpineShipAnimations.Move);
 
     if(clickTarget == null) {
       clickTarget = new ClickTarget(player.targetCoordinates);
@@ -40,7 +42,8 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void exit(Player player) {
-    player.setAnimation(SpineShipAnimations.Stand);
+    SpineComponent spineComponent = player.getComponent(SpineComponent.class);
+    spineComponent.setAnimation(SpineShipAnimations.Stand);
   }
 
   @Override

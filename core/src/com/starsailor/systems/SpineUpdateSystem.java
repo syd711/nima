@@ -2,7 +2,6 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.Spine;
 import com.starsailor.components.SpineComponent;
 
 public class SpineUpdateSystem extends PauseableIteratingSystem {
@@ -12,6 +11,7 @@ public class SpineUpdateSystem extends PauseableIteratingSystem {
   }
 
   public void process(GameEntity entity, float deltaTime) {
-    ((Spine)entity).state.update(deltaTime); // Update the animation time.
+    SpineComponent spineComponent = entity.getComponent(SpineComponent.class);
+    spineComponent.getAnimationState().update(deltaTime); // Update the animation time.
   }
 }

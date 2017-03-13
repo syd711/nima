@@ -40,8 +40,8 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
-  public void createComponents(Fraction fraction) {
-    super.createComponents(fraction);
+  public void createComponents() {
+    super.createComponents();
 
     collisionComponent = ComponentFactory.addNPCCollisionComponent(this);
     selectionComponent = ComponentFactory.addSelectionComponent(this);
