@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.components.ScalingComponent;
-import com.starsailor.components.SpineComponent;
+import com.starsailor.components.SpineShipComponent;
 
 public class ScalingSystem extends PauseableIteratingSystem {
   private ComponentMapper<ScalingComponent> skalingsMap = ComponentMapper.getFor(ScalingComponent.class);
@@ -17,7 +17,7 @@ public class ScalingSystem extends PauseableIteratingSystem {
     ScalingComponent scalingComponent = skalingsMap.get(entity);
     scalingComponent.updateValue();
 
-    SpineComponent spineComponent = entity.getComponent(SpineComponent.class);
+    SpineShipComponent spineComponent = entity.getComponent(SpineShipComponent.class);
 
     if(spineComponent != null) {
       float scaleX = spineComponent.getSkeleton().getRootBone().getScaleX();

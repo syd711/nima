@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
-import com.starsailor.components.SpineComponent;
+import com.starsailor.components.SpineShipComponent;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.WeaponData;
 
@@ -82,7 +82,7 @@ public class BodyGenerator {
   }
 
   public static Body createShieldBody(World world, Ship ship, BodyData bodyData) {
-    SpineComponent spineComponent = ship.getComponent(SpineComponent.class);
+    SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
     CircleShape shape = new CircleShape();
     float scaling = spineComponent.getJsonScaling();
     float radius = (spineComponent.getSkeleton().getData().getHeight() + 320) * scaling / 2;
@@ -94,7 +94,7 @@ public class BodyGenerator {
    * Creates the Box2d body for the given spine
    */
   public static Body createSpineBody(World world, Ship ship, BodyData bodyData) {
-    SpineComponent spineComponent = ship.getComponent(SpineComponent.class);
+    SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
     PolygonShape shape = new PolygonShape();
     float scaling = spineComponent.getJsonScaling() - 0.02f; //TODO better body
     shape.setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP, spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);

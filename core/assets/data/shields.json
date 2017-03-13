@@ -3,7 +3,7 @@
   "damageAbsorptionFactor": 3.0,
   "spineData": {
     "spine": "energy",
-    "scale": 0.0,
+    "scale": 0.2,
     "defaultAnimation": "Schild",
     "children": []
   },

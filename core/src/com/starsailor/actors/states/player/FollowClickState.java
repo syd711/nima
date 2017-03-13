@@ -6,10 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.SpineShipAnimations;
-import com.starsailor.components.BodyComponent;
-import com.starsailor.components.ComponentFactory;
-import com.starsailor.components.SpineComponent;
-import com.starsailor.components.SteerableComponent;
+import com.starsailor.components.*;
 import com.starsailor.model.SteeringData;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -22,7 +19,7 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void enter(Player player) {
-    SpineComponent spineComponent = player.getComponent(SpineComponent.class);
+    SpineShipComponent spineComponent = player.getComponent(SpineShipComponent.class);
     spineComponent.setAnimation(SpineShipAnimations.Move);
 
     if(clickTarget == null) {
@@ -42,7 +39,7 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void exit(Player player) {
-    SpineComponent spineComponent = player.getComponent(SpineComponent.class);
+    SpineShipComponent spineComponent = player.getComponent(SpineShipComponent.class);
     spineComponent.setAnimation(SpineShipAnimations.Stand);
   }
 

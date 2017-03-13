@@ -24,6 +24,7 @@ import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
 import com.starsailor.model.BodyData;
+import com.starsailor.model.ShieldData;
 import com.starsailor.model.SpineData;
 import com.starsailor.model.WeaponData;
 import com.starsailor.render.converters.MapConstants;
@@ -104,8 +105,8 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpineComponent addSpineComponent(Entity entity, SpineData spineData) {
-    SpineComponent component = new SpineComponent(spineData);
+  public static SpineShipComponent addSpineShipComponent(Entity entity, SpineData spineData) {
+    SpineShipComponent component = new SpineShipComponent(spineData);
     entity.add(component);
     return component;
   }
@@ -234,7 +235,13 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShieldComponent addShieldComponent(Entity entity, com.starsailor.model.ShieldData shieldData) {
+  public static SpineShieldComponent addSpineShieldComponent(Entity entity, SpineData spineData) {
+    SpineShieldComponent spineShieldComponent = new SpineShieldComponent(spineData);
+    entity.add(spineShieldComponent);
+    return spineShieldComponent;
+  }
+
+  public static ShieldComponent addShieldComponent(Entity entity, ShieldData shieldData) {
     ShieldComponent component = createComponent(ShieldComponent.class);
     if(shieldData != null) {
       component.health = shieldData.getHealth();

@@ -1,5 +1,5 @@
 
-skeleton.png
+energy.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
@@ -12,7 +12,7 @@ Schild_1_normal
   offset: 0, 0
   index: -1
 
-skeleton2.png
+energy2.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear

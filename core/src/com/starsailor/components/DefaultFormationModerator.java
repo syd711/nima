@@ -32,7 +32,9 @@ public class DefaultFormationModerator extends FormationMotionModerator {
     Body body = bodyComponent.body;
 
     if(maxMemberDistance > steerableComponent.getBoundingRadius() * 2) {
-      body.setTransform(lastPosition, body.getAngle());
+      if(lastPosition != null) {
+        body.setTransform(lastPosition, body.getAngle());
+      }
     }
     else {
       lastPosition = new Vector2(body.getPosition());

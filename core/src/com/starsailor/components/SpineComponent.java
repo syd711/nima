@@ -15,17 +15,12 @@ import com.starsailor.model.SpineData;
  * Component implementation for Spines.
  */
 public class SpineComponent implements Component, Pool.Poolable {
-
-  private SpineData spineData;
-
   private AnimationState animationState;
   private SkeletonRenderer skeletonRenderer;
   private Skeleton skeleton;
   private float jsonScaling;
 
   public SpineComponent(SpineData spineData) {
-    this.spineData = spineData;
-
     this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
@@ -80,7 +75,6 @@ public class SpineComponent implements Component, Pool.Poolable {
 
   @Override
   public void reset() {
-    spineData = null;
     animationState = null;
     skeletonRenderer = null;
     skeleton = null;

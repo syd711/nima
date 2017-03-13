@@ -33,7 +33,8 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   public ShieldComponent shieldComponent;
   public FractionComponent fractionComponent;
   public HealthComponent healthComponent;
-  public SpineComponent spineComponent;
+  public SpineShipComponent spineShipComponent;
+  public SpineShieldComponent spineShieldComponent;
 
   public ShipData shipData;
   protected ShipItem shipItem;
@@ -51,7 +52,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   }
 
   public void createComponents() {
-    spineComponent = ComponentFactory.addSpineComponent(this, shipItem.getShipData().getSpineData());
+    spineShipComponent = ComponentFactory.addSpineShipComponent(this, shipItem.getShipData().getSpineData());
 
     scalingComponent = ComponentFactory.addScalingComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
@@ -61,23 +62,26 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
+
     shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
+    spineShieldComponent = ComponentFactory.addSpineShieldComponent(this, shipData.getStatusData().getShieldData().getSpineData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
+
     fractionComponent = ComponentFactory.createFractionComponent(this, Fraction.valueOf(shipItem.getFraction().toUpperCase()));
 
     this.location = new Box2dLocation(new Vector2());
   }
 
   public float getHeight() {
-    return spineComponent.getHeight();
+    return spineShipComponent.getHeight();
   }
 
   public float getWidth() {
-    return spineComponent.getWidth();
+    return spineShipComponent.getWidth();
   }
 
   public Vector2 getCenter() {
-    return spineComponent.getCenter();
+    return spineShipComponent.getCenter();
   }
 
   @Override
