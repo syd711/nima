@@ -1,0 +1,26 @@
+
+skeleton.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Schild_1_normal
+  rotate: false
+  xy: 2, 2
+  size: 858, 858
+  orig: 858, 858
+  offset: 0, 0
+  index: -1
+
+skeleton2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Schild_2_normal
+  rotate: false
+  xy: 2, 2
+  size: 858, 858
+  orig: 858, 858
+  offset: 0, 0
+  index: -1

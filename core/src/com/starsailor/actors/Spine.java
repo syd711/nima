@@ -46,7 +46,7 @@ abstract public class Spine extends GameEntity {
     }
   }
 
-  public void setAnimation(SpineAnimation animation) {
+  public void setAnimation(SpineShipAnimations animation) {
     state.setAnimation(0, animation.toString(), true);
   }
 
@@ -61,7 +61,7 @@ abstract public class Spine extends GameEntity {
   public Vector2 getCenter() {
     Vector2 spineCenter = SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME);
     if(spineCenter == null) {
-      spineCenter = SpineUtil.getSpineCenter(this, "Schiff_01");
+      spineCenter = SpineUtil.getSpineCenter(this, "Schiff_01"); //TODO
     }
     if(spineCenter == null) {
       throw new UnsupportedOperationException("No center slot found for spine " + this);

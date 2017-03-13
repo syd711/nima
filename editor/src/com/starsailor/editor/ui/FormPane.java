@@ -2,12 +2,12 @@ package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
 import com.starsailor.actors.Fraction;
+import com.starsailor.actors.SpineShieldAnimations;
+import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.actors.Steering;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
-import com.starsailor.model.GameData;
-import com.starsailor.model.GameDataWithId;
-import com.starsailor.model.StatusData;
+import com.starsailor.model.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -36,8 +36,10 @@ public class FormPane extends BorderPane implements ChangeListener {
   private VBox dynamicForm;
   private MainPane mainPane;
   private List<String> ignoredFields;
+  private GameData gameData;
 
   private static Map<Class,Boolean> collapsedStates = new HashMap<>();
+
 
   public FormPane(MainPane mainPane) {
     this(mainPane, new ArrayList<>());
@@ -61,6 +63,7 @@ public class FormPane extends BorderPane implements ChangeListener {
   }
 
   public void setData(GameData gameData) throws Exception {
+    this.gameData = gameData;
     dynamicForm.getChildren().clear();
 
     if(gameData != null) {
@@ -177,63 +180,74 @@ public class FormPane extends BorderPane implements ChangeListener {
     }
   }
 
-  public Node getCustomEditor(GridPane grid, GameData data, Field field, int row) throws IllegalAccessException {
-    if(field.getName().equals("spine")) {
-      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/spines/"), null);
+  public Node getCustomEditor(GridPane grid, GameData sectionData, Field field, int row) throws IllegalAccessException {
+    if(field.getName().equals("spine") && gameData instanceof ShipData) {
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/spines/ships"), null);
     }
-    else if(field.getName().equals("shield")) {
+    if(field.getName().equals("spine") && gameData instanceof ShieldData) {
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/spines/shields"), null);
+    }
+
+    if(field.getName().equals("defaultAnimation") && gameData instanceof ShipData) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShipAnimations.asStringList());
+    }
+    if(field.getName().equals("defaultAnimation") && gameData instanceof ShieldData) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShieldAnimations.asStringList());
+    }
+
+    if(field.getName().equals("shield")) {
       List<GameDataWithId> entries = UIController.getInstance().getShields();
-      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, entries);
     }
     else if(field.getName().equals("shipType")) {
       List<GameDataWithId> entries = UIController.getInstance().getShips();
-      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, entries);
     }
     else if(field.getName().equals("sound")) {
-      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/sounds/"), ".wav");
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/sounds/"), ".wav");
     }
     else if(field.getName().equals("collisionEffect")) {
-      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/particles/"), ".p");
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/particles/"), ".p");
     }
     else if(field.getName().equals("sprite")) {
-      return FormUtil.addBindingComboBox(grid, data, field, row, new File("../../core/assets/textures/weapons/"), ".png");
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/textures/weapons/"), ".png");
     }
     else if(field.getName().equals("category")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Arrays.asList("primary", "secondary", "emergency"));
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, Arrays.asList("primary", "secondary", "emergency"));
     }
     else if(field.getName().equals("route")) {
       List<String> routes = UIController.getInstance().getRoutes();
       routes.add(0, null);
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, routes);
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, routes);
     }
     else if(field.getName().equals("routeIndex")) {
       List<String> values = new ArrayList<>();
       for(int i=0; i<50; i++) {
         values.add(String.valueOf(i));
       }
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, values);
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, values);
     }
     else if(field.getName().equals("fraction")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Fraction.asStringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, Fraction.asStringList());
     }
     else if(field.getName().equals("defaultSteering")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.defaultSteeringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, Steering.defaultSteeringList());
     }
     else if(field.getName().equals("battleSteering")) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, data, field, row, Steering.battleSteeringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, Steering.battleSteeringList());
     }
     else if(field.getName().equals("formationOwner")) {
       List<GameDataWithId> entries = UIController.getInstance().getShipItems();
       entries.add(0, null);
-      return FormUtil.addBindingComboBox(grid, data, field, row, entries);
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, entries);
     }
     else if(field.getName().equals("weapons")) {
-      StatusData statusData = (StatusData) data;
+      StatusData statusData = (StatusData) sectionData;
       List<Integer> weaponIds = statusData.getWeapons();
       List<GameDataWithId> weapons = UIController.getInstance().getGameDataLoader().getModels(weaponIds);
       List allWeapons = UIController.getInstance().getGameDataLoader().getWeapons();
       UIController.getInstance().removeDuplicates(allWeapons, weapons);
-      return FormUtil.addListChooser(grid, data, field, row, allWeapons, weapons);
+      return FormUtil.addListChooser(grid, sectionData, field, row, allWeapons, weapons);
     }
     return null;
   }

@@ -1,0 +1,47 @@
+{
+"skeleton": { "hash": "hybaRGrfOmhdnk+HXhYLtW71wnY", "spine": "3.5.51", "width": 872.6, "height": 872.6 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Schild 1", "parent": "root", "length": 394.55 },
+	{ "name": "Schild 2", "parent": "root", "length": 398.02 }
+],
+"slots": [
+	{ "name": "LEERER SLOT", "bone": "root" },
+	{ "name": "Schild_1_normal", "bone": "Schild 1", "attachment": "Schild_1_normal" },
+	{ "name": "Schild_2_normal", "bone": "Schild 2", "attachment": "Schild_2_normal" }
+],
+"skins": {
+	"default": {
+		"Schild_1_normal": {
+			"Schild_1_normal": { "x": -2.12, "rotation": -90, "width": 858, "height": 858 }
+		},
+		"Schild_2_normal": {
+			"Schild_2_normal": { "x": 1.29, "y": -0.02, "rotation": -90.98, "width": 858, "height": 858 }
+		}
+	}
+},
+"animations": {
+	"Schild": {
+		"bones": {
+			"Schild 2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": 90 },
+					{ "time": 1, "angle": 180 },
+					{ "time": 1.5, "angle": 270 },
+					{ "time": 2, "angle": 360 }
+				]
+			},
+			"Schild 1": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": -90 },
+					{ "time": 1, "angle": -180 },
+					{ "time": 1.5, "angle": -270 },
+					{ "time": 2, "angle": 360 }
+				]
+			}
+		}
+	}
+}
+}

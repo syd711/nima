@@ -10,8 +10,9 @@ public class Resources {
   public static final String WEAPON_TEXTURES = "textures/weapons/";
   public static final String PARTICLES = "particles/";
 
-  public static final String SPINES = "spines/";
-  public static final String ACTOR_DEFAULT_ANIMATION = "walk";
+  public static final String SPINE_ROOT = "spines/";
+  public static final String SPINE_SHIPS = SPINE_ROOT + "ships/";
+  public static final String SPINE_SHIELDS = SPINE_ROOT + "shields/";
 
   public static final String SCENE2D_SKIN = "skins/uiskin.json";
 

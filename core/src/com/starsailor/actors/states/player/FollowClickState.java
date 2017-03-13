@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.SpineAnimation;
+import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SteerableComponent;
@@ -21,7 +21,7 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void enter(Player player) {
-    player.setAnimation(SpineAnimation.Move);
+    player.setAnimation(SpineShipAnimations.Move);
 
     if(clickTarget == null) {
       clickTarget = new ClickTarget(player.targetCoordinates);
@@ -40,7 +40,7 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void exit(Player player) {
-    player.setAnimation(SpineAnimation.Stand);
+    player.setAnimation(SpineShipAnimations.Stand);
   }
 
   @Override
