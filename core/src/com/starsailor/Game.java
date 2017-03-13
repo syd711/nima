@@ -109,7 +109,7 @@ public class Game extends ApplicationAdapter {
 
 
     tiledMapRenderer.addParallaxLayer("maps/parallax_1.jpg");
-    tiledMapRenderer.addParallaxLayer("maps/parallax_2.png");
+//    tiledMapRenderer.addParallaxLayer("maps/parallax_2.png");
     tiledMapRenderer.addParallaxLayer("maps/parallax_3.png");
 
     //init player

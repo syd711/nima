@@ -51,6 +51,9 @@ abstract public class Spine extends GameEntity {
   public Vector2 getCenter() {
     Vector2 spineCenter = SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME);
     if(spineCenter == null) {
+      spineCenter = SpineUtil.getSpineCenter(this, "Schiff_01");
+    }
+    if(spineCenter == null) {
       throw new UnsupportedOperationException("No center slot found for spine " + this);
     }
     return spineCenter;
