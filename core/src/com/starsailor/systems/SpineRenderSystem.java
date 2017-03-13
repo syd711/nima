@@ -8,7 +8,6 @@ import com.starsailor.actors.Spine;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.SpineComponent;
-import com.starsailor.util.GraphicsUtil;
 
 public class SpineRenderSystem extends RenderingSystem {
 
@@ -26,11 +25,11 @@ public class SpineRenderSystem extends RenderingSystem {
     //apply box2d world to spine world
     Vector2 position = bodyComponent.getWorldPosition();
     float bodyAngle = bodyComponent.body.getAngle();
-    Vector2 targetVector = new Vector2();
-    GraphicsUtil.angleToVector(targetVector, bodyAngle);
+
     //TODO fix spine angle and position here!
     positionComponent.setPosition(position);
     spine.skeleton.setPosition(positionComponent.x, positionComponent.y);
+    spine.skeleton.getRootBone().setRootRotation((float) Math.toDegrees(bodyAngle));
 
     //apply the rendering to the spine engine
     spine.state.apply(spine.skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.

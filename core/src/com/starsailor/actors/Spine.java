@@ -2,6 +2,8 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.*;
+import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.SpineComponent;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.SpineData;
 import com.starsailor.util.SpineUtil;
@@ -19,6 +21,8 @@ abstract public class Spine extends GameEntity {
   public Skeleton skeleton;
   public float jsonScaling;
 
+  public SpineComponent spineComponent;
+
   public Spine(SpineData spineData) {
     createSpine(spineData);
   }
@@ -27,6 +31,8 @@ abstract public class Spine extends GameEntity {
    * The plain spine creation
    */
   private void createSpine(SpineData spineData) {
+    spineComponent = ComponentFactory.addSpineComponent(this, spineData);
+
     this.jsonScaling = spineData.getScale();
     this.skeletonRenderer = new SkeletonRenderer();
 
@@ -36,8 +42,12 @@ abstract public class Spine extends GameEntity {
     AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between animations.
     state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time, etc).
     if(spineData.getDefaultAnimation() != null) {
-//      state.setAnimation(0, spineData.getDefaultAnimation(), true);
+      state.setAnimation(0, spineData.getDefaultAnimation(), true);
     }
+  }
+
+  public void setAnimation(SpineAnimation animation) {
+    state.setAnimation(0, animation.toString(), true);
   }
 
   public float getHeight() {

@@ -93,7 +93,7 @@ public class BodyGenerator {
    */
   public static Body createSpineBody(World world, Spine spine, BodyData bodyData) {
     PolygonShape shape = new PolygonShape();
-    float scaling = spine.jsonScaling;
+    float scaling = spine.jsonScaling - 0.02f; //TODO better body
     shape.setAsBox(spine.skeleton.getData().getWidth() * scaling / 2 * MPP, spine.skeleton.getData().getHeight() * scaling / 2 * MPP);
     return spineBody(shape, world, bodyData, spine, bodyData.isSensor());
   }

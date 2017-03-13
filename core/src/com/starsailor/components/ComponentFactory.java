@@ -24,6 +24,7 @@ import com.starsailor.components.collision.*;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
+import com.starsailor.model.SpineData;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.box2d.BodyGenerator;
@@ -102,8 +103,9 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpineComponent addSpineComponent(Spine spine) {
+  public static SpineComponent addSpineComponent(Spine spine, SpineData spineData) {
     SpineComponent component = createComponent(SpineComponent.class);
+    component.setSpineData(spineData);
     spine.add(component);
     return component;
   }

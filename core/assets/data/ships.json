@@ -60,7 +60,7 @@
       "spineData": {
         "spine": "player",
         "scale": 0.13,
-        "defaultAnimation": "walk",
+        "defaultAnimation": "Stand",
         "children": []
       },
       "statusData": {

@@ -25,7 +25,6 @@ import java.util.List;
 abstract public class Ship extends Spine implements IFormationMember<Ship> {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
-  public SpineComponent spineComponent;
   public ScalingComponent scalingComponent;
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
@@ -55,7 +54,7 @@ abstract public class Ship extends Spine implements IFormationMember<Ship> {
     scalingComponent = ComponentFactory.addScalingComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
-    spineComponent = ComponentFactory.addSpineComponent(this);
+
     bodyComponent = ComponentFactory.addBodyComponent(this, shipData.getBodyData(), position);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.SpineAnimation;
 import com.starsailor.components.BodyComponent;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.SteerableComponent;
@@ -20,6 +21,8 @@ public class FollowClickState implements State<Player> {
 
   @Override
   public void enter(Player player) {
+    player.setAnimation(SpineAnimation.Move);
+
     if(clickTarget == null) {
       clickTarget = new ClickTarget(player.targetCoordinates);
     }
@@ -31,17 +34,17 @@ public class FollowClickState implements State<Player> {
 
 
   @Override
-  public void update(Player entity) {
+  public void update(Player player) {
 
   }
 
   @Override
-  public void exit(Player entity) {
-
+  public void exit(Player player) {
+    player.setAnimation(SpineAnimation.Stand);
   }
 
   @Override
-  public boolean onMessage(Player entity, Telegram telegram) {
+  public boolean onMessage(Player player, Telegram telegram) {
     return false;
   }
 
