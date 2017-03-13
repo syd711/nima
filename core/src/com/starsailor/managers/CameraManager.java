@@ -61,6 +61,11 @@ public class CameraManager {
     targetZoom = zoom;
   }
 
+  public void reset() {
+    targetZoom = 1;
+    this.camera.zoom = 1;
+  }
+
   public void update(float deltaTime) {
     updateZoom();
 
