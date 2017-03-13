@@ -14,7 +14,6 @@ import static com.starsailor.util.Settings.MPP;
  * Superclass for spine entities
  */
 abstract public class Spine extends GameEntity {
-  public static final String SPINE_CENTER_SLOT_NAME = "torso";
 
   public AnimationState state;
   public SkeletonRenderer skeletonRenderer;
@@ -59,7 +58,7 @@ abstract public class Spine extends GameEntity {
   }
 
   public Vector2 getCenter() {
-    Vector2 spineCenter = SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME);
+    Vector2 spineCenter = SpineUtil.getSpineCenter(this, "torso");
     if(spineCenter == null) {
       spineCenter = SpineUtil.getSpineCenter(this, "Schiff_01"); //TODO
     }
@@ -70,7 +69,7 @@ abstract public class Spine extends GameEntity {
   }
 
   public Vector2 getBox2dCenter() {
-    return SpineUtil.getSpineCenter(this, SPINE_CENTER_SLOT_NAME).scl(MPP);
+    return getCenter().scl(MPP);
   }
 
 }
