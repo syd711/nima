@@ -106,7 +106,6 @@ public class ComponentFactory {
 
   public static SpineComponent addSpineComponent(Entity entity, SpineData spineData) {
     SpineComponent component = new SpineComponent(spineData);
-    component.setSpineData(spineData);
     entity.add(component);
     return component;
   }

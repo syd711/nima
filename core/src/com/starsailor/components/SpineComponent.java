@@ -74,22 +74,16 @@ public class SpineComponent implements Component, Pool.Poolable {
     return spineCenter;
   }
 
+  public SkeletonRenderer getSkeletonRenderer() {
+    return skeletonRenderer;
+  }
 
   @Override
   public void reset() {
     spineData = null;
-  }
-
-  public SpineData getSpineData() {
-    return spineData;
-  }
-
-  public void setSpineData(SpineData spineData) {
-    this.spineData = spineData;
-  }
-
-  public SkeletonRenderer getSkeletonRenderer() {
-    return skeletonRenderer;
+    animationState = null;
+    skeletonRenderer = null;
+    skeleton = null;
   }
 
   //-------------- Helper -------------------------------------
