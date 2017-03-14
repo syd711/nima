@@ -1,9 +1,6 @@
 package com.starsailor.editor.ui;
 
-import com.starsailor.model.BodyData;
-import com.starsailor.model.GameData;
-import com.starsailor.model.SteeringData;
-import com.starsailor.model.WeaponData;
+import com.starsailor.model.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +16,7 @@ public class WeaponDataFormPane extends FormPane {
 
   private BodyData bodyData;
   private SteeringData steeringData;
+  private SpineData spineData;
 
   public WeaponDataFormPane(MainPane mainPane) {
     super(mainPane, Arrays.asList("bodyData", "steeringData"));
@@ -83,6 +81,25 @@ public class WeaponDataFormPane extends FormPane {
       });
     }
 
+    spineData = new SpineData(weaponData.getSpineData());
+    if(!weaponData.isSpineDataExtended()) {
+      spineData = weaponData.getSpineData();
+    }
+
+    createSection(spineData, "Spine Data", extendable, new ChangeListener() {
+      @Override
+      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        if(observable instanceof BooleanProperty) {
+          boolean selected = (boolean) newValue;
+          if(selected) {
+            weaponData.setSpineData(null);
+          }
+          else {
+            weaponData.setSpineData(spineData);
+          }
+        }
+      }
+    });
 
     if(weaponData.getSteeringData() != null) {
       steeringData = new SteeringData(weaponData.getSteeringData());

@@ -6,9 +6,8 @@ import com.google.gson.annotations.Expose;
  * Contains all data of a weapon
  */
 public class WeaponData extends GameDataWithId<WeaponData> {
-
   public enum Types {
-    LASER, MISSILE, PHASER, MINE, FLARES, ROCKET
+    LASER, MISSILE, PHASER, MINE, FLARES
   }
 
   public enum Category {
@@ -64,8 +63,28 @@ public class WeaponData extends GameDataWithId<WeaponData> {
 
   //box2d data
   @Expose
-  private com.starsailor.model.BodyData bodyData;
+  private BodyData bodyData;
 
+  //spine data
+  @Expose
+  private SpineData spineData;
+
+
+  public SpineData getSpineData() {
+    if(spineData == null) {
+      return getParent().getSpineData();
+    }
+    return spineData;
+  }
+
+  public void setSpineData(SpineData spineData) {
+    this.spineData = spineData;
+  }
+
+
+  public boolean isSpineDataExtended() {
+    return spineData == null;
+  }
 
   public float getRechargeTimeMillis() {
     return rechargeTimeMillis;

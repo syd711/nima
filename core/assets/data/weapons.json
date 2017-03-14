@@ -10,6 +10,7 @@
   "activationDistance": 0.0,
   "name": "Weapons Root",
   "id": 30000,
+  "spineData": {},
   "children": [
     {
       "type": "Flares",

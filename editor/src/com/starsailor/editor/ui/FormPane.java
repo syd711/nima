@@ -1,10 +1,7 @@
 package com.starsailor.editor.ui;
 
 import com.google.gson.annotations.Expose;
-import com.starsailor.actors.Fraction;
-import com.starsailor.actors.SpineShieldAnimations;
-import com.starsailor.actors.SpineShipAnimations;
-import com.starsailor.actors.Steering;
+import com.starsailor.actors.*;
 import com.starsailor.editor.UIController;
 import com.starsailor.editor.util.FormUtil;
 import com.starsailor.model.*;
@@ -187,12 +184,18 @@ public class FormPane extends BorderPane implements ChangeListener {
     if(field.getName().equals("spine") && gameData instanceof ShieldData) {
       return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/spines/shields"), null);
     }
+    if(field.getName().equals("spine") && gameData instanceof WeaponData) {
+      return FormUtil.addBindingComboBox(grid, sectionData, field, row, new File("../../core/assets/spines/weapons"), null);
+    }
 
     if(field.getName().equals("defaultAnimation") && gameData instanceof ShipData) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShipAnimations.asStringList());
     }
     if(field.getName().equals("defaultAnimation") && gameData instanceof ShieldData) {
       return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShieldAnimations.asStringList());
+    }
+    if(field.getName().equals("defaultAnimation") && gameData instanceof WeaponData) {
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineWeaponAnimations.asStringList());
     }
 
     if(field.getName().equals("shield")) {
