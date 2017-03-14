@@ -4,7 +4,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.GameEntity;
 import com.starsailor.components.*;
+
+import java.util.List;
 
 public class SpineRenderSystem extends RenderingSystem {
 
@@ -17,16 +20,9 @@ public class SpineRenderSystem extends RenderingSystem {
     PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
     BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
 
-    //render ship
-    SpineShipComponent spineShipComponent = entity.getComponent(SpineShipComponent.class);
-    if(spineShipComponent != null) {
-      renderSpine(positionComponent, bodyComponent, spineShipComponent);
-    }
-
-    //render shield
-    SpineShieldComponent spineShieldComponent = entity.getComponent(SpineShieldComponent.class);
-    if(spineShieldComponent != null) {
-      renderSpine(positionComponent, bodyComponent, spineShieldComponent);
+    List<SpineComponent> spineComponents = ((GameEntity)entity).getComponents(SpineComponent.class);
+    for(SpineComponent spineComponent : spineComponents) {
+      renderSpine(positionComponent, bodyComponent, spineComponent);
     }
   }
 

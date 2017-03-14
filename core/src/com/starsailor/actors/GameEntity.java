@@ -6,6 +6,9 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.starsailor.components.GameEntityComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Improved Ashley entity.
  */
@@ -18,6 +21,21 @@ public class GameEntity extends Entity {
     gameEntityComponent = new GameEntityComponent();
     add(gameEntityComponent);
   }
+
+  public <T> List<T> getComponents (Class<T> component) {
+    List<T> result = new ArrayList<T>();
+    ImmutableArray<Component> components = this.getComponents();
+    T found = null;
+    for(int i = 0, n = components.size(); i < n; i++) {
+      Component comp = this.getComponents().get(i);
+      if(ClassReflection.isAssignableFrom(component, comp.getClass())) {
+        result.add((T) comp);
+      }
+    }
+
+    return result;
+  }
+
 
 
   @SuppressWarnings("unchecked")

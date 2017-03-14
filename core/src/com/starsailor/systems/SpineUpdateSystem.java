@@ -3,8 +3,9 @@ package com.starsailor.systems;
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.components.BodyComponent;
-import com.starsailor.components.SpineShieldComponent;
-import com.starsailor.components.SpineShipComponent;
+import com.starsailor.components.SpineComponent;
+
+import java.util.List;
 
 public class SpineUpdateSystem extends PauseableIteratingSystem {
 
@@ -13,15 +14,9 @@ public class SpineUpdateSystem extends PauseableIteratingSystem {
   }
 
   public void process(GameEntity entity, float deltaTime) {
-    SpineShipComponent spineShipComponent = entity.getComponent(SpineShipComponent.class);
-    if(spineShipComponent != null) {
-      spineShipComponent.getAnimationState().update(deltaTime); // Update the animation time.
-    }
-
-
-    SpineShieldComponent spineShieldComponent = entity.getComponent(SpineShieldComponent.class);
-    if(spineShieldComponent != null) {
-      spineShieldComponent.getAnimationState().update(deltaTime); // Update the animation time.
+    List<SpineComponent> spineComponents = entity.getComponents(SpineComponent.class);
+    for(SpineComponent spineComponent : spineComponents) {
+      spineComponent.getAnimationState().update(deltaTime); // Update the animation time.
     }
   }
 }
