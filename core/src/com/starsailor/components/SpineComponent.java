@@ -1,6 +1,7 @@
 package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -19,6 +20,7 @@ public class SpineComponent implements Component, Pool.Poolable {
   private SkeletonRenderer skeletonRenderer;
   private Skeleton skeleton;
   private float jsonScaling;
+  private float rotation;
 
   public SpineComponent(SpineData spineData) {
     this.jsonScaling = spineData.getScale();
@@ -32,6 +34,10 @@ public class SpineComponent implements Component, Pool.Poolable {
     if(spineData.getDefaultAnimation() != null) {
       animationState.setAnimation(0, spineData.getDefaultAnimation(), true);
     }
+  }
+
+  public void update(float deltaTime) {
+    getAnimationState().update(deltaTime); // Update the animation time.
   }
 
   public AnimationState getAnimationState() {
@@ -69,8 +75,19 @@ public class SpineComponent implements Component, Pool.Poolable {
     return spineCenter;
   }
 
-  public SkeletonRenderer getSkeletonRenderer() {
-    return skeletonRenderer;
+  public void setRotation(float rotation) {
+    getSkeleton().getRootBone().setRootRotation(rotation);
+  }
+
+  public void setPosition(float x, float y) {
+    skeleton.setPosition(x, y);
+  }
+
+  public void render(Batch batch) {
+    //apply the rendering to the spine engine
+    animationState.apply(getSkeleton()); // Poses skeleton using current animations. This sets the bones' local SRT.
+    skeleton.updateWorldTransform();
+    skeletonRenderer.draw(batch, getSkeleton()); // Draw the skeleton images.
   }
 
   @Override
@@ -81,6 +98,7 @@ public class SpineComponent implements Component, Pool.Poolable {
   }
 
   //-------------- Helper -------------------------------------
+
   /**
    * Returns the center of the spine by search for
    * a slot with the given name and returning it's first position vertice.

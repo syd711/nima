@@ -5,24 +5,28 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.components.*;
 
 import java.util.List;
 
 public class SpineRenderSystem extends RenderingSystem {
 
-  //TODO add marker component
   public SpineRenderSystem(Batch batch) {
-    super(batch, Family.all(ShipBodyComponent.class).get());
+    super(batch, Family.all(SpineMarkerComponent.class).get());
   }
 
   public void process(Entity entity, float deltaTime) {
     PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-    ShipBodyComponent shipBodyComponent = entity.getComponent(ShipBodyComponent.class);
+    BodyComponent bodyComponent = entity.getComponent(ShipBodyComponent.class);
+
+    if(entity instanceof Bullet) {
+      bodyComponent = entity.getComponent(BodyComponent.class);
+    }
 
     List<SpineComponent> spineComponents = ((GameEntity)entity).getComponents(SpineComponent.class);
     for(SpineComponent spineComponent : spineComponents) {
-      renderSpine(positionComponent, shipBodyComponent, spineComponent);
+      renderSpine(positionComponent, bodyComponent, spineComponent);
     }
   }
 
@@ -32,12 +36,9 @@ public class SpineRenderSystem extends RenderingSystem {
     float bodyAngle = bodyComponent.body.getAngle();
 
     positionComponent.setPosition(position);
-    spineComponent.getSkeleton().setPosition(positionComponent.x, positionComponent.y);
-    spineComponent.getSkeleton().getRootBone().setRootRotation((float) Math.toDegrees(bodyAngle));
+    spineComponent.setPosition(positionComponent.x, positionComponent.y);
+    spineComponent.setRotation((float) Math.toDegrees(bodyAngle));
 
-    //apply the rendering to the spine engine
-    spineComponent.getAnimationState().apply(spineComponent.getSkeleton()); // Poses skeleton using current animations. This sets the bones' local SRT.
-    spineComponent.getSkeleton().updateWorldTransform();
-    spineComponent.getSkeletonRenderer().draw(batch, spineComponent.getSkeleton()); // Draw the skeleton images.
+    spineComponent.render(batch);
   }
 }

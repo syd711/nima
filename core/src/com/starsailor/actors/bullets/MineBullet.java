@@ -41,7 +41,7 @@ public class MineBullet extends Bullet {
 
   @Override
   public void update() {
-    updateSpritePositionForBody(true);
+    updatePosition();
   }
 
   @Override

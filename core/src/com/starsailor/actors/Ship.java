@@ -55,6 +55,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   }
 
   public void createComponents() {
+    ComponentFactory.addSpineMarkerComponent(this);
     spineShipComponent = ComponentFactory.addSpineShipComponent(this, shipItem.getShipData().getSpineData());
 
     scalingComponent = ComponentFactory.addScalingComponent(this);

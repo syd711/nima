@@ -45,7 +45,7 @@ public class FlaresBullet extends Bullet {
 
   @Override
   public void update() {
-    updateSpritePositionForBody(true);
+    updatePosition();
     float angularVelocity = bodyComponent.body.getAngularVelocity();
     if(angularVelocity > 0 && angularVelocity < 0.5f) {
       markForDestroy();

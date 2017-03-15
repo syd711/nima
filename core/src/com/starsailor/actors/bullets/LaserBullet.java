@@ -1,14 +1,12 @@
 package com.starsailor.actors.bullets;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.actors.Ship;
-import com.starsailor.components.SpriteComponent;
 import com.starsailor.model.WeaponData;
-import com.starsailor.util.box2d.Box2dUtil;
 import com.starsailor.util.Resources;
 import com.starsailor.util.Settings;
+import com.starsailor.util.box2d.Box2dUtil;
 
 /**
  * Concrete implementation of a weapon type.
@@ -24,9 +22,7 @@ public class LaserBullet extends Bullet {
     Vector2 to = Box2dUtil.toBox2Vector(target.getCenter());
     float radianAngle = Box2dUtil.getBox2dAngle(from, to);
 
-    SpriteComponent.SpriteItem spriteItem = getSpriteItem();
-    Sprite bulletSprite = spriteItem.getSprite();
-    bulletSprite.setRotation((float) Math.toDegrees(radianAngle));
+    spineComponent.setRotation((float) Math.toDegrees(radianAngle));
 
     Body bulletBody = bodyComponent.body;
     bulletBody.setTransform(bulletBody.getPosition().x, bulletBody.getPosition().y, radianAngle);
@@ -43,7 +39,7 @@ public class LaserBullet extends Bullet {
 
   @Override
   public void update() {
-    updateSpritePositionForBody(false);
+    updatePosition();
   }
 
   @Override

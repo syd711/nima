@@ -56,7 +56,7 @@ public class MissileBullet extends Bullet implements EntityListener {
     force = force.scl(weaponData.getForceFactor() * Game.camera.zoom);
 
     bulletBody.applyForceToCenter(force, true);
-    getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
+    spineComponent.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
 
     //add dependency tracking for the target
     EntityManager.getInstance().addEntityListener(this);
@@ -66,7 +66,7 @@ public class MissileBullet extends Bullet implements EntityListener {
 
   @Override
   public void update() {
-    updateSpritePositionForBody(false);
+    updatePosition();
 
     if(!steerableComponent.isEnabled()) {
       float distanceToOwner = getDistanceFromOrigin() * Game.camera.zoom;
@@ -108,7 +108,7 @@ public class MissileBullet extends Bullet implements EntityListener {
       //may it has been destroyed during flying
       if(targetBody != null) {
         Box2dUtil.gravity(bodyComponent.body, targetBody, 1.1f);
-        getSpriteItem().setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
+        spineComponent.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()) - 90);
       }
       else {
         steerableComponent.setEnabled(true);

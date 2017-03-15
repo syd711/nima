@@ -235,6 +235,18 @@ public class ComponentFactory {
     return component;
   }
 
+  public static SpineMarkerComponent addSpineMarkerComponent(Entity entity) {
+    SpineMarkerComponent component = createComponent(SpineMarkerComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static SpineBulletComponent addSpineBulletComponent(Entity entity, SpineData spineData) {
+    SpineBulletComponent component = new SpineBulletComponent(spineData);
+    entity.add(component);
+    return component;
+  }
+
   public static SpineShieldComponent addSpineShieldComponent(Entity entity, SpineData spineData) {
     SpineShieldComponent spineShieldComponent = new SpineShieldComponent(spineData);
     entity.add(spineShieldComponent);

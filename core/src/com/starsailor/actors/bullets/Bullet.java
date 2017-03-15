@@ -1,7 +1,6 @@
 package com.starsailor.actors.bullets;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
@@ -10,8 +9,8 @@ import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.components.*;
+import com.starsailor.managers.SoundManager;
 import com.starsailor.model.WeaponData;
-import com.starsailor.managers.*;
 import com.starsailor.util.box2d.Box2dUtil;
 
 import java.util.Collections;
@@ -23,7 +22,7 @@ import static com.starsailor.util.Settings.PPM;
  * Entity for bullets
  */
 abstract public class Bullet extends GameEntity {
-  public SpriteComponent spriteComponent;
+  public SpineBulletComponent spineComponent;
   public PositionComponent positionComponent;
   public SteerableComponent steerableComponent;
   public BulletDamageComponent bulletDamageComponent;
@@ -133,7 +132,8 @@ abstract public class Bullet extends GameEntity {
    * @param weaponData
    */
   protected void createComponents(WeaponData weaponData) {
-    spriteComponent = ComponentFactory.addSpriteComponent(this, weaponData.getSprite(), 90);
+    ComponentFactory.addSpineMarkerComponent(this);
+    spineComponent = ComponentFactory.addSpineBulletComponent(this, weaponData.getSpineData());
     positionComponent = ComponentFactory.addPositionComponent(this);
     positionComponent.setPosition(owner.getCenter());
     bulletDamageComponent = ComponentFactory.addBulletDamageComponent(this, weaponData);
@@ -178,20 +178,9 @@ abstract public class Bullet extends GameEntity {
   /**
    * For bullets that use box2d and have to follow the body.
    */
-  protected void updateSpritePositionForBody(boolean updateAngle) {
-    SpriteComponent.SpriteItem spriteItem = getSpriteItem();
-    Sprite bulletSprite = spriteItem.getSprite();
-    positionComponent.x = bodyComponent.body.getPosition().x * PPM - bulletSprite.getWidth() / 2;
-    positionComponent.y = bodyComponent.body.getPosition().y * PPM - bulletSprite.getHeight() / 2;
-
-    spriteItem.setPosition(positionComponent.getPosition(), false);
-    if(updateAngle) {
-      spriteItem.setRotation((float) Math.toDegrees(bodyComponent.body.getAngle()));
-    }
-  }
-
-  protected SpriteComponent.SpriteItem getSpriteItem() {
-    return spriteComponent.getSprite(weaponData.getSprite());
+  protected void updatePosition() {
+    positionComponent.x = bodyComponent.body.getPosition().x * PPM - spineComponent.getWidth() / 2;
+    positionComponent.y = bodyComponent.body.getPosition().y * PPM - spineComponent.getHeight() / 2;
   }
 
   public boolean is(WeaponData.Types type) {
