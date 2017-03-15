@@ -28,19 +28,19 @@ public class WeaponDataFormPane extends FormPane {
 
     switch(type) {
       case LASER: {
-        return Arrays.asList("type", "durationMillis", "torque", "bulletDelay", "activationDistance");
+        return Arrays.asList("type", "sprite", "spineData", "durationMillis", "torque", "bulletDelay", "activationDistance");
       }
       case MISSILE: {
-        return Arrays.asList("type", "durationMillis", "torque");
+        return Arrays.asList("type", "sprite", "spineData", "durationMillis", "torque");
       }
       case PHASER: {
-        return Arrays.asList("type", "torque", "bodyData", "steeringData", "activationDistance", "forceFactor");
+        return Arrays.asList("type", "sprite", "spineData", "torque", "bodyData", "steeringData", "activationDistance", "forceFactor");
       }
       case MINE: {
-        return Arrays.asList("type", "durationMillis", "torque");
+        return Arrays.asList("type", "sprite", "spineData", "durationMillis", "torque");
       }
       case FLARES: {
-        return Arrays.asList("type", "category", "durationMillis", "activationDistance");
+        return Arrays.asList("type", "sprite", "spineData", "category", "durationMillis", "activationDistance");
       }
     }
     return Collections.emptyList();

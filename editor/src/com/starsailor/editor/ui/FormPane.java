@@ -195,7 +195,9 @@ public class FormPane extends BorderPane implements ChangeListener {
       return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShieldAnimations.asStringList());
     }
     if(field.getName().equals("defaultAnimation") && gameData instanceof WeaponData) {
-      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineWeaponAnimations.asStringList());
+      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineShipAnimations.asStringList());
+      //TODO
+//      return FormUtil.addBindingComboBoxWithDefaults(grid, sectionData, field, row, SpineWeaponAnimations.asStringList());
     }
 
     if(field.getName().equals("shield")) {

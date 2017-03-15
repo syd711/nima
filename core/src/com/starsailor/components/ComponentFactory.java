@@ -266,7 +266,8 @@ public class ComponentFactory {
         Ship ship = (Ship)member;
         float cost = 10000f * 2 * component.getFormation().getSlotAssignmentCount();
         Location<Vector2> slotTarget = component.getFormation().getSlotAssignmentAt(slotNumber).member.getTargetLocation();
-        return cost + ship.shipBodyComponent.body.getPosition().dst(slotTarget.getPosition());
+        Body body = ship.shipBodyComponent.body;
+        return cost + body.getPosition().dst(slotTarget.getPosition());
       }
     };
     SoftRoleSlotAssignmentStrategy slotAssignmentStrategy = new SoftRoleSlotAssignmentStrategy<>(slotCostProvider);

@@ -50,6 +50,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
   @Expose
   private String collisionEffect;
   @Expose
+  @Deprecated
   private String sprite;
 
 
@@ -195,7 +196,7 @@ public class WeaponData extends GameDataWithId<WeaponData> {
     this.steeringData = steeringData;
   }
 
-  public com.starsailor.model.BodyData getBodyData() {
+  public BodyData getBodyData() {
     if(this.bodyData == null) {
       if(getParent() != null) {
         return getParent().getBodyData();

@@ -48,6 +48,11 @@
         "sensor": true,
         "children": []
       },
+      "spineData": {
+        "spine": "player",
+        "scale": 0.1,
+        "children": []
+      },
       "name": "Flares",
       "id": 31000,
       "children": []
@@ -77,6 +82,11 @@
         "sensor": true,
         "children": []
       },
+      "spineData": {
+        "spine": "player",
+        "scale": 0.1,
+        "children": []
+      },
       "name": "Laser",
       "id": 32000
     },
@@ -103,6 +113,11 @@
         "radius": 16.0,
         "density": 0.1,
         "sensor": false,
+        "children": []
+      },
+      "spineData": {
+        "spine": "player",
+        "scale": 0.1,
         "children": []
       },
       "name": "Mine",
@@ -139,6 +154,11 @@
         "radius": 0.0,
         "density": 1.2,
         "sensor": true,
+        "children": []
+      },
+      "spineData": {
+        "spine": "player",
+        "scale": 0.1,
         "children": []
       },
       "name": "Missile",
@@ -227,6 +247,11 @@
       "collisionEffect": "explosion",
       "sprite": "phaser",
       "activationDistance": 0.0,
+      "spineData": {
+        "spine": "player",
+        "scale": 0.1,
+        "children": []
+      },
       "name": "Phaser",
       "id": 35000
     }
