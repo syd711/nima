@@ -40,7 +40,7 @@ public class MissileBullet extends Bullet implements EntityListener {
   public boolean create() {
     //apply initial force to the missile
     Body bulletBody = bodyComponent.body;
-    Body ownerBody = owner.bodyComponent.body;
+    Body ownerBody = owner.shipBodyComponent.body;
     if(ownerBody == null) {
       return false;
     }
@@ -94,7 +94,7 @@ public class MissileBullet extends Bullet implements EntityListener {
       }
 
       //by default the target body is what we aim for
-      Body targetBody = target.bodyComponent.body;
+      Body targetBody = target.shipBodyComponent.body;
 
       //check for flares
       Bullet nearestEnemyFlare = findNearestForeignFlare(true);

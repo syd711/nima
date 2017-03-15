@@ -127,7 +127,7 @@ public class Box2dUtil {
 //      Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);
 //      float x = box2dDelta.x;
 //      float y = box2dDelta.y;
-//      Vector2 position = bodyComponent.body.getPosition();
+//      Vector2 position = shipBodyComponent.body.getPosition();
 //
 //      if(currentAngle >= 0 && currentAngle <= 90) {
 //        position.x = position.x + x;
@@ -146,7 +146,7 @@ public class Box2dUtil {
 //        position.y = position.y - y;
 //      }
 //
-//      bodyComponent.body.setTransform(position, bodyComponent.body.getAngle());
+//      shipBodyComponent.body.setTransform(position, shipBodyComponent.body.getAngle());
 //    }
 //  }
 }

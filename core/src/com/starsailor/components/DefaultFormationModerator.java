@@ -8,7 +8,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.IFormationOwner;
 
 /**
- * Created by Matthias on 07.03.2017.
+ * Checks the distance to the formation owner.
  */
 public class DefaultFormationModerator extends FormationMotionModerator {
 

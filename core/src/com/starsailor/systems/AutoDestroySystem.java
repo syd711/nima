@@ -29,7 +29,7 @@ public class AutoDestroySystem extends IteratingSystem {
 
     //check destroy flag
     if(gameEntity.isMarkedForDestroy()) {
-      EntityManager.getInstance().destroy(entity);
+      EntityManager.getInstance().destroy(gameEntity);
       return;
     }
 

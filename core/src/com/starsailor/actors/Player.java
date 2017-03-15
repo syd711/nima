@@ -42,7 +42,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     //position player
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
-    bodyComponent.setWorldPosition(screenCenter);
+    shipBodyComponent.setWorldPosition(screenCenter);
   }
 
   @Override

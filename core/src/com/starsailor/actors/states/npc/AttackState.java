@@ -105,7 +105,7 @@ public class AttackState extends BattleState {
 
 
     //check shield state
-    if(!ship.shieldComponent.isActive()) {
+    if(!ship.shieldStatusComponent.isActive()) {
       //fire seconds weapons if there is no shield anymore
       List<WeaponData> secondaryChargedWeapons = getChargedWeaponsForCategory(ship, WeaponData.Category.SECONDARY);
       fireWeapons(ship, enemy, secondaryChargedWeapons);

@@ -2,7 +2,7 @@ package com.starsailor.systems;
 
 import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.components.BodyComponent;
+import com.starsailor.components.ShipBodyComponent;
 import com.starsailor.components.SpineComponent;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class SpineUpdateSystem extends PauseableIteratingSystem {
 
   public SpineUpdateSystem() {
-    super(Family.all(BodyComponent.class).get()); //TODO add marker
+    super(Family.all(ShipBodyComponent.class).get()); //TODO add marker
   }
 
   public void process(GameEntity entity, float deltaTime) {

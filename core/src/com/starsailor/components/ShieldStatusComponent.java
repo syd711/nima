@@ -2,14 +2,12 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.starsailor.Game;
 import com.starsailor.actors.Ship;
 
 /**
  *
  */
-public class ShieldComponent extends SpriteComponent {
+public class ShieldStatusComponent extends SpriteComponent {
   private final static String SHIELDBG = "shieldbg";
   private final static String SHIELDFG = "shieldfg";
 
@@ -18,30 +16,20 @@ public class ShieldComponent extends SpriteComponent {
   public float rechargeTimeMillis;
   public float damageAbsorptionFactor;
 
-  public Body body;
-
   @Override
+
   public void reset() {
     super.reset();
     this.maxHealth = 0;
     this.health = 0;
-    this.body = null;
   }
-
-  public void destroy() {
-    if(body != null) {
-      Game.world.destroyBody(body);
-      body = null;
-    }
-  }
-
 
   public float applyDamage(float damage) {
     this.health = health - (damage * damageAbsorptionFactor);
     if(this.health <= 0) {
       setActive(false);
       //normalize remaining damage value again
-      return Math.abs(health/damageAbsorptionFactor);
+      return Math.abs(health / damageAbsorptionFactor);
     }
     return 0;
   }
@@ -66,7 +54,7 @@ public class ShieldComponent extends SpriteComponent {
     pos.x -= ship.getWidth() / 2 - 10;
 
     SpriteComponent.SpriteItem background = getSprite(SHIELDBG);
-    if(background  != null) {
+    if(background != null) {
       background.setPosition(pos, false);
       SpriteComponent.SpriteItem foreGround = getSprite(SHIELDFG);
       foreGround.setPosition(pos, false);

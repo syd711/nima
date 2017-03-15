@@ -78,8 +78,8 @@ public class ComponentFactory {
     return component;
   }
 
-  public static BodyComponent addBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
-    BodyComponent component = createComponent(BodyComponent.class);
+  public static ShipBodyComponent addShipBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
+    ShipBodyComponent component = createComponent(ShipBodyComponent.class);
     component.body = BodyGenerator.createSpineBody(Game.world, ship, bodyData);
     component.body.setUserData(ship);
 
@@ -241,8 +241,14 @@ public class ComponentFactory {
     return spineShieldComponent;
   }
 
-  public static ShieldComponent addShieldComponent(Entity entity, ShieldData shieldData) {
-    ShieldComponent component = createComponent(ShieldComponent.class);
+  public static ShieldBodyComponent addShieldBodyComponent(Entity entity) {
+    ShieldBodyComponent component = createComponent(ShieldBodyComponent.class);
+    entity.add(component);
+    return component;
+  }
+
+  public static ShieldStatusComponent addShieldComponent(Entity entity, ShieldData shieldData) {
+    ShieldStatusComponent component = createComponent(ShieldStatusComponent.class);
     if(shieldData != null) {
       component.health = shieldData.getHealth();
       component.maxHealth = shieldData.getHealth();
@@ -260,7 +266,7 @@ public class ComponentFactory {
         Ship ship = (Ship)member;
         float cost = 10000f * 2 * component.getFormation().getSlotAssignmentCount();
         Location<Vector2> slotTarget = component.getFormation().getSlotAssignmentAt(slotNumber).member.getTargetLocation();
-        return cost + ship.bodyComponent.body.getPosition().dst(slotTarget.getPosition());
+        return cost + ship.shipBodyComponent.body.getPosition().dst(slotTarget.getPosition());
       }
     };
     SoftRoleSlotAssignmentStrategy slotAssignmentStrategy = new SoftRoleSlotAssignmentStrategy<>(slotCostProvider);

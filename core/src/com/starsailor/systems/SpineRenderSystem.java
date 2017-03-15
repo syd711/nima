@@ -13,16 +13,16 @@ public class SpineRenderSystem extends RenderingSystem {
 
   //TODO add marker component
   public SpineRenderSystem(Batch batch) {
-    super(batch, Family.all(BodyComponent.class).get());
+    super(batch, Family.all(ShipBodyComponent.class).get());
   }
 
   public void process(Entity entity, float deltaTime) {
     PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-    BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
+    ShipBodyComponent shipBodyComponent = entity.getComponent(ShipBodyComponent.class);
 
     List<SpineComponent> spineComponents = ((GameEntity)entity).getComponents(SpineComponent.class);
     for(SpineComponent spineComponent : spineComponents) {
-      renderSpine(positionComponent, bodyComponent, spineComponent);
+      renderSpine(positionComponent, shipBodyComponent, spineComponent);
     }
   }
 

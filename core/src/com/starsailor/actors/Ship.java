@@ -28,13 +28,16 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   public ScalingComponent scalingComponent;
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
-  public BodyComponent bodyComponent;
+  public ShipBodyComponent shipBodyComponent;
   public ParticleComponent particleComponent;
-  public ShieldComponent shieldComponent;
-  public FractionComponent fractionComponent;
-  public HealthComponent healthComponent;
-  public SpineShipComponent spineShipComponent;
+
+  public ShieldStatusComponent shieldStatusComponent;
   public SpineShieldComponent spineShieldComponent;
+  public ShieldBodyComponent shieldBodyComponent;
+
+  public HealthComponent healthComponent;
+  public FractionComponent fractionComponent;
+  public SpineShipComponent spineShipComponent;
 
   public ShipData shipData;
   protected ShipItem shipItem;
@@ -58,12 +61,13 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
 
-    bodyComponent = ComponentFactory.addBodyComponent(this, shipData.getBodyData(), position);
-    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, shipData.getSteeringData());
+    shipBodyComponent = ComponentFactory.addShipBodyComponent(this, shipData.getBodyData(), position);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, shipBodyComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
 
-    shieldComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
+    shieldStatusComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
+    shieldBodyComponent = ComponentFactory.addShieldBodyComponent(this);
     spineShieldComponent = ComponentFactory.addSpineShieldComponent(this, shipData.getStatusData().getShieldData().getSpineData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
 
@@ -161,7 +165,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * Returns the body distance to bullet
    */
   public float getDistanceTo(Bullet bullet) {
-    Vector2 position1 = bodyComponent.body.getPosition();
+    Vector2 position1 = shipBodyComponent.body.getPosition();
     Vector2 position2 = bullet.bodyComponent.body.getPosition();
     return position1.dst(position2);
   }
@@ -170,7 +174,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * Enable the shild component and the visual elements for it
    */
   public void setStateVisible(boolean enabled) {
-    shieldComponent.setActive(enabled);
+    shieldStatusComponent.setActive(enabled);
     healthComponent.setActive(enabled);
   }
 
@@ -179,7 +183,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    */
   public void switchToDefaultState() {
     getStateMachine().changeState(getDefaultState());
-    shieldComponent.setActive(false);
+    shieldStatusComponent.setActive(false);
   }
 
 
@@ -274,8 +278,8 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     BulletDamageComponent damageComponent = bullet.getComponent(BulletDamageComponent.class);
     float damage = damageComponent.damage;
     float damageOffset = damage; //the additional value to substract from health
-    if(shieldComponent.isActive()) {
-      damageOffset = shieldComponent.applyDamage(damage);
+    if(shieldStatusComponent.isActive()) {
+      damageOffset = shieldStatusComponent.applyDamage(damage);
     }
     healthComponent.health = healthComponent.health - damageOffset;
 

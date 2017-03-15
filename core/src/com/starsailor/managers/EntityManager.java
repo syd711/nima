@@ -27,7 +27,7 @@ import java.util.List;
 public class EntityManager implements EntityListener {
   private PooledEngine engine;
   private Player player;
-  private List<Entity> destroyEntities = new ArrayList<>();
+  private List<GameEntity> destroyEntities = new ArrayList<>();
   private List<Body> destroyBodies = new ArrayList<>();
 
   private static EntityManager INSTANCE;
@@ -128,7 +128,7 @@ public class EntityManager implements EntityListener {
    *
    * @param toDestroy the list of entities to be destroyed
    */
-  public void destroy(Entity toDestroy) {
+  public void destroy(GameEntity toDestroy) {
     destroyEntities.add(toDestroy);
   }
 
@@ -151,15 +151,10 @@ public class EntityManager implements EntityListener {
     engine.update(Gdx.graphics.getDeltaTime());
 
     if(!destroyEntities.isEmpty()) {
-      for(Entity entity : destroyEntities) {
-        BodyComponent bodyComponent = entity.getComponent(BodyComponent.class);
-        if(bodyComponent != null) {
-          bodyComponent.destroy();
-        }
-
-        ShieldComponent shieldComponent = entity.getComponent(ShieldComponent.class);
-        if(shieldComponent != null) {
-          shieldComponent.destroy();
+      for(GameEntity entity : destroyEntities) {
+        List<BodyComponent> components = entity.getComponents(BodyComponent.class);
+        for(BodyComponent component : components) {
+          component.destroy();
         }
 
         SteerableComponent steerableComponent = entity.getComponent(SteerableComponent.class);
