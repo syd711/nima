@@ -8,9 +8,12 @@
   "bulletCount": 0,
   "bulletDelay": 0,
   "activationDistance": 0.0,
+  "spineData": {
+    "scale": 0.0,
+    "children": []
+  },
   "name": "Weapons Root",
   "id": 30000,
-  "spineData": {},
   "children": [
     {
       "type": "Flares",

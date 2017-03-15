@@ -85,7 +85,7 @@ public class BodyGenerator {
     SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
     CircleShape shape = new CircleShape();
     float scaling = spineComponent.getJsonScaling();
-    float radius = (spineComponent.getSkeleton().getData().getHeight() + 320) * scaling / 2;
+    float radius = (spineComponent.getSkeleton().getData().getHeight() + 600) * scaling / 2;
     shape.setRadius(radius * MPP);
     return spineBody(shape, world, bodyData, ship, true);
   }
