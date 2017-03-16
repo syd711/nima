@@ -85,6 +85,10 @@ public class CameraManager {
     if(x < (width / 2)) {
       centerX = x;
       keepX = true;
+      StageManager.getInstance().getHudStage().getNavigationPanel().activate();
+    }
+    else {
+      StageManager.getInstance().getHudStage().getNavigationPanel().deactivate();
     }
 
     //x right
