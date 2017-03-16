@@ -1,4 +1,4 @@
-package com.starsailor.ui.location;
+package com.starsailor.ui.stages.location;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

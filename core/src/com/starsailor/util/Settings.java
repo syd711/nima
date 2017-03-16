@@ -28,6 +28,11 @@ public class Settings {
   public static final float MPP = 0.01f;
   public static final float PPM = 100f;
 
+  /**
+   * Scene2d Settings
+   */
+  public static final long CONTEXT_MENU_TIMEOUT = 3000;
+
 
   /**
    * Screen Settings

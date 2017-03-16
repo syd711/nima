@@ -19,7 +19,6 @@ import com.starsailor.managers.*;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.render.TmxSettings;
 import com.starsailor.render.converters.*;
-import com.starsailor.ui.Hud;
 import com.starsailor.util.GameSettings;
 import com.starsailor.util.GameTimer;
 import com.starsailor.util.Settings;
@@ -41,9 +40,6 @@ public class Game extends ApplicationAdapter {
   //Box2d
   public static World world;
   private Box2DDebugRenderer box2DDebugRenderer;
-
-  //Scene2d
-  public static Hud hud;
 
   private SpriteBatch batch;
 
@@ -122,9 +118,6 @@ public class Game extends ApplicationAdapter {
     //input processing
     inputManager = new InputManager(this, camera);
 
-    //hud creation
-    hud = new Hud();
-
     //add the inputmanager itself as input processor, but as last!
     inputManager.getInputMultiplexer().addProcessor(inputManager);
     Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
@@ -182,9 +175,6 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCombinedMatrix(camera);
     rayHandler.updateAndRender();
 
-    //hud overlay at last
-    hud.render();
-
     //update timer including libgdx AI
     if(!paused) {
       float update = GameTimer.update(deltaTime);
@@ -193,6 +183,9 @@ public class Game extends ApplicationAdapter {
 
     //update engine after world.step for saver body removal
     entityManager.update();
+
+    //hud overlay at last
+    StageManager.getInstance().update(deltaTime);
   }
 
   /**

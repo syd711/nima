@@ -1,4 +1,4 @@
-package com.starsailor.ui.location;
+package com.starsailor.ui.stages.location;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -6,12 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
-import com.starsailor.ui.Hud;
+import com.starsailor.ui.Scene2dFactory;
 
 /**
  * The display on top of the screen
@@ -28,7 +27,7 @@ public class StatusTable extends Table {
     stationLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     add(stationLabel).expandX().padTop(20);
 
-    dockButton = new TextButton("Leave Station", Hud.skin);
+    dockButton = Scene2dFactory.createButton("Leave Station");
     dockButton.padTop(20);
     dockButton.padRight(20);
     dockButton.addListener(new ChangeListener() {

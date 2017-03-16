@@ -20,10 +20,15 @@ public class InputManager implements InputProcessor {
   private OrthographicCamera camera;
   private InputMultiplexer inputMultiplexer = new InputMultiplexer();
   private Game game;
+  private Vector2 lastClickLocation;
 
   public InputManager(Game game, OrthographicCamera camera) {
     this.game = game;
     this.camera = camera;
+  }
+
+  public Vector2 getLastClickLocation() {
+    return lastClickLocation;
   }
 
   public InputMultiplexer getInputMultiplexer() {
@@ -100,6 +105,8 @@ public class InputManager implements InputProcessor {
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     float targetX = screenX;
     float targetY = Gdx.graphics.getHeight() - screenY;
+
+    lastClickLocation = new Vector2(targetX, targetY);
 
     if(button == Input.Buttons.RIGHT) {
       Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
