@@ -84,7 +84,7 @@ public class HudPanel extends Table {
       addAction(Actions.moveBy(-bground.getWidth(), 0, SHOW_DELAY));
     }
     else if(position.equals(Position.TOP)) {
-      addAction(Actions.moveBy(0, Gdx.graphics.getHeight()+bground.getHeight(), SHOW_DELAY));
+      addAction(Actions.moveBy(0, bground.getHeight(), SHOW_DELAY));
     }
     else if(position.equals(Position.RIGHT)) {
       addAction(Actions.moveBy(bground.getWidth(), 0, SHOW_DELAY));

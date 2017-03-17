@@ -2,10 +2,6 @@ package com.starsailor.ui.stages.hud;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.starsailor.Game;
-import com.starsailor.ui.stages.hud.navigation.NavigationPanel;
-import com.starsailor.ui.stages.hud.navigator.NavigatorPanel;
-import com.starsailor.ui.stages.hud.selection.ContextMenu;
-import com.starsailor.ui.stages.hud.weapons.WeaponsPanel;
 
 /**
  * The general game stage for menus and side panels.
@@ -29,7 +25,7 @@ public class HudStage extends Stage {
     addActor(weaponsPanel);
     addActor(navigationPanel);
     addActor(contextMenu);
-    addActor(navigationPanel);
+    addActor(navigatorPanel);
   }
 
   public ContextMenu getContextMenu() {

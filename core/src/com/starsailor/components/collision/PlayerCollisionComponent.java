@@ -18,7 +18,7 @@ public class PlayerCollisionComponent implements Collidable {
   public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
     if(collidee instanceof Location) {
       //only try to enter the location if a click was made on it, otherwise we just move over the planet
-      if(Player.getInstance().target != null && Player.getInstance().target.equals(collidee)) {
+      if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(collidee)) {
         //only dock to station if not in battle mode
         if(!Player.getInstance().isInBattleState()) {
           Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
@@ -31,7 +31,10 @@ public class PlayerCollisionComponent implements Collidable {
       bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
     }
     else if(collidee instanceof FollowClickState.ClickTarget || collider instanceof FollowClickState.ClickTarget) {
-      Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);
+      //only switch to idle when there is no target specified
+      if(Player.getInstance().getTarget() == null) {
+        Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);
+      }
     }
   }
 }

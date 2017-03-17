@@ -3,7 +3,8 @@ package com.starsailor.actors.states.player;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.Player;
-import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.GameStateManager;
+import com.starsailor.managers.UIManager;
 
 /**
  *
@@ -11,8 +12,8 @@ import com.starsailor.managers.EntityManager;
 public class DockedState implements State<Player> {
   @Override
   public void enter(Player player) {
-    player.target = null;
-    EntityManager.getInstance().pauseSystems(true);
+    GameStateManager.getInstance().setPaused(true);
+    UIManager.getInstance().switchToLocationState();
   }
 
   @Override

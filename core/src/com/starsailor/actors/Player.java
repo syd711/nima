@@ -22,7 +22,7 @@ import java.util.List;
 public class Player extends Ship implements IFormationOwner<Ship> {
   private static Player instance = null;
 
-  public Entity target;
+  private Entity target;
   public Vector2 targetCoordinates;
 
   private boolean inBattleState = false;
@@ -45,6 +45,14 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     Vector2 screenCenter = GraphicsUtil.getScreenCenter(getHeight());
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
     shipBodyComponent.setWorldPosition(screenCenter);
+  }
+
+  public Entity getTarget() {
+    return target;
+  }
+
+  public void setTarget(Entity target) {
+    this.target = null;
   }
 
   @Override
@@ -92,7 +100,12 @@ public class Player extends Ship implements IFormationOwner<Ship> {
    */
   public void moveTo(Vector2 worldCoordinates) {
     targetCoordinates = worldCoordinates;
-    target = EntityManager.getInstance().getEntityAt(worldCoordinates);
+    Entity possibleTarget = EntityManager.getInstance().getEntityAt(worldCoordinates);
+    //ships are not targets
+    this.target = null;
+    if(!(possibleTarget instanceof Ship)) {
+      target = possibleTarget;
+    }
     getStateMachine().changeState(PlayerState.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
   }

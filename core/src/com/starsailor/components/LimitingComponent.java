@@ -2,6 +2,7 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.starsailor.util.GraphicsUtil;
 
 /**
  * Reusable component for a component that has upper and lower bounds
@@ -39,7 +40,7 @@ abstract public class LimitingComponent implements Component, Poolable {
         currentValue -= decreaseBy;
       }
 
-      currentValue = (float) (Math.round(currentValue * 100.0) / 100.0);
+      currentValue = GraphicsUtil.round(currentValue, 2);
     }
   }
 

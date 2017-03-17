@@ -2,12 +2,8 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.esotericsoftware.spine.*;
-import com.esotericsoftware.spine.attachments.Attachment;
-import com.esotericsoftware.spine.attachments.RegionAttachment;
 import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.SpineData;
@@ -76,6 +72,7 @@ public class SpineComponent implements Component, Pool.Poolable {
     //apply the rendering to the spine engine
     animationState.apply(getSkeleton()); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
+    //skeleton.setColor(new Color(1,1,1, 0.2f)); opacity
     skeletonRenderer.draw(batch, getSkeleton()); // Draw the skeleton images.
   }
 

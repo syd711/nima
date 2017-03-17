@@ -1,4 +1,4 @@
-package com.starsailor.ui.stages.hud.weapons;
+package com.starsailor.ui.stages.hud;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,7 +9,6 @@ import com.starsailor.components.ShootingComponent;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.WeaponData;
 import com.starsailor.ui.Scene2dFactory;
-import com.starsailor.ui.stages.hud.HudPanel;
 
 import java.util.List;
 

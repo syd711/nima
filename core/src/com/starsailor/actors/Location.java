@@ -9,11 +9,21 @@ import com.starsailor.render.converters.MapConstants;
  * Used for planets and stations, etc.
  */
 public class Location extends GameEntity {
+
+  private MapObject mapObject;
+
   public Location(MapObject mapObject) {
+    this.mapObject = mapObject;
+
     ComponentFactory.addMapObjectComponent(this, mapObject);
     ComponentFactory.addBodyComponent(this, mapObject);
     ComponentFactory.addLocationCollisionComponent(this);
     Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
     body.setUserData(this);
+  }
+
+  @Override
+  public String toString() {
+    return "Location '" + mapObject.getName() + "'";
   }
 }

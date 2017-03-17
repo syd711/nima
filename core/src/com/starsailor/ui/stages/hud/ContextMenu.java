@@ -1,4 +1,4 @@
-package com.starsailor.ui.stages.hud.selection;
+package com.starsailor.ui.stages.hud;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;

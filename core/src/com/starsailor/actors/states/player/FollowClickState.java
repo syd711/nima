@@ -7,6 +7,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.components.*;
+import com.starsailor.managers.UIManager;
 import com.starsailor.model.SteeringData;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -28,13 +29,24 @@ public class FollowClickState implements State<Player> {
     else {
       clickTarget.update(player.targetCoordinates);
     }
+
+    //check if a target is selected, update to the center then
+    if(player.getTarget() != null) {
+      MapObjectComponent mapObjectComponent = player.getTarget().getComponent(MapObjectComponent.class);
+      Vector2 centeredPosition = mapObjectComponent.getCenteredPosition();
+      clickTarget.update(centeredPosition);
+      UIManager.getInstance().getHudStage().getNavigatorPanel().activate();
+    }
+    else {
+      UIManager.getInstance().getHudStage().getNavigatorPanel().deactivate();
+    }
+
     SteeringManager.setFollowClickTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
   }
 
 
   @Override
   public void update(Player player) {
-
   }
 
   @Override

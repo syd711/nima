@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.starsailor.actors.Selectable;
 import com.starsailor.ui.stages.hud.HudStage;
+import com.starsailor.ui.stages.location.LocationStage;
 import com.starsailor.ui.states.UIState;
 import com.starsailor.ui.states.UIStates;
 
@@ -16,6 +17,7 @@ public class UIManager implements SelectionChangeListener {
   private DefaultStateMachine stateMachine = new StackStateMachine<>();
 
   private HudStage hudStage;
+  private LocationStage locationStage;
   private Stage activeStage;
 
   private UIManager() {
@@ -26,6 +28,7 @@ public class UIManager implements SelectionChangeListener {
     if(instance == null) {
       instance = new UIManager();
       instance.hudStage = new HudStage();
+      instance.locationStage = new LocationStage();
 
       instance.stateMachine.changeState(UIStates.DEFAULT_STATE);
       instance.activeStage = instance.hudStage;
@@ -48,12 +51,22 @@ public class UIManager implements SelectionChangeListener {
     return hudStage;
   }
 
+  public LocationStage getLocationStage() {
+    return locationStage;
+  }
+
   public void changeState(UIState state) {
     stateMachine.changeState(state);
   }
 
   public void switchToDefaultState(){
+    activeStage = hudStage;
     stateMachine.changeState(UIStates.DEFAULT_STATE);
+  }
+
+  public void switchToLocationState() {
+    activeStage = locationStage;
+    stateMachine.changeState(UIStates.LOCATION_STATE);
   }
 
   @Override

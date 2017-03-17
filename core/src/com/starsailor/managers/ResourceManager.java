@@ -48,6 +48,7 @@ public class ResourceManager {
     assetManager = new AssetManager();
 
     loadAsset(Resources.TEXTURES, Texture.class, ".png", textureMapping);
+    loadAsset(Resources.TEXTURES, Texture.class, ".jpg", textureMapping);
     loadAsset(Resources.SPINE_SHIPS, TextureAtlas.class, ".atlas", textureAtlasMapping);
     loadAsset(Resources.SPINE_SHIELDS, TextureAtlas.class, ".atlas", textureAtlasMapping);
     loadAsset(Resources.PARTICLES, ParticleEffect.class, ".p", particleMapping);
