@@ -20,7 +20,6 @@ public class SpineComponent implements Component, Pool.Poolable {
   private SkeletonRenderer skeletonRenderer;
   private Skeleton skeleton;
   private float jsonScaling;
-  private float rotation;
   private boolean enabled = true;
 
   public SpineComponent(SpineData spineData) {
@@ -65,17 +64,6 @@ public class SpineComponent implements Component, Pool.Poolable {
     return skeleton.getData().getHeight() * jsonScaling;
   }
 
-  public Vector2 getCenter() {
-    Vector2 spineCenter = getSpineCenter("torso");
-    if(spineCenter == null) {
-      spineCenter = getSpineCenter("Schiff_01"); //TODO
-    }
-    if(spineCenter == null) {
-      throw new UnsupportedOperationException("No center slot found for spine " + this);
-    }
-    return spineCenter;
-  }
-
   public void setRotation(float rotation) {
     getSkeleton().getRootBone().setRootRotation(rotation);
   }
@@ -104,30 +92,5 @@ public class SpineComponent implements Component, Pool.Poolable {
     animationState = null;
     skeletonRenderer = null;
     skeleton = null;
-  }
-
-  //-------------- Helper -------------------------------------
-
-  /**
-   * Returns the center of the spine by search for
-   * a slot with the given name and returning it's first position vertice.
-   */
-  private Vector2 getSpineCenter(String slotName) {
-    Array<Slot> drawOrder = skeleton.getDrawOrder();
-    boolean premultipliedAlpha = false;
-    for(int i = 0, n = drawOrder.size; i < n; i++) {
-      Slot slot = drawOrder.get(i);
-      Attachment attachment = slot.getAttachment();
-      if(attachment instanceof RegionAttachment) {
-        RegionAttachment regionAttachment = (RegionAttachment) attachment;
-        float[] vertices = regionAttachment.updateWorldVertices(slot, premultipliedAlpha);
-        //TODO not exact enough
-        String name = slot.getData().getName();
-        if(slotName.equals(name)) {
-          return new Vector2(vertices[0], vertices[1]);
-        }
-      }
-    }
-    return null;
   }
 }

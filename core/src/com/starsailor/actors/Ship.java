@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.starsailor.util.Settings.PPM;
+
 /**
  * The general ship entity which is always a spine.
  */
@@ -86,7 +88,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   }
 
   public Vector2 getCenter() {
-    return spineShipComponent.getCenter();
+    return new Vector2(shipBodyComponent.body.getPosition()).scl(PPM);
   }
 
   @Override

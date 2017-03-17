@@ -80,7 +80,7 @@ public class ComponentFactory {
 
   public static ShipBodyComponent addShipBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
     ShipBodyComponent component = createComponent(ShipBodyComponent.class);
-    component.body = BodyGenerator.createSpineBody(Game.world, ship, bodyData);
+    component.body = BodyGenerator.createSpineBody(Game.world, ship, bodyData, position);
     component.body.setUserData(ship);
 
     if(position != null) {

@@ -5,7 +5,6 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.starsailor.actors.Collidable;
-import com.starsailor.actors.NPC;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
@@ -22,10 +21,10 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
       return;
     }
 
-    if(collidee instanceof NPC) {
+    if(collidee instanceof Ship) {
       applyCollisionWith((Bullet) collider, (Ship) collidee, position);
     }
-    else if(collider instanceof NPC) {
+    else if(collider instanceof Ship) {
       applyCollisionWith((Bullet) collidee, (Ship) collider, position);
     }
     else if(collider instanceof Bullet) {
@@ -63,11 +62,11 @@ public class BulletCollisionComponent implements Collidable, Pool.Poolable {
 
   private boolean validEntities(Entity... entities) {
     for(Entity entity : entities) {
-      if(entity instanceof NPC || entity instanceof Bullet) {
-        return true;
+      if(!(entity instanceof Ship) && !(entity instanceof Bullet)) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   @Override

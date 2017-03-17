@@ -87,13 +87,13 @@ public class BodyGenerator {
     float scaling = spineComponent.getJsonScaling();
     float radius = (spineComponent.getSkeleton().getData().getHeight() + 600) * scaling / 2;
     shape.setRadius(radius * MPP);
-    return spineBody(shape, world, bodyData, ship, true);
+    return spineBody(shape, world, bodyData, ship, ship.getCenter(), true);
   }
 
   /**
    * Creates the Box2d body for the given spine
    */
-  public static Body createSpineBody(World world, Ship ship, BodyData bodyData) {
+  public static Body createSpineBody(World world, Ship ship, BodyData bodyData, Vector2 position) {
     SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
     float scaling = spineComponent.getJsonScaling() - 0.02f; //TODO better body
 
@@ -107,12 +107,10 @@ public class BodyGenerator {
       ((PolygonShape)shape).setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP,
           spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);
     }
-    return spineBody(shape, world, bodyData, ship, bodyData.isSensor());
+    return spineBody(shape, world, bodyData, ship, position, bodyData.isSensor());
   }
 
-  private static Body spineBody(Shape shape, World world, BodyData bodyData, Ship ship, boolean sensor) {
-    Vector2 center = ship.getCenter();
-
+  private static Body spineBody(Shape shape, World world, BodyData bodyData, Ship ship, Vector2 center, boolean sensor) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
     bdef.position.set(center.x * MPP, center.y * MPP);
@@ -136,7 +134,7 @@ public class BodyGenerator {
       fdef.density = bodyData.getDensity();
     }
     fdef.isSensor = sensor;
-    fdef.restitution = 0.1f;
+    fdef.restitution = 1f;
     fdef.shape = shape;
     fdef.filter.groupIndex = 0;
     if(ship instanceof Player) {

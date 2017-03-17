@@ -31,8 +31,8 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     return instance;
   }
 
-  public Player(ShipItem shipItem) {
-    super(shipItem, null);
+  public Player(ShipItem shipItem, Vector2 position) {
+    super(shipItem, position);
     instance = this;
   }
 
