@@ -35,7 +35,6 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
 
   public ShieldStatusComponent shieldStatusComponent;
   public ShieldSpineComponent shieldSpineComponent;
-  public ShieldBodyComponent shieldBodyComponent;
 
   public HealthComponent healthComponent;
   public FractionComponent fractionComponent;
@@ -70,7 +69,6 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
 
     shieldStatusComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
-    shieldBodyComponent = ComponentFactory.addShieldBodyComponent(this);
     shieldSpineComponent = ComponentFactory.addSpineShieldComponent(this, shipData.getStatusData().getShieldData().getSpineData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
 

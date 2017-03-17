@@ -241,12 +241,6 @@ public class ComponentFactory {
     return shieldSpineComponent;
   }
 
-  public static ShieldBodyComponent addShieldBodyComponent(Entity entity) {
-    ShieldBodyComponent component = createComponent(ShieldBodyComponent.class);
-    entity.add(component);
-    return component;
-  }
-
   public static ShieldStatusComponent addShieldComponent(Entity entity, ShieldData shieldData) {
     ShieldStatusComponent component = createComponent(ShieldStatusComponent.class);
     if(shieldData != null) {
