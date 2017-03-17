@@ -39,4 +39,8 @@ public class HudStage extends Stage {
   public NavigationPanel getNavigationPanel() {
     return navigationPanel;
   }
+
+  public boolean isInBattleState() {
+    return getWeaponsPanel().isActive();
+  }
 }

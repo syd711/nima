@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Family;
 import com.starsailor.actors.GameEntity;
 import com.starsailor.components.ScalingComponent;
 import com.starsailor.components.SpineComponent;
-import com.starsailor.components.SpineShipComponent;
 
 import java.util.List;
 
@@ -22,9 +21,11 @@ public class ScalingSystem extends PauseableIteratingSystem {
 
     List<SpineComponent> spineComponents = entity.getComponents(SpineComponent.class);
     for(SpineComponent spineComponent : spineComponents) {
-      float scaleX = spineComponent.getSkeleton().getRootBone().getScaleX();
-      if(scaleX != scalingComponent.getCurrentValue()) {
-        spineComponent.getSkeleton().getRootBone().setScale(scalingComponent.getCurrentValue());
+      if(spineComponent.isEnabled()) {
+        float scaleX = spineComponent.getSkeleton().getRootBone().getScaleX();
+        if(scaleX != scalingComponent.getCurrentValue()) {
+          spineComponent.getSkeleton().getRootBone().setScale(scalingComponent.getCurrentValue());
+        }
       }
     }
   }

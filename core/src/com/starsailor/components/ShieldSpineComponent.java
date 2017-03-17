@@ -5,9 +5,9 @@ import com.starsailor.model.SpineData;
 /**
  * The spine for  the shield
  */
-public class SpineShieldComponent extends SpineComponent {
+public class ShieldSpineComponent extends SpineComponent {
 
-  public SpineShieldComponent(SpineData spineData) {
+  public ShieldSpineComponent(SpineData spineData) {
     super(spineData);
   }
 }

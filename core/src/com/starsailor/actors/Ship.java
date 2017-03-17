@@ -32,7 +32,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   public ParticleComponent particleComponent;
 
   public ShieldStatusComponent shieldStatusComponent;
-  public SpineShieldComponent spineShieldComponent;
+  public ShieldSpineComponent shieldSpineComponent;
   public ShieldBodyComponent shieldBodyComponent;
 
   public HealthComponent healthComponent;
@@ -69,7 +69,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
 
     shieldStatusComponent = ComponentFactory.addShieldComponent(this, shipData.getStatusData().getShieldData());
     shieldBodyComponent = ComponentFactory.addShieldBodyComponent(this);
-    spineShieldComponent = ComponentFactory.addSpineShieldComponent(this, shipData.getStatusData().getShieldData().getSpineData());
+    shieldSpineComponent = ComponentFactory.addSpineShieldComponent(this, shipData.getStatusData().getShieldData().getSpineData());
     healthComponent = ComponentFactory.addHealthComponent(this, shipData);
 
     fractionComponent = ComponentFactory.createFractionComponent(this, Fraction.valueOf(shipItem.getFraction().toUpperCase()));
@@ -176,6 +176,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    */
   public void setStateVisible(boolean enabled) {
     shieldStatusComponent.setActive(enabled);
+    shieldSpineComponent.setEnabled(enabled);
     healthComponent.setActive(enabled);
   }
 
@@ -185,9 +186,8 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   public void switchToDefaultState() {
     getStateMachine().changeState(getDefaultState());
     shieldStatusComponent.setActive(false);
+    shieldSpineComponent.setEnabled(false);
   }
-
-
 
   /**
    * Switches this entity to the attacked state if not already there.

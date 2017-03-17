@@ -1,5 +1,6 @@
 package com.starsailor.ui.states;
 
+import com.starsailor.actors.Player;
 import com.starsailor.managers.GameStateManager;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.UIManager;
@@ -17,5 +18,6 @@ public class DefaultState extends UIState {
 
     GameStateManager.getInstance().setPaused(false);
     SelectionManager.getInstance().resetSelection();
+    Player.getInstance().switchToDefaultState();
   }
 }

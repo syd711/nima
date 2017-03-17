@@ -21,6 +21,7 @@ public class SpineComponent implements Component, Pool.Poolable {
   private Skeleton skeleton;
   private float jsonScaling;
   private float rotation;
+  private boolean enabled = true;
 
   public SpineComponent(SpineData spineData) {
     this.jsonScaling = spineData.getScale();
@@ -88,6 +89,14 @@ public class SpineComponent implements Component, Pool.Poolable {
     animationState.apply(getSkeleton()); // Poses skeleton using current animations. This sets the bones' local SRT.
     skeleton.updateWorldTransform();
     skeletonRenderer.draw(batch, getSkeleton()); // Draw the skeleton images.
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   @Override

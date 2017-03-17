@@ -26,7 +26,9 @@ public class SpineRenderSystem extends RenderingSystem {
 
     List<SpineComponent> spineComponents = ((GameEntity)entity).getComponents(SpineComponent.class);
     for(SpineComponent spineComponent : spineComponents) {
-      renderSpine(positionComponent, bodyComponent, spineComponent);
+      if(spineComponent.isEnabled()) {
+        renderSpine(positionComponent, bodyComponent, spineComponent);
+      }
     }
   }
 

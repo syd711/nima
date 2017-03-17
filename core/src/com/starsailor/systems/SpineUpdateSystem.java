@@ -16,7 +16,9 @@ public class SpineUpdateSystem extends PauseableIteratingSystem {
   public void process(GameEntity entity, float deltaTime) {
     List<SpineComponent> spineComponents = entity.getComponents(SpineComponent.class);
     for(SpineComponent spineComponent : spineComponents) {
-      spineComponent.update(deltaTime); // Update the animation time.
+      if(spineComponent.isEnabled()) {
+        spineComponent.update(deltaTime); // Update the animation time.
+      }
     }
   }
 }

@@ -13,7 +13,6 @@ public class ShieldStatusComponent extends SpriteComponent {
 
   public float maxHealth;
   public float health;
-  public float rechargeTimeMillis;
   public float damageAbsorptionFactor;
 
   @Override
@@ -65,7 +64,4 @@ public class ShieldStatusComponent extends SpriteComponent {
     }
   }
 
-  public boolean isRemaining() {
-    return health > 0;
-  }
 }

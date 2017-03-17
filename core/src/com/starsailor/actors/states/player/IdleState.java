@@ -18,7 +18,7 @@ public class IdleState implements State<Player> {
   @Override
   public void update(Player player) {
     Entity targetEntity = player.target;
-    if(targetEntity != null && targetEntity instanceof Location) {
+    if(targetEntity != null && targetEntity instanceof Location && !player.isInBattleState()) {
       player.getStateMachine().changeState(PlayerState.MOVE_TO_STATION);
     }
     else {

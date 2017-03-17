@@ -17,8 +17,12 @@ public class PlayerCollisionComponent implements Collidable {
   @Override
   public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
     if(collidee instanceof Location) {
+      //only try to enter the location if a click was made on it, otherwise we just move over the planet
       if(Player.getInstance().target != null && Player.getInstance().target.equals(collidee)) {
-        Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
+        //only dock to station if not in battle mode
+        if(!Player.getInstance().isInBattleState()) {
+          Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
+        }
       }
     }
     else if(collidee instanceof Bullet) {

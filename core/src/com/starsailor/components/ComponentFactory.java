@@ -127,13 +127,6 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpriteComponent addSpriteComponent(Entity entity, String sprite, float angle) {
-    SpriteComponent component = createComponent(SpriteComponent.class);
-    component.addSprite(sprite, angle);
-    entity.add(component);
-    return component;
-  }
-
   public static ShootingComponent addShootableComponent(Entity entity, com.starsailor.model.ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
     component.setWeaponDatas(profile.getStatusData().getWeaponDatas());
@@ -247,10 +240,11 @@ public class ComponentFactory {
     return component;
   }
 
-  public static SpineShieldComponent addSpineShieldComponent(Entity entity, SpineData spineData) {
-    SpineShieldComponent spineShieldComponent = new SpineShieldComponent(spineData);
-    entity.add(spineShieldComponent);
-    return spineShieldComponent;
+  public static ShieldSpineComponent addSpineShieldComponent(Entity entity, SpineData spineData) {
+    ShieldSpineComponent shieldSpineComponent = new ShieldSpineComponent(spineData);
+    shieldSpineComponent.setEnabled(false);
+    entity.add(shieldSpineComponent);
+    return shieldSpineComponent;
   }
 
   public static ShieldBodyComponent addShieldBodyComponent(Entity entity) {

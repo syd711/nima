@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.starsailor.managers.ResourceManager;
-import com.starsailor.ui.Scene2dFactory;
 import com.starsailor.util.Settings;
 
 /**
@@ -22,9 +21,8 @@ public class HudPanel extends Table {
 
   public enum Position {
     TOP, LEFT, BOTTOM, RIGHT;
+
   }
-
-
   public HudPanel(String textureName, Position position) {
     this.position = position;
     bground = ResourceManager.getInstance().getTextureAsset(textureName);
@@ -47,6 +45,10 @@ public class HudPanel extends Table {
     else if(position.equals(Position.RIGHT)) {
       setPosition(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight() / 2 - bground.getHeight() / 2);
     }
+  }
+
+  public boolean isActive() {
+    return activated;
   }
 
   public void activate() {

@@ -9,6 +9,7 @@ import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.UIManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.util.GraphicsUtil;
 
@@ -23,6 +24,8 @@ public class Player extends Ship implements IFormationOwner<Ship> {
 
   public Entity target;
   public Vector2 targetCoordinates;
+
+  private boolean inBattleState = false;
 
   public static Player getInstance() {
     return instance;
@@ -55,6 +58,25 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   }
 
   @Override
+  public void switchToBattleState(Ship enemy) {
+    inBattleState = true;
+    shieldSpineComponent.setEnabled(true);
+    UIManager.getInstance().getHudStage().getWeaponsPanel().activate();
+  }
+
+  @Override
+  public void switchToDefaultState() {
+    inBattleState = false;
+    shieldSpineComponent.setEnabled(false);
+    UIManager.getInstance().getHudStage().getWeaponsPanel().deactivate();
+  }
+
+  @Override
+  public boolean isInBattleState() {
+    return inBattleState;
+  }
+
+  @Override
   public void applyDamageFor(Bullet bullet) {
     updateDamage(bullet);
 //    if(SelectionManager.getInstance().getSelection() == null) {
@@ -72,6 +94,8 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     getStateMachine().changeState(PlayerState.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
   }
+
+  // IFormation owner interface implementation --------------------------------------
 
   @Override
   public List<Ship> getMembers() {
