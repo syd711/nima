@@ -1,7 +1,5 @@
 package com.starsailor.ui.states;
 
-import com.badlogic.gdx.math.Vector2;
-import com.starsailor.Game;
 import com.starsailor.managers.GameStateManager;
 import com.starsailor.managers.UIManager;
 import com.starsailor.ui.stages.GameStage;
@@ -20,9 +18,7 @@ public class ShipSelectionState extends UIState {
   @Override
   public void enter(GameStage entity) {
     GameStateManager.getInstance().setPaused(true);
-
-    Vector2 lastClickLocation = Game.inputManager.getLastClickLocation();
-    hudStage.getContextMenu().show(lastClickLocation.x, lastClickLocation.y);
+    hudStage.getContextMenu().show();
   }
 
   @Override

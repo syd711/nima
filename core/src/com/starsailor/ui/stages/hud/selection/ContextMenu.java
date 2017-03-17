@@ -1,5 +1,6 @@
 package com.starsailor.ui.stages.hud.selection;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -10,6 +11,7 @@ import com.starsailor.managers.SelectionManager;
 import com.starsailor.managers.UIManager;
 import com.starsailor.ui.Scene2dFactory;
 import com.starsailor.ui.states.UIStates;
+import com.starsailor.util.GraphicsUtil;
 
 /**
  * The popup that is shown when a selection is made
@@ -47,12 +49,14 @@ public class ContextMenu extends Table {
     row();
   }
 
-  public void show(float x, float y) {
+  public void show() {
     Selectable selection = SelectionManager.getInstance().getSelection();
     Ship ship = (Ship) selection;
     tradeButton.setVisible(!ship.isInBattleState());
 
-    setPosition(x+90, y+40);
+    Vector2 center = GraphicsUtil.transform2ScreenCoordinates(ship.getCenter());
+
+    setPosition(center.x+130, center.y);
     UIManager.getInstance().getHudStage().addActor(this);
   }
 
