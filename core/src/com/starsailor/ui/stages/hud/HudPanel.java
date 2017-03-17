@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.starsailor.managers.ResourceManager;
+import com.starsailor.ui.Scene2dFactory;
 import com.starsailor.util.Settings;
 
 /**

@@ -1,6 +1,7 @@
 package com.starsailor.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -24,5 +25,17 @@ public class Scene2dFactory {
   public static TextButton createButton(String label) {
     TextButton button = new TextButton(label, skin);
     return button;
+  }
+
+  public static TextButton createMenuButton(String label) {
+    TextButton button = new TextButton(label, skin);
+    button.setDebug(Settings.getInstance().debug);
+    button.setWidth(150);
+    return button;
+  }
+
+  public static Label createLabel(String text) {
+    Label label = new Label(text, skin);
+    return label;
   }
 }

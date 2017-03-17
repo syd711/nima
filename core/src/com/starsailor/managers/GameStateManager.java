@@ -1,28 +1,36 @@
 package com.starsailor.managers;
 
+import com.badlogic.gdx.ai.fsm.StackStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.starsailor.GameState;
+
 /**
  * Wraps the status, e.g. if paused
  */
-//TODO use for stations
 public class GameStateManager {
   private final static GameStateManager INSTANCE = new GameStateManager();
-  private boolean navigating = true;
-  private boolean stationMode = false;
+
+  public StateMachine gameState;
 
   private GameStateManager() {
-    //force singleton
+    gameState = new StackStateMachine<>(this, GameState.RESUME);
   }
 
   public static GameStateManager getInstance() {
     return INSTANCE;
   }
 
-
-  public boolean isNavigating() {
-    return navigating;
+  public void setPaused(boolean b) {
+    if(b) {
+      gameState.changeState(GameState.PAUSED);
+    }
+    else {
+      gameState.changeState(GameState.RESUME);
+    }
   }
 
-  public boolean isStationMode() {
-    return stationMode;
+  public boolean isPaused() {
+    return gameState.getCurrentState().equals(GameState.PAUSED);
   }
+
 }

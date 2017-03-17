@@ -2,51 +2,53 @@ package com.starsailor;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.starsailor.managers.GameStateManager;
 
 /**
  * The game states
  */
 public class GameState {
   
-  public static State RESUME = new State<Game>() {
+  public static State RESUME = new State<GameStateManager>() {
     @Override
-    public void enter(Game game) {
+    public void enter(GameStateManager gameStateManager) {
 
     }
 
     @Override
-    public void update(Game game) {
+    public void update(GameStateManager gameStateManager) {
 
     }
 
     @Override
-    public void exit(Game game) {
+    public void exit(GameStateManager gameStateManager) {
 
     }
 
     @Override
-    public boolean onMessage(Game game, Telegram telegram) {
+    public boolean onMessage(GameStateManager gameStateManager, Telegram telegram) {
       return false;
     }
   };
-  
-  public static State PAUSED = new State<Game>() {
+
+
+  public static State PAUSED = new State<GameStateManager>() {
     @Override
-    public void enter(Game game) {
+    public void enter(GameStateManager gameStateManager) {
     }
 
     @Override
-    public void update(Game game) {
-
-    }
-
-    @Override
-    public void exit(Game game) {
+    public void update(GameStateManager gameStateManager) {
 
     }
 
     @Override
-    public boolean onMessage(Game game, Telegram telegram) {
+    public void exit(GameStateManager gameStateManager) {
+
+    }
+
+    @Override
+    public boolean onMessage(GameStateManager gameStateManager, Telegram telegram) {
       return false;
     }
   };

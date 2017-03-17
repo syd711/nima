@@ -61,7 +61,7 @@ public class BulletManager {
         bullet = new FlaresBullet(weaponData, owner, target);
         for(int i = 1; i < bulletCount; i++) {
           Bullet flaresBullet = new FlaresBullet(weaponData, owner, target);
-          enableBullet(flaresBullet, weaponData);
+          fireBullet(flaresBullet, weaponData);
         }
         break;
       }
@@ -71,7 +71,7 @@ public class BulletManager {
     }
 
     if(bullet != null) {
-      enableBullet(bullet, weaponData);
+      fireBullet(bullet, weaponData);
     }
   }
 
@@ -142,7 +142,7 @@ public class BulletManager {
   /**
    * Additonal bullet creation stuff
    */
-  private void enableBullet(Bullet bullet, WeaponData weaponData) {
+  private void fireBullet(Bullet bullet, WeaponData weaponData) {
     if(bullet.create()) {
       EntityManager.getInstance().add(bullet);
       bullet.owner.shootingComponent.updateLastBulletTime(weaponData);

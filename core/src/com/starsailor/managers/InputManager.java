@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
-import com.starsailor.GameState;
 import com.starsailor.actors.Player;
 import com.starsailor.util.Debugger;
 import com.starsailor.util.GraphicsUtil;
@@ -48,6 +47,9 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean keyUp(int keycode) {
     if(keycode == Input.Keys.ESCAPE) {
+      UIManager.getInstance().switchToDefaultState();
+    }
+    else if(keycode == Input.Keys.F12) {
       System.exit(0);
     }
     else if(keycode == Input.Keys.T) {
@@ -78,13 +80,7 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.P) {
-      if(Game.gameState.getCurrentState().equals(GameState.PAUSED)) {
-        game.resume();
-      }
-      else {
-        game.pause();
-      }
-
+      GameStateManager.getInstance().setPaused(!GameStateManager.getInstance().isPaused());
       return true;
     }
 

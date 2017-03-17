@@ -19,7 +19,7 @@ import java.util.List;
 public class WeaponsPanel extends HudPanel {
 
   public WeaponsPanel() {
-    super("weapons_bg", Position.TOP);
+    super("weapons_bg", Position.BOTTOM);
 
     //add all available weapons
     List<WeaponData> weapons = Player.getInstance().getWeapons();
@@ -32,13 +32,14 @@ public class WeaponsPanel extends HudPanel {
         @Override
         public void draw(Batch batch, float parentAlpha) {
           Texture texture = ResourceManager.getInstance().getTextureAsset("healthbg");
-          float percent = shootingComponent.getChargingState(weaponData);
+          float percent = shootingComponent.getChargingPercentage(weaponData);
           batch.draw(texture, getX() + (index * 10), getY() - 50, 50 * percent / 100, 12);
         }
       });
 
 
       TextButton weaponButton = Scene2dFactory.createButton(weaponData.getName(), new WeaponPanelChangeListener());
+      weaponButton.setWidth(100f);
       weaponButton.setUserObject(weaponData);
       add(weaponButton);
     }

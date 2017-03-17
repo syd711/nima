@@ -2,7 +2,7 @@
   "version": 0.1,
   "debug": true,
   "cameraZoom" : 1.0,
-  "fullscreen" : true,
+  "fullscreen" : false,
   "resizable" : false,
   "backgroundFPS" : 60,
   "foregroundFPS" : 60,

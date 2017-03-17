@@ -11,20 +11,20 @@ import com.starsailor.ui.states.UIStates;
 /**
  * Handling scene2d stages
  */
-public class StageManager implements SelectionChangeListener {
-  private static StageManager instance;
+public class UIManager implements SelectionChangeListener {
+  private static UIManager instance;
   private DefaultStateMachine stateMachine = new StackStateMachine<>();
 
   private HudStage hudStage;
   private Stage activeStage;
 
-  private StageManager() {
+  private UIManager() {
     SelectionManager.getInstance().addSelectionChangeListener(this);
   }
 
-  public static StageManager getInstance() {
+  public static UIManager getInstance() {
     if(instance == null) {
-      instance = new StageManager();
+      instance = new UIManager();
       instance.hudStage = new HudStage();
 
       instance.stateMachine.changeState(UIStates.DEFAULT_STATE);
@@ -52,10 +52,17 @@ public class StageManager implements SelectionChangeListener {
     stateMachine.changeState(state);
   }
 
+  public void switchToDefaultState(){
+    stateMachine.changeState(UIStates.DEFAULT_STATE);
+  }
+
   @Override
   public void selectionChanged(Selectable oldSelection, Selectable newSelection) {
     if(newSelection != null) {
       stateMachine.changeState(UIStates.SHIP_SELECTION_STATE);
+    }
+    else {
+      stateMachine.changeState(UIStates.DEFAULT_STATE);
     }
   }
 }

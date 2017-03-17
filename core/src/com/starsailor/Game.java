@@ -3,8 +3,6 @@ package com.starsailor;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.StackStateMachine;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -46,20 +44,12 @@ public class Game extends ApplicationAdapter {
   public static GameSettings gameSettings = GameSettings.load();
   private Settings settings = Settings.getInstance();
 
-  public static StateMachine gameState;
-
-  //quicker access for box2d
-  private boolean paused = false;
-
-
   @Override
   public void create() {
     //Load assets
     ResourceManager.getInstance().loadAssets();
 
     GameDataManager.getInstance().load();
-
-    gameState = new StackStateMachine<>(this, GameState.RESUME);
 
     //camera
     camera = new OrthographicCamera();
@@ -105,8 +95,8 @@ public class Game extends ApplicationAdapter {
 
 
     tiledMapRenderer.addParallaxLayer("maps/parallax_1.jpg");
-    tiledMapRenderer.addParallaxLayer("maps/parallax_2.png");
-//    tiledMapRenderer.addParallaxLayer("maps/parallax_3.png");
+//    tiledMapRenderer.addParallaxLayer("maps/parallax_2.png");
+    tiledMapRenderer.addParallaxLayer("maps/parallax_3.png");
 
     //init player
     Player player = entityManager.getPlayer();
@@ -128,21 +118,18 @@ public class Game extends ApplicationAdapter {
         gameSettings.save();
       }
     });
-
   }
 
   @Override
   public void pause() {
     if(!settings.debug) {
-      paused = true;
-      Game.gameState.changeState(GameState.PAUSED);
+      GameStateManager.getInstance().setPaused(true);
     }
   }
 
   @Override
   public void resume() {
-    paused = false;
-    Game.gameState.changeState(GameState.RESUME);
+    GameStateManager.getInstance().setPaused(false);
   }
 
   @Override
@@ -176,7 +163,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.updateAndRender();
 
     //update timer including libgdx AI
-    if(!paused) {
+    if(!GameStateManager.getInstance().isPaused()) {
       float update = GameTimer.update(deltaTime);
       world.step(update, 6, 2);
     }
@@ -185,7 +172,7 @@ public class Game extends ApplicationAdapter {
     entityManager.update();
 
     //hud overlay at last
-    StageManager.getInstance().update(deltaTime);
+    UIManager.getInstance().update(deltaTime);
   }
 
   /**

@@ -2,8 +2,8 @@ package com.starsailor.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.starsailor.Game;
 import com.starsailor.model.WeaponData;
+import com.starsailor.util.GameTimer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ShootingComponent implements Component, Poolable {
   private List<WeaponData> weaponDatas = new ArrayList<>();
-  private Map<WeaponData, Long> lastBulletTimes = new HashMap<>();
+  private Map<WeaponData, GameTimer> lastBulletTimes = new HashMap<>();
 
   @Override
   public void reset() {
@@ -22,30 +22,32 @@ public class ShootingComponent implements Component, Poolable {
 
   public void setWeaponDatas(List<WeaponData> weaponDatas) {
     this.weaponDatas = weaponDatas;
+    for(WeaponData weaponData : this.weaponDatas) {
+      float rechargeTimeMillis = weaponData.getRechargeTimeMillis();
+      if(rechargeTimeMillis > 0) {
+        lastBulletTimes.put(weaponData, new GameTimer(rechargeTimeMillis));
+      }
+    }
   }
 
   public boolean isCharged(WeaponData weaponData) {
-    long lastBulletTime = 0;
-    if(lastBulletTimes.containsKey(weaponData)) {
-      lastBulletTime = lastBulletTimes.get(weaponData);
-    }
-    float current = Game.currentTimeMillis - lastBulletTime;
-    return current > weaponData.getRechargeTimeMillis();
+    GameTimer timer = lastBulletTimes.get(weaponData);
+    return timer.isExpired();
   }
 
   public void updateLastBulletTime(WeaponData weaponData) {
-    lastBulletTimes.put(weaponData, Game.currentTimeMillis);
+    GameTimer timer = lastBulletTimes.get(weaponData);
+    timer.reset();
   }
 
-  public float getChargingState(WeaponData weaponData) {
-    long lastBulletTime = 0;
+  public float getChargingPercentage(WeaponData weaponData) {
     if(lastBulletTimes.containsKey(weaponData)) {
-      lastBulletTime = lastBulletTimes.get(weaponData);
-      float current = Game.currentTimeMillis - lastBulletTime;
+      GameTimer timer = lastBulletTimes.get(weaponData);
+      float current = timer.getDeltaTimeMillis();
       if(current > weaponData.getRechargeTimeMillis()) {
         return 100;
       }
-      return current * 100 / weaponData.getRechargeTimeMillis();
+      return Math.round(current * 100 / weaponData.getRechargeTimeMillis());
     }
     return 100; //100 percent
   }

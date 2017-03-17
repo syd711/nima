@@ -9,7 +9,6 @@ import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.SelectionManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.util.GraphicsUtil;
 
@@ -58,9 +57,9 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   @Override
   public void applyDamageFor(Bullet bullet) {
     updateDamage(bullet);
-    if(SelectionManager.getInstance().getSelection() == null) {
-      SelectionManager.getInstance().setSelection((Selectable) bullet.owner);
-    }
+//    if(SelectionManager.getInstance().getSelection() == null) {
+//      SelectionManager.getInstance().setSelection((Selectable) bullet.owner);
+//    }
   }
 
   /**

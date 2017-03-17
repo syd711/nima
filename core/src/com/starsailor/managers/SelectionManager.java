@@ -48,12 +48,13 @@ public class SelectionManager implements EntityListener {
     Entity clickTarget = EntityManager.getInstance().getEntityAt(worldCoordinates.x, worldCoordinates.y);
     if(clickTarget instanceof Selectable) {
       Selectable selectable = (Selectable) clickTarget;
-      if(selectable.isSelected()) {
-        updateSelection(currentSelection, null, singleSelection);
-      }
-      else {
-        updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
-      }
+//      if(selectable.isSelected()) {
+//        updateSelection(currentSelection, null, singleSelection);
+//      }
+//      else {
+//        updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
+//      }
+      updateSelection(currentSelection, (Selectable) clickTarget, singleSelection);
 
       return true;
     }
@@ -95,5 +96,12 @@ public class SelectionManager implements EntityListener {
     if(currentSelection != null && currentSelection.equals(entity)) {
       setSelection(null);
     }
+  }
+
+  public void resetSelection() {
+    if(getSelection() != null) {
+      getSelection().setSelected(false);
+    }
+    this.currentSelection = null;
   }
 }
