@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.render.TmxSettings;
 
+import java.math.BigDecimal;
+
 /**
  * Common math function to be used.
  */
@@ -59,5 +61,14 @@ public class GraphicsUtil {
     }
 
     return new Vector2(targetX, targetY);
+  }
+
+  /**
+   * Round to certain number of decimals
+   */
+  public static float round(float d, int decimalPlace) {
+    BigDecimal bd = new BigDecimal(Float.toString(d));
+    bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+    return bd.floatValue();
   }
 }

@@ -301,6 +301,12 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   private void setShieldEnabled(boolean enabled) {
     shieldStatusComponent.setActive(enabled);
     shieldSpineComponent.setEnabled(enabled);
+    if(enabled) {
+      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()*shieldSpineComponent.getJsonScaling());
+    }
+    else {
+      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
+    }
   }
 
   //------------ To be implemented ------------------------------------------------------------------------
