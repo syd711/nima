@@ -53,6 +53,7 @@ public class BodyComponent implements Component, Pool.Poolable {
         CircleShape s = (CircleShape) shape;
         float radius = GraphicsUtil.round(s.getRadius(), 2);
         if(radius == targetRadius) {
+          targetRadius = 0;
           return;
         }
 

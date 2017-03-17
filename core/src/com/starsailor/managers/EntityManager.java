@@ -57,8 +57,8 @@ public class EntityManager implements EntityListener {
     RouteSystem routeSystem = new RouteSystem();
     engine.addSystem(routeSystem);
 
-    BattleSystem npcSystem = new BattleSystem();
-    engine.addSystem(npcSystem);
+    BodyUpdateSystem bodyUpdateSystem = new BodyUpdateSystem();
+    engine.addSystem(bodyUpdateSystem);
 
     SpineUpdateSystem spineSystem = new SpineUpdateSystem();
     engine.addSystem(spineSystem);

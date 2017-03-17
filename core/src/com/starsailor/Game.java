@@ -106,7 +106,7 @@ public class Game extends ApplicationAdapter {
     CameraManager.getInstance().init(camera, player);
 
     //input processing
-    inputManager = new InputManager(this, camera);
+    inputManager = new InputManager(camera);
 
     //add the inputmanager itself as input processor, but as last!
     inputManager.getInputMultiplexer().addProcessor(inputManager);

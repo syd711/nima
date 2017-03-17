@@ -21,6 +21,8 @@ public class ContextMenu extends Table {
   private final TextButton tradeButton;
   private final TextButton cancelButton;
 
+  private boolean visible = false;
+
   public ContextMenu() {
     //add context menu
     tradeButton = Scene2dFactory.createMenuButton("Trade");
@@ -50,6 +52,7 @@ public class ContextMenu extends Table {
   }
 
   public void show() {
+    visible = true;
     Selectable selection = SelectionManager.getInstance().getSelection();
     Ship ship = (Ship) selection;
     tradeButton.setVisible(!ship.isInBattleState());
@@ -61,6 +64,11 @@ public class ContextMenu extends Table {
   }
 
   public void hide() {
+    visible = false;
     this.remove();
+  }
+
+  public boolean visible() {
+    return visible;
   }
 }

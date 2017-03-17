@@ -18,11 +18,9 @@ public class InputManager implements InputProcessor {
 
   private OrthographicCamera camera;
   private InputMultiplexer inputMultiplexer = new InputMultiplexer();
-  private Game game;
   private Vector2 lastClickLocation;
 
-  public InputManager(Game game, OrthographicCamera camera) {
-    this.game = game;
+  public InputManager(OrthographicCamera camera) {
     this.camera = camera;
   }
 
@@ -114,7 +112,7 @@ public class InputManager implements InputProcessor {
       return true;
     }
 
-    if(button == Input.Buttons.LEFT) {
+    if(button == Input.Buttons.LEFT && !isScene2dClick()) {
       return SelectionManager.getInstance().selectAt(targetX, targetY, true);
     }
     return false;
@@ -132,6 +130,14 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean scrolled(int amount) {
+    return false;
+  }
+
+  public boolean isScene2dClick() {
+    if(UIManager.getInstance().getHudStage().getContextMenu().visible()) {
+      return true;
+    }
+
     return false;
   }
 }

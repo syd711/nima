@@ -3,6 +3,7 @@ package com.starsailor.ui.stages.hud;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.starsailor.Game;
 import com.starsailor.ui.stages.hud.navigation.NavigationPanel;
+import com.starsailor.ui.stages.hud.navigator.NavigatorPanel;
 import com.starsailor.ui.stages.hud.selection.ContextMenu;
 import com.starsailor.ui.stages.hud.weapons.WeaponsPanel;
 
@@ -14,6 +15,7 @@ public class HudStage extends Stage {
   private final NavigationPanel navigationPanel;
   private final WeaponsPanel weaponsPanel;
   private final ContextMenu contextMenu;
+  private final NavigatorPanel navigatorPanel;
 
   public HudStage() {
     Game.inputManager.addInputProcessor(this);
@@ -22,10 +24,12 @@ public class HudStage extends Stage {
     weaponsPanel = new WeaponsPanel();
     navigationPanel = new NavigationPanel();
     contextMenu = new ContextMenu();
+    navigatorPanel = new NavigatorPanel();
 
     addActor(weaponsPanel);
     addActor(navigationPanel);
     addActor(contextMenu);
+    addActor(navigationPanel);
   }
 
   public ContextMenu getContextMenu() {
@@ -38,6 +42,10 @@ public class HudStage extends Stage {
 
   public NavigationPanel getNavigationPanel() {
     return navigationPanel;
+  }
+
+  public NavigatorPanel getNavigatorPanel() {
+    return navigatorPanel;
   }
 
   public boolean isInBattleState() {
