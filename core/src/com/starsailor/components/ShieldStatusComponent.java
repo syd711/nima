@@ -26,7 +26,6 @@ public class ShieldStatusComponent extends SpriteComponent {
   public float applyDamage(float damage) {
     this.health = health - (damage * damageAbsorptionFactor);
     if(this.health <= 0) {
-      setActive(false);
       //normalize remaining damage value again
       return Math.abs(health / damageAbsorptionFactor);
     }

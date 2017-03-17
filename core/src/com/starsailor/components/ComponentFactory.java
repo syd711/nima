@@ -199,12 +199,6 @@ public class ComponentFactory {
     return component;
   }
 
-  public static PlayerTargetCollisionComponent addPlayerTargetCollisionComponent(Entity entity) {
-    PlayerTargetCollisionComponent component = createComponent(PlayerTargetCollisionComponent.class);
-    entity.add(component);
-    return component;
-  }
-
   public static BulletDamageComponent addBulletDamageComponent(Entity entity, com.starsailor.model.WeaponData weaponData) {
     BulletDamageComponent component = createComponent(BulletDamageComponent.class);
     component.damage = weaponData.getDamage();

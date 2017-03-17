@@ -95,9 +95,18 @@ public class BodyGenerator {
    */
   public static Body createSpineBody(World world, Ship ship, BodyData bodyData) {
     SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
-    PolygonShape shape = new PolygonShape();
     float scaling = spineComponent.getJsonScaling() - 0.02f; //TODO better body
-    shape.setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP, spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);
+
+    Shape shape;
+    if(bodyData.getRadius() > 0) {
+      shape = new CircleShape();
+      shape.setRadius(bodyData.getRadius() * scaling * MPP);
+    }
+    else {
+      shape = new PolygonShape();
+      ((PolygonShape)shape).setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP,
+          spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);
+    }
     return spineBody(shape, world, bodyData, ship, bodyData.isSensor());
   }
 

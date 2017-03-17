@@ -103,9 +103,13 @@ public class InputManager implements InputProcessor {
     float targetY = Gdx.graphics.getHeight() - screenY;
 
     lastClickLocation = new Vector2(targetX, targetY);
+    Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+    float dst = worldCoordinates.dst(Player.getInstance().getCenter());
+    if(dst < 90) {
+      return false; //TODO
+    }
 
     if(button == Input.Buttons.RIGHT) {
-      Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
       Player.getInstance().moveTo(worldCoordinates);
       return true;
     }

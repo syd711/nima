@@ -7,11 +7,11 @@
     "children": []
   },
   "bodyData": {
-    "linearDamping": 3.0,
-    "angularDamping": 1.8,
+    "linearDamping": 8.0,
+    "angularDamping": 3.0,
     "width": 0.0,
     "height": 0.0,
-    "radius": 0.0,
+    "radius": 400.0,
     "density": 1.0,
     "sensor": false,
     "children": []
@@ -49,10 +49,10 @@
       },
       "bodyData": {
         "linearDamping": 8.0,
-        "angularDamping": 30.0,
+        "angularDamping": 3.0,
         "width": 0.0,
         "height": 0.0,
-        "radius": 0.0,
+        "radius": 400.0,
         "density": 1.0,
         "sensor": false,
         "children": []
@@ -90,16 +90,6 @@
       "children": []
     },
     {
-      "bodyData": {
-        "linearDamping": 6.0,
-        "angularDamping": 1.8,
-        "width": 0.0,
-        "height": 0.0,
-        "radius": 0.0,
-        "density": 1.0,
-        "sensor": false,
-        "children": []
-      },
       "statusData": {
         "shield": 35003,
         "health": 100.0,

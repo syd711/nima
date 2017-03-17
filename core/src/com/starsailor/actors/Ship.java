@@ -175,8 +175,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * Enable the shild component and the visual elements for it
    */
   public void setStateVisible(boolean enabled) {
-    shieldStatusComponent.setActive(enabled);
-    shieldSpineComponent.setEnabled(enabled);
+    setShieldEnabled(true);
     healthComponent.setActive(enabled);
   }
 
@@ -185,8 +184,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    */
   public void switchToDefaultState() {
     getStateMachine().changeState(getDefaultState());
-    shieldStatusComponent.setActive(false);
-    shieldSpineComponent.setEnabled(false);
+    setShieldEnabled(false);
   }
 
   /**
@@ -281,6 +279,9 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     float damageOffset = damage; //the additional value to substract from health
     if(shieldStatusComponent.isActive()) {
       damageOffset = shieldStatusComponent.applyDamage(damage);
+      if(damageOffset > 0) {
+        setShieldEnabled(false);
+      }
     }
     healthComponent.health = healthComponent.health - damageOffset;
 
@@ -293,6 +294,11 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
       return true;
     }
     return false;
+  }
+
+  private void setShieldEnabled(boolean enabled) {
+    shieldStatusComponent.setActive(enabled);
+    shieldSpineComponent.setEnabled(enabled);
   }
 
   //------------ To be implemented ------------------------------------------------------------------------

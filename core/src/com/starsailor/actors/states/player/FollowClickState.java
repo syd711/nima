@@ -56,7 +56,7 @@ public class FollowClickState implements State<Player> {
     ClickTarget(Vector2 worldCoordinates) {
       bodyComponent = ComponentFactory.addBodyComponent(this, Box2dUtil.clickBody(worldCoordinates));
       steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, new SteeringData());
-      ComponentFactory.addPlayerTargetCollisionComponent(this);
+      ComponentFactory.addPlayerCollisionComponent(this);
     }
 
     void update(Vector2 worldCoordinates) {

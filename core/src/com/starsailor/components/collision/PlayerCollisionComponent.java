@@ -30,7 +30,7 @@ public class PlayerCollisionComponent implements Collidable {
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
       bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
     }
-    else if(collidee instanceof FollowClickState.ClickTarget) {
+    else if(collidee instanceof FollowClickState.ClickTarget || collider instanceof FollowClickState.ClickTarget) {
       Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);
     }
   }
