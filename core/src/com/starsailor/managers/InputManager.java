@@ -45,7 +45,7 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean keyUp(int keycode) {
     if(keycode == Input.Keys.ESCAPE) {
-      UIManager.getInstance().switchToDefaultState();
+      UIManager.getInstance().switchToHudState();
     }
     else if(keycode == Input.Keys.F12) {
       System.exit(0);

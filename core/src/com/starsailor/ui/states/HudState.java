@@ -10,7 +10,7 @@ import com.starsailor.ui.stages.hud.HudStage;
 /**
  *
  */
-public class DefaultState extends UIState {
+public class HudState extends UIState {
   @Override
   public void enter(GameStage entity) {
     HudStage hudStage = UIManager.getInstance().getHudStage();

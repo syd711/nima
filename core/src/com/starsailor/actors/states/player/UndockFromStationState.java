@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.Player;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.UIManager;
 import com.starsailor.systems.LightSystem;
 
 /**
@@ -12,6 +13,8 @@ import com.starsailor.systems.LightSystem;
 public class UndockFromStationState implements State<Player> {
   @Override
   public void enter(Player player) {
+    UIManager.getInstance().switchToHudState();
+
     player.scalingComponent.setTargetValue(1f);
     LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
     lightSystem.fadeOut(false);

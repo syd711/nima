@@ -30,7 +30,7 @@ public class UIManager implements SelectionChangeListener {
       instance.hudStage = new HudStage();
       instance.locationStage = new LocationStage();
 
-      instance.stateMachine.changeState(UIStates.DEFAULT_STATE);
+      instance.stateMachine.changeState(UIStates.HUD_STATE);
       instance.activeStage = instance.hudStage;
     }
     return instance;
@@ -59,9 +59,9 @@ public class UIManager implements SelectionChangeListener {
     stateMachine.changeState(state);
   }
 
-  public void switchToDefaultState(){
+  public void switchToHudState(){
     activeStage = hudStage;
-    stateMachine.changeState(UIStates.DEFAULT_STATE);
+    stateMachine.changeState(UIStates.HUD_STATE);
   }
 
   public void switchToLocationState() {
@@ -75,7 +75,7 @@ public class UIManager implements SelectionChangeListener {
       stateMachine.changeState(UIStates.SHIP_SELECTION_STATE);
     }
     else {
-      stateMachine.changeState(UIStates.DEFAULT_STATE);
+      stateMachine.changeState(UIStates.HUD_STATE);
     }
   }
 }
