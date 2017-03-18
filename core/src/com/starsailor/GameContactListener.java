@@ -29,6 +29,8 @@ public class GameContactListener implements ContactListener {
   public void endContact(Contact contact) {
     GameEntity userDataA = (GameEntity) contact.getFixtureA().getBody().getUserData();
     GameEntity userDataB = (GameEntity) contact.getFixtureB().getBody().getUserData();
+
+//    System.out.println("End Contact of " + userDataA + "/" + userDataB);
   }
 
   @Override

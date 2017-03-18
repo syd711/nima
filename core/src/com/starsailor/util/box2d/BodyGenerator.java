@@ -214,17 +214,13 @@ public class BodyGenerator {
     return body;
   }
 
-  public static void createWorldBody() {
+  public static Body createGalaxyBody() {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     Body body = world.createBody(bodyDef);
 
     CircleShape circleShape = new CircleShape();
     circleShape.setRadius((TmxSettings.WORLD_PIXELS_X / 2 - TmxSettings.WORLD_PIXELS_X) * Settings.MPP);
-
-    float positionX = TmxSettings.WORLD_PIXELS_X / 2 * Settings.MPP;
-    float positionY = TmxSettings.WORLD_PIXELS_Y / 2 * Settings.MPP;
-    circleShape.setPosition(new Vector2(positionX, positionY));
 
     FixtureDef fdef = new FixtureDef();
     fdef.shape = circleShape;
@@ -234,6 +230,11 @@ public class BodyGenerator {
     fdef.filter.maskBits = MASK_WORLD;
     body.createFixture(fdef);
 
+    float positionX = TmxSettings.WORLD_PIXELS_X / 2 * Settings.MPP;
+    float positionY = TmxSettings.WORLD_PIXELS_Y / 2 * Settings.MPP;
+    body.setTransform(new Vector2(positionX, positionY), 0);
+
     circleShape.dispose();
+    return body;
   }
 }

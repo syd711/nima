@@ -8,10 +8,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.NPC;
-import com.starsailor.actors.Player;
-import com.starsailor.actors.ShipFactory;
+import com.starsailor.actors.*;
 import com.starsailor.components.*;
 import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.systems.*;
@@ -22,11 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Central Ashley initialization of entity systems.
+ * Central Ashley initialization of galaxy systems.
  */
 public class EntityManager implements EntityListener {
   private PooledEngine engine;
-  private Player player;
   private List<GameEntity> destroyEntities = new ArrayList<>();
   private List<Body> destroyBodies = new ArrayList<>();
 
@@ -41,9 +37,8 @@ public class EntityManager implements EntityListener {
   }
 
   private void init(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
-    //create player
-    player = ShipFactory.createPlayer();
-    engine.addEntity(player);
+    engine.addEntity(ShipFactory.createPlayer());
+    engine.addEntity(new Galaxy());
 
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
@@ -98,25 +93,21 @@ public class EntityManager implements EntityListener {
     return INSTANCE;
   }
 
-  public Player getPlayer() {
-    return player;
-  }
-
   public LightSystem getLightSystem() {
     return lightSystem;
   }
 
   /**
-   * Registers an entity click listener
+   * Registers an galaxy click listener
    */
   public void addEntityListener(EntityListener listener) {
     this.engine.addEntityListener(listener);
   }
 
   /**
-   * Adds the given entity to the Ashley engine.
+   * Adds the given galaxy to the Ashley engine.
    *
-   * @param entity the entity to add
+   * @param entity the galaxy to add
    */
   public void add(Entity entity) {
     engine.addEntity(entity);
@@ -173,7 +164,7 @@ public class EntityManager implements EntityListener {
 
         engine.removeEntity(entity);
 
-//        Gdx.app.log(this.toString(), "Destroyed " + entity);
+//        Gdx.app.log(this.toString(), "Destroyed " + galaxy);
       }
       destroyEntities.clear();
 
@@ -195,11 +186,11 @@ public class EntityManager implements EntityListener {
 
   public Entity getEntityAt(float x, float y) {
     Vector2 clickPoint = new Vector2(x, y);
-    return Box2dUtil.getEntityAt(Game.world, clickPoint);
+    return Box2dUtil.getEntityAtClickPoint(Game.world, clickPoint);
   }
 
   public Entity getEntityAt(Vector2 pos) {
-    return Box2dUtil.getEntityAt(Game.world, pos);
+    return Box2dUtil.getEntityAtClickPoint(Game.world, pos);
   }
 
   public ImmutableArray<Entity> getEntitiesFor(Class<? extends Component> componentClass) {

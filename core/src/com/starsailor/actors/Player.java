@@ -103,7 +103,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     Entity possibleTarget = EntityManager.getInstance().getEntityAt(worldCoordinates);
     //ships are not targets
     this.target = null;
-    if(!(possibleTarget instanceof Ship)) {
+    if(possibleTarget instanceof Location) {
       target = possibleTarget;
     }
     getStateMachine().changeState(PlayerState.FOLLOW_CLICK);

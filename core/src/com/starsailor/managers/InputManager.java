@@ -20,6 +20,7 @@ public class InputManager implements InputProcessor {
   private OrthographicCamera camera;
   private InputMultiplexer inputMultiplexer = new InputMultiplexer();
   private Vector2 lastClickLocation;
+  private boolean navigationEnabled = true;
 
   public InputManager(OrthographicCamera camera) {
     this.camera = camera;
@@ -37,6 +38,9 @@ public class InputManager implements InputProcessor {
     inputMultiplexer.addProcessor(inputProcessor);
   }
 
+  public void setNavigationEnabled(boolean b) {
+    this.navigationEnabled = b;
+  }
 
   @Override
   public boolean keyDown(int keycode) {
@@ -94,6 +98,10 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if(!navigationEnabled) {
+      return false;
+    }
+
     float targetX = screenX;
     float targetY = Gdx.graphics.getHeight() - screenY;
 

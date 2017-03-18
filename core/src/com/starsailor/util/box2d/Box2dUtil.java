@@ -6,7 +6,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.starsailor.model.BodyData;
+import com.starsailor.actors.Galaxy;
+import com.starsailor.actors.Player;
 import com.starsailor.util.Settings;
 
 import static com.starsailor.util.Settings.MPP;
@@ -39,9 +40,12 @@ public class Box2dUtil {
     return new Vector2(vector.x * MPP, vector.y * MPP);
   }
 
-  public static Entity getEntityAt(World world, Vector2 clickPoint) {
+  public static Entity getEntityAtClickPoint(World world, Vector2 clickPoint) {
     Vector2 box2dPoint = new Vector2(clickPoint.x * Settings.MPP, clickPoint.y * Settings.MPP);
+    return getEntityAtBox2dPoint(world, box2dPoint);
+  }
 
+  public static boolean isInsideWorld(World world, Vector2 box2dPoint) {
     //Check to see if there's a body under the mouse cursor.
     Array<Body> bodyArray = new Array<>();
     world.getBodies(bodyArray);
@@ -50,7 +54,33 @@ public class Box2dUtil {
       Array<Fixture> fixtureList = body.getFixtureList();
       for(Fixture fixture : fixtureList) {
         if(fixture.testPoint(box2dPoint)) {
-          return (Entity) body.getUserData();
+          Entity userData = (Entity) body.getUserData();
+          if(userData instanceof Galaxy) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public static Entity getEntityAtBox2dPoint(World world, Vector2 box2dPoint) {
+    //Check to see if there's a body under the mouse cursor.
+    Array<Body> bodyArray = new Array<>();
+    world.getBodies(bodyArray);
+
+    for(Body body : bodyArray) {
+      Array<Fixture> fixtureList = body.getFixtureList();
+      for(Fixture fixture : fixtureList) {
+        if(fixture.testPoint(box2dPoint)) {
+          Entity userData = (Entity) body.getUserData();
+          if(userData instanceof Galaxy) {
+            continue;
+          }
+          if(userData instanceof Player) {
+            continue;
+          }
+          return userData;
         }
       }
     }

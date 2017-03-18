@@ -99,7 +99,7 @@ public class Game extends ApplicationAdapter {
     tiledMapRenderer.addParallaxLayer("maps/parallax_3.png");
 
     //init player
-    Player player = entityManager.getPlayer();
+    Player player = Player.getInstance();
     positionComponent = player.getComponent(PositionComponent.class);
 
     //init camera manager
