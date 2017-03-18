@@ -8,15 +8,17 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.SpineShipComponent;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.WeaponData;
+import com.starsailor.render.TmxSettings;
+import com.starsailor.util.Settings;
 
 import static com.starsailor.util.Settings.MPP;
 
 
 public class BodyGenerator {
-  private final static short PLAYER_BITS  = 0x0001;
-  private final static short NPC_BITS     = 0x0002;
-  private final static short WORLD_BITS   = 0x0004;
-  private final static short BULLET_BITS  = 0x0008;
+  private final static short PLAYER_BITS = 0x0001;
+  private final static short NPC_BITS = 0x0002;
+  private final static short WORLD_BITS = 0x0004;
+  private final static short BULLET_BITS = 0x0008;
 //  public final static short BITS = 0x0032;
 
   private final static short MASK_PLAYER = NPC_BITS | WORLD_BITS | BULLET_BITS;
@@ -44,7 +46,7 @@ public class BodyGenerator {
     }
     else {
       shape = new PolygonShape();
-      ((PolygonShape)shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
+      ((PolygonShape) shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
       fdef.shape = shape;
     }
 
@@ -81,15 +83,6 @@ public class BodyGenerator {
     return b;
   }
 
-  public static Body createShieldBody(World world, Ship ship, BodyData bodyData) {
-    SpineShipComponent spineComponent = ship.getComponent(SpineShipComponent.class);
-    CircleShape shape = new CircleShape();
-    float scaling = spineComponent.getJsonScaling();
-    float radius = (spineComponent.getSkeleton().getData().getHeight() + 600) * scaling / 2;
-    shape.setRadius(radius * MPP);
-    return spineBody(shape, world, bodyData, ship, ship.getCenter(), true);
-  }
-
   /**
    * Creates the Box2d body for the given spine
    */
@@ -104,7 +97,7 @@ public class BodyGenerator {
     }
     else {
       shape = new PolygonShape();
-      ((PolygonShape)shape).setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP,
+      ((PolygonShape) shape).setAsBox(spineComponent.getSkeleton().getData().getWidth() * scaling / 2 * MPP,
           spineComponent.getSkeleton().getData().getHeight() * scaling / 2 * MPP);
     }
     return spineBody(shape, world, bodyData, ship, position, bodyData.isSensor());
@@ -174,7 +167,7 @@ public class BodyGenerator {
     }
     else {
       shape = new PolygonShape();
-      ((PolygonShape)shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
+      ((PolygonShape) shape).setAsBox(bodyData.getWidth() * MPP, bodyData.getHeight() * MPP);
       fdef.shape = shape;
     }
 
@@ -219,5 +212,28 @@ public class BodyGenerator {
 
     shape.dispose();
     return body;
+  }
+
+  public static void createWorldBody() {
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.StaticBody;
+    Body body = world.createBody(bodyDef);
+
+    CircleShape circleShape = new CircleShape();
+    circleShape.setRadius((TmxSettings.WORLD_PIXELS_X / 2 - TmxSettings.WORLD_PIXELS_X) * Settings.MPP);
+
+    float positionX = TmxSettings.WORLD_PIXELS_X / 2 * Settings.MPP;
+    float positionY = TmxSettings.WORLD_PIXELS_Y / 2 * Settings.MPP;
+    circleShape.setPosition(new Vector2(positionX, positionY));
+
+    FixtureDef fdef = new FixtureDef();
+    fdef.shape = circleShape;
+    fdef.isSensor = true;
+    fdef.filter.groupIndex = 0;
+    fdef.filter.categoryBits = WORLD_BITS;
+    fdef.filter.maskBits = MASK_WORLD;
+    body.createFixture(fdef);
+
+    circleShape.dispose();
   }
 }

@@ -1,17 +1,17 @@
-package com.starsailor.camera;
+package com.starsailor.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.ScreenPositionComponent;
-import com.starsailor.ui.UIManager;
 import com.starsailor.render.TmxSettings;
 import com.starsailor.util.Settings;
 
 import java.util.Random;
 
 public class CameraManager {
+  private static final double ZOOM_DELTA = 0.05;
   private OrthographicCamera camera;
 
   private float worldWidth;
@@ -83,40 +83,36 @@ public class CameraManager {
     float centerY = screenPositionComponent.getDefaultY();
 
     //x left
-    if(x < (width / 2)) {
-      centerX = x;
-      keepX = true;
-      UIManager.getInstance().getHudStage().getNavigationPanel().activate();
-    }
-    else {
-      UIManager.getInstance().getHudStage().getNavigationPanel().deactivate();
-    }
-
-    //x right
-    if(x > (worldWidth - (width / 2))) {
-      centerX = x%TmxSettings.FRAME_PIXELS_X;
-      keepX = true;
-    }
-
-    //y bottom
-    if(y < (height / 2)) {
-      centerY = y;
-      keepY = true;
-    }
-
-    //y top
-    if(y > (worldHeight - (height / 2))) {
-      centerY = y%TmxSettings.FRAME_PIXELS_Y;
-      keepY = true;
-    }
-
-    if(!keepX) {
+//    if(x < (width / 2)) {
+//      centerX = x;
+//      keepX = true;
+//      UIManager.getInstance().getHudStage().getNavigationPanel().activate();
+//    }
+//    else {
+//      UIManager.getInstance().getHudStage().getNavigationPanel().deactivate();
+//    }
+//
+//    //x right
+//    if(x > (worldWidth - (width / 2))) {
+//      centerX = x%TmxSettings.FRAME_PIXELS_X;
+//      keepX = true;
+//    }
+//
+//    //y bottom
+//    if(y < (height / 2)) {
+//      centerY = y;
+//      keepY = true;
+//    }
+//
+//    //y top
+//    if(y > (worldHeight - (height / 2))) {
+//      centerY = y%TmxSettings.FRAME_PIXELS_Y;
+//      keepY = true;
+//    }
+//
       camera.position.x = x;
-    }
 
-    if(!keepY) {
       camera.position.y = y;
-    }
 
     screenPositionComponent.setX(centerX);
     screenPositionComponent.setY(centerY);
@@ -157,10 +153,10 @@ public class CameraManager {
 
   private void updateZoom() {
     if(camera.zoom < targetZoom) {
-      camera.zoom+=0.005;
+      camera.zoom+= ZOOM_DELTA;
     }
     if(camera.zoom > targetZoom) {
-      camera.zoom-=0.005;
+      camera.zoom-=ZOOM_DELTA;
     }
   }
 }

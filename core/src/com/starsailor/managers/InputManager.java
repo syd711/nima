@@ -6,8 +6,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.*;
+import com.starsailor.GameStateManager;
 import com.starsailor.actors.Player;
+import com.starsailor.ui.UIManager;
 import com.starsailor.util.Debugger;
 import com.starsailor.util.GraphicsUtil;
 
@@ -61,24 +62,20 @@ public class InputManager implements InputProcessor {
       Debugger.log();
       return true;
     }
-    else if(keycode == Input.Keys.Q) {
-      Game.gameSettings.save();
-      return true;
-    }
     else if(keycode == Input.Keys.C) {
-      com.starsailor.camera.CameraManager.getInstance().reset();
+      CameraManager.getInstance().reset();
       return true;
     }
     else if(keycode == Input.Keys.PLUS) {
-      com.starsailor.camera.CameraManager.getInstance().updateTargetZoom(-0.2f);
+      CameraManager.getInstance().updateTargetZoom(-0.2f);
       return true;
     }
     else if(keycode == Input.Keys.MINUS) {
-      com.starsailor.camera.CameraManager.getInstance().updateTargetZoom(0.2f);
+      CameraManager.getInstance().updateTargetZoom(0.2f);
       return true;
     }
     else if(keycode == Input.Keys.P) {
-      com.starsailor.GameStateManager.getInstance().setPaused(!com.starsailor.GameStateManager.getInstance().isPaused());
+      GameStateManager.getInstance().setPaused(!GameStateManager.getInstance().isPaused());
       return true;
     }
 
@@ -134,7 +131,7 @@ public class InputManager implements InputProcessor {
   }
 
   public boolean isScene2dClick() {
-    if(com.starsailor.ui.UIManager.getInstance().getHudStage().getContextMenu().visible()) {
+    if(UIManager.getInstance().getHudStage().getContextMenu().visible()) {
       return true;
     }
 

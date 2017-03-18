@@ -8,7 +8,7 @@ import com.starsailor.actors.Collidable;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.camera.CameraManager;
+import com.starsailor.managers.CameraManager;
 import com.starsailor.messaging.Messages;
 
 /**
