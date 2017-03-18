@@ -1,8 +1,7 @@
-package com.starsailor.managers;
+package com.starsailor;
 
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
-import com.starsailor.GameState;
 
 /**
  * Wraps the status, e.g. if paused

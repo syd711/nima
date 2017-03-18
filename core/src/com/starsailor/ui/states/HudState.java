@@ -1,9 +1,9 @@
 package com.starsailor.ui.states;
 
 import com.starsailor.actors.Player;
-import com.starsailor.managers.GameStateManager;
+import com.starsailor.GameStateManager;
 import com.starsailor.managers.SelectionManager;
-import com.starsailor.managers.UIManager;
+import com.starsailor.ui.UIManager;
 import com.starsailor.ui.stages.GameStage;
 import com.starsailor.ui.stages.hud.HudStage;
 

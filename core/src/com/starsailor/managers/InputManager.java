@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.Game;
+import com.starsailor.*;
 import com.starsailor.actors.Player;
 import com.starsailor.util.Debugger;
 import com.starsailor.util.GraphicsUtil;
@@ -45,7 +45,7 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean keyUp(int keycode) {
     if(keycode == Input.Keys.ESCAPE) {
-      UIManager.getInstance().switchToHudState();
+      com.starsailor.ui.UIManager.getInstance().switchToHudState();
     }
     else if(keycode == Input.Keys.F12) {
       System.exit(0);
@@ -66,19 +66,19 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.C) {
-      CameraManager.getInstance().reset();
+      com.starsailor.camera.CameraManager.getInstance().reset();
       return true;
     }
     else if(keycode == Input.Keys.PLUS) {
-      CameraManager.getInstance().updateTargetZoom(-0.2f);
+      com.starsailor.camera.CameraManager.getInstance().updateTargetZoom(-0.2f);
       return true;
     }
     else if(keycode == Input.Keys.MINUS) {
-      CameraManager.getInstance().updateTargetZoom(0.2f);
+      com.starsailor.camera.CameraManager.getInstance().updateTargetZoom(0.2f);
       return true;
     }
     else if(keycode == Input.Keys.P) {
-      GameStateManager.getInstance().setPaused(!GameStateManager.getInstance().isPaused());
+      com.starsailor.GameStateManager.getInstance().setPaused(!com.starsailor.GameStateManager.getInstance().isPaused());
       return true;
     }
 
@@ -103,7 +103,7 @@ public class InputManager implements InputProcessor {
     lastClickLocation = new Vector2(targetX, targetY);
     Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
     float dst = worldCoordinates.dst(Player.getInstance().getCenter());
-    if(dst < 90) {
+    if(dst < 80) {
       return false; //TODO
     }
 
@@ -134,7 +134,7 @@ public class InputManager implements InputProcessor {
   }
 
   public boolean isScene2dClick() {
-    if(UIManager.getInstance().getHudStage().getContextMenu().visible()) {
+    if(com.starsailor.ui.UIManager.getInstance().getHudStage().getContextMenu().visible()) {
       return true;
     }
 

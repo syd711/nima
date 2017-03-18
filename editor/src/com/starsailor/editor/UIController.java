@@ -1,7 +1,7 @@
 package com.starsailor.editor;
 
 import com.starsailor.editor.util.IdGenerator;
-import com.starsailor.managers.GameDataManager;
+import com.starsailor.GameDataManager;
 import com.starsailor.model.*;
 import com.starsailor.model.items.MapItem;
 import com.starsailor.model.items.ShipItem;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.starsailor.managers.GameDataManager.*;
+import static com.starsailor.GameDataManager.*;
 
 /**
  *

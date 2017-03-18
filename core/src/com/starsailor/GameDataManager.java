@@ -1,4 +1,4 @@
-package com.starsailor.managers;
+package com.starsailor;
 
 import com.starsailor.model.*;
 import com.starsailor.model.items.ShipItem;

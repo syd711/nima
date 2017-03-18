@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.Selectable;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.SelectionManager;
-import com.starsailor.managers.UIManager;
+import com.starsailor.ui.UIManager;
 import com.starsailor.ui.Scene2dFactory;
 import com.starsailor.ui.states.UIStates;
 import com.starsailor.util.GraphicsUtil;

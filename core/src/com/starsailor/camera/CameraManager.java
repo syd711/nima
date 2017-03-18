@@ -1,10 +1,11 @@
-package com.starsailor.managers;
+package com.starsailor.camera;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.components.ScreenPositionComponent;
+import com.starsailor.ui.UIManager;
 import com.starsailor.render.TmxSettings;
 import com.starsailor.util.Settings;
 

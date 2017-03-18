@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.managers.GameStateManager;
+import com.starsailor.GameStateManager;
 
 /**
  * Common iterating system to be used to support game state

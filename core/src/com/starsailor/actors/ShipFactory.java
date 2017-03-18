@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.route.Route;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.GameDataManager;
+import com.starsailor.GameDataManager;
 import com.starsailor.model.items.ShipItem;
 
 import java.util.List;

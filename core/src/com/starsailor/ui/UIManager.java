@@ -1,9 +1,11 @@
-package com.starsailor.managers;
+package com.starsailor.ui;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.starsailor.actors.Selectable;
+import com.starsailor.managers.SelectionChangeListener;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.ui.stages.hud.HudStage;
 import com.starsailor.ui.stages.location.LocationStage;
 import com.starsailor.ui.states.UIState;

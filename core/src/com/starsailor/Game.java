@@ -103,7 +103,7 @@ public class Game extends ApplicationAdapter {
     positionComponent = player.getComponent(PositionComponent.class);
 
     //init camera manager
-    CameraManager.getInstance().init(camera, player);
+    com.starsailor.camera.CameraManager.getInstance().init(camera, player);
 
     //input processing
     inputManager = new InputManager(camera);
@@ -141,7 +141,7 @@ public class Game extends ApplicationAdapter {
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    CameraManager.getInstance().update(deltaTime);
+    com.starsailor.camera.CameraManager.getInstance().update(deltaTime);
     BulletManager.getInstance().update(deltaTime);
     MessageManager.getInstance().update();
 
@@ -172,7 +172,7 @@ public class Game extends ApplicationAdapter {
     entityManager.update();
 
     //hud overlay at last
-    UIManager.getInstance().update(deltaTime);
+    com.starsailor.ui.UIManager.getInstance().update(deltaTime);
   }
 
   /**

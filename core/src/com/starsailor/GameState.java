@@ -2,7 +2,6 @@ package com.starsailor;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.starsailor.managers.GameStateManager;
 
 /**
  * The game states

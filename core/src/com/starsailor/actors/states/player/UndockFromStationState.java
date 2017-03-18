@@ -4,7 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.Player;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.UIManager;
+import com.starsailor.ui.UIManager;
 import com.starsailor.systems.LightSystem;
 
 /**

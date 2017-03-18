@@ -9,7 +9,7 @@ import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.managers.UIManager;
+import com.starsailor.ui.UIManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.util.GraphicsUtil;
 

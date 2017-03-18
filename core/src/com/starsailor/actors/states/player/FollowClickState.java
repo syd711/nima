@@ -7,7 +7,7 @@ import com.starsailor.actors.GameEntity;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.SpineShipAnimations;
 import com.starsailor.components.*;
-import com.starsailor.managers.UIManager;
+import com.starsailor.ui.UIManager;
 import com.starsailor.model.SteeringData;
 import com.starsailor.managers.SteeringManager;
 import com.starsailor.util.box2d.Box2dUtil;

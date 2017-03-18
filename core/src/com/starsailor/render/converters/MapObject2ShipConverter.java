@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.NPC;
 import com.starsailor.actors.NPCLauncher;
 import com.starsailor.actors.ShipFactory;
-import com.starsailor.managers.GameDataManager;
+import com.starsailor.GameDataManager;
 import com.starsailor.model.GameDataWithId;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.render.TiledMapFragment;
