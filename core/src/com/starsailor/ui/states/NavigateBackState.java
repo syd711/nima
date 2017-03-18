@@ -7,19 +7,13 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerState;
 import com.starsailor.ui.UIManager;
 import com.starsailor.ui.stages.GameStage;
-import com.starsailor.ui.stages.hud.HudStage;
 import com.starsailor.util.box2d.Box2dUtil;
 
 /**
- *
+ * Forces the player to move back into the world if the end is near.
  */
 public class NavigateBackState extends UIState {
-  private HudStage hudStage;
   private Vector2 worldExitPoint;
-
-  public NavigateBackState() {
-    hudStage = UIManager.getInstance().getHudStage();
-  }
 
   @Override
   public void enter(GameStage entity) {
