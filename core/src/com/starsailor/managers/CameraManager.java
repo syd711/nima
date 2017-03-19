@@ -31,9 +31,10 @@ public class CameraManager {
     return instance;
   }
 
-  public void init(OrthographicCamera camera, Player player) {
+  public void init(OrthographicCamera camera) {
     this.camera = camera;
 
+    Player player = Player.getInstance();
     this.screenPositionComponent = player.getComponent(ScreenPositionComponent.class);
     this.positionComponent = player.getComponent(PositionComponent.class);
   }

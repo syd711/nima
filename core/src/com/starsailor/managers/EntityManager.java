@@ -1,6 +1,5 @@
 package com.starsailor.managers;
 
-import box2dLight.RayHandler;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
@@ -8,9 +7,15 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.*;
-import com.starsailor.components.*;
-import com.starsailor.render.TiledMultiMapRenderer;
+import com.starsailor.actors.Galaxy;
+import com.starsailor.actors.GameEntity;
+import com.starsailor.actors.NPC;
+import com.starsailor.actors.ShipFactory;
+import com.starsailor.components.BodyComponent;
+import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.StatefulComponent;
+import com.starsailor.components.SteerableComponent;
+import com.starsailor.render.MapManager;
 import com.starsailor.systems.*;
 import com.starsailor.util.box2d.Box2dUtil;
 
@@ -36,9 +41,9 @@ public class EntityManager implements EntityListener {
     ComponentFactory.engine = engine;
   }
 
-  private void init(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
+  private void init() {
     engine.addEntity(ShipFactory.createPlayer());
-    engine.addEntity(new Galaxy());
+    EntityManager.getInstance().add(new Galaxy());
 
     ScalingSystem scalingSystem = new ScalingSystem();
     engine.addSystem(scalingSystem);
@@ -61,31 +66,31 @@ public class EntityManager implements EntityListener {
     BulletSystem bulletSystem = new BulletSystem();
     engine.addSystem(bulletSystem);
 
-    ParticleSystem particleSystem = new ParticleSystem(renderer.getBatch());
+    ParticleSystem particleSystem = new ParticleSystem(MapManager.getInstance().getBatch());
     engine.addSystem(particleSystem);
 
-    AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(renderer.getBatch());
+    AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(MapManager.getInstance().getBatch());
     engine.addSystem(animationRenderSystem);
 
-    lightSystem = new LightSystem(rayHandler);
+    lightSystem = new LightSystem(Game.rayHandler);
     engine.addSystem(lightSystem);
 
     StateMachineSystem stateMachineSystem = new StateMachineSystem();
     engine.addSystem(stateMachineSystem);
 
-    SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(renderer.getBatch());
+    SpriteRenderSystem spriteRenderSystem = new SpriteRenderSystem(MapManager.getInstance().getBatch());
     engine.addSystem(spriteRenderSystem);
 
-    SpineRenderSystem renderSystem = new SpineRenderSystem(renderer.getBatch());
+    SpineRenderSystem renderSystem = new SpineRenderSystem(MapManager.getInstance().getBatch());
     engine.addSystem(renderSystem);
 
     FormationSystem formationSystem = new FormationSystem();
     engine.addSystem(formationSystem);
   }
 
-  public static EntityManager create(TiledMultiMapRenderer renderer, RayHandler rayHandler) {
+  public static EntityManager create() {
     INSTANCE = new EntityManager();
-    INSTANCE.init(renderer, rayHandler);
+    INSTANCE.init();
     return INSTANCE;
   }
 

@@ -25,6 +25,7 @@ import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
 import com.starsailor.model.*;
+import com.starsailor.render.MapManager;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -267,7 +268,7 @@ public class ComponentFactory {
 
   public static GalaxyBodyComponent createGalaxyBodyComponent(GameEntity entity) {
     GalaxyBodyComponent component = createComponent(GalaxyBodyComponent.class);
-    component.body = BodyGenerator.createGalaxyBody(Game.tiledMapRenderer);
+    component.body = BodyGenerator.createGalaxyBody(MapManager.getInstance().getTiledMapRenderer());
     component.body.setUserData(entity);
     entity.add(component);
     return component;
