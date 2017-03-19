@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.ui.Scene2dFactory;
 import com.starsailor.ui.UIManager;
+import com.starsailor.ui.states.LeaveMapState;
 import com.starsailor.ui.states.UIStates;
 
 /**
@@ -19,11 +20,11 @@ public class NavigationPanel extends HudPanel {
     TextButton dockButton = Scene2dFactory.createButton("Leave Station");
 
     Label nameLabel = Scene2dFactory.createLabel("Name:");
-    TextButton nameText =  Scene2dFactory.createButton("Athena Galaxy");
+    TextButton nameText =  Scene2dFactory.createButton("Change Map");
     nameText.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        System.out.println("galaxy change");
+       UIManager.getInstance().changeState(new LeaveMapState("nereus"));
       }
     });
 

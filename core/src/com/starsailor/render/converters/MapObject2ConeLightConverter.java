@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.GameEntity;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.LightComponent;
 import com.starsailor.managers.EntityManager;
@@ -41,7 +42,7 @@ public class MapObject2ConeLightConverter extends DefaultMapObjectConverter {
     float degree = getProperty(mapObject, PROPERTY_LIGHT_DEGREE, DEFAULT_LIGHT_DEGREE);
     float coneDegree = getProperty(mapObject, PROPERTY_CONE_DEGREE, DEFAULT_CONE_DEGREE);
 
-    Entity entity = new Entity();
+    Entity entity = new GameEntity();
     LightComponent component =  ComponentFactory.addLightComponent(entity);
     component.init(rayHandler, distance, centeredPosition.x, centeredPosition.y, degree, coneDegree, false);
 

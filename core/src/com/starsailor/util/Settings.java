@@ -22,10 +22,6 @@ public class Settings {
     return instance;
   }
 
-
-  public final static int START_POINT_X = 1000;
-  public final static int START_POINT_Y = 1000;
-
   /**
    * Box2d Settings
    */

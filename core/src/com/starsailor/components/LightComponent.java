@@ -10,7 +10,7 @@ import com.starsailor.util.Settings;
 /**
  * Component implementation for map objects
  */
-public class LightComponent extends LimitingComponent {
+public class LightComponent extends LimitingComponent implements Destroyable {
   private PositionalLight pointLight;
   private final int MAX_RAYS = 2000;
   private boolean moveable;
@@ -53,5 +53,10 @@ public class LightComponent extends LimitingComponent {
   public void reset() {
     super.reset();
     this.pointLight = null;
+  }
+
+  @Override
+  public void destroy() {
+    pointLight.dispose();
   }
 }

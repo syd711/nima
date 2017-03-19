@@ -11,7 +11,6 @@ import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.ui.UIManager;
-import com.starsailor.util.Settings;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,12 +39,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   public void createComponents() {
     super.createComponents();
     ComponentFactory.addPlayerCollisionComponent(this);
-
-    //position player
-    Vector2 screenCenter = new Vector2(Settings.START_POINT_X, Settings.START_POINT_Y);//GraphicsUtil.getScreenCenter(Game.tiledMapRenderer, Settings.START_POINT_X, Settings.START_POINT_Y, getHeight());
-    positionComponent.setPosition(screenCenter);
-    add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
-    shipBodyComponent.setWorldPosition(screenCenter);
+    add(new ScreenPositionComponent(0, 0));
   }
 
   public Entity getTarget() {

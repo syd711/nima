@@ -17,7 +17,7 @@ import static com.starsailor.util.Settings.PPM;
 /**
  * Box2d support for entities
  */
-public class BodyComponent implements Component, Pool.Poolable {
+public class BodyComponent implements Component, Pool.Poolable, Destroyable {
 
   public Body body;
 
@@ -38,6 +38,7 @@ public class BodyComponent implements Component, Pool.Poolable {
     body.setTransform(pos.x, pos.y, body.getAngle());
   }
 
+  @Override
   public void destroy() {
     if(body != null) {
       Game.world.destroyBody(body);

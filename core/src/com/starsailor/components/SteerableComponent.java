@@ -16,7 +16,7 @@ import com.starsailor.util.box2d.Box2dLocation;
 /**
  * AI steerable implementation for box2d bodies.
  */
-public class SteerableComponent implements Component, Steerable<Vector2>, Pool.Poolable {
+public class SteerableComponent implements Component, Steerable<Vector2>, Pool.Poolable, Destroyable {
   private boolean tagged = false;
   private float boundingRadius;
   private float maxLinearSpeed;

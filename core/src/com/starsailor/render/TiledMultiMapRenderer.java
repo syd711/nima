@@ -42,6 +42,10 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private int worldWidth = 0;
   private int worldHeight = 0;
 
+  private int startX;
+  private int startY;
+
+
   //variables updated for each render frame/region
   private int frameNumberX;
   private int frameNumberY;
@@ -388,6 +392,14 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     return worldPixelsY;
   }
 
+  public int getStartX() {
+    return startX;
+  }
+
+  public int getStartY() {
+    return startY;
+  }
+
   //-------------------- Helper------------------------------------
 
 
@@ -413,6 +425,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
   private void initSettings() {
     TiledMapFragment loader = new TiledMapFragment(this, fileFor(0, 0), 0, 0);
     setMap(loader.getMap());
+
+    this.startX = (int) loader.getMap().getLayers().get("data").getProperties().get("startX");
+    this.startY = (int) loader.getMap().getLayers().get("data").getProperties().get("startY");
 
     MapProperties mapProperties = getMap().getProperties();
     int width = (int) mapProperties.get("width");

@@ -5,16 +5,14 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.Galaxy;
-import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.NPC;
-import com.starsailor.actors.ShipFactory;
-import com.starsailor.components.BodyComponent;
+import com.starsailor.actors.*;
+import com.starsailor.actors.bullets.Bullet;
+import com.starsailor.actors.route.Route;
+import com.starsailor.actors.states.player.FollowClickState;
 import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.Destroyable;
 import com.starsailor.components.StatefulComponent;
-import com.starsailor.components.SteerableComponent;
 import com.starsailor.render.MapManager;
 import com.starsailor.systems.*;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -26,10 +24,9 @@ import java.util.List;
 /**
  * Central Ashley initialization of galaxy systems.
  */
-public class EntityManager implements EntityListener {
+public class EntityManager {
   private PooledEngine engine;
   private List<GameEntity> destroyEntities = new ArrayList<>();
-  private List<Body> destroyBodies = new ArrayList<>();
 
   private static EntityManager INSTANCE;
 
@@ -37,7 +34,6 @@ public class EntityManager implements EntityListener {
 
   private EntityManager() {
     this.engine = new PooledEngine();
-    this.addEntityListener(this);
     ComponentFactory.engine = engine;
   }
 
@@ -148,14 +144,11 @@ public class EntityManager implements EntityListener {
 
     if(!destroyEntities.isEmpty()) {
       for(GameEntity entity : destroyEntities) {
-        List<BodyComponent> components = entity.getComponents(BodyComponent.class);
-        for(BodyComponent component : components) {
-          component.destroy();
-        }
-
-        SteerableComponent steerableComponent = entity.getComponent(SteerableComponent.class);
-        if(steerableComponent != null) {
-          steerableComponent.destroy();
+        ImmutableArray<Component> components = entity.getComponents();
+        for(Component component : components) {
+          if(component instanceof Destroyable) {
+            ((Destroyable)component).destroy();
+          }
         }
 
         if(entity instanceof EntityListener) {
@@ -177,17 +170,37 @@ public class EntityManager implements EntityListener {
     }
   }
 
-  //-------------- Entity Listener -----------------------------------------------------------------------
+  //-------------- Map Reset -----------------------------------------------------------------------
 
-  @Override
-  public void entityAdded(Entity entity) {
-
+  public void resetMapEntities() {
+    ImmutableArray<Entity> entities = engine.getEntities();
+    for(Entity entity : entities) {
+      GameEntity gameEntity = (GameEntity) entity;
+      if(gameEntity instanceof Location) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof NPC) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof Galaxy) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof FormationOwner) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof Route) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof FollowClickState.ClickTarget) {
+        destroy(gameEntity);
+      }
+      else if(gameEntity instanceof Bullet) {
+        destroy(gameEntity);
+      }
+    }
   }
 
-  @Override
-  public void entityRemoved(Entity removedEntity) {
-  }
-
+  //-------------- Entity Helper -----------------------------------------------------------------------
 
   public Entity getEntityAt(float x, float y) {
     Vector2 clickPoint = new Vector2(x, y);

@@ -2,10 +2,12 @@ package com.starsailor.render;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
 import com.starsailor.actors.Galaxy;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
+import com.starsailor.managers.EntityManager;
 import com.starsailor.render.converters.*;
 import com.starsailor.util.Settings;
 
@@ -56,17 +58,25 @@ public class MapManager {
    * @param name the name of the map to load.
    */
   public void loadMap(String name) {
+
     tiledMapRenderer = new TiledMultiMapRenderer(name, batch);
 
+    //run initial global scans
     for(MapObjectConverter offScreenConverter : offScreenConverters) {
       tiledMapRenderer.addMapObjectConverter(offScreenConverter);
     }
     tiledMapRenderer.fullScan();
     tiledMapRenderer.removeAllObjectConverters();
 
+    //apply the converter to run each time a new map is loaded
     for(MapObjectConverter onScreenConverter : onScreenConverters) {
       tiledMapRenderer.addMapObjectConverter(onScreenConverter);
     }
+
+    //apply the start positon of the player
+    int startX = tiledMapRenderer.getStartX();
+    int startY = tiledMapRenderer.getStartY();
+    Player.getInstance().shipBodyComponent.setWorldPosition(new Vector2(startX, startY));
 
     Galaxy.getInstance().update();
   }

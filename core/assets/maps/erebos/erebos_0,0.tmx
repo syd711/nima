@@ -68,6 +68,10 @@
   </object>
  </objectgroup>
  <objectgroup name="data">
+  <properties>
+   <property name="startX" type="int" value="1000"/>
+   <property name="startY" type="int" value="1000"/>
+  </properties>
   <object id="38" name="Route 1" type="Route" x="318.5" y="681.5" width="43" height="43">
    <properties>
     <property name="index" type="int" value="1"/>
