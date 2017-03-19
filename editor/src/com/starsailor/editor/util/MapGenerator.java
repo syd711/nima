@@ -14,11 +14,29 @@ public class MapGenerator {
   private final static String ASSET_MAP_DIR =  "core/assets/maps/";
 
   public static void main(String[] args) throws IOException {
-    String map = Files.toString(new File(ASSET_MAP_DIR + "main/main_0,1.tmx"), Charset.defaultCharset());
+    //createMap("erebos", 4, 4);
+    rename("main", "erebos");
+  }
 
-    int x = 4;
-    int y = 4;
-    String mapName = "main";
+  private static void rename(String oldname, String newname) {
+    String filename = ASSET_MAP_DIR + newname + "/";
+    File[] files = new File(filename).listFiles();
+    for(File file : files) {
+      String fn = newname + file.getName().substring(file.getName().indexOf("_"), file.getName().length());
+      file.renameTo(new File(file.getParent(), fn));
+      System.out.println("Renamed to " + fn);
+    }
+  }
+
+  /**
+   * Creates a new map with the give name and size
+   * @param mapName the map name
+   * @param x
+   * @param y
+   * @throws IOException
+   */
+  private static void createMap(String mapName, int x, int y) throws IOException {
+    String template = Files.toString(new File(ASSET_MAP_DIR + "main/main_0,1.tmx"), Charset.defaultCharset());
 
     for(int i=0; i<x; i++) {
       for(int j=0; j<y; j++) {
@@ -27,13 +45,10 @@ public class MapGenerator {
 
         if(!mapFile.exists()) {
           mapFile.getParentFile().mkdirs();
-          Files.write(map.getBytes(), mapFile);
+          Files.write(template.getBytes(), mapFile);
           System.out.println("Created " + mapFile.getAbsolutePath());
         }
-
-
       }
     }
-
   }
 }
