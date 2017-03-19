@@ -20,7 +20,7 @@ import static com.starsailor.GameDataManager.*;
  *
  */
 public class UIController {
-  public static String TMX_FILE_FOLDER = "../../core/assets/maps/main/";
+  public static String TMX_FILE_FOLDER = "../../core/assets/maps/erebos/";
   private static UIController instance = new UIController();
 
   private GameDataManager dataManager;

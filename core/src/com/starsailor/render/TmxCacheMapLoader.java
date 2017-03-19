@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,12 +31,12 @@ public class TmxCacheMapLoader extends TmxMapLoader {
   private int frameX;
   private int frameY;
 
-  public TmxCacheMapLoader(int frameX, int frameY) {
+  public TmxCacheMapLoader(File tmxFile, int frameX, int frameY) {
     this.frameX = frameX;
     this.frameY = frameY;
 
     TmxMapLoader.Parameters par = new TmxMapLoader.Parameters();
-    load(TmxSettings.keyFor(frameX, frameY), par);
+    load(tmxFile.getAbsolutePath(), par);
 
     TmxMapLoader.Parameters parameters = this.parameters;
     for (FileHandle textureFile : textureFiles) {

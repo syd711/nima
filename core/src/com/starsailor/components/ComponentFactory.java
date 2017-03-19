@@ -27,6 +27,7 @@ import com.starsailor.messaging.Messages;
 import com.starsailor.model.*;
 import com.starsailor.render.converters.MapConstants;
 import com.starsailor.util.GraphicsUtil;
+import com.starsailor.util.Settings;
 import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.box2d.Box2dUtil;
 
@@ -118,7 +119,7 @@ public class ComponentFactory {
   public static PositionComponent addPositionComponent(Entity entity, boolean initCentered, float heightOffset) {
     PositionComponent component = addPositionComponent(entity);
     if(initCentered) {
-      Vector2 screenCenter = GraphicsUtil.getScreenCenter(heightOffset);
+      Vector2 screenCenter = GraphicsUtil.getScreenCenter(Game.tiledMapRenderer, Settings.START_FRAME_X, Settings.START_FRAME_Y, heightOffset);
       component.x = screenCenter.x;
       component.y = screenCenter.y;
     }
@@ -290,7 +291,7 @@ public class ComponentFactory {
 
   public static GalaxyBodyComponent createGalaxyBodyComponent(GameEntity entity) {
     GalaxyBodyComponent component = createComponent(GalaxyBodyComponent.class);
-    component.body = BodyGenerator.createGalaxyBody();
+    component.body = BodyGenerator.createGalaxyBody(Game.tiledMapRenderer);
     component.body.setUserData(entity);
     entity.add(component);
     return component;

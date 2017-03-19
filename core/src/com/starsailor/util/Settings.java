@@ -22,6 +22,10 @@ public class Settings {
     return instance;
   }
 
+
+  public final static int START_FRAME_X = 0;
+  public final static int START_FRAME_Y = 0;
+
   /**
    * Box2d Settings
    */

@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,19 @@ public class TiledMapFragment {
   private int frameNumberX;
   private int frameNumberY;
 
+  private TiledMultiMapRenderer renderer;
+  private File tmxFile;
+
+  private boolean dirty = true;
+
   private List<MapObject> mapObjects = new ArrayList<>();
 
-  protected TiledMapFragment(int x, int y) {
-    TmxCacheMapLoader loader = new TmxCacheMapLoader(x, y);
+  protected TiledMapFragment(TiledMultiMapRenderer renderer, File tmxFile, int x, int y) {
+    this.renderer = renderer;
+    this.tmxFile = tmxFile;
+    this.dirty = true;
+
+    TmxCacheMapLoader loader = new TmxCacheMapLoader(tmxFile, x, y);
     this.map = loader.getMap();
     this.frameNumberX = loader.getFrameX();
     this.frameNumberY = loader.getFrameY();
@@ -43,11 +53,11 @@ public class TiledMapFragment {
   }
 
   public float getXOffset() {
-    return frameNumberX * TmxSettings.FRAME_PIXELS_X;
+    return frameNumberX * renderer.getFramePixelsX();
   }
 
   public float getYOffset() {
-    return frameNumberY * TmxSettings.FRAME_PIXELS_Y;
+    return frameNumberY * renderer.getFramePixelsX();
   }
 
   public TiledMap getMap() {
@@ -56,6 +66,14 @@ public class TiledMapFragment {
 
   @Override
   public String toString() {
-    return "Map Fragment {" + frameNumberX +"/" + frameNumberY + "}";
+    return tmxFile.getName();
+  }
+
+  public boolean isDirty() {
+    return dirty;
+  }
+
+  public void setDirty(boolean dirty) {
+    this.dirty = dirty;
   }
 }

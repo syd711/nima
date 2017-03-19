@@ -7,12 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.starsailor.util.Settings;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,43 +24,54 @@ import java.util.Map;
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
-  private int actorFrameX = 0;
-  private int actorFrameY = 0;
+  private final static String MAP_DIR = "maps/";
+
+  private int actorFragmentX = 0;
+  private int actorFragmentY = 0;
 
   private int frameTilesX = 0;
   private int frameTilesY = 0;
+
+  private int framePixelsX = 0;
+  private int framePixelsY = 0;
+
+  private int worldPixelsX = 0;
+  private int worldPixelsY = 0;
+
+  private int worldWidth = 0;
+  private int worldHeight = 0;
 
   //variables updated for each render frame/region
   private int frameNumberX;
   private int frameNumberY;
   private TiledMap frameMap;
 
-  private boolean dirty = true;
-
   private List<MapObjectConverter> objectConverters = new ArrayList<>();
   private List<ParallaxLayer> parallaxLayers = new ArrayList<>();
 
   private Map<String, TiledMapFragment> currentMaps = new HashMap<>();
-  private Map<String, TiledMapFragment> actualMaps = new HashMap<>();
+  private List<TiledMapFragment> dirtyList = new ArrayList<>();
 
-  public TiledMultiMapRenderer(SpriteBatch batch) {
+  private String mapName;
+
+  public TiledMultiMapRenderer(String name, SpriteBatch batch) {
     super(null, batch);
+    this.mapName = name;
 
-    TiledMapFragment loader = new TiledMapFragment(0, 0);
-    setMap(loader.getMap());
-    TmxSettings.init(getMap().getProperties());
+    initSettings();
+  }
 
-    TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
-    this.frameTilesX = groundLayer.getWidth();
-    this.frameTilesY = groundLayer.getHeight();
+  private File fileFor(int x, int y) {
+    return new File(MAP_DIR + mapName, mapName + "_" + x + "," + y + ".tmx");
   }
 
   /**
    * Parallax layers are added from bottom to top.
+   *
    * @param resource the resource key for the layer
    */
   public void addParallaxLayer(String resource) {
-    parallaxLayers.add(new ParallaxLayer(resource));
+    parallaxLayers.add(new ParallaxLayer(this, resource));
   }
 
   /**
@@ -65,12 +79,12 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
    */
   public void fullScan() {
     Gdx.app.log(this.toString(), "Executing full map scan");
-    int maxX = TmxSettings.WORLD_WIDTH;
-    int maxY = TmxSettings.WORLD_HEIGHT;
 
-    for(int x = 0; x < maxX; x++) {
-      for(int y = 0; y < maxY; y++) {
-        TiledMapFragment tiledMapFragment = new TiledMapFragment(x, y);
+    for(int x = 0; x < worldWidth; x++) {
+      for(int y = 0; y < worldHeight; y++) {
+        File file = fileFor(x, y);
+        Gdx.app.log(this.toString(), "Scanning " + file.getAbsolutePath());
+        TiledMapFragment tiledMapFragment = new TiledMapFragment(this, file, x, y);
 
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = tiledMapFragment.getMapObjects();
@@ -84,12 +98,9 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     }
   }
 
-  public void setActorFrame(int x, int y) {
-    if(this.actorFrameX != x || this.actorFrameY != y) {
-      dirty = true;
-    }
-    this.actorFrameX = x;
-    this.actorFrameY = y;
+  public void setActorFragment(float posX, float posY) {
+    actorFragmentX = (int) (posX / framePixelsX);
+    actorFragmentY = (int) (posY / framePixelsY);
   }
 
   // --------------------- Main Render -------------------------------------
@@ -107,22 +118,28 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
       Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
-    int startX = actorFrameX - 1;
-    int startY = actorFrameY - 1;
+    int startX = actorFragmentX - 1;
+    int startY = actorFragmentY - 1;
 
+    List<TiledMapFragment> usedFragments = new ArrayList<>();
     MapLayers layers = getMap().getLayers();
     for(MapLayer layer : layers) {
       String layerName = layer.getName();
 
       //render layer by layer for all frames
       for(int x = startX; x < startX + 3; x++) {
-        if(x >= 0 && x < TmxSettings.WORLD_WIDTH) {
+        if(x >= 0 && x < worldWidth) {
           for(int y = startY; y < startY + 3; y++) {
-            if(y >= 0 && y < TmxSettings.WORLD_HEIGHT) {
+            if(y >= 0 && y < worldHeight) {
               frameNumberX = x;
               frameNumberY = y;
 
-              frameMap = getMapFragment(x, y).getMap();
+              TiledMapFragment mapFragment = getMapFragment(x, y);
+              frameMap = mapFragment.getMap();
+              if(!usedFragments.contains(mapFragment)) {
+                usedFragments.add(mapFragment);
+              }
+
               MapLayer l = frameMap.getLayers().get(layerName);
 
               if(l != null && l instanceof TiledMapTileLayer) {
@@ -140,31 +157,7 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     endRender();
 
     //listener handling
-    if(dirty) {
-      updateListeners(actualMaps);
-      dirty = false;
-    }
-
-    actualMaps.clear();
-  }
-
-  /**
-   * Loads the map for the given coordinates if not loaded yet.
-   */
-  private TiledMapFragment getMapFragment(int x, int y) {
-    //get the map for the current frame
-    String key = TmxSettings.keyFor(x, y);
-
-    if(!currentMaps.containsKey(key)) {
-      TiledMapFragment tiledMapFragment = new TiledMapFragment(x, y);
-      currentMaps.put(key, tiledMapFragment);
-      Gdx.app.log(this.toString(), "Loaded map " + tiledMapFragment);
-
-    }
-
-    TiledMapFragment mapFragment = currentMaps.get(key);
-    actualMaps.put(key, mapFragment);
-    return mapFragment;
+    updateListeners(usedFragments);
   }
 
 
@@ -179,14 +172,15 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
 
   /**
-   * Compares the map that have been rendered
-   * with the latest rendering result. Only called when dirty
-   *
-   * @param actualMaps the maps that have been rendered during the last call
+   * Checks if map or object converts have to be called.
+   * @param usedFragments
    */
-  private void updateListeners(Map<String, TiledMapFragment> actualMaps) {
-    for(TiledMapFragment mapFragment : currentMaps.values()) {
-      if(!actualMaps.containsKey(mapFragment.toString())) {
+  private void updateListeners(List<TiledMapFragment> usedFragments) {
+    //remove and destroy unused map fragments first
+    Map<String,TiledMapFragment> clone = new HashMap<>(currentMaps);
+    for(TiledMapFragment mapFragment : clone.values()) {
+      //the given map was not used during the rendering process
+      if(!usedFragments.contains(mapFragment)) {
         //destroy all map objects after notifying listeners
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = mapFragment.getMapObjects();
@@ -194,11 +188,16 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
             objectConverter.destroy(mapFragment, mapObject);
           }
         }
+
+        //remove map from loaded maps
+        currentMaps.remove(mapFragment.toString());
       }
     }
 
-    for(TiledMapFragment mapFragment : actualMaps.values()) {
-      if(!currentMaps.containsKey(mapFragment.toString())) {
+    //check if the map converters have been triggered yet
+    for(TiledMapFragment mapFragment : usedFragments) {
+      if(mapFragment.isDirty()) {
+        mapFragment.setDirty(false);
         //convert all map objects before notifying listeners
         for(MapObjectConverter objectConverter : objectConverters) {
           List<MapObject> mapObjects = mapFragment.getMapObjects();
@@ -211,9 +210,6 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
         }
       }
     }
-
-    this.currentMaps.clear();
-    this.currentMaps.putAll(actualMaps);
   }
 
   //-------------------- the actual rendering ----------------------------------------
@@ -232,12 +228,12 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     final float layerTileWidth = layer.getTileWidth() * unitScale;
     final float layerTileHeight = layer.getTileHeight() * unitScale;
 
-    float y = frameTilesY * layerTileHeight + frameNumberY * TmxSettings.FRAME_PIXELS_Y;
+    float y = frameTilesY * layerTileHeight + frameNumberY * framePixelsY;
     final float[] vertices = this.vertices;
 
     //start rendering rows from top to bottom
     for(int row = layerHeight; row >= 0; row--) {
-      float x = frameNumberX * TmxSettings.FRAME_PIXELS_X;
+      float x = frameNumberX * framePixelsX;
       for(int col = 0; col < layerWidth; col++) {
         final TiledMapTileLayer.Cell cell = layer.getCell(col, row);
         if(cell == null) {
@@ -365,4 +361,89 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     }
   }
 
+  public int getFramePixelsX() {
+    return framePixelsX;
+  }
+
+  public int getFramePixelsY() {
+    return framePixelsY;
+  }
+
+  public int getWorldPixelsX() {
+    return worldPixelsX;
+  }
+
+  public int getWorldPixelsY() {
+    return worldPixelsY;
+  }
+
+  //-------------------- Helper------------------------------------
+
+
+  /**
+   * Loads the map for the given coordinates if not loaded yet.
+   */
+  private TiledMapFragment getMapFragment(int x, int y) {
+    //get the map for the current frame
+    File mapFile = fileFor(x, y);
+
+    if(!currentMaps.containsKey(mapFile.getName())) {
+      TiledMapFragment tiledMapFragment = new TiledMapFragment(this, mapFile, x, y);
+      currentMaps.put(mapFile.getName(), tiledMapFragment);
+      Gdx.app.log(this.toString(), "Loaded map " + tiledMapFragment);
+    }
+
+    return currentMaps.get(mapFile.getName());
+  }
+
+  /**
+   * Sets all pixels sizes for calculations once the map is loaded.
+   */
+  private void initSettings() {
+    TiledMapFragment loader = new TiledMapFragment(this, fileFor(0, 0), 0, 0);
+    setMap(loader.getMap());
+
+    MapProperties mapProperties = getMap().getProperties();
+    int width = (int) mapProperties.get("width");
+    int height = (int) mapProperties.get("height");
+    int tileWidth = (int) mapProperties.get("tilewidth");
+    int tileHeight = (int) mapProperties.get("tileheight");
+
+    //well, frame pixels area easy
+    framePixelsX = width * tileWidth;
+    framePixelsY = height * tileHeight;
+
+    //calculate galaxy size next
+    File mapFolder = new File(MAP_DIR + mapName);
+    File[] mapFiles = mapFolder.listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".tmx");
+      }
+    });
+
+    for(File map : mapFiles) {
+      String name = map.getName();
+      int x = Integer.parseInt(name.substring(name.indexOf("_") + 1, map.getName().indexOf(",")));
+      if(x > worldWidth) {
+        worldWidth = x;
+      }
+
+      int y = Integer.parseInt(name.substring(name.indexOf(",") + 1, map.getName().indexOf(".")));
+      if(y > worldHeight) {
+        worldHeight = y;
+      }
+    }
+
+    worldWidth += 1;
+    worldHeight += 1;
+
+    //galaxy pixels
+    worldPixelsX = framePixelsX * worldWidth;
+    worldPixelsY = framePixelsY * worldHeight;
+
+    TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get(0);
+    this.frameTilesX = groundLayer.getWidth();
+    this.frameTilesY = groundLayer.getHeight();
+  }
 }

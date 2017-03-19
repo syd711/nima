@@ -8,7 +8,7 @@ import com.starsailor.actors.Ship;
 import com.starsailor.components.SpineShipComponent;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.WeaponData;
-import com.starsailor.render.TmxSettings;
+import com.starsailor.render.TiledMultiMapRenderer;
 import com.starsailor.util.Settings;
 
 import static com.starsailor.util.Settings.MPP;
@@ -214,13 +214,13 @@ public class BodyGenerator {
     return body;
   }
 
-  public static Body createGalaxyBody() {
+  public static Body createGalaxyBody(TiledMultiMapRenderer renderer) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.StaticBody;
     Body body = world.createBody(bodyDef);
 
     CircleShape circleShape = new CircleShape();
-    circleShape.setRadius((TmxSettings.WORLD_PIXELS_X / 2 - TmxSettings.WORLD_PIXELS_X) * Settings.MPP);
+    circleShape.setRadius((renderer.getWorldPixelsX() / 2 ) * Settings.MPP);
 
     FixtureDef fdef = new FixtureDef();
     fdef.shape = circleShape;
@@ -230,8 +230,8 @@ public class BodyGenerator {
     fdef.filter.maskBits = MASK_WORLD;
     body.createFixture(fdef);
 
-    float positionX = TmxSettings.WORLD_PIXELS_X / 2 * Settings.MPP;
-    float positionY = TmxSettings.WORLD_PIXELS_Y / 2 * Settings.MPP;
+    float positionX = renderer.getWorldPixelsX() / 2 * Settings.MPP;
+    float positionY = renderer.getWorldPixelsY() / 2 * Settings.MPP;
     body.setTransform(new Vector2(positionX, positionY), 0);
 
     circleShape.dispose();

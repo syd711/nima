@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.starsailor.Game;
-import com.starsailor.render.TmxSettings;
+import com.starsailor.render.TiledMultiMapRenderer;
 
 import java.math.BigDecimal;
 
@@ -32,12 +32,12 @@ public class GraphicsUtil {
     return outVector;
   }
 
-  public static Vector2 getScreenCenter(float objectHeight) {
+  public static Vector2 getScreenCenter(TiledMultiMapRenderer renderer, int startX, int startY, float objectHeight) {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
-    float targetX = TmxSettings.START_FRAME_X * TmxSettings.FRAME_PIXELS_X + (w / 2);
-    float targetY = TmxSettings.START_FRAME_Y * TmxSettings.FRAME_PIXELS_Y + (h / 2) + objectHeight / 2;
+    float targetX = startX * renderer.getFramePixelsX() + (w / 2);
+    float targetY = startY * renderer.getFramePixelsY() + (h / 2) + objectHeight / 2;
     return new Vector2(targetX, targetY);
   }
 

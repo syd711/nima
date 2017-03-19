@@ -15,7 +15,6 @@ import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.managers.*;
 import com.starsailor.render.TiledMultiMapRenderer;
-import com.starsailor.render.TmxSettings;
 import com.starsailor.render.converters.*;
 import com.starsailor.util.GameSettings;
 import com.starsailor.util.GameTimer;
@@ -28,7 +27,7 @@ public class Game extends ApplicationAdapter {
 
   public static OrthographicCamera camera;
   private RayHandler rayHandler;
-  private TiledMultiMapRenderer tiledMapRenderer;
+  public static TiledMultiMapRenderer tiledMapRenderer;
   public static InputManager inputManager;
   private PositionComponent positionComponent;
 
@@ -69,7 +68,7 @@ public class Game extends ApplicationAdapter {
     rayHandler.setCulling(true);
     rayHandler.setCombinedMatrix(camera);
 
-    tiledMapRenderer = new TiledMultiMapRenderer(batch);
+    tiledMapRenderer = new TiledMultiMapRenderer("erebos", batch);
     //Ashley Entity Engine
     entityManager = EntityManager.create(tiledMapRenderer, rayHandler);
 
@@ -180,11 +179,7 @@ public class Game extends ApplicationAdapter {
    * the player is currently on.
    */
   private void updateActorFrame() {
-    float x = positionComponent.x;
-    int actorFrameX = (int) (x / TmxSettings.FRAME_PIXELS_X);
-    float y = positionComponent.y;
-    int actorFrameY = (int) (y / TmxSettings.FRAME_PIXELS_Y);
-    tiledMapRenderer.setActorFrame(actorFrameX, actorFrameY);
+    tiledMapRenderer.setActorFragment( positionComponent.x, positionComponent.y);
   }
 
   @Override
