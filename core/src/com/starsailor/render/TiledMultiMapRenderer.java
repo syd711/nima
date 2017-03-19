@@ -1,6 +1,7 @@
 package com.starsailor.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -59,19 +60,28 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
     this.mapName = name;
 
     initSettings();
-  }
-
-  private File fileFor(int x, int y) {
-    return new File(MAP_DIR + mapName, mapName + "_" + x + "," + y + ".tmx");
+    initParallaxLayers();
   }
 
   /**
    * Parallax layers are added from bottom to top.
-   *
-   * @param resource the resource key for the layer
    */
-  public void addParallaxLayer(String resource) {
-    parallaxLayers.add(new ParallaxLayer(this, resource));
+  private void initParallaxLayers() {
+    FileHandle[] list = Gdx.files.internal(MAP_DIR + mapName).list(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".jpg") || name.endsWith(".png");
+      }
+    });
+
+    for(FileHandle fileHandle : list) {
+      Gdx.app.log(this.toString(), "Added parallax layer " + fileHandle.file().getAbsolutePath());
+      parallaxLayers.add(new ParallaxLayer(this, fileHandle));
+    }
+  }
+
+  private File fileFor(int x, int y) {
+    return new File(MAP_DIR + mapName, mapName + "_" + x + "," + y + ".tmx");
   }
 
   /**
@@ -173,11 +183,12 @@ public class TiledMultiMapRenderer extends OrthogonalTiledMapRenderer {
 
   /**
    * Checks if map or object converts have to be called.
-   * @param usedFragments
+   *
+   * @param usedFragments the TiledMapFragments used during rendering
    */
   private void updateListeners(List<TiledMapFragment> usedFragments) {
     //remove and destroy unused map fragments first
-    Map<String,TiledMapFragment> clone = new HashMap<>(currentMaps);
+    Map<String, TiledMapFragment> clone = new HashMap<>(currentMaps);
     for(TiledMapFragment mapFragment : clone.values()) {
       //the given map was not used during the rendering process
       if(!usedFragments.contains(mapFragment)) {

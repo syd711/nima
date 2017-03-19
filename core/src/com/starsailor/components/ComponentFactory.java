@@ -26,8 +26,6 @@ import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
 import com.starsailor.model.*;
 import com.starsailor.render.converters.MapConstants;
-import com.starsailor.util.GraphicsUtil;
-import com.starsailor.util.Settings;
 import com.starsailor.util.box2d.BodyGenerator;
 import com.starsailor.util.box2d.Box2dUtil;
 
@@ -113,16 +111,6 @@ public class ComponentFactory {
   public static PositionComponent addPositionComponent(Entity entity) {
     PositionComponent component = createComponent(PositionComponent.class);
     entity.add(component);
-    return component;
-  }
-
-  public static PositionComponent addPositionComponent(Entity entity, boolean initCentered, float heightOffset) {
-    PositionComponent component = addPositionComponent(entity);
-    if(initCentered) {
-      Vector2 screenCenter = GraphicsUtil.getScreenCenter(Game.tiledMapRenderer, Settings.START_FRAME_X, Settings.START_FRAME_Y, heightOffset);
-      component.x = screenCenter.x;
-      component.y = screenCenter.y;
-    }
     return component;
   }
 

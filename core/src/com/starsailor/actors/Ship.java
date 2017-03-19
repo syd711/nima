@@ -61,7 +61,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
 
     scalingComponent = ComponentFactory.addScalingComponent(this);
     statefulComponent = ComponentFactory.addStatefulComponent(this);
-    positionComponent = ComponentFactory.addPositionComponent(this, false, getHeight());
+    positionComponent = ComponentFactory.addPositionComponent(this);
 
     shipBodyComponent = ComponentFactory.addShipBodyComponent(this, shipData.getBodyData(), position);
     steerableComponent = ComponentFactory.addSteerableComponent(this, shipBodyComponent.body, shipData.getSteeringData());
@@ -300,16 +300,17 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     shieldStatusComponent.setActive(enabled);
     shieldSpineComponent.setEnabled(enabled);
     if(enabled) {
-      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()*shieldSpineComponent.getJsonScaling());
+      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius() * shieldSpineComponent.getJsonScaling());
     }
     else {
-      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
+      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius() / 2 * shieldSpineComponent.getJsonScaling());
     }
   }
 
   //------------ To be implemented ------------------------------------------------------------------------
 
   abstract protected State getDefaultState();
+
   abstract protected BattleState getBattleState();
 
   //------------- Helper ----------------------------------------------------------------------------------

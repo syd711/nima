@@ -3,7 +3,6 @@ package com.starsailor.actors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.Game;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.npc.BattleState;
 import com.starsailor.actors.states.player.PlayerState;
@@ -12,7 +11,6 @@ import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.ui.UIManager;
-import com.starsailor.util.GraphicsUtil;
 import com.starsailor.util.Settings;
 
 import java.util.Collections;
@@ -44,7 +42,8 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     ComponentFactory.addPlayerCollisionComponent(this);
 
     //position player
-    Vector2 screenCenter = GraphicsUtil.getScreenCenter(Game.tiledMapRenderer, Settings.START_FRAME_X, Settings.START_FRAME_Y, getHeight());
+    Vector2 screenCenter = new Vector2(Settings.START_POINT_X, Settings.START_POINT_Y);//GraphicsUtil.getScreenCenter(Game.tiledMapRenderer, Settings.START_POINT_X, Settings.START_POINT_Y, getHeight());
+    positionComponent.setPosition(screenCenter);
     add(new ScreenPositionComponent(screenCenter.x, screenCenter.y));
     shipBodyComponent.setWorldPosition(screenCenter);
   }

@@ -23,8 +23,8 @@ public class Settings {
   }
 
 
-  public final static int START_FRAME_X = 0;
-  public final static int START_FRAME_Y = 0;
+  public final static int START_POINT_X = 1000;
+  public final static int START_POINT_Y = 1000;
 
   /**
    * Box2d Settings

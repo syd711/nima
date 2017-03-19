@@ -1,6 +1,7 @@
 package com.starsailor.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,10 +22,10 @@ public class ParallaxLayer {
 
   private TiledMultiMapRenderer renderer;
 
-  protected ParallaxLayer(TiledMultiMapRenderer renderer, String resource) {
+  protected ParallaxLayer(TiledMultiMapRenderer renderer, FileHandle resource) {
     this.renderer = renderer;
 
-    texture = new Texture(Gdx.files.internal(resource));
+    texture = new Texture(resource);
     drawable = new TextureRegionDrawable(new TextureRegion(texture));
 
     screenCenterX = Gdx.graphics.getWidth() / 2;
