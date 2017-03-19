@@ -21,13 +21,15 @@ public class GameContactListener implements ContactListener {
 
     Vector2 position = Box2dUtil.toWorldPoint(contact.getWorldManifold().getPoints()[0]);
 //    System.out.println(userDataA + " ################## " + userDataB + " at " + position);
-    Collidable component = userDataA.getComponent(Collidable.class);
-    if(component == null) {
-      component = userDataB.getComponent(Collidable.class);
+
+    Collidable componentA = userDataA.getComponent(Collidable.class);
+    if(componentA != null) {
+      componentA.handleCollision(userDataB, position);
     }
 
-    if(component != null) {
-      component.handleCollision(userDataB, position);
+    Collidable componentB = userDataB.getComponent(Collidable.class);
+    if(componentB != null) {
+      componentB.handleCollision(userDataA, position);
     }
   }
 
