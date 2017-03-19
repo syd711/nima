@@ -17,7 +17,6 @@ public class Location extends GameEntity {
 
     ComponentFactory.addMapObjectComponent(this, mapObject);
     ComponentFactory.addBodyComponent(this, mapObject);
-    ComponentFactory.addLocationCollisionComponent(this);
     Body body = (Body) mapObject.getProperties().get(MapConstants.PROPERTY_BOX2D_BODY);
     body.setUserData(this);
   }

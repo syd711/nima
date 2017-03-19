@@ -2,7 +2,6 @@ package com.starsailor.actors.route;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.components.ComponentFactory;
 import com.starsailor.model.SteeringData;
 
 import static com.starsailor.util.Settings.MPP;
@@ -22,7 +21,6 @@ public class RoutePoint extends GameEntity {
 
   public RoutePoint(Integer index) {
     this.index = index;
-    ComponentFactory.addRoutePointCollisionComponent(this);
   }
 
   public SteeringData getSteeringData() {

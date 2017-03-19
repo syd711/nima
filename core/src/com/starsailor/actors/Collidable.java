@@ -6,5 +6,5 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public interface Collidable extends Component {
-    void handleCollision(Entity collider, Entity collidee, Vector2 position);
+  void handleCollision(Entity collidee, Vector2 position);
 }

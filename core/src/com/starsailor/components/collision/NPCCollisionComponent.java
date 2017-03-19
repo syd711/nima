@@ -13,20 +13,26 @@ import com.starsailor.actors.states.npc.NPCStates;
  * Collidable component for an ashley entity.
  */
 public class NPCCollisionComponent implements Collidable, Pool.Poolable {
+  private NPC npc;
+
+  public NPCCollisionComponent(NPC npc) {
+    this.npc = npc;
+  }
+
   @Override
-  public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
+  public void handleCollision(Entity collidee, Vector2 position) {
     if(collidee instanceof RoutePoint) {
-      ((NPC) collider).getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
+      npc.getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
     if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
-      bulletCollisionComponent.applyCollisionWith(bullet, (NPC) collider, position);
+      bulletCollisionComponent.applyCollisionWith(npc, position);
     }
   }
 
   @Override
   public void reset() {
-
+    this.npc = null;
   }
 }

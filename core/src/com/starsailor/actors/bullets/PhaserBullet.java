@@ -59,7 +59,7 @@ public class PhaserBullet extends Bullet {
 
     //apply permanent collision
     BulletCollisionComponent bulletCollisionComponent = getComponent(BulletCollisionComponent.class);
-    bulletCollisionComponent.applyCollisionWith(this, target, target.getCenter());
+    bulletCollisionComponent.applyCollisionWith(target, target.getCenter());
 
     //update positions
     positionComponent.setPosition(target.positionComponent.getPosition());

@@ -15,62 +15,50 @@ import com.starsailor.messaging.Messages;
  * Collideable component for an ashley entity.
  */
 public class BulletCollisionComponent implements Collidable, Pool.Poolable {
-  @Override
-  public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
-    if(!validEntities(collider, collidee)) {
-      return;
-    }
 
+  private Bullet owner;
+
+  public BulletCollisionComponent(Bullet owner) {
+    this.owner = owner;
+  }
+
+  @Override
+  public void handleCollision(Entity collidee, Vector2 position) {
     if(collidee instanceof Ship) {
-      applyCollisionWith((Bullet) collider, (Ship) collidee, position);
-    }
-    else if(collider instanceof Ship) {
-      applyCollisionWith((Bullet) collidee, (Ship) collider, position);
-    }
-    else if(collider instanceof Bullet) {
-      applyCollisionWith((Bullet) collidee, (Bullet) collider, position);
+      applyCollisionWith((Ship) collidee, position);
     }
     else if(collidee instanceof Bullet) {
-      applyCollisionWith((Bullet) collider, (Bullet) collidee, position);
+      applyCollisionWith((Bullet) collidee, position);
     }
   }
 
-  public void applyCollisionWith(Bullet bullet, Bullet bullet2, Vector2 position) {
+  public void applyCollisionWith(Bullet bullet, Vector2 position) {
     //ignore bullets from the same entity
-    if(bullet.owner.equals(bullet2.owner)) {
+    if(bullet.owner.equals(owner)) {
       return;
     }
 
-    bullet.collide(bullet2, position);
+    bullet.collide(owner, position);
   }
 
-  public void applyCollisionWith(Bullet bullet, Ship ship, Vector2 position) {
-    if(!bullet.isOwner(ship)) {
-      bullet.setActualHit(ship);
-      bullet.applyImpactForce(ship, position);
-      bullet.collide(ship, position);
+  public void applyCollisionWith(Ship ship, Vector2 position) {
+    if(!owner.isOwner(ship)) {
+      owner.setActualHit(ship);
+      owner.applyImpactForce(ship, position);
+      owner.collide(ship, position);
 
-      if(!bullet.wasFriendlyFire()) {
-        MessageManager.getInstance().dispatchMessage(Messages.ATTACK, bullet);
+      if(!owner.wasFriendlyFire()) {
+        MessageManager.getInstance().dispatchMessage(Messages.ATTACK, owner);
       }
 
       if(ship instanceof Player) {
-        CameraManager.getInstance().shake(bullet.weaponData.getImpactFactor(), 80);
+        CameraManager.getInstance().shake(owner.weaponData.getImpactFactor(), 80);
       }
     }
-  }
-
-  private boolean validEntities(Entity... entities) {
-    for(Entity entity : entities) {
-      if(!(entity instanceof Ship) && !(entity instanceof Bullet)) {
-        return false;
-      }
-    }
-    return true;
   }
 
   @Override
   public void reset() {
-
+    owner = null;
   }
 }

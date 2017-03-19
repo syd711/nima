@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.Location;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.Ship;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.FollowClickState;
 import com.starsailor.actors.states.player.PlayerState;
@@ -15,7 +14,7 @@ import com.starsailor.actors.states.player.PlayerState;
  */
 public class PlayerCollisionComponent implements Collidable {
   @Override
-  public void handleCollision(Entity collider, Entity collidee, Vector2 position) {
+  public void handleCollision(Entity collidee, Vector2 position) {
     if(collidee instanceof Location) {
       //only try to enter the location if a click was made on it, otherwise we just move over the planet
       if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(collidee)) {
@@ -28,9 +27,9 @@ public class PlayerCollisionComponent implements Collidable {
     else if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
-      bulletCollisionComponent.applyCollisionWith(bullet, (Ship) collider, position);
+      bulletCollisionComponent.applyCollisionWith(Player.getInstance(), position);
     }
-    else if(collidee instanceof FollowClickState.ClickTarget || collider instanceof FollowClickState.ClickTarget) {
+    else if(collidee instanceof FollowClickState.ClickTarget) {
       //only switch to idle when there is no target specified
       if(Player.getInstance().getTarget() == null) {
         Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);

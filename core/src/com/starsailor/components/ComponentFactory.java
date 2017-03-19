@@ -15,12 +15,12 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starsailor.Game;
-import com.starsailor.actors.FormationOwner;
-import com.starsailor.actors.Fraction;
-import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.Ship;
+import com.starsailor.actors.*;
+import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.route.Route;
-import com.starsailor.components.collision.*;
+import com.starsailor.components.collision.BulletCollisionComponent;
+import com.starsailor.components.collision.NPCCollisionComponent;
+import com.starsailor.components.collision.PlayerCollisionComponent;
 import com.starsailor.managers.ParticleManager;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.messaging.Messages;
@@ -150,32 +150,20 @@ public class ComponentFactory {
     return component;
   }
 
-  public static LocationCollisionComponent addLocationCollisionComponent(Entity entity) {
-    LocationCollisionComponent component = createComponent(LocationCollisionComponent.class);
+  public static BulletCollisionComponent addBulletCollisionComponent(Bullet entity) {
+    BulletCollisionComponent component = new BulletCollisionComponent(entity);
     entity.add(component);
     return component;
   }
 
-  public static BulletCollisionComponent addBulletCollisionComponent(Entity entity) {
-    BulletCollisionComponent component = createComponent(BulletCollisionComponent.class);
-    entity.add(component);
-    return component;
-  }
-
-  public static NPCCollisionComponent addNPCCollisionComponent(Entity entity) {
-    NPCCollisionComponent component = createComponent(NPCCollisionComponent.class);
-    entity.add(component);
+  public static NPCCollisionComponent addNPCCollisionComponent(NPC npc) {
+    NPCCollisionComponent component = new NPCCollisionComponent(npc);
+    npc.add(component);
     return component;
   }
 
   public static PlayerCollisionComponent addPlayerCollisionComponent(Entity entity) {
     PlayerCollisionComponent component = createComponent(PlayerCollisionComponent.class);
-    entity.add(component);
-    return component;
-  }
-
-  public static RoutePointCollisionComponent addRoutePointCollisionComponent(Entity entity) {
-    RoutePointCollisionComponent component = createComponent(RoutePointCollisionComponent.class);
     entity.add(component);
     return component;
   }
