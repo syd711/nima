@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.npc.BattleState;
-import com.starsailor.actors.states.player.PlayerState;
+import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
@@ -101,7 +101,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     if(possibleTarget instanceof Location) {
       target = possibleTarget;
     }
-    getStateMachine().changeState(PlayerState.FOLLOW_CLICK);
+    getStateMachine().changeState(PlayerStates.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
   }
 

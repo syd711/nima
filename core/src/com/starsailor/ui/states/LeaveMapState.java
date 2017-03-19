@@ -2,6 +2,7 @@ package com.starsailor.ui.states;
 
 import com.starsailor.Game;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.systems.LightSystem;
 import com.starsailor.ui.UIManager;
@@ -21,6 +22,8 @@ public class LeaveMapState extends UIState {
   @Override
   public void enter(GameStage entity) {
     Game.inputManager.setNavigationEnabled(false);
+
+    Player.getInstance().getStateMachine().changeState(PlayerStates.IDLE);
 
     UIManager.getInstance().getHudStage().getNavigatorPanel().deactivate();
 

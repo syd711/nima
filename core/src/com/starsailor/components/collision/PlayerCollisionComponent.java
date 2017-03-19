@@ -7,7 +7,7 @@ import com.starsailor.actors.Location;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.FollowClickState;
-import com.starsailor.actors.states.player.PlayerState;
+import com.starsailor.actors.states.player.PlayerStates;
 
 /**
  * Collideable component for an ashley entity.
@@ -20,7 +20,7 @@ public class PlayerCollisionComponent implements Collidable {
       if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(collidee)) {
         //only dock to station if not in battle mode
         if(!Player.getInstance().isInBattleState()) {
-          Player.getInstance().getStateMachine().changeState(PlayerState.DOCK_TO_STATION);
+          Player.getInstance().getStateMachine().changeState(PlayerStates.DOCK_TO_STATION);
         }
       }
     }
@@ -32,7 +32,7 @@ public class PlayerCollisionComponent implements Collidable {
     else if(collidee instanceof FollowClickState.ClickTarget) {
       //only switch to idle when there is no target specified
       if(Player.getInstance().getTarget() == null) {
-        Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);
+        Player.getInstance().getStateMachine().changeState(PlayerStates.IDLE);
       }
     }
   }

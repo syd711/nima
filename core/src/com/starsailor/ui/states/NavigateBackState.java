@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
 import com.starsailor.actors.Galaxy;
 import com.starsailor.actors.Player;
-import com.starsailor.actors.states.player.PlayerState;
+import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.ui.UIManager;
 import com.starsailor.ui.stages.GameStage;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -30,7 +30,7 @@ public class NavigateBackState extends UIState {
     if(insideWorld) {
       float dst = worldExitPoint.dst(Player.getInstance().getCenter());
       if(dst > 100) {
-        Player.getInstance().getStateMachine().changeState(PlayerState.IDLE);
+        Player.getInstance().getStateMachine().changeState(PlayerStates.IDLE);
         UIManager.getInstance().changeState(UIStates.DEFAULT_STATE);
       }
     }

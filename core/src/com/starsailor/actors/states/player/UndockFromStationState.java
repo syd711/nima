@@ -20,7 +20,7 @@ public class UndockFromStationState implements State<Player> {
     lightSystem.fadeOut(false);
 
     EntityManager.getInstance().pauseSystems(false);
-    player.getStateMachine().changeState(PlayerState.IDLE);
+    player.getStateMachine().changeState(PlayerStates.IDLE);
   }
 
   @Override

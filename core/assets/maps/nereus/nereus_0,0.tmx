@@ -488,8 +488,8 @@
  <objectgroup name="lights"/>
  <objectgroup name="data">
   <properties>
-   <property name="startX" type="int" value="3000"/>
-   <property name="startY" type="int" value="3000"/>
+   <property name="startX" type="int" value="2600"/>
+   <property name="startY" type="int" value="2600"/>
   </properties>
  </objectgroup>
 </map>

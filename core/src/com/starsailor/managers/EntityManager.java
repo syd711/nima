@@ -182,9 +182,6 @@ public class EntityManager {
       else if(gameEntity instanceof NPC) {
         destroy(gameEntity);
       }
-      else if(gameEntity instanceof Galaxy) {
-        destroy(gameEntity);
-      }
       else if(gameEntity instanceof FormationOwner) {
         destroy(gameEntity);
       }

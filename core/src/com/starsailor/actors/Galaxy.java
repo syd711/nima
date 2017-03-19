@@ -21,7 +21,10 @@ public class Galaxy extends GameEntity {
     instance = this;
   }
 
-  public void update() {
+  public void rebuild() {
+    if(galaxyBodyComponent != null) {
+      galaxyBodyComponent.destroy();
+    }
     galaxyBodyComponent = ComponentFactory.createGalaxyBodyComponent(this);
   }
 

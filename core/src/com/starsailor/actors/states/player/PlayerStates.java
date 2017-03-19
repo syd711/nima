@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.fsm.State;
 /**
  * All states of the player
  */
-public class PlayerState {
+public class PlayerStates {
 
   public static State FOLLOW_CLICK = new FollowClickState();
   public static State IDLE = new IdleState();

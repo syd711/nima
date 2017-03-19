@@ -2,7 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.route.Route;
-import com.starsailor.actors.states.player.PlayerState;
+import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.GameDataManager;
 import com.starsailor.model.items.ShipItem;
@@ -19,7 +19,7 @@ public class ShipFactory {
     ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
     Player player = new Player(ship, new Vector2(0, 0));
     player.createComponents();
-    player.getStateMachine().changeState(PlayerState.IDLE);
+    player.getStateMachine().changeState(PlayerStates.IDLE);
     return player;
   }
 
