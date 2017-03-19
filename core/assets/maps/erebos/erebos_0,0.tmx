@@ -60,7 +60,7 @@
   </object>
  </objectgroup>
  <objectgroup name="lights">
-  <object id="25" type="PointLight" x="216" y="231" width="168" height="168">
+  <object id="25" type="PointLight" x="219" y="223" width="168" height="168">
    <properties>
     <property name="lightDistance" value="300"/>
    </properties>
