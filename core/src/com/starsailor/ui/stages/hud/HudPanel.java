@@ -37,13 +37,22 @@ public class HudPanel extends Table {
       setPosition(Gdx.graphics.getWidth() / 2 - bground.getWidth() / 2, -bground.getHeight());
     }
     else if(position.equals(Position.LEFT)) {
-      setPosition(-bground.getWidth(), Gdx.graphics.getHeight() / 2 - bground.getHeight() / 2);
+      setPosition(-bground.getWidth()-1, Gdx.graphics.getHeight() / 2 - bground.getHeight() / 2);
     }
     else if(position.equals(Position.TOP)) {
       setPosition(Gdx.graphics.getWidth() / 2 - bground.getWidth() / 2, Gdx.graphics.getHeight()+1);
     }
     else if(position.equals(Position.RIGHT)) {
       setPosition(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight() / 2 - bground.getHeight() / 2);
+    }
+  }
+
+  public void toggle() {
+    if(activated) {
+      deactivate();
+    }
+    else {
+      activate();
     }
   }
 

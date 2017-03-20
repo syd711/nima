@@ -17,14 +17,20 @@ public class NavigationPanel extends HudPanel {
   public NavigationPanel() {
     super("navigation_bg", Position.RIGHT);
 
-    TextButton dockButton = Scene2dFactory.createButton("Leave Station");
 
-    Label nameLabel = Scene2dFactory.createLabel("Name:");
-    TextButton nameText =  Scene2dFactory.createButton("Change Map");
-    nameText.addListener(new ChangeListener() {
+    TextButton planet1 =  Scene2dFactory.createButton("Nereus");
+    planet1.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
        UIManager.getInstance().changeState(new LeaveMapState("nereus"));
+      }
+    });
+
+    TextButton planet2 =  Scene2dFactory.createButton("Erebos");
+    planet2.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        UIManager.getInstance().changeState(new LeaveMapState("erebos"));
       }
     });
 
@@ -37,10 +43,10 @@ public class NavigationPanel extends HudPanel {
       }
     });
 
-    add(nameLabel);
-    add(nameText).width(100);
+    add(planet1).width(100);
     row();
-    add(addressLabel);
+    add(planet2).width(100);
+    row();
     add(cancelButton).width(100);
 
     top().left();

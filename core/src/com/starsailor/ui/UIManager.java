@@ -80,4 +80,8 @@ public class UIManager implements SelectionChangeListener {
       stateMachine.changeState(UIStates.DEFAULT_STATE);
     }
   }
+
+  public boolean isInHudState() {
+    return activeStage.equals(hudStage);
+  }
 }

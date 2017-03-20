@@ -55,7 +55,10 @@ public class InputManager implements InputProcessor {
     else if(keycode == Input.Keys.F12) {
       System.exit(0);
     }
-    else if(keycode == Input.Keys.T) {
+    else if(keycode == Input.Keys.I) {
+      if(UIManager.getInstance().isInHudState()) {
+        UIManager.getInstance().getHudStage().getIventoryPanel().toggle();
+      }
       return true;
     }
     else if(keycode == Input.Keys.S) {
