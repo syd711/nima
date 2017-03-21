@@ -12,4 +12,5 @@ public class PlayerStates {
   public static State DOCKED = new DockedState();
   public static State UNDOCK_FROM_STATION = new UndockFromStationState();
   public static State DOCK_TO_STATION = new DockToStationState();
+  public static State TRADING = new PlayerTradingState();
 }

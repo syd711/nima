@@ -73,7 +73,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     inBattleState = false;
     shieldSpineComponent.setEnabled(false);
     shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
-    UIManager.getInstance().getHudStage().getWeaponsPanel().deactivate();
+
   }
 
   @Override

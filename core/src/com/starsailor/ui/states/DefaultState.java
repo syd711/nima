@@ -22,6 +22,8 @@ public class DefaultState extends UIState {
     GameStateManager.getInstance().setPaused(false);
     SelectionManager.getInstance().resetSelection();
     Player.getInstance().switchToDefaultState();
+    UIManager.getInstance().getHudStage().getWeaponsPanel().deactivate();
+    UIManager.getInstance().getHudStage().getTradingPanel().deactivate();
   }
 
   @Override

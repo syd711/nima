@@ -19,7 +19,10 @@ public class NPCTradingState implements State<NPC> {
 
   @Override
   public void update(NPC npc) {
-
+    float dst = Player.getInstance().positionComponent.getPosition().dst(npc.positionComponent.getPosition());
+    if(dst < npc.getWidth()*2) {
+      npc.steerableComponent.setBehavior(null);
+    }
   }
 
   @Override

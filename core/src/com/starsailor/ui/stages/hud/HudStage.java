@@ -13,6 +13,7 @@ public class HudStage extends Stage {
   private final ContextMenu contextMenu;
   private final NavigatorPanel navigatorPanel;
   private final InventoryPanel inventoryPanel;
+  private final TradingPanel tradingPanel;
 
   public HudStage() {
     Game.inputManager.addInputProcessor(this);
@@ -23,12 +24,14 @@ public class HudStage extends Stage {
     contextMenu = new ContextMenu();
     navigatorPanel = new NavigatorPanel();
     inventoryPanel = new InventoryPanel();
+    tradingPanel = new TradingPanel();
 
     addActor(weaponsPanel);
     addActor(navigationPanel);
     addActor(contextMenu);
     addActor(navigatorPanel);
     addActor(inventoryPanel);
+    addActor(tradingPanel);
   }
 
   public ContextMenu getContextMenu() {
@@ -49,6 +52,10 @@ public class HudStage extends Stage {
 
   public InventoryPanel getIventoryPanel() {
     return inventoryPanel;
+  }
+
+  public TradingPanel getTradingPanel() {
+    return tradingPanel;
   }
 
   public boolean isInBattleState() {

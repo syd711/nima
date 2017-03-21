@@ -7,7 +7,7 @@ import com.starsailor.actors.NPC;
 /**
  *
  */
-public class IdleState implements State<NPC> {
+public class NPCIdleState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
 
