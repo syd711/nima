@@ -1,9 +1,10 @@
 package com.starsailor.actors;
 
+import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.route.Route;
-import com.starsailor.actors.states.formation.IdleState;
-import com.starsailor.actors.states.formation.RouteState;
+import com.starsailor.actors.states.formation.FormationIdleState;
+import com.starsailor.actors.states.formation.FormationRouteState;
 import com.starsailor.components.*;
 import com.starsailor.model.BodyData;
 import com.starsailor.model.SteeringData;
@@ -40,8 +41,12 @@ public class FormationOwner extends GameEntity implements IFormationOwner<Ship> 
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, getSteeringData());
     formationComponent = ComponentFactory.addFormationComponent(this, steerableComponent, FORMATION_DISTANCE);
 
-    statefulComponent.stateMachine.setInitialState(new IdleState());
-    statefulComponent.stateMachine.changeState(new RouteState());
+    statefulComponent.stateMachine.setInitialState(new FormationIdleState());
+    changeState(new FormationRouteState());
+  }
+
+  public void changeState(State<FormationOwner> state) {
+    statefulComponent.stateMachine.changeState(state);
   }
 
   public boolean isInBattleState() {

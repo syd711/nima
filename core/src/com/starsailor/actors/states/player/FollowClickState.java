@@ -41,7 +41,7 @@ public class FollowClickState implements State<Player> {
       UIManager.getInstance().getHudStage().getNavigatorPanel().deactivate();
     }
 
-    SteeringManager.setFollowClickTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
+    SteeringManager.setFollowTargetSteering(player.steerableComponent, clickTarget.steerableComponent);
   }
 
 

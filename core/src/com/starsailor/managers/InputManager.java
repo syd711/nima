@@ -62,7 +62,7 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.S) {
-      System.out.println(Player.getInstance().getStateMachine().getCurrentState());
+      System.out.println(Player.getInstance().statefulComponent.stateMachine.getCurrentState());
       return true;
     }
     else if(keycode == Input.Keys.D) {

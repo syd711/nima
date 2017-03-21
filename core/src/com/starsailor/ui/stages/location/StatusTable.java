@@ -33,7 +33,7 @@ public class StatusTable extends Table {
     dockButton.addListener(new ChangeListener() {
       @Override
       public void changed (ChangeEvent event, Actor actor) {
-        Player.getInstance().getStateMachine().changeState(PlayerStates.UNDOCK_FROM_STATION);
+        Player.getInstance().changeState(PlayerStates.UNDOCK_FROM_STATION);
       }
     });
     add(dockButton).expandX().align(Align.right);

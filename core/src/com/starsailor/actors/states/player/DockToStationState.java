@@ -24,7 +24,7 @@ public class DockToStationState implements State<Player> {
   public void update(Player player) {
     LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
     if(lightSystem.isOutFaded() && !player.scalingComponent.isChanging()) {
-      player.getStateMachine().changeState(PlayerStates.DOCKED);
+      player.changeState(PlayerStates.DOCKED);
     }
   }
 

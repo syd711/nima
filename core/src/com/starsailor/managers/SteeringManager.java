@@ -158,7 +158,7 @@ public class SteeringManager {
     sourceSteering.setBehavior(blendedSteering);
   }
 
-  public static void setFollowClickTargetSteering(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
+  public static void setFollowTargetSteering(SteerableComponent sourceSteering, SteerableComponent targetSteering) {
     Arrive<Vector2> arriveSB = new Arrive<>(sourceSteering, targetSteering);
 
     Face<Vector2> faceSB = new Face<>(sourceSteering, targetSteering);

@@ -20,7 +20,7 @@ public class PlayerCollisionComponent implements Collidable {
       if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(collidee)) {
         //only dock to station if not in battle mode
         if(!Player.getInstance().isInBattleState()) {
-          Player.getInstance().getStateMachine().changeState(PlayerStates.DOCK_TO_STATION);
+          Player.getInstance().changeState(PlayerStates.DOCK_TO_STATION);
         }
       }
     }
@@ -32,7 +32,7 @@ public class PlayerCollisionComponent implements Collidable {
     else if(collidee instanceof FollowClickState.ClickTarget) {
       //only switch to idle when there is no target specified
       if(Player.getInstance().getTarget() == null) {
-        Player.getInstance().getStateMachine().changeState(PlayerStates.IDLE);
+        Player.getInstance().changeState(PlayerStates.IDLE);
       }
     }
   }

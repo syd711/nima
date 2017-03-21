@@ -80,6 +80,11 @@ public class Box2dUtil {
           if(userData instanceof Player) {
             continue;
           }
+          //TODO click on entity during location contact
+//          if(userData instanceof Location) {
+//            Gdx.app.log(Box2dUtil.class.getName(), "Igonoring location for left click");
+//            continue;
+//          }
           return userData;
         }
       }

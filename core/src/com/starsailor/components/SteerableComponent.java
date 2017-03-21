@@ -79,6 +79,9 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
       behavior.calculateSteering(steeringOutput);
       applySteering(delta);
     }
+    else {
+      body.setLinearVelocity(0, 0);
+    }
   }
 
   private boolean isUpdateable() {
@@ -252,6 +255,9 @@ public class SteerableComponent implements Component, Steerable<Vector2>, Pool.P
 
   public void setBehavior(SteeringBehavior<Vector2> behavior) {
     this.behavior = behavior;
+    if(this.behavior == null) {
+      this.body.setLinearVelocity(0, 0);
+    }
   }
 
   public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) {

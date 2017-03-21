@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.Selectable;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.SelectionManager;
-import com.starsailor.ui.UIManager;
 import com.starsailor.ui.Scene2dFactory;
+import com.starsailor.ui.UIManager;
 import com.starsailor.ui.states.UIStates;
 import com.starsailor.util.GraphicsUtil;
 
@@ -26,6 +26,12 @@ public class ContextMenu extends Table {
   public ContextMenu() {
     //add context menu
     tradeButton = Scene2dFactory.createMenuButton("Trade");
+    tradeButton.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        UIManager.getInstance().changeState(UIStates.TRADE_STATE);
+      }
+    });
 
     attackButton = Scene2dFactory.createMenuButton("Attack");
     attackButton.addListener(new ChangeListener() {

@@ -19,7 +19,7 @@ public class ShipFactory {
     ShipItem ship = (ShipItem) GameDataManager.getInstance().getModel(PLAYER_ID);
     Player player = new Player(ship, new Vector2(0, 0));
     player.createComponents();
-    player.getStateMachine().changeState(PlayerStates.IDLE);
+    player.changeState(PlayerStates.IDLE);
     return player;
   }
 

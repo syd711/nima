@@ -50,7 +50,7 @@ public class NPC extends Ship implements Selectable {
       routingComponent = ComponentFactory.addRoutingComponent(this, route);
     }
 
-    getStateMachine().setInitialState(NPCStates.IDLE);
+    statefulComponent.stateMachine.setInitialState(NPCStates.IDLE);
     switchToDefaultState();
   }
 
@@ -108,6 +108,6 @@ public class NPC extends Ship implements Selectable {
 
   @Override
   public String toString() {
-    return "NPC '" + shipItem.getName() + "' (" + shipItem.getFraction() + "/" + getStateMachine().getCurrentState().getClass().getSimpleName() + ")";
+    return "NPC '" + shipItem.getName() + "' (" + shipItem.getFraction() + "/" + statefulComponent.stateMachine.getCurrentState().getClass().getSimpleName() + ")";
   }
 }

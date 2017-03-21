@@ -1,7 +1,6 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
@@ -77,6 +76,10 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     this.location = new Box2dLocation(new Vector2());
   }
 
+  public void changeState(State state) {
+    statefulComponent.stateMachine.changeState(state);
+  }
+
   public float getHeight() {
     return spineShipComponent.getHeight();
   }
@@ -138,10 +141,6 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     markForDestroy();
   }
 
-  public StateMachine getStateMachine() {
-    return statefulComponent.stateMachine;
-  }
-
   @Override
   public Location<Vector2> getTargetLocation() {
     return location;
@@ -183,7 +182,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * Returns to the state that has been passed as default state in the constructor.
    */
   public void switchToDefaultState() {
-    getStateMachine().changeState(getDefaultState());
+    changeState(getDefaultState());
     setShieldEnabled(false);
   }
 
@@ -197,7 +196,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
       //update the battle state since it is only updated, not recreated
       getBattleState().updateEnemyList(enemy);
       //then switch to the state...
-      getStateMachine().changeState(getBattleState());
+      changeState(getBattleState());
 
       //...and notify all members that 'we' are attacked
       List<Ship> groupMembers = getFormationMembers();
@@ -325,12 +324,12 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * @return
    */
   public boolean isInDefaultState() {
-    State currentState = getStateMachine().getCurrentState();
+    State currentState = statefulComponent.stateMachine.getCurrentState();
     return currentState.equals(getDefaultState());
   }
 
   public boolean isInBattleState() {
-    State currentState = getStateMachine().getCurrentState();
+    State currentState = statefulComponent.stateMachine.getCurrentState();
     return currentState.equals(getBattleState());
   }
 

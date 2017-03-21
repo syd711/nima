@@ -212,10 +212,6 @@ public class EntityManager {
     return engine.getEntitiesFor(Family.all(componentClass).get());
   }
 
-  public <T extends Component> T createComponent(Class<T> componentType) {
-    return engine.createComponent(componentType);
-  }
-
   public <T> List<T> getEntities(Class<T> clazz) {
     List<T> result = new ArrayList<T>();
     for(Entity entity : engine.getEntities()) {

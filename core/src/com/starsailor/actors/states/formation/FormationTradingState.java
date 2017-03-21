@@ -4,23 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.FormationOwner;
-import com.starsailor.managers.SteeringManager;
 
 /**
- * Let the give formationOwner follow its route.
+ *
  */
-public class RouteState implements State<FormationOwner> {
+public class FormationTradingState implements State<FormationOwner> {
   @Override
   public void enter(FormationOwner formationOwner) {
-    Gdx.app.log(getClass().getName(), formationOwner + " entered RouteState");
-    SteeringManager.setFormationOwnerSteering(formationOwner);
+    Gdx.app.log(getClass().getName(), formationOwner + " entered " + this.getClass().getSimpleName());
+    formationOwner.steerableComponent.setBehavior(null);
   }
 
   @Override
   public void update(FormationOwner formationOwner) {
-    if(formationOwner.isInBattleState()) {
-      formationOwner.statefulComponent.stateMachine.changeState(new IdleState());
-    }
+
   }
 
   @Override

@@ -23,7 +23,7 @@ public class LeaveMapState extends UIState {
   public void enter(GameStage entity) {
     Game.inputManager.setNavigationEnabled(false);
 
-    Player.getInstance().getStateMachine().changeState(PlayerStates.IDLE);
+    Player.getInstance().changeState(PlayerStates.IDLE);
 
     UIManager.getInstance().getHudStage().getNavigatorPanel().deactivate();
 

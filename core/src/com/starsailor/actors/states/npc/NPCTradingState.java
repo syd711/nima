@@ -1,22 +1,25 @@
 package com.starsailor.actors.states.npc;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.NPC;
+import com.starsailor.actors.Player;
+import com.starsailor.managers.SteeringManager;
 
 /**
  *
  */
-public class RoutingPointArrivedState implements State<NPC> {
+public class NPCTradingState implements State<NPC> {
   @Override
   public void enter(NPC npc) {
-
+    Gdx.app.log(getClass().getName(), npc + " entered " + this.getClass().getSimpleName());
+    SteeringManager.setFollowTargetSteering(npc.steerableComponent, Player.getInstance().steerableComponent);
   }
 
   @Override
   public void update(NPC npc) {
-    State previousState = npc.statefulComponent.stateMachine.getPreviousState();
-    npc.changeState(previousState);
+
   }
 
   @Override

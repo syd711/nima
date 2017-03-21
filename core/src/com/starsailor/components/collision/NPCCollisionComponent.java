@@ -22,7 +22,7 @@ public class NPCCollisionComponent implements Collidable, Pool.Poolable {
   @Override
   public void handleCollision(Entity collidee, Vector2 position) {
     if(collidee instanceof RoutePoint) {
-      npc.getStateMachine().changeState(NPCStates.ROUTE_POINT_ARRIVED);
+      npc.changeState(NPCStates.ROUTE_POINT_ARRIVED);
     }
     if(collidee instanceof Bullet) {
       Bullet bullet = (Bullet) collidee;

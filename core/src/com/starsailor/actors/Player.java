@@ -101,7 +101,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     if(possibleTarget instanceof Location) {
       target = possibleTarget;
     }
-    getStateMachine().changeState(PlayerStates.FOLLOW_CLICK);
+    changeState(PlayerStates.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
   }
 

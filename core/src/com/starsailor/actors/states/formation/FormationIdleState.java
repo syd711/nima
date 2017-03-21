@@ -8,18 +8,16 @@ import com.starsailor.actors.FormationOwner;
 /**
  *
  */
-public class IdleState implements State<FormationOwner> {
+public class FormationIdleState implements State<FormationOwner> {
 
   @Override
   public void enter(FormationOwner formationOwner) {
     Gdx.app.log(getClass().getName(), formationOwner + " entered IdleState");
+    formationOwner.steerableComponent.setBehavior(null);
   }
 
   @Override
   public void update(FormationOwner formationOwner) {
-    if(!formationOwner.isInBattleState()) {
-      formationOwner.statefulComponent.stateMachine.changeState(new RouteState());
-    }
   }
 
   @Override

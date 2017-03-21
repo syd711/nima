@@ -9,4 +9,6 @@ public class NPCStates {
 
   public static State IDLE = new IdleState();
   public static State ROUTE_POINT_ARRIVED = new RoutingPointArrivedState();
+  public static State ROUTE_STATE = new RouteState();
+  public static State TRADING_STATE = new NPCTradingState();
 }
