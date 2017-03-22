@@ -151,7 +151,7 @@ abstract public class Bullet extends GameEntity {
    * Apply force to the box2d so that the impact is visible
    */
   public void applyImpactForce(Ship ship, Vector2 position) {
-    ShipBodyComponent component = ship.getComponent(ShipBodyComponent.class);
+    BodyShipComponent component = ship.getComponent(BodyShipComponent.class);
     float impactFactor = weaponData.getImpactFactor();
 
     if(bodyComponent != null) {

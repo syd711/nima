@@ -26,7 +26,7 @@ public class NavigateBackState extends UIState {
 
   @Override
   public void update(GameStage entity) {
-    boolean insideWorld = Box2dUtil.isInsideWorld(Game.world, Player.getInstance().shipBodyComponent.body.getPosition());
+    boolean insideWorld = Box2dUtil.isInsideWorld(Game.world, Player.getInstance().bodyShipComponent.body.getPosition());
     if(insideWorld) {
       float dst = worldExitPoint.dst(Player.getInstance().getCenter());
       if(dst > 100) {

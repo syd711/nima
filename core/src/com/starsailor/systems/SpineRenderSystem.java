@@ -18,7 +18,7 @@ public class SpineRenderSystem extends RenderingSystem {
 
   public void process(Entity entity, float deltaTime) {
     PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-    BodyComponent bodyComponent = entity.getComponent(ShipBodyComponent.class);
+    BodyComponent bodyComponent = entity.getComponent(BodyShipComponent.class);
 
     if(entity instanceof Bullet) {
       bodyComponent = entity.getComponent(BodyComponent.class);

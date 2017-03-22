@@ -19,7 +19,7 @@ public class MineBullet extends Bullet {
   public boolean create() {
     //apply initial force to the mine
     Body bulletBody = bodyComponent.body;
-    Body ownerBody = owner.shipBodyComponent.body;
+    Body ownerBody = owner.bodyShipComponent.body;
     if(ownerBody == null) {
       return false;
     }

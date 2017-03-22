@@ -84,4 +84,11 @@ public class UIManager implements SelectionChangeListener {
   public boolean isInHudState() {
     return activeStage.equals(hudStage);
   }
+
+  public void log(StringBuilder builder) {
+    builder.append("= UI State ====================================================================================\n");
+    builder.append("Active : " + activeStage + "\n");
+    builder.append("State : " + stateMachine.getCurrentState() + "\n");
+    builder.append("-----------------------------------------------------------------------------------------------\n");
+  }
 }

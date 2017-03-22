@@ -29,7 +29,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   public ScalingComponent scalingComponent;
   public ShootingComponent shootingComponent;
   public PositionComponent positionComponent;
-  public ShipBodyComponent shipBodyComponent;
+  public BodyShipComponent bodyShipComponent;
   public ParticleComponent particleComponent;
 
   public ShieldStatusComponent shieldStatusComponent;
@@ -62,8 +62,8 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     statefulComponent = ComponentFactory.addStatefulComponent(this);
     positionComponent = ComponentFactory.addPositionComponent(this);
 
-    shipBodyComponent = ComponentFactory.addShipBodyComponent(this, shipData.getBodyData(), position);
-    steerableComponent = ComponentFactory.addSteerableComponent(this, shipBodyComponent.body, shipData.getSteeringData());
+    bodyShipComponent = ComponentFactory.addShipBodyComponent(this, shipData.getBodyData(), position);
+    steerableComponent = ComponentFactory.addSteerableComponent(this, bodyShipComponent.body, shipData.getSteeringData());
     shootingComponent = ComponentFactory.addShootableComponent(this, shipData);
     particleComponent = ComponentFactory.addParticleComponent(this, "explosion"); //TODO json
 
@@ -89,7 +89,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
   }
 
   public Vector2 getCenter() {
-    return new Vector2(shipBodyComponent.body.getPosition()).scl(PPM);
+    return new Vector2(bodyShipComponent.body.getPosition()).scl(PPM);
   }
 
   @Override
@@ -165,7 +165,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
    * Returns the body distance to bullet
    */
   public float getDistanceTo(Bullet bullet) {
-    Vector2 position1 = shipBodyComponent.body.getPosition();
+    Vector2 position1 = bodyShipComponent.body.getPosition();
     Vector2 position2 = bullet.bodyComponent.body.getPosition();
     return position1.dst(position2);
   }
@@ -299,10 +299,10 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     shieldStatusComponent.setActive(enabled);
     shieldSpineComponent.setEnabled(enabled);
     if(enabled) {
-      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius() * shieldSpineComponent.getJsonScaling());
+      bodyShipComponent.setTargetRadius(shipData.getBodyData().getRadius() * shieldSpineComponent.getJsonScaling());
     }
     else {
-      shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius() / 2 * shieldSpineComponent.getJsonScaling());
+      bodyShipComponent.setTargetRadius(shipData.getBodyData().getRadius() / 2 * shieldSpineComponent.getJsonScaling());
     }
   }
 

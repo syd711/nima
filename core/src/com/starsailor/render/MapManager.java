@@ -74,7 +74,7 @@ public class MapManager {
     //apply the start positon of the player
     int startX = tiledMapRenderer.getStartX();
     int startY = tiledMapRenderer.getStartY();
-    Player.getInstance().shipBodyComponent.setWorldPosition(new Vector2(startX, startY));
+    Player.getInstance().bodyShipComponent.setWorldPosition(new Vector2(startX, startY));
 
     Galaxy.getInstance().rebuild();
   }

@@ -2,7 +2,7 @@ package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.components.ComponentFactory;
-import com.starsailor.components.GalaxyBodyComponent;
+import com.starsailor.components.BodyGalaxyComponent;
 import com.starsailor.util.box2d.Box2dUtil;
 
 /**
@@ -10,7 +10,7 @@ import com.starsailor.util.box2d.Box2dUtil;
  */
 public class Galaxy extends GameEntity {
 
-  private GalaxyBodyComponent galaxyBodyComponent;
+  private BodyGalaxyComponent bodyGalaxyComponent;
   private static Galaxy instance;
 
   public static Galaxy getInstance() {
@@ -22,13 +22,13 @@ public class Galaxy extends GameEntity {
   }
 
   public void rebuild() {
-    if(galaxyBodyComponent != null) {
-      galaxyBodyComponent.destroy();
+    if(bodyGalaxyComponent != null) {
+      bodyGalaxyComponent.destroy();
     }
-    galaxyBodyComponent = ComponentFactory.createGalaxyBodyComponent(this);
+    bodyGalaxyComponent = ComponentFactory.createGalaxyBodyComponent(this);
   }
 
   public Vector2 getCenter() {
-    return Box2dUtil.toWorldPoint(galaxyBodyComponent.body.getPosition());
+    return Box2dUtil.toWorldPoint(bodyGalaxyComponent.body.getPosition());
   }
 }

@@ -15,6 +15,7 @@ public class BattleState extends UIState {
 
   @Override
   public void update(GameStage entity) {
+    super.update(entity);
   }
 
   @Override

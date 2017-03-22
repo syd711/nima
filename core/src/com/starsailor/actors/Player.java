@@ -64,7 +64,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   public void switchToBattleState(Ship enemy) {
     inBattleState = true;
     shieldSpineComponent.setEnabled(true);
-    shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()*shieldSpineComponent.getJsonScaling());
+    bodyShipComponent.setTargetRadius(shipData.getBodyData().getRadius()*shieldSpineComponent.getJsonScaling());
     UIManager.getInstance().getHudStage().getWeaponsPanel().activate();
   }
 
@@ -72,7 +72,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   public void switchToDefaultState() {
     inBattleState = false;
     shieldSpineComponent.setEnabled(false);
-    shipBodyComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
+    bodyShipComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
 
   }
 

@@ -4,9 +4,10 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.GameEntity;
-import com.starsailor.actors.route.Route;
 import com.starsailor.actors.Ship;
+import com.starsailor.actors.route.Route;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.ui.UIManager;
 
 import java.util.List;
 
@@ -28,7 +29,13 @@ public class Debugger {
       }
     }
 
+    logUI(builder);
+
     System.out.println(builder.toString());
+  }
+
+  private static void logUI(StringBuilder builder) {
+    UIManager.getInstance().log(builder);
   }
 
   private static void logRoute(StringBuilder builder, Route route) {
@@ -40,6 +47,8 @@ public class Debugger {
   private static void logShip(StringBuilder builder, Ship ship) {
     builder.append("= Ship ========================================================================================\n");
     builder.append(ship.toString() + "\n");
+    builder.append("-----------------------------------------------------------------------------------------------\n");
+    builder.append("State: " + ship.statefulComponent.stateMachine.getCurrentState() + "\n");
     builder.append("-----------------------------------------------------------------------------------------------\n");
     SteeringBehavior<Vector2> behavior = ship.steerableComponent.getBehavior();
     builder.append("Behaviour: " + behavior + "\n");

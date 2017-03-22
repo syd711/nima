@@ -76,8 +76,8 @@ public class ComponentFactory {
     return component;
   }
 
-  public static ShipBodyComponent addShipBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
-    ShipBodyComponent component = createComponent(ShipBodyComponent.class);
+  public static BodyShipComponent addShipBodyComponent(Ship ship, BodyData bodyData, Vector2 position) {
+    BodyShipComponent component = createComponent(BodyShipComponent.class);
     component.body = BodyGenerator.createSpineBody(Game.world, ship, bodyData, position);
     component.body.setUserData(ship);
 
@@ -236,7 +236,7 @@ public class ComponentFactory {
         Ship ship = (Ship)member;
         float cost = 10000f * 2 * component.getFormation().getSlotAssignmentCount();
         Location<Vector2> slotTarget = component.getFormation().getSlotAssignmentAt(slotNumber).member.getTargetLocation();
-        Body body = ship.shipBodyComponent.body;
+        Body body = ship.bodyShipComponent.body;
         return cost + body.getPosition().dst(slotTarget.getPosition());
       }
     };
@@ -266,8 +266,8 @@ public class ComponentFactory {
     return component;
   }
 
-  public static GalaxyBodyComponent createGalaxyBodyComponent(GameEntity entity) {
-    GalaxyBodyComponent component = createComponent(GalaxyBodyComponent.class);
+  public static BodyGalaxyComponent createGalaxyBodyComponent(GameEntity entity) {
+    BodyGalaxyComponent component = createComponent(BodyGalaxyComponent.class);
     component.body = BodyGenerator.createGalaxyBody(MapManager.getInstance().getTiledMapRenderer());
     component.body.setUserData(entity);
     entity.add(component);

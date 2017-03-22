@@ -3,7 +3,7 @@ package com.starsailor.components;
 /**
  *
  */
-public class GalaxyBodyComponent extends BodyComponent {
+public class BodyShipComponent extends BodyComponent {
 
   @Override
   public void reset() {

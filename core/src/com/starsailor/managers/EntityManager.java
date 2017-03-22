@@ -50,9 +50,6 @@ public class EntityManager {
     AutoDestroySystem autoDestroySystem = new AutoDestroySystem();
     engine.addSystem(autoDestroySystem);
 
-    RouteSystem routeSystem = new RouteSystem();
-    engine.addSystem(routeSystem);
-
     BodyUpdateSystem bodyUpdateSystem = new BodyUpdateSystem();
     engine.addSystem(bodyUpdateSystem);
 
