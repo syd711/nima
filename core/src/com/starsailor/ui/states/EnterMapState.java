@@ -1,7 +1,7 @@
 package com.starsailor.ui.states;
 
-import com.starsailor.Game;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.InputManager;
 import com.starsailor.render.MapManager;
 import com.starsailor.systems.LightSystem;
 import com.starsailor.ui.UIManager;
@@ -21,7 +21,7 @@ public class EnterMapState extends UIState {
   public void enter(GameStage entity) {
     MapManager.getInstance().loadMap(mapName);
 
-    Game.inputManager.setNavigationEnabled(true);
+    InputManager.getInstance().setNavigationEnabled(true);
 
     LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
     lightSystem.fadeOut(false);

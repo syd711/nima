@@ -23,7 +23,6 @@ public class Game extends ApplicationAdapter {
   public static OrthographicCamera camera;
   public static RayHandler rayHandler;
   public static TiledMultiMapRenderer tiledMapRenderer;
-  public static InputManager inputManager;
 
   //Box2d
   public static World world;
@@ -65,12 +64,9 @@ public class Game extends ApplicationAdapter {
     //init camera manager
     CameraManager.getInstance().init(camera);
 
-    //input processing
-    inputManager = new InputManager(camera);
-
     //add the inputmanager itself as input processor, but as last!
-    inputManager.getInputMultiplexer().addProcessor(inputManager);
-    Gdx.input.setInputProcessor(inputManager.getInputMultiplexer());
+    InputManager.getInstance().getInputMultiplexer().addProcessor(InputManager.getInstance());
+    Gdx.input.setInputProcessor(InputManager.getInstance().getInputMultiplexer());
 
     //shutdown hook to store settings
     Runtime.getRuntime().addShutdownHook(new Thread() {

@@ -5,6 +5,7 @@ import com.starsailor.Game;
 import com.starsailor.actors.Galaxy;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerStates;
+import com.starsailor.managers.InputManager;
 import com.starsailor.ui.UIManager;
 import com.starsailor.ui.stages.GameStage;
 import com.starsailor.util.box2d.Box2dUtil;
@@ -18,7 +19,7 @@ public class NavigateBackState extends UIState {
   @Override
   public void enter(GameStage entity) {
     UIManager.getInstance().getHudStage().getNavigationPanel().deactivate();
-    Game.inputManager.setNavigationEnabled(false);
+    InputManager.getInstance().setNavigationEnabled(false);
 
     worldExitPoint = Player.getInstance().getCenter();
     Player.getInstance().moveTo(Galaxy.getInstance().getCenter());
@@ -38,6 +39,6 @@ public class NavigateBackState extends UIState {
 
   @Override
   public void exit(GameStage entity) {
-    Game.inputManager.setNavigationEnabled(true);
+    InputManager.getInstance().setNavigationEnabled(true);
   }
 }

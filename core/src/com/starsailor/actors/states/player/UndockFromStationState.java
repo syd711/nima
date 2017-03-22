@@ -2,11 +2,11 @@ package com.starsailor.actors.states.player;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.starsailor.Game;
 import com.starsailor.actors.Player;
 import com.starsailor.managers.EntityManager;
-import com.starsailor.ui.UIManager;
+import com.starsailor.managers.InputManager;
 import com.starsailor.systems.LightSystem;
+import com.starsailor.ui.UIManager;
 
 /**
  *
@@ -30,7 +30,7 @@ public class UndockFromStationState implements State<Player> {
 
   @Override
   public void exit(Player player) {
-    Game.inputManager.setNavigationEnabled(true);
+    InputManager.getInstance().setNavigationEnabled(true);
   }
 
   @Override

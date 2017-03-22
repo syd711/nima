@@ -5,7 +5,6 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
 import com.starsailor.actors.Ship;
 import com.starsailor.actors.states.formation.FormationRouteState;
-import com.starsailor.actors.states.formation.FormationTradingState;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.managers.SelectionManager;
@@ -23,7 +22,6 @@ public class TradeState extends UIState {
     Selectable selection = SelectionManager.getInstance().getSelection();
     tradingShip = (Ship) selection;
 
-    ((FormationOwner)tradingShip.getFormationOwner()).changeState(new FormationTradingState());
     tradingShip.changeState(NPCStates.TRADING_STATE);
     Player.getInstance().changeState(PlayerStates.TRADING);
   }

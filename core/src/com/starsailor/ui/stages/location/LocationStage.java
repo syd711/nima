@@ -3,7 +3,7 @@ package com.starsailor.ui.stages.location;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.starsailor.Game;
+import com.starsailor.managers.InputManager;
 import com.starsailor.managers.ResourceManager;
 
 /**
@@ -19,7 +19,7 @@ public class LocationStage extends Stage {
     statusTable = new StatusTable();
     addActor(statusTable);
 
-    Game.inputManager.addInputProcessor(this);
+    InputManager.getInstance().addInputProcessor(this);
   }
 
   @Override

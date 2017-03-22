@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.Game;
 import com.starsailor.GameStateManager;
 import com.starsailor.actors.Player;
 import com.starsailor.ui.UIManager;
@@ -17,13 +18,19 @@ import com.starsailor.util.GraphicsUtil;
  */
 public class InputManager implements InputProcessor {
 
+  private static InputManager instance = new InputManager();
+
   private OrthographicCamera camera;
   private InputMultiplexer inputMultiplexer = new InputMultiplexer();
   private Vector2 lastClickLocation;
   private boolean navigationEnabled = true;
 
-  public InputManager(OrthographicCamera camera) {
-    this.camera = camera;
+  private InputManager() {
+    camera = Game.camera;
+  }
+
+  public static InputManager getInstance() {
+    return instance;
   }
 
   public Vector2 getLastClickLocation() {

@@ -1,7 +1,7 @@
 package com.starsailor.ui.stages.hud;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.starsailor.Game;
+import com.starsailor.managers.InputManager;
 
 /**
  * The general game stage for menus and side panels.
@@ -17,7 +17,7 @@ public class HudStage extends Stage {
   private final TradingNPCPanel tradingNPCPanel;
 
   public HudStage() {
-    Game.inputManager.addInputProcessor(this);
+    InputManager.getInstance().addInputProcessor(this);
 
     //add panels and context menu
     weaponsPanel = new WeaponsPanel();
