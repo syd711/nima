@@ -10,10 +10,10 @@ import com.starsailor.ui.UIManager;
 /**
  * The display on the top of the screen
  */
-public class TradingPanel extends HudPanel {
+public class TradingNPCPanel extends HudPanel {
 
-  public TradingPanel() {
-    super("inventory_bg", Position.LEFT);
+  public TradingNPCPanel() {
+    super("inventory_bg", Position.RIGHT);
 
 
     TextButton cancelButton =  Scene2dFactory.createButton("Cancel Trading");

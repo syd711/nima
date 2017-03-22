@@ -3,6 +3,7 @@ package com.starsailor.actors.states.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.starsailor.Game;
 import com.starsailor.GameStateManager;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
@@ -25,6 +26,7 @@ public class PlayerTradingState implements State<Player> {
 
     Gdx.app.log(getClass().getName(), player + " entered " + this.getClass().getSimpleName());
     SteeringManager.setFollowTargetSteering(Player.getInstance().steerableComponent, tradingShip.steerableComponent);
+    Game.inputManager.setNavigationEnabled(false);
   }
 
   @Override
@@ -32,7 +34,8 @@ public class PlayerTradingState implements State<Player> {
     float dst = Player.getInstance().positionComponent.getPosition().dst(tradingShip.positionComponent.getPosition());
     if(dst < tradingShip.getWidth()*2) {
       player.steerableComponent.setBehavior(null);
-      UIManager.getInstance().getHudStage().getTradingPanel().activate();
+      UIManager.getInstance().getHudStage().getTradingPlayerPanel().activate();
+      UIManager.getInstance().getHudStage().getTradingNpcPanel().activate();
       GameStateManager.getInstance().setPaused(true);
       Player.getInstance().changeState(PlayerStates.IDLE);
     }
@@ -40,7 +43,7 @@ public class PlayerTradingState implements State<Player> {
 
   @Override
   public void exit(Player player) {
-
+    Game.inputManager.setNavigationEnabled(true);
   }
 
   @Override
