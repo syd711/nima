@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.starsailor.actors.Player;
 import com.starsailor.managers.*;
 import com.starsailor.render.MapManager;
 import com.starsailor.render.TiledMultiMapRenderer;
@@ -120,6 +121,9 @@ public class Game extends ApplicationAdapter {
 
     //update engine after world.step for saver body removal
     EntityManager.getInstance().update();
+
+    //update special player stuff
+    Player.getInstance().update();
 
     //hud overlay at last
     UIManager.getInstance().update(deltaTime);

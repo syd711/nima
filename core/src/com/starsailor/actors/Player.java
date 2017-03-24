@@ -9,6 +9,7 @@ import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.ScreenPositionComponent;
 import com.starsailor.managers.EntityManager;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.model.items.ShipItem;
 import com.starsailor.ui.UIManager;
 
@@ -42,6 +43,16 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     add(new ScreenPositionComponent(0, 0));
   }
 
+  public void update() {
+    Selectable selection = SelectionManager.getInstance().getSelection();
+    if(selection != null) {
+      Ship ship = (Ship) selection;
+      if(isInRetreatingDistance(ship) && inBattleState) {
+        switchToDefaultState();
+      }
+    }
+  }
+
   public Entity getTarget() {
     return target;
   }
@@ -73,7 +84,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     inBattleState = false;
     shieldSpineComponent.setEnabled(false);
     bodyShipComponent.setTargetRadius(shipData.getBodyData().getRadius()/2*shieldSpineComponent.getJsonScaling());
-
+    UIManager.getInstance().getHudStage().getWeaponsPanel().deactivate();
   }
 
   @Override

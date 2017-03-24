@@ -33,14 +33,6 @@ abstract public class NPCState {
     return distanceToEnemy < attackDistance;
   }
 
-  /**
-   * Returns true if the enemy is in retreating range of the ship
-   */
-  protected boolean isInRetreatingDistance(Ship ship, Ship enemy) {
-    float retreatDistance = ship.shipData.getDistanceData().getRetreatDistance();
-    float distanceToEnemy = ship.getDistanceTo(enemy);
-    return distanceToEnemy > retreatDistance;
-  }
 
   /**
    * Returns true of the whole group is in retreating distance,
@@ -49,7 +41,7 @@ abstract public class NPCState {
   protected boolean isGroupInRetreatingDistance(Ship ship, Ship enemy) {
     List<Ship> members = ship.getFormationMembers();
     for(Ship member : members) {
-      if(!isInRetreatingDistance(member, enemy)) {
+      if(!member.isInRetreatingDistance(enemy)) {
         return false;
       }
     }

@@ -3,6 +3,9 @@ package com.starsailor.actors.states.player;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.Selectable;
+import com.starsailor.actors.Ship;
+import com.starsailor.managers.SelectionManager;
 
 /**
  *

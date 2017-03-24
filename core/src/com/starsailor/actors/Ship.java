@@ -167,6 +167,15 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
   }
 
   /**
+   * Returns true if the enemy is in retreating range of the ship
+   */
+  public boolean isInRetreatingDistance(Ship enemy) {
+    float retreatDistance = shipData.getDistanceData().getRetreatDistance();
+    float distanceToEnemy = getDistanceTo(enemy);
+    return distanceToEnemy > retreatDistance;
+  }
+
+  /**
    * Returns the distance to another ship
    */
   public float getDistanceTo(IFormationOwner formationOwner) {
