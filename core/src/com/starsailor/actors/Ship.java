@@ -4,7 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.states.npc.BattleState;
+import com.starsailor.actors.states.npc.NPCBattleState;
 import com.starsailor.components.*;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.model.ShieldData;
@@ -323,7 +323,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
 
   abstract protected State getDefaultState();
 
-  abstract protected BattleState getBattleState();
+  abstract protected NPCBattleState getBattleState();
 
   //------------- Helper ----------------------------------------------------------------------------------
 

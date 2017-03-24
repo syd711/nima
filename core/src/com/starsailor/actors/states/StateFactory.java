@@ -22,10 +22,10 @@ public class StateFactory {
         return new RouteState();
       }
       case ATTACK: {
-        return new AttackState();
+        return new AttackStateNPC();
       }
       case FLEE: {
-        return new FleeFromAttackerAndWaitState();
+        return new FleeFromAttackerAndWaitStateNPC();
       }
       default: {
         return new RouteState();

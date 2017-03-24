@@ -12,7 +12,7 @@ import java.util.List;
 /**
  *
  */
-abstract public class BattleState extends NPCState implements State<NPC> {
+abstract public class NPCBattleState extends NPCState implements State<NPC> {
   private List<Ship> attackingGroupMembers = new ArrayList<>();
 
   public void updateEnemyList(Ship enemy) {

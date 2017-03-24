@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.route.Route;
 import com.starsailor.actors.states.StateFactory;
-import com.starsailor.actors.states.npc.BattleState;
+import com.starsailor.actors.states.npc.NPCBattleState;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.RoutingComponent;
@@ -24,7 +24,7 @@ public class NPC extends Ship implements Selectable {
   public NPCCollisionComponent collisionComponent;
 
   private State<NPC> defaultState;
-  private BattleState battleState;
+  private NPCBattleState battleState;
 
   //not necessarily set
   private Route route;
@@ -53,7 +53,7 @@ public class NPC extends Ship implements Selectable {
     }
 
     defaultState = StateFactory.createState(defaultSteering);
-    battleState = (BattleState) StateFactory.createState(battleSteering);
+    battleState = (NPCBattleState) StateFactory.createState(battleSteering);
 
     statefulComponent.stateMachine.setInitialState(NPCStates.IDLE);
     switchToDefaultState();
@@ -81,7 +81,7 @@ public class NPC extends Ship implements Selectable {
   }
 
   @Override
-  public BattleState getBattleState() {
+  public NPCBattleState getBattleState() {
     return battleState;
   }
 

@@ -9,7 +9,7 @@ import com.starsailor.managers.SteeringManager;
 /**
  * Let the give npc follow its route.
  */
-public class FleeFromAttackerAndWaitState extends BattleState {
+public class FleeFromAttackerAndWaitStateNPC extends NPCBattleState {
 
   @Override
   public void enter(NPC npc) {

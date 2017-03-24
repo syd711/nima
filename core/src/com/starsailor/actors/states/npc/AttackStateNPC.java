@@ -14,7 +14,7 @@ import java.util.List;
 /**
  *
  */
-public class AttackState extends BattleState {
+public class AttackStateNPC extends NPCBattleState {
 
   @Override
   public void enter(NPC npc) {

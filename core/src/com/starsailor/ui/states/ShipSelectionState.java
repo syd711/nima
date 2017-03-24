@@ -17,8 +17,10 @@ public class ShipSelectionState extends UIState {
 
   @Override
   public void enter(GameStage entity) {
-    GameStateManager.getInstance().setPaused(true);
-    hudStage.getContextMenu().show();
+    if(isContextMenuEnabled()) {
+      GameStateManager.getInstance().setPaused(true);
+      hudStage.getContextMenu().show();
+    }
   }
 
   @Override
@@ -28,7 +30,16 @@ public class ShipSelectionState extends UIState {
 
   @Override
   public void exit(GameStage entity) {
-    GameStateManager.getInstance().setPaused(false);
-    hudStage.getContextMenu().hide();
+    if(isContextMenuEnabled()) {
+      GameStateManager.getInstance().setPaused(false);
+      hudStage.getContextMenu().hide();
+    }
+  }
+
+  /**
+   * The selection not always triggers the context menu
+   */
+  private boolean isContextMenuEnabled() {
+    return !hudStage.getWeaponsPanel().isActive();
   }
 }
