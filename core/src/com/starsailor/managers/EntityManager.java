@@ -184,9 +184,6 @@ public class EntityManager {
       else if(gameEntity instanceof Route) {
         destroy(gameEntity);
       }
-      else if(gameEntity instanceof ClickTarget) {
-        destroy(gameEntity);
-      }
       else if(gameEntity instanceof Bullet) {
         destroy(gameEntity);
       }

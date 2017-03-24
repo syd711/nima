@@ -1,25 +1,13 @@
 {
   "status": {
-    "timestamp": "2017-03-24T12:14:49"
+    "timestamp": "2017-03-24T16:14:32"
   },
   "items": [
     {
       "status": {
-        "bodyPositionY": 5.8684096,
+        "bodyPositionY": 5.066568,
         "shipHealth": 100.0,
-        "bodyPositionX": 5.43737,
-        "shieldHealth": 100.0,
-        "id": 35016,
-        "state": {},
-        "type": 35005
-      },
-      "items": []
-    },
-    {
-      "status": {
-        "bodyPositionY": 5.296889,
-        "shipHealth": 100.0,
-        "bodyPositionX": 4.7174563,
+        "bodyPositionX": 4.231615,
         "shieldHealth": 100.0,
         "id": 35019,
         "state": {},
@@ -29,11 +17,23 @@
     },
     {
       "status": {
-        "bodyPositionY": 7.169059,
+        "bodyPositionY": 6.9906836,
         "shipHealth": 100.0,
-        "bodyPositionX": 5.473189,
+        "bodyPositionX": 4.93565,
         "shieldHealth": 100.0,
         "id": 35020,
+        "state": {},
+        "type": 35005
+      },
+      "items": []
+    },
+    {
+      "status": {
+        "bodyPositionY": 5.821676,
+        "shipHealth": 100.0,
+        "bodyPositionX": 4.53812,
+        "shieldHealth": 100.0,
+        "id": 35016,
         "state": {},
         "type": 35005
       },
