@@ -3,8 +3,10 @@ package com.starsailor.ui.stages.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.util.Settings;
@@ -32,6 +34,14 @@ public class HudPanel extends Table {
 
     setDebug(Settings.getInstance().debug);
     setBackground(textureRegionDrawable);
+
+    //avoid all events to be bubble up to the regular input manager
+    this.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        event.setBubbles(false);
+      }
+    });
 
     if(position.equals(Position.BOTTOM)) {
       setPosition(Gdx.graphics.getWidth() / 2 - bground.getWidth() / 2, -bground.getHeight());

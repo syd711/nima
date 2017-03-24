@@ -65,9 +65,11 @@ public class Game extends ApplicationAdapter {
     //init camera manager
     CameraManager.getInstance().init(camera);
 
+    //init the UI with it's input processors
+    UIManager.getInstance().init();
+
     //add the inputmanager itself as input processor, but as last!
-    InputManager.getInstance().getInputMultiplexer().addProcessor(InputManager.getInstance());
-    Gdx.input.setInputProcessor(InputManager.getInstance().getInputMultiplexer());
+    InputManager.getInstance().init();
 
     Pixmap pm = new Pixmap(Gdx.files.internal("textures/cursor.png"));
     Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));

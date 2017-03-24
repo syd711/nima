@@ -14,10 +14,9 @@ import com.starsailor.model.WeaponData;
 import java.util.List;
 
 /**
- * Created by Matthias on 16.03.2017.
+ * Event listener for all weapon buttons
  */
 public class WeaponPanelChangeListener extends ChangeListener {
-
 
   @Override
   public void changed(ChangeEvent event, Actor actor) {

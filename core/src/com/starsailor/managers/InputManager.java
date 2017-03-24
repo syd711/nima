@@ -30,6 +30,12 @@ public class InputManager implements InputProcessor {
     camera = Game.camera;
   }
 
+  public void init() {
+    //we add this instance as last instance for the multiplexer to gui the UI elements the priority
+    InputManager.getInstance().getInputMultiplexer().addProcessor(this);
+    Gdx.input.setInputProcessor(InputManager.getInstance().getInputMultiplexer());
+  }
+
   public static InputManager getInstance() {
     return instance;
   }
@@ -129,7 +135,7 @@ public class InputManager implements InputProcessor {
       return true;
     }
 
-    if(button == Input.Buttons.LEFT && !isScene2dClick()) {
+    if(button == Input.Buttons.LEFT) {
       return SelectionManager.getInstance().selectAt(targetX, targetY, true);
     }
     return false;
@@ -147,14 +153,6 @@ public class InputManager implements InputProcessor {
 
   @Override
   public boolean scrolled(int amount) {
-    return false;
-  }
-
-  public boolean isScene2dClick() {
-    if(UIManager.getInstance().getHudStage().getContextMenu().visible()) {
-      return true;
-    }
-
     return false;
   }
 }

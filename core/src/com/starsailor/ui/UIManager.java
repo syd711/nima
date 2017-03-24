@@ -15,7 +15,7 @@ import com.starsailor.ui.states.UIStates;
  * Handling scene2d stages
  */
 public class UIManager implements SelectionChangeListener {
-  private static UIManager instance;
+  private static UIManager instance = new UIManager();
   private DefaultStateMachine stateMachine = new StackStateMachine<>();
 
   private HudStage hudStage;
@@ -27,15 +27,14 @@ public class UIManager implements SelectionChangeListener {
   }
 
   public static UIManager getInstance() {
-    if(instance == null) {
-      instance = new UIManager();
-      instance.hudStage = new HudStage();
-      instance.locationStage = new LocationStage();
-
-      instance.stateMachine.changeState(UIStates.DEFAULT_STATE);
-      instance.activeStage = instance.hudStage;
-    }
     return instance;
+  }
+
+  public void init() {
+    hudStage = new HudStage();
+    locationStage = new LocationStage();
+    stateMachine.changeState(UIStates.DEFAULT_STATE);
+    activeStage = instance.hudStage;
   }
 
   /**
