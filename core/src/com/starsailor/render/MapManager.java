@@ -8,6 +8,7 @@ import com.starsailor.actors.Galaxy;
 import com.starsailor.actors.Player;
 import com.starsailor.components.PositionComponent;
 import com.starsailor.render.converters.*;
+import com.starsailor.savegame.SaveGameManager;
 import com.starsailor.util.Settings;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class MapManager {
    * @param name the name of the map to load.
    */
   public void loadMap(String name) {
+    if(Galaxy.getInstance().getName() != null) {
+      SaveGameManager.save();
+    }
+
     tiledMapRenderer = new TiledMultiMapRenderer(name, batch);
 
     //run initial global scans
@@ -76,7 +81,7 @@ public class MapManager {
     int startY = tiledMapRenderer.getStartY();
     Player.getInstance().bodyShipComponent.setWorldPosition(new Vector2(startX, startY));
 
-    Galaxy.getInstance().rebuild();
+    Galaxy.getInstance().load(name);
   }
 
   /**

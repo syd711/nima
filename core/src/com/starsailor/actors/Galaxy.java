@@ -10,8 +10,9 @@ import com.starsailor.util.box2d.Box2dUtil;
  */
 public class Galaxy extends GameEntity {
 
-  private BodyGalaxyComponent bodyGalaxyComponent;
   private static Galaxy instance;
+  private BodyGalaxyComponent bodyGalaxyComponent;
+  private String name;
 
   public static Galaxy getInstance() {
     return instance;
@@ -21,7 +22,8 @@ public class Galaxy extends GameEntity {
     instance = this;
   }
 
-  public void rebuild() {
+  public void load(String name) {
+    this.name = name;
     if(bodyGalaxyComponent != null) {
       bodyGalaxyComponent.destroy();
     }
@@ -30,5 +32,9 @@ public class Galaxy extends GameEntity {
 
   public Vector2 getCenter() {
     return Box2dUtil.toWorldPoint(bodyGalaxyComponent.body.getPosition());
+  }
+
+  public String getName() {
+    return name;
   }
 }

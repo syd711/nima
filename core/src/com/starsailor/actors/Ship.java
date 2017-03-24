@@ -11,6 +11,8 @@ import com.starsailor.model.ShieldData;
 import com.starsailor.model.ShipData;
 import com.starsailor.model.WeaponData;
 import com.starsailor.model.items.ShipItem;
+import com.starsailor.savegame.SaveGameItem;
+import com.starsailor.savegame.Saveable;
 import com.starsailor.util.box2d.Box2dLocation;
 
 import javax.annotation.Nullable;
@@ -23,7 +25,7 @@ import static com.starsailor.util.Settings.PPM;
 /**
  * The general ship entity which is always a spine.
  */
-abstract public class Ship extends GameEntity implements IFormationMember<Ship> {
+abstract public class Ship extends GameEntity implements IFormationMember<Ship>, Saveable {
   public StatefulComponent statefulComponent;
   public SteerableComponent steerableComponent;
   public ScalingComponent scalingComponent;
@@ -74,6 +76,17 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship> 
     fractionComponent = ComponentFactory.createFractionComponent(this, Fraction.valueOf(shipItem.getFraction().toUpperCase()));
 
     this.location = new Box2dLocation(new Vector2());
+  }
+
+  @Override
+  public void save(SaveGameItem item) {
+    item.store("id", shipItem.getId());
+    item.store("type", shipItem.getShipType());
+    item.store("positionX", positionComponent.x);
+    item.store("positionY", positionComponent.y);
+    item.store("state", statefulComponent.stateMachine.getCurrentState());
+    item.store("shieldHealth", shieldStatusComponent.health);
+    item.store("shipHealth", healthComponent.health);
   }
 
   public void changeState(State state) {

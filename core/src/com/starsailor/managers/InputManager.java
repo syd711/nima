@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.starsailor.Game;
 import com.starsailor.GameStateManager;
 import com.starsailor.actors.Player;
+import com.starsailor.savegame.SaveGameManager;
 import com.starsailor.ui.UIManager;
 import com.starsailor.util.Debugger;
 import com.starsailor.util.GraphicsUtil;
@@ -69,7 +70,7 @@ public class InputManager implements InputProcessor {
       return true;
     }
     else if(keycode == Input.Keys.S) {
-      System.out.println(Player.getInstance().statefulComponent.stateMachine.getCurrentState());
+      SaveGameManager.save();
       return true;
     }
     else if(keycode == Input.Keys.D) {

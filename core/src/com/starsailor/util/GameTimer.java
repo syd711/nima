@@ -15,9 +15,16 @@ public class GameTimer {
 
   private static List<GameTimer> timers = new ArrayList<>();
 
+  private GameTimerExpiredListener listener;
+
   public GameTimer(float duration) {
     this.duration = duration;
     timers.add(this);
+  }
+
+  public GameTimer withListener(GameTimerExpiredListener listener) {
+    this.listener = listener;
+    return this;
   }
 
   public boolean isExpired() {
@@ -43,6 +50,13 @@ public class GameTimer {
   public static float update(float deltaTime) {
     for(GameTimer timer : timers) {
       timer.updateDeltaTime(deltaTime);
+    }
+
+    for(GameTimer timer : new ArrayList<>(timers)) {
+      if(timer.isExpired() && timer.listener != null) {
+        timer.listener.expired();
+        timer.listener = null;
+      }
     }
 
     GdxAI.getTimepiece().update(deltaTime);

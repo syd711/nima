@@ -20,7 +20,7 @@ public class HudPanel extends Table {
   private boolean activated = false;
 
   public enum Position {
-    TOP, LEFT, BOTTOM, RIGHT;
+    TOP, TOP_LEFT, LEFT, BOTTOM, RIGHT;
 
   }
   public HudPanel(String textureName, Position position) {
@@ -41,6 +41,9 @@ public class HudPanel extends Table {
     }
     else if(position.equals(Position.TOP)) {
       setPosition(Gdx.graphics.getWidth() / 2 - bground.getWidth() / 2, Gdx.graphics.getHeight()+1);
+    }
+    else if(position.equals(Position.TOP_LEFT)) {
+      setPosition(10, Gdx.graphics.getHeight()+1);
     }
     else if(position.equals(Position.RIGHT)) {
       setPosition(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight() / 2 - bground.getHeight() / 2);
@@ -75,6 +78,9 @@ public class HudPanel extends Table {
     else if(position.equals(Position.TOP)) {
       addAction(Actions.moveBy(0, -bground.getHeight(), SHOW_DELAY));
     }
+    else if(position.equals(Position.TOP_LEFT)) {
+      addAction(Actions.moveBy(0, -bground.getHeight(), SHOW_DELAY));
+    }
     else if(position.equals(Position.RIGHT)) {
       addAction(Actions.moveBy(-bground.getWidth(), 0, SHOW_DELAY));
     }
@@ -93,6 +99,9 @@ public class HudPanel extends Table {
       addAction(Actions.moveBy(-bground.getWidth(), 0, SHOW_DELAY));
     }
     else if(position.equals(Position.TOP)) {
+      addAction(Actions.moveBy(0, bground.getHeight(), SHOW_DELAY));
+    }
+    else if(position.equals(Position.TOP_LEFT)) {
       addAction(Actions.moveBy(0, bground.getHeight(), SHOW_DELAY));
     }
     else if(position.equals(Position.RIGHT)) {

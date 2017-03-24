@@ -1,0 +1,43 @@
+{
+  "status": {
+    "timestamp": "2017-03-24T11:43:10"
+  },
+  "items": [
+    {
+      "status": {
+        "positionY": 520.1404,
+        "shipHealth": 100.0,
+        "shieldHealth": 100.0,
+        "id": 35016,
+        "state": {},
+        "type": 35005,
+        "positionX": 653.4624
+      },
+      "items": []
+    },
+    {
+      "status": {
+        "positionY": 605.8063,
+        "shipHealth": 100.0,
+        "shieldHealth": 100.0,
+        "id": 35020,
+        "state": {},
+        "type": 35005,
+        "positionX": 885.62604
+      },
+      "items": []
+    },
+    {
+      "status": {
+        "positionY": 530.96185,
+        "shipHealth": 100.0,
+        "shieldHealth": 100.0,
+        "id": 35019,
+        "state": {},
+        "type": 35005,
+        "positionX": 853.81067
+      },
+      "items": []
+    }
+  ]
+}
