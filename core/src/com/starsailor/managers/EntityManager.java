@@ -9,7 +9,6 @@ import com.starsailor.Game;
 import com.starsailor.actors.*;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.route.Route;
-import com.starsailor.actors.states.player.FollowClickState;
 import com.starsailor.components.ComponentFactory;
 import com.starsailor.components.Destroyable;
 import com.starsailor.components.StatefulComponent;
@@ -185,7 +184,7 @@ public class EntityManager {
       else if(gameEntity instanceof Route) {
         destroy(gameEntity);
       }
-      else if(gameEntity instanceof FollowClickState.ClickTarget) {
+      else if(gameEntity instanceof ClickTarget) {
         destroy(gameEntity);
       }
       else if(gameEntity instanceof Bullet) {
@@ -207,6 +206,16 @@ public class EntityManager {
 
   public ImmutableArray<Entity> getEntitiesFor(Class<? extends Component> componentClass) {
     return engine.getEntitiesFor(Family.all(componentClass).get());
+  }
+
+  public Entity getEntity(int id) {
+    List<Ship> entities = getEntities(Ship.class);
+    for(Ship entity : entities) {
+      if(entity.getShipItem().getId() == id) {
+        return entity;
+      }
+    }
+    return null;
   }
 
   public <T> List<T> getEntities(Class<T> clazz) {

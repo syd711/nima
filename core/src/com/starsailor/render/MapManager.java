@@ -82,6 +82,7 @@ public class MapManager {
     Player.getInstance().bodyShipComponent.setWorldPosition(new Vector2(startX, startY));
 
     Galaxy.getInstance().load(name);
+    SaveGameManager.load();
   }
 
   /**

@@ -82,8 +82,8 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
   public void save(SaveGameItem item) {
     item.store("id", shipItem.getId());
     item.store("type", shipItem.getShipType());
-    item.store("positionX", positionComponent.x);
-    item.store("positionY", positionComponent.y);
+    item.store("bodyPositionX", bodyShipComponent.body.getPosition().x);
+    item.store("bodyPositionY", bodyShipComponent.body.getPosition().y);
     item.store("state", statefulComponent.stateMachine.getCurrentState());
     item.store("shieldHealth", shieldStatusComponent.health);
     item.store("shipHealth", healthComponent.health);

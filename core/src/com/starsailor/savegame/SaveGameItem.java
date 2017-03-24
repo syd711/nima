@@ -18,6 +18,18 @@ public class SaveGameItem {
     items.add(item);
   }
 
+  public String getString(String key) {
+    return (String) status.get(key);
+  }
+
+  public int getInt(String key) {
+    return ((Double)status.get(key)).intValue();
+  }
+
+  public float getFloat(String key) {
+    return (float) status.get(key);
+  }
+
   public List<SaveGameItem> getItems() {
     return items;
   }
@@ -25,5 +37,4 @@ public class SaveGameItem {
   public void store(String key, Object value) {
     status.put(key, value);
   }
-
 }

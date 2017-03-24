@@ -1,9 +1,12 @@
 package com.starsailor.savegame;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.starsailor.GameStateManager;
 import com.starsailor.actors.Galaxy;
 import com.starsailor.actors.Player;
+import com.starsailor.actors.Ship;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.model.JsonDataFactory;
 import com.starsailor.ui.UIManager;
@@ -20,13 +23,26 @@ public class SaveGameManager {
 
   public static SaveSlot activeSlot = SaveSlot.SLOT_1;
 
-  public static void load(SaveSlot slot) {
-    SaveGameItem saveGame = JsonDataFactory.loadDataEntity(resolveSaveGameFile(slot, null), SaveGameItem.class);
+  //----------------------- Game Loading ------------------------------------------------
+
+  public static void load() {
+    String galaxyName = Galaxy.getInstance().getName();
+
+    SaveGameItem saveGame = JsonDataFactory.loadDataEntity(resolveSaveGameFile(activeSlot, galaxyName), SaveGameItem.class);
     List<SaveGameItem> items = saveGame.getItems();
     for(SaveGameItem item : items) {
+      int id = item.getInt("id");
+      Entity entity = EntityManager.getInstance().getEntity(id);
+      if(entity != null) {
+        if(entity instanceof Ship) {
+          Ship ship = (Ship) entity;
 
+          float positionX = item.getFloat("bodyPositionX");
+          float positionY = item.getFloat("bodyPositionY");
+          ship.bodyShipComponent.body.setTransform(new Vector2(positionX, positionY), ship.bodyShipComponent.body.getAngle());
+        }
+      }
     }
-
   }
 
   //----------------------- Game Saving ------------------------------------------------
@@ -34,7 +50,7 @@ public class SaveGameManager {
   public static void save() {
     UIManager.getInstance().getHudStage().getSavePanel().activate();
 
-    saveGalaxy();
+    saveGalaxy(); //TODO won't work, wrong galaxy
     saveGameState();
   }
 

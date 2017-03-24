@@ -22,7 +22,6 @@ public class NavigatorPanel extends HudPanel {
     confirmButton.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        System.out.println("galaxy change");
       }
     });
     add(confirmButton);
@@ -31,7 +30,6 @@ public class NavigatorPanel extends HudPanel {
     cancelButton.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        System.out.println("galaxy change");
       }
     });
 

@@ -2,11 +2,11 @@ package com.starsailor.components.collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.actors.ClickTarget;
 import com.starsailor.actors.Collidable;
 import com.starsailor.actors.Location;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.bullets.Bullet;
-import com.starsailor.actors.states.player.FollowClickState;
 import com.starsailor.actors.states.player.PlayerStates;
 
 /**
@@ -29,7 +29,7 @@ public class PlayerCollisionComponent implements Collidable {
       BulletCollisionComponent bulletCollisionComponent = bullet.getComponent(BulletCollisionComponent.class);
       bulletCollisionComponent.applyCollisionWith(Player.getInstance(), position);
     }
-    else if(collidee instanceof FollowClickState.ClickTarget) {
+    else if(collidee instanceof ClickTarget) {
       //only switch to idle when there is no target specified
       if(Player.getInstance().getTarget() == null) {
         Player.getInstance().changeState(PlayerStates.IDLE);

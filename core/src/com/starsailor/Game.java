@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -67,6 +68,10 @@ public class Game extends ApplicationAdapter {
     //add the inputmanager itself as input processor, but as last!
     InputManager.getInstance().getInputMultiplexer().addProcessor(InputManager.getInstance());
     Gdx.input.setInputProcessor(InputManager.getInstance().getInputMultiplexer());
+
+    Pixmap pm = new Pixmap(Gdx.files.internal("textures/cursor.png"));
+    Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+    pm.dispose();
 
     //shutdown hook to store settings
     Runtime.getRuntime().addShutdownHook(new Thread() {

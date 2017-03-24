@@ -68,7 +68,7 @@ public class BodyGenerator {
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(5 * MPP, 5 * MPP);
+    shape.setAsBox(30 * MPP, 30 * MPP);
 
     FixtureDef fdef = new FixtureDef();
     fdef.isSensor = true;
