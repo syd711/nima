@@ -22,7 +22,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
   private static Player instance = null;
 
   private Entity target;
-  public Vector2 targetCoordinates;
+  private Vector2 targetCoordinates;
 
   private boolean inBattleState = false;
 
@@ -103,6 +103,10 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     }
     changeState(PlayerStates.FOLLOW_CLICK);
     steerableComponent.setEnabled(true);
+  }
+
+  public Vector2 getTargetCoordinates() {
+    return targetCoordinates;
   }
 
   // IFormation owner interface implementation --------------------------------------

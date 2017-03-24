@@ -68,7 +68,8 @@ public class GraphicsUtil {
       targetY = targetY + screenY - centerY;
     }
 
-    return new Vector2(targetX, targetY);
+    Vector2 result = new Vector2(targetX, targetY);
+    return result;
   }
 
   /**

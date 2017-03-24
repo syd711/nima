@@ -15,6 +15,9 @@ public class StateFactory {
       case SEEK_AND_DESTROY: {
         return new RoutedSeekAndDestroyState();
       }
+      case WANDERING_SEEK_AND_DESTROY: {
+        return new WanderingSeekAndDestroyState();
+      }
       case ROUTE: {
         return new RouteState();
       }

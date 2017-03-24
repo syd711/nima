@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="116">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="32" tileheight="32" nextobjectid="119">
  <tileset firstgid="1" name="planets" tilewidth="32" tileheight="32" tilecount="325" columns="25">
   <image source="../planets.png" width="808" height="423"/>
  </tileset>
@@ -115,6 +115,9 @@
    <ellipse/>
   </object>
   <object id="113" name="35016" x="222" y="684">
+   <ellipse/>
+  </object>
+  <object id="117" name="35015" x="995" y="21">
    <ellipse/>
   </object>
  </objectgroup>

@@ -118,6 +118,7 @@ public class InputManager implements InputProcessor {
 
     lastClickLocation = new Vector2(targetX, targetY);
     Vector2 worldCoordinates = GraphicsUtil.transform2WorldCoordinates(camera, targetX, targetY);
+
     float dst = worldCoordinates.dst(Player.getInstance().getCenter());
     if(dst < 80) {
       return false; //TODO

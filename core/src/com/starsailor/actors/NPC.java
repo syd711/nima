@@ -31,12 +31,6 @@ public class NPC extends Ship implements Selectable {
 
   public NPC(ShipItem shipItem, Vector2 position) {
     super(shipItem, position);
-
-    Steering defaultSteering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
-    Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
-
-    defaultState = StateFactory.createState(defaultSteering);
-    battleState = (BattleState) StateFactory.createState(battleSteering);
   }
 
   @Override
@@ -49,6 +43,17 @@ public class NPC extends Ship implements Selectable {
     if(this.route != null) {
       routingComponent = ComponentFactory.addRoutingComponent(this, route);
     }
+
+    //load state data
+    Steering battleSteering = Steering.valueOf(shipItem.getBattleSteering().toUpperCase());
+    Steering defaultSteering = Steering.valueOf(shipItem.getDefaultSteering().toUpperCase());
+    //change to wandering seek and destroy if there is not route for this entity
+    if(this.route == null && defaultSteering.equals(Steering.SEEK_AND_DESTROY)) {
+      defaultSteering = Steering.WANDERING_SEEK_AND_DESTROY;
+    }
+
+    defaultState = StateFactory.createState(defaultSteering);
+    battleState = (BattleState) StateFactory.createState(battleSteering);
 
     statefulComponent.stateMachine.setInitialState(NPCStates.IDLE);
     switchToDefaultState();

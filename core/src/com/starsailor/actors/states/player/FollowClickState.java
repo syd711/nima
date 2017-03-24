@@ -21,7 +21,7 @@ public class FollowClickState implements State<Player> {
     SpineShipComponent spineComponent = player.getComponent(SpineShipComponent.class);
     spineComponent.setAnimation(SpineShipAnimations.Move);
 
-    ClickTarget.getInstance().update(player.targetCoordinates);
+    ClickTarget.getInstance().update(player.getTargetCoordinates());
 
     //check if a target is selected, update to the center then
     if(player.getTarget() != null) {
