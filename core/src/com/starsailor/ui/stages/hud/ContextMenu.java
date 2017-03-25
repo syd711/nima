@@ -30,6 +30,7 @@ public class ContextMenu extends Table {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         UIManager.getInstance().changeState(UIStates.TRADE_STATE);
+        hide();
       }
     });
 
@@ -38,6 +39,7 @@ public class ContextMenu extends Table {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         UIManager.getInstance().changeState(UIStates.BATTLE_STATE);
+        hide();
       }
     });
 
@@ -46,6 +48,7 @@ public class ContextMenu extends Table {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         UIManager.getInstance().switchToHudState();
+        hide();
       }
     });
 
