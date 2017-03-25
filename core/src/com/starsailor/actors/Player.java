@@ -43,11 +43,14 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     add(new ScreenPositionComponent(0, 0));
   }
 
+  /**
+   * The player entity is updated itself beside the entity manager, system or states
+   */
   public void update() {
     Selectable selection = SelectionManager.getInstance().getSelection();
     if(selection != null) {
       Ship ship = (Ship) selection;
-      if(isInRetreatingDistance(ship) && inBattleState) {
+      if(!ship.isMarkedForDestroy() && isInRetreatingDistance(ship) && inBattleState) {
         switchToDefaultState();
       }
     }

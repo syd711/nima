@@ -33,6 +33,9 @@ public class TradeState extends UIState {
   @Override
   public void exit(GameStage entity) {
     tradingShip.changeState(tradingShip.statefulComponent.stateMachine.getPreviousState());
-    ((FormationOwner)tradingShip.getFormationOwner()).changeState(new FormationRouteState());
+    FormationOwner formationOwner = (FormationOwner) tradingShip.getFormationOwner();
+    if(formationOwner != null) {
+      ((FormationOwner)tradingShip.getFormationOwner()).changeState(new FormationRouteState());
+    }
   }
 }
