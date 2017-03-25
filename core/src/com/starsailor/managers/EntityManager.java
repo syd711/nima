@@ -138,32 +138,28 @@ public class EntityManager {
   public void update() {
     engine.update(Gdx.graphics.getDeltaTime());
 
-    if(!destroyEntities.isEmpty()) {
-      for(GameEntity entity : destroyEntities) {
-        ImmutableArray<Component> components = entity.getComponents();
-        for(Component component : components) {
-          if(component instanceof Destroyable) {
-            ((Destroyable)component).destroy();
-          }
+    for(GameEntity entity : destroyEntities) {
+      ImmutableArray<Component> components = entity.getComponents();
+      for(Component component : components) {
+        if(component instanceof Destroyable) {
+          ((Destroyable) component).destroy();
         }
-
-        if(entity instanceof EntityListener) {
-          engine.removeEntityListener((EntityListener) entity);
-        }
-
-        StatefulComponent statefulComponent = entity.getComponent(StatefulComponent.class);
-        if(statefulComponent != null) {
-          MessageManager.getInstance().removeListener(statefulComponent.stateMachine);
-        }
-
-        engine.removeEntity(entity);
-
-//        Gdx.app.log(this.toString(), "Destroyed " + galaxy);
       }
-      destroyEntities.clear();
 
-//      Gdx.app.log(this.toString(), "Ashley engine has " + engine.getEntities().size() + " entities");
+      if(entity instanceof EntityListener) {
+        engine.removeEntityListener((EntityListener) entity);
+      }
+
+      StatefulComponent statefulComponent = entity.getComponent(StatefulComponent.class);
+      if(statefulComponent != null) {
+        MessageManager.getInstance().removeListener(statefulComponent.stateMachine);
+      }
+
+      engine.removeEntity(entity);
+      entity.destroyed();
+//        Gdx.app.log(this.toString(), "Destroyed " + galaxy);
     }
+    destroyEntities.clear();
   }
 
   //-------------- Map Reset -----------------------------------------------------------------------
@@ -236,7 +232,7 @@ public class EntityManager {
   }
 
   public <T> boolean isAliveEntity(T entity) {
-    if(((GameEntity)entity).isMarkedForDestroy()) {
+    if(((GameEntity) entity).isMarkedForDestroy()) {
       return false;
     }
 

@@ -60,11 +60,14 @@ public class BodyGenerator {
     return b;
   }
 
+  public static Body createLootBody(Vector2 worldPosition) {
+    return createClickBody(worldPosition);
+  }
 
-  public static Body createClickBody(Vector2 clickPoint) {
+  public static Body createClickBody(Vector2 worldPosition) {
     BodyDef bdef = new BodyDef();
     bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.position.set(Box2dUtil.toBox2Vector(clickPoint));
+    bdef.position.set(Box2dUtil.toBox2Vector(worldPosition));
     Body b = world.createBody(bdef);
 
     PolygonShape shape = new PolygonShape();

@@ -121,6 +121,13 @@ public class ComponentFactory {
     return component;
   }
 
+  public static LootComponent addLootComponent(Entity entity) {
+    LootComponent component = createComponent(LootComponent.class);
+    component.setActive(true);
+    entity.add(component);
+    return component;
+  }
+
   public static ShootingComponent addShootableComponent(Entity entity, ShipData profile) {
     ShootingComponent component = createComponent(ShootingComponent.class);
     component.setWeaponDatas(profile.getStatusData().getWeaponDatas());

@@ -65,7 +65,19 @@ public class GameEntity extends Entity {
     return markedForDestroy;
   }
 
+  /**
+   * When an entity is marked for destroy, it is removed from the system.
+   * Box2d bodies are destroyed then too
+   */
   public void markForDestroy() {
     this.markedForDestroy = true;
+  }
+
+  /**
+   * Called after this entity has been removed from the system.
+   * Not that if the component had a box2d body, this one is not available anymore.
+   */
+  public void destroyed() {
+    //to be overridden
   }
 }

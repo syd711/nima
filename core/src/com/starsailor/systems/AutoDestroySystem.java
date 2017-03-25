@@ -27,12 +27,6 @@ public class AutoDestroySystem extends IteratingSystem {
   protected void processEntity(Entity entity, float deltaTime) {
     GameEntity gameEntity = (GameEntity) entity;
 
-    //check destroy flag
-    if(gameEntity.isMarkedForDestroy()) {
-      EntityManager.getInstance().destroy(gameEntity);
-      return;
-    }
-
     if(gameEntity instanceof Bullet) {
       PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
       float distance = positionComponent.distanceToPlayer();
@@ -97,6 +91,13 @@ public class AutoDestroySystem extends IteratingSystem {
           }
         }
       }
+    }
+
+
+    //check destroy flag
+    if(gameEntity.isMarkedForDestroy()) {
+      EntityManager.getInstance().destroy(gameEntity);
+      return;
     }
   }
 }

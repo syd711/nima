@@ -79,6 +79,15 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
   }
 
   @Override
+  public void destroyed() {
+    super.destroyed();
+    //only loot on destroy, not map change
+    if(this.healthComponent.health <= 0) {
+      new Loot(this);
+    }
+  }
+
+  @Override
   public void save(SaveGameItem item) {
     item.store("id", shipItem.getId());
     item.store("type", shipItem.getShipType());
@@ -145,13 +154,6 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
 
   public boolean isEnemyOf(Ship ship) {
     return !fractionComponent.fraction.equals(ship.fractionComponent.fraction);
-  }
-
-  /**
-   * Handling the entity removal from the Ashley engine, etc.
-   */
-  protected void destroy() {
-    markForDestroy();
   }
 
   @Override
@@ -311,7 +313,7 @@ abstract public class Ship extends GameEntity implements IFormationMember<Ship>,
       if(particleComponent != null) {
         particleComponent.enabled = true;
       }
-      destroy();
+      markForDestroy();
       return true;
     }
     return false;

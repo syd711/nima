@@ -1,10 +1,13 @@
 package com.starsailor.actors;
 
 import com.badlogic.gdx.math.Vector2;
-import com.starsailor.components.*;
+import com.starsailor.components.BodyComponent;
+import com.starsailor.components.ComponentFactory;
+import com.starsailor.components.MarkerComponent;
+import com.starsailor.components.SteerableComponent;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.model.SteeringData;
-import com.starsailor.util.box2d.Box2dUtil;
+import com.starsailor.util.box2d.BodyGenerator;
 
 /**
  * The click target the player is moving to.
@@ -21,7 +24,7 @@ public class ClickTarget extends GameEntity {
   private MarkerComponent markerComponent;
 
   public ClickTarget() {
-    bodyComponent = ComponentFactory.addBodyComponent(this, Box2dUtil.clickBody(new Vector2()));
+    bodyComponent = ComponentFactory.addBodyComponent(this, BodyGenerator.createClickBody(new Vector2()));
     markerComponent = ComponentFactory.addMarkerComponent(this);
     steerableComponent = ComponentFactory.addSteerableComponent(this, bodyComponent.body, new SteeringData());
     ComponentFactory.addPlayerCollisionComponent(this);

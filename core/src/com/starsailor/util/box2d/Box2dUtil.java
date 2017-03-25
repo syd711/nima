@@ -19,10 +19,6 @@ public class Box2dUtil {
 
   /**
    * Both parameters are in box2d format
-   *
-   * @param from
-   * @param to
-   * @return
    */
   public static float getBox2dAngle(Vector2 from, Vector2 to) {
     return (float) Math.atan2(from.y - to.y, from.x - to.x);
@@ -30,10 +26,6 @@ public class Box2dUtil {
 
   public static Vector2 toWorldPoint(Vector2 coordinates) {
     return coordinates.scl(Settings.PPM);
-  }
-
-  public static Body clickBody(Vector2 clickPoint) {
-    return BodyGenerator.createClickBody(clickPoint);
   }
 
   public static Vector2 toBox2Vector(Vector2 vector) {
@@ -112,76 +104,4 @@ public class Box2dUtil {
   public static float addDegree(float angle, int degree) {
     return (float) (angle + Math.toRadians(degree));
   }
-
-  public static void updateAngle(Body body, Vector2 target) {
-    body.setAngularVelocity(0);
-    float bodyAngle = body.getAngle();
-    float DEGTORAD = (float) Math.toRadians(4f);
-
-    Vector2 source = body.getPosition();
-    Vector2 toTarget = new Vector2(target).sub(source);
-    //       0
-    //   +++++++++
-    //   + 1 + 2 +
-    //90 +++++++++ -90
-    //   + 4 + 3 +
-    //   +++++++++
-    //     -180
-    float desiredAngle = (float) Math.atan2(-toTarget.x, -toTarget.y); //1
-    if(source.x < target.x && source.y < target.y) {
-      desiredAngle = (float) Math.atan2(toTarget.x, toTarget.y); // 2
-    }
-    else if(source.x < target.x && source.y > target.y) {
-      desiredAngle = (float) Math.atan2(-toTarget.x, toTarget.y); //3
-    }
-    else if(source.x > target.x && source.y > target.y) {
-      desiredAngle = (float) Math.atan2(toTarget.x, -toTarget.y); //4
-    }
-
-    float nextAngle = bodyAngle + body.getAngularVelocity() / 60.0f;
-    float desiredAngleDegrees = (float) Math.toDegrees(desiredAngle);
-    System.out.println(desiredAngleDegrees);
-    float totalRotation = desiredAngle - nextAngle;
-    while(totalRotation < -180 * DEGTORAD) totalRotation += 360 * DEGTORAD;
-    while(totalRotation > 180 * DEGTORAD) totalRotation -= 360 * DEGTORAD;
-
-    float change = (1 * DEGTORAD); //allow 1 degree rotation per time step
-    float newAngle = bodyAngle + Math.min(change, Math.max(-change, totalRotation));
-    body.setTransform(source, newAngle);
-  }
-
-//  @Override
-//  public void updateAngle() {
-//    if(routingComponent != null) {
-//
-//      if(scalingComponent.isChanging()) {
-//        return;
-//      }
-//      float currentAngle = GraphicsUtil.getAngle(positionComponent.getPosition(), routingComponent.target);
-//      Vector2 delta = GraphicsUtil.getDelta(currentAngle, 2f);
-//      Vector2 box2dDelta = Box2dUtil.toBox2Vector(delta);
-//      float x = box2dDelta.x;
-//      float y = box2dDelta.y;
-//      Vector2 position = shipBodyComponent.body.getPosition();
-//
-//      if(currentAngle >= 0 && currentAngle <= 90) {
-//        position.x = position.x + x;
-//        position.y = position.y + y;
-//      }
-//      else if(currentAngle > 90 && currentAngle <= 180) {
-//        position.x = position.x - x;
-//        position.y = position.y + y;
-//      }
-//      else if(currentAngle < 0 && currentAngle >= -90) {
-//        position.x = position.x + x;
-//        position.y = position.y - y;
-//      }
-//      else if(currentAngle < -90 && currentAngle >= -180) {
-//        position.x = position.x - x;
-//        position.y = position.y - y;
-//      }
-//
-//      shipBodyComponent.body.setTransform(position, shipBodyComponent.body.getAngle());
-//    }
-//  }
 }
