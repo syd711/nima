@@ -50,7 +50,7 @@ public class Player extends Ship implements IFormationOwner<Ship> {
     Selectable selection = SelectionManager.getInstance().getSelection();
     if(selection != null) {
       Ship ship = (Ship) selection;
-      if(!ship.isMarkedForDestroy() && isInRetreatingDistance(ship) && inBattleState) {
+      if(isInBattleState() && !ship.isMarkedForDestroy() && isInRetreatingDistance(ship)) {
         switchToDefaultState();
       }
     }

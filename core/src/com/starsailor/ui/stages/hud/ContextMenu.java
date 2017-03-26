@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
 import com.starsailor.actors.Ship;
 import com.starsailor.managers.SelectionManager;
@@ -38,7 +39,8 @@ public class ContextMenu extends Table {
     attackButton.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        UIManager.getInstance().changeState(UIStates.BATTLE_STATE);
+        Player.getInstance().switchToBattleState(null);
+        UIManager.getInstance().changeState(UIStates.IDLE_STATE);
         hide();
       }
     });
@@ -58,6 +60,8 @@ public class ContextMenu extends Table {
     row();
     add(cancelButton).width(100);
     row();
+
+    setPosition(-500, 0);
   }
 
   public void show() {

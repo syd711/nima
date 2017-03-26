@@ -10,7 +10,7 @@ import com.starsailor.managers.SelectionManager;
 /**
  *
  */
-public class IdleState implements State<Player> {
+public class PlayerIdleState implements State<Player> {
   @Override
   public void enter(Player player) {
     player.steerableComponent.setBehavior(null);

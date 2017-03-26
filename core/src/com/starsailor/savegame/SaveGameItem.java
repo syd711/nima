@@ -27,7 +27,7 @@ public class SaveGameItem {
   }
 
   public float getFloat(String key) {
-    return (float) status.get(key);
+    return ((Double)status.get(key)).floatValue();
   }
 
   public List<SaveGameItem> getItems() {

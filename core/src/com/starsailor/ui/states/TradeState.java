@@ -1,10 +1,9 @@
 package com.starsailor.ui.states;
 
-import com.starsailor.actors.FormationOwner;
+import com.badlogic.gdx.ai.fsm.State;
 import com.starsailor.actors.Player;
 import com.starsailor.actors.Selectable;
 import com.starsailor.actors.Ship;
-import com.starsailor.actors.states.formation.FormationRouteState;
 import com.starsailor.actors.states.npc.NPCStates;
 import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.managers.SelectionManager;
@@ -27,15 +26,8 @@ public class TradeState extends UIState {
   }
 
   @Override
-  public void update(GameStage entity) {
-  }
-
-  @Override
   public void exit(GameStage entity) {
-    tradingShip.changeState(tradingShip.statefulComponent.stateMachine.getPreviousState());
-    FormationOwner formationOwner = (FormationOwner) tradingShip.getFormationOwner();
-    if(formationOwner != null) {
-      ((FormationOwner)tradingShip.getFormationOwner()).changeState(new FormationRouteState());
-    }
+    State previousState = tradingShip.statefulComponent.stateMachine.getPreviousState();
+    tradingShip.changeState(previousState);
   }
 }

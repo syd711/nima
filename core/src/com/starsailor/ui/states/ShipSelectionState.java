@@ -24,11 +24,6 @@ public class ShipSelectionState extends UIState {
   }
 
   @Override
-  public void update(GameStage entity) {
-
-  }
-
-  @Override
   public void exit(GameStage entity) {
     if(isContextMenuEnabled()) {
       GameStateManager.getInstance().setPaused(false);

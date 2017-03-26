@@ -32,7 +32,7 @@ public class NavigateBackState extends UIState {
       float dst = worldExitPoint.dst(Player.getInstance().getCenter());
       if(dst > 100) {
         Player.getInstance().changeState(PlayerStates.IDLE);
-        UIManager.getInstance().changeState(UIStates.DEFAULT_STATE);
+        UIManager.getInstance().changeState(UIStates.IDLE_STATE);
       }
     }
   }

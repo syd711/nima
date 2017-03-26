@@ -5,12 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.GameStateManager;
 import com.starsailor.ui.Scene2dFactory;
-import com.starsailor.ui.UIManager;
 
 /**
  * The display on the top of the screen
  */
-public class TradingPlayerPanel extends HudPanel {
+public class TradingPlayerPanel extends TradingPanel {
 
   public TradingPlayerPanel() {
     super("inventory_bg", Position.LEFT);
@@ -20,7 +19,7 @@ public class TradingPlayerPanel extends HudPanel {
     cancelButton.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        UIManager.getInstance().switchToHudState();
+        cancel();
       }
     });
 

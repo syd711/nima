@@ -8,7 +8,6 @@ import com.starsailor.managers.SelectionChangeListener;
 import com.starsailor.managers.SelectionManager;
 import com.starsailor.ui.stages.hud.HudStage;
 import com.starsailor.ui.stages.location.LocationStage;
-import com.starsailor.ui.states.BattleState;
 import com.starsailor.ui.states.UIState;
 import com.starsailor.ui.states.UIStates;
 
@@ -34,7 +33,7 @@ public class UIManager implements SelectionChangeListener {
   public void init() {
     hudStage = new HudStage();
     locationStage = new LocationStage();
-    stateMachine.changeState(UIStates.DEFAULT_STATE);
+    stateMachine.changeState(UIStates.IDLE_STATE);
     activeStage = instance.hudStage;
   }
 
@@ -63,7 +62,7 @@ public class UIManager implements SelectionChangeListener {
 
   public void switchToHudState(){
     activeStage = hudStage;
-    stateMachine.changeState(UIStates.DEFAULT_STATE);
+    stateMachine.changeState(UIStates.IDLE_STATE);
   }
 
   public void switchToLocationState() {
@@ -74,13 +73,10 @@ public class UIManager implements SelectionChangeListener {
   @Override
   public void selectionChanged(Selectable oldSelection, Selectable newSelection) {
     if(newSelection != null) {
-      if(stateMachine.getCurrentState() instanceof BattleState) {
-        return;
-      }
       stateMachine.changeState(UIStates.SHIP_SELECTION_STATE);
     }
     else {
-      stateMachine.changeState(UIStates.DEFAULT_STATE);
+      stateMachine.changeState(UIStates.IDLE_STATE);
     }
   }
 

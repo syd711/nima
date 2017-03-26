@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.starsailor.actors.Player;
 import com.starsailor.components.ShootingComponent;
 import com.starsailor.managers.ResourceManager;
 import com.starsailor.model.WeaponData;
 import com.starsailor.ui.Scene2dFactory;
+import com.starsailor.ui.UIManager;
 
 import java.util.List;
 
@@ -42,5 +44,17 @@ public class WeaponsPanel extends HudPanel {
       weaponButton.setUserObject(weaponData);
       add(weaponButton);
     }
+
+    row();
+
+    TextButton cancelButton = Scene2dFactory.createButton("Cancel", new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        UIManager.getInstance().getHudStage().getWeaponsPanel().deactivate();
+        Player.getInstance().switchToDefaultState();
+      }
+    });
+    cancelButton.setWidth(100f);
+    add(cancelButton);
   }
 }

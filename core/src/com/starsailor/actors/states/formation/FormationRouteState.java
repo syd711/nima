@@ -19,7 +19,7 @@ public class FormationRouteState implements State<FormationOwner> {
   @Override
   public void update(FormationOwner formationOwner) {
     if(formationOwner.isInBattleState()) {
-      formationOwner.changeState(new FormationIdleState());
+//      formationOwner.changeState(new FormationIdleState());
     }
   }
 

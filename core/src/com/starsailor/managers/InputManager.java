@@ -64,7 +64,7 @@ public class InputManager implements InputProcessor {
   @Override
   public boolean keyUp(int keycode) {
     if(keycode == Input.Keys.ESCAPE) {
-      com.starsailor.ui.UIManager.getInstance().switchToHudState();
+      System.exit(0);
     }
     else if(keycode == Input.Keys.F12) {
       System.exit(0);

@@ -4,6 +4,7 @@ import com.starsailor.actors.Player;
 import com.starsailor.actors.states.player.PlayerStates;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.InputManager;
+import com.starsailor.managers.SelectionManager;
 import com.starsailor.systems.LightSystem;
 import com.starsailor.ui.UIManager;
 import com.starsailor.ui.stages.GameStage;
@@ -24,6 +25,9 @@ public class LeaveMapState extends UIState {
     InputManager.getInstance().setNavigationEnabled(false);
 
     Player.getInstance().changeState(PlayerStates.IDLE);
+    Player.getInstance().switchToDefaultState();
+
+    SelectionManager.getInstance().resetSelection();
 
     UIManager.getInstance().getHudStage().getNavigatorPanel().deactivate();
 
