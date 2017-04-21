@@ -2,6 +2,7 @@ package com.starsailor.components.collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.starsailor.GameStateManager;
 import com.starsailor.actors.*;
 import com.starsailor.actors.bullets.Bullet;
 import com.starsailor.actors.states.player.PlayerStates;
@@ -18,7 +19,8 @@ public class PlayerCollisionComponent implements Collidable {
       if(Player.getInstance().getTarget() != null && Player.getInstance().getTarget().equals(collidee)) {
         //only dock to station if not in battle mode
         if(!Player.getInstance().isInBattleState()) {
-          Player.getInstance().changeState(PlayerStates.DOCK_TO_STATION);
+          GameStateManager.getInstance().setPaused(true);
+          UIManager.getInstance().getHudStage().getNavigatorPanel().setEnabled(true);
         }
       }
     }

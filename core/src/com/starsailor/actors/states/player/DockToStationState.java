@@ -1,7 +1,9 @@
 package com.starsailor.actors.states.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.starsailor.GameStateManager;
 import com.starsailor.actors.Player;
 import com.starsailor.managers.EntityManager;
 import com.starsailor.managers.InputManager;
@@ -14,6 +16,9 @@ import com.starsailor.util.Settings;
 public class DockToStationState implements State<Player> {
   @Override
   public void enter(Player player) {
+    Gdx.app.log(getClass().getName(), player + " entered " + this.getClass().getSimpleName());
+
+    GameStateManager.getInstance().setPaused(false);
     InputManager.getInstance().setNavigationEnabled(false);
     player.scalingComponent.setTargetValue(Settings.getInstance().docking_target_scale);
     LightSystem lightSystem = EntityManager.getInstance().getLightSystem();
